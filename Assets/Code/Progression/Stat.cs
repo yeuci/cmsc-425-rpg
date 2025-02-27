@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 [System.Serializable]
@@ -5,7 +6,7 @@ public class Stat {
     // Level Counter
     public int level;
     // Experience Counter
-    public float experience;
+    public float experience, expToNext;
     // Base stats
     public float health, attack, defense, speed, magic;
 
@@ -17,6 +18,8 @@ public class Stat {
         defense = 10;
         speed = 10;
         magic = 5;
+        expToNext = (100 - level) * (float)Math.Pow(2, level); 
+        Debug.Log("a");
     }
 
 
@@ -53,5 +56,9 @@ public class Stat {
         defense = def;
         speed = spd;
         magic = mgk;
+    }
+
+    public float getStatTotal() {
+        return health + attack + defense + speed + magic;
     }
 };
