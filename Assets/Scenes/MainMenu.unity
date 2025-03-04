@@ -315,6 +315,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverAudioSource: {fileID: 2024024638}
   clickAudioSource: {fileID: 1171015215}
+  gameScene: LoadingScene
 --- !u!1 &132156423
 GameObject:
   m_ObjectHideFlags: 0
@@ -608,6 +609,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverAudioSource: {fileID: 2024024638}
   clickAudioSource: {fileID: 1171015215}
+  gameScene: 
 --- !u!1 &576112237
 GameObject:
   m_ObjectHideFlags: 0
@@ -971,6 +973,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverAudioSource: {fileID: 2024024638}
   clickAudioSource: {fileID: 1171015215}
+  gameScene: 
 --- !u!1 &874801195
 GameObject:
   m_ObjectHideFlags: 0
@@ -1824,6 +1827,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverAudioSource: {fileID: 2024024638}
   clickAudioSource: {fileID: 1171015215}
+  gameScene: LoadingScene
 --- !u!1 &1847906074
 GameObject:
   m_ObjectHideFlags: 0
