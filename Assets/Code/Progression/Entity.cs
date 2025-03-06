@@ -7,13 +7,14 @@ using UnityEngine;
 public class Entity : MonoBehaviour
 {
     [SerializeField] public Stat stats;
+    [SerializeField] public Item[] equippedGear;
     [SerializeField] public Class eClass;
 
     bool isAlive = true;
 
     // Basic Entity
     public Entity() {
-        stats = new Stat();   
+        stats = new Stat();
     }
 
     // Entity with custom stats
