@@ -9,7 +9,12 @@ public class Entity : MonoBehaviour
     [SerializeField] public Stat stats;
     [SerializeField] public Class eClass;
 
+    public float remainingHP;
     bool isAlive = true;
+
+    void Start() {
+        remainingHP = stats.health;
+    }
 
     // Basic Entity
     public Entity() {
@@ -24,18 +29,8 @@ public class Entity : MonoBehaviour
     public Entity(Class entityClass) {
         // Add check for class and stats based on class
     }
-    public void attackEntity(Entity entity, float dmg) {
-        entity.stats.health -= dmg;
-        if (entity.stats.health <= 0) {
-            kill(entity);
-        }
-    }
 
-    public void kill(Entity entity) {
-        stats.experience += entity.calculateXPDropped();
-        recalculateLvl();
-    }
-    public float calculateXPDropped() {
+    public float calculateXPValue() {
         return stats.getStatTotal();
     }
 
@@ -51,7 +46,7 @@ public class Entity : MonoBehaviour
     }
 
     public bool IsAlive() {
-        if (stats.health <= 0) {
+        if (remainingHP <= 0) {
             isAlive = false;
             return false;
         }
