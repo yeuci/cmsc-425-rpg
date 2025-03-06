@@ -19,7 +19,6 @@ public class Stat {
         speed = 10;
         magic = 5;
         expToNext = (100 - level) * (float)Math.Pow(2, level); 
-        Debug.Log("a");
     }
 
 
