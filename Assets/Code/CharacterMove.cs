@@ -4,7 +4,7 @@ using System.Collections;
 public class CharacterMove : MonoBehaviour
 {
 
-    public float moveSpeed = 6.0f;
+    public float moveSpeed = 12.0f;
     public float jumpSpeed = 8.0f;
     public float gravity = 9.8f;
 
