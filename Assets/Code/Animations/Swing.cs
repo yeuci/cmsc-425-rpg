@@ -6,6 +6,10 @@ public class Swing : MonoBehaviour
     public float degrees = 60; //Maximum degree of swing
     public float phase = 0; //Start point
 
+    public float animStart = 0;
+
+    public float animEnd = 1;
+
     Quaternion baseRot;
     float start;
 
@@ -14,12 +18,21 @@ public class Swing : MonoBehaviour
     {
         baseRot = transform.localRotation;
         start = degrees * Mathf.Sin(phase * 2 * Mathf.PI);
+        if(animStart < 0) {
+            animStart = 0;
+        }
+        if(animEnd > frequency) {
+            animEnd = frequency;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.localRotation = baseRot * Quaternion.Euler(0,
-            degrees * Mathf.Sin((phase + frequency * Time.time) * 2 * Mathf.PI) - start, 0);
+        var effectiveTime = Time.time % frequency;
+        if(animStart <= effectiveTime && effectiveTime <= animEnd) {
+            transform.localRotation = baseRot * Quaternion.Euler(0,
+            degrees * Mathf.Sin((phase + effectiveTime) * 2 * Mathf.PI) - start, 0);
+        }
     }
 }

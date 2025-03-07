@@ -292,6 +292,8 @@ MonoBehaviour:
   frequency: 1
   degrees: 30
   phase: 0
+  animStart: 0
+  animEnd: 1
 --- !u!1 &4191654859131882299
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,6 +392,7 @@ GameObject:
   - component: {fileID: 2873968650475169471}
   - component: {fileID: 9169874709595333715}
   - component: {fileID: 7532328556947025114}
+  - component: {fileID: 8310538885572198277}
   m_Layer: 0
   m_Name: LeftLowerArm
   m_TagString: Untagged
@@ -465,6 +468,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8310538885572198277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4359232130774957360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b252b0a99a0e454b92935cd1ae9a20f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frequency: 1
+  degrees: 30
+  phase: 0
+  animStart: 0
+  animEnd: 0.5
 --- !u!1 &4560470173810731138
 GameObject:
   m_ObjectHideFlags: 0
@@ -744,6 +764,8 @@ MonoBehaviour:
   frequency: 1
   degrees: 30
   phase: 0.5
+  animStart: 0
+  animEnd: 1
 --- !u!1 &6370846703139827358
 GameObject:
   m_ObjectHideFlags: 0
@@ -1273,6 +1295,7 @@ GameObject:
   - component: {fileID: 2885209585959476631}
   - component: {fileID: 64630390299359596}
   - component: {fileID: 2673621561431419828}
+  - component: {fileID: 8847441801490392237}
   m_Layer: 0
   m_Name: RightLowerArm
   m_TagString: Untagged
@@ -1348,6 +1371,23 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8847441801490392237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8192330252146426668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b252b0a99a0e454b92935cd1ae9a20f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frequency: 1
+  degrees: -30
+  phase: 0
+  animStart: 0.5
+  animEnd: 1
 --- !u!1 &8498375674649064216
 GameObject:
   m_ObjectHideFlags: 0
@@ -1484,6 +1524,8 @@ MonoBehaviour:
   frequency: 1
   degrees: 40
   phase: 0
+  animStart: 0
+  animEnd: 1
 --- !u!33 &6288369912575803893
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1640,3 +1682,5 @@ MonoBehaviour:
   frequency: 1
   degrees: 40
   phase: 0
+  animStart: 0
+  animEnd: 1
