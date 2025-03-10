@@ -30,9 +30,16 @@ public class Swing : MonoBehaviour
     void Update()
     {
         var effectiveTime = Time.time % frequency;
-        if(animStart <= effectiveTime && effectiveTime <= animEnd) {
-            transform.localRotation = baseRot * Quaternion.Euler(0,
-            degrees * Mathf.Sin((phase + effectiveTime) * 2 * Mathf.PI) - start, 0);
+        if(animEnd > animStart) {
+            if(animStart <= effectiveTime && effectiveTime <= animEnd) {
+                transform.localRotation = baseRot * Quaternion.Euler(0,
+                degrees * Mathf.Sin((phase + effectiveTime) * 2 * Mathf.PI) - start, 0);
+            }
+        } else {
+            if(animStart >= effectiveTime || effectiveTime <= animEnd) {
+                transform.localRotation = baseRot * Quaternion.Euler(0,
+                degrees * Mathf.Sin((phase + effectiveTime) * 2 * Mathf.PI) - start, 0);
+            }
         }
     }
 }
