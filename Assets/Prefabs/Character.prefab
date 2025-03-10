@@ -393,7 +393,7 @@ GameObject:
   - component: {fileID: 2873968650475169471}
   - component: {fileID: 9169874709595333715}
   - component: {fileID: 7532328556947025114}
-  - component: {fileID: 8310538885572198277}
+  - component: {fileID: 6879562170527462260}
   m_Layer: 0
   m_Name: LeftLowerArm
   m_TagString: Untagged
@@ -469,7 +469,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8310538885572198277
+--- !u!114 &6879562170527462260
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -478,14 +478,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 4359232130774957360}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b252b0a99a0e454b92935cd1ae9a20f, type: 3}
+  m_Script: {fileID: 11500000, guid: 56955e8b4f8e44a48a72885e14449eea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   frequency: 1
   degrees: 30
-  phase: 0
+  speed: 0.5
+  startPhase: 0
+  endPhase: 0.5
   animStart: 0
-  animEnd: 0.5
 --- !u!1 &4560470173810731138
 GameObject:
   m_ObjectHideFlags: 0
@@ -1335,7 +1336,7 @@ GameObject:
   - component: {fileID: 2885209585959476631}
   - component: {fileID: 64630390299359596}
   - component: {fileID: 2673621561431419828}
-  - component: {fileID: 8847441801490392237}
+  - component: {fileID: 953737278743427261}
   m_Layer: 0
   m_Name: RightLowerArm
   m_TagString: Untagged
@@ -1411,7 +1412,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &8847441801490392237
+--- !u!114 &953737278743427261
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1420,14 +1421,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 8192330252146426668}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b252b0a99a0e454b92935cd1ae9a20f, type: 3}
+  m_Script: {fileID: 11500000, guid: 56955e8b4f8e44a48a72885e14449eea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   frequency: 1
-  degrees: -30
-  phase: 0
+  degrees: 30
+  speed: 0.5
+  startPhase: 0
+  endPhase: 0.5
   animStart: 0.5
-  animEnd: 1
 --- !u!1 &8498375674649064216
 GameObject:
   m_ObjectHideFlags: 0
@@ -1439,6 +1441,7 @@ GameObject:
   - component: {fileID: 8414570510384151456}
   - component: {fileID: 8590173598768385901}
   - component: {fileID: 6483811267477737178}
+  - component: {fileID: 6839621800800135635}
   m_Layer: 0
   m_Name: LeftLowerLeg
   m_TagString: Untagged
@@ -1514,6 +1517,24 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6839621800800135635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8498375674649064216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56955e8b4f8e44a48a72885e14449eea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frequency: 1
+  degrees: -30
+  speed: 0.5
+  startPhase: 0
+  endPhase: 0.5
+  animStart: 0.25
 --- !u!1 &8662297035768691982
 GameObject:
   m_ObjectHideFlags: 0
@@ -1523,7 +1544,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6551784604749337019}
-  - component: {fileID: 879285994355136677}
+  - component: {fileID: 8111505462552495403}
   - component: {fileID: 6288369912575803893}
   - component: {fileID: 8749442875406089647}
   m_Layer: 0
@@ -1549,7 +1570,7 @@ Transform:
   - {fileID: 5255737580330645071}
   m_Father: {fileID: 6000309294492496198}
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
---- !u!114 &879285994355136677
+--- !u!114 &8111505462552495403
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1558,14 +1579,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 8662297035768691982}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b252b0a99a0e454b92935cd1ae9a20f, type: 3}
+  m_Script: {fileID: 11500000, guid: 56955e8b4f8e44a48a72885e14449eea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   frequency: 1
   degrees: 40
-  phase: 0
+  speed: 1
+  startPhase: 0
+  endPhase: 1
   animStart: 0
-  animEnd: 1
 --- !u!33 &6288369912575803893
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -1630,7 +1652,7 @@ GameObject:
   - component: {fileID: 7733711220519426961}
   - component: {fileID: 93816615466235873}
   - component: {fileID: 38932597908294830}
-  - component: {fileID: 3399067820380625020}
+  - component: {fileID: 1452187380323984431}
   m_Layer: 0
   m_Name: LeftUpperArm
   m_TagString: Untagged
@@ -1707,7 +1729,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3399067820380625020
+--- !u!114 &1452187380323984431
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1716,11 +1738,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 9058523261494502410}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b252b0a99a0e454b92935cd1ae9a20f, type: 3}
+  m_Script: {fileID: 11500000, guid: 56955e8b4f8e44a48a72885e14449eea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   frequency: 1
   degrees: 40
-  phase: 0
+  speed: 1
+  startPhase: 0
+  endPhase: 1
   animStart: 0
-  animEnd: 1
