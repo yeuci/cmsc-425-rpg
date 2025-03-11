@@ -3,7 +3,7 @@ using UnityEngine;
 public class ImprovedSwing : MonoBehaviour
 {
     public float frequency = 1; //Start to Start takes frequency seconds
-    public float degrees = 30;   //Maximum rotation is degrees
+    public float degrees = 30;  //Maximum rotation is degrees
     public float speed = 1;     //Animation takes speed seconds to finish
     public float startPhase = 0;//What point of the Sin curve does the animation start at
     public float endPhase = 1;  //What point of the Sin curve does the animatiion end at
