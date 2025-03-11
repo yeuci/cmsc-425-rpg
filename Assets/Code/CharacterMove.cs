@@ -4,7 +4,7 @@ using System.Collections;
 public class CharacterMove : MonoBehaviour
 {
 
-    public float moveSpeed = 12.0f;
+    public float moveSpeed = 10.0f;
     public float jumpSpeed = 8.0f;
     public float gravity = 9.8f;
 
@@ -24,8 +24,8 @@ public class CharacterMove : MonoBehaviour
         isGrounded = controller.isGrounded;
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-
-        Vector3 moveDirection = new Vector3(horizontal, 0, vertical);
+        Vector3 moveDirection = new Vector3(horizontal, 0f, vertical).normalized;
+        
         if (moveDirection.magnitude > 0.1f)
         {
             Transform cameraTransform = Camera.main.transform;
