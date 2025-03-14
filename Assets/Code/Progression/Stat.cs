@@ -60,4 +60,9 @@ public class Stat {
     public float getStatTotal() {
         return health + attack + defense + speed + magic;
     }
+
+    public float[] getStatArray() {
+        float[] statArray = new float[] {attack, defense, health, magic, speed};
+        return statArray;
+    }
 };
