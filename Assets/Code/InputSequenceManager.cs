@@ -45,6 +45,7 @@ public class InputSequenceManager : MonoBehaviour
         down = Keyboard.current[downKey];
         right = Keyboard.current[rightKey];
 
+        // Starts the Coroutine for the minigame
         StartCoroutine(StartMinigame());
     }
 
@@ -82,90 +83,90 @@ public class InputSequenceManager : MonoBehaviour
     }
 
     // Generates a random button sequence
-        void GenerateRandomSequence(int length)
+    void GenerateRandomSequence(int length)
+    {
+        // Clears previous button sequence
+        requiredSequence.Clear();
+        KeyControl[] possibleKeys = { up, left, down, right };
+        
+        for (int i = 0; i < length; i++)
         {
-            // Clears previous button sequence
-            requiredSequence.Clear();
-            KeyControl[] possibleKeys = { up, left, down, right };
-            
-            for (int i = 0; i < length; i++)
-            {
-                // Adds random button sequence to requiredSequence
-                requiredSequence.Add(possibleKeys[Random.Range(0, possibleKeys.Length)]);
-            }
+            // Adds random button sequence to requiredSequence
+            requiredSequence.Add(possibleKeys[Random.Range(0, possibleKeys.Length)]);
+        }
+    }
+
+    // Creates arrow key images to be displayed
+    void CreateArrowSlots(int sequenceLength)
+    {
+        // Remove old arrows
+        foreach (Transform child in arrowContainer)
+        {
+            Destroy(child.gameObject);
         }
 
-        // Creates arrow key images to be displayed
-        void CreateArrowSlots(int sequenceLength)
+        arrowSlots.Clear();
+
+        // Create new arrows
+        for (int i = 0; i < sequenceLength; i++)
         {
-            // Remove old arrows
-            foreach (Transform child in arrowContainer)
-            {
-                Destroy(child.gameObject);
-            }
-
-            arrowSlots.Clear();
-
-            // Create new arrows
-            for (int i = 0; i < sequenceLength; i++)
-            {
-                GameObject arrowGO = Instantiate(arrowPrefab, arrowContainer); // Instantiate inside ArrowContainer
-                Image arrowImage = arrowGO.GetComponent<Image>();
-                arrowSlots.Add(arrowImage);
-            }
-
-            // Update layout
-            LayoutRebuilder.ForceRebuildLayoutImmediate(arrowContainer.GetComponent<RectTransform>());
+            GameObject arrowGO = Instantiate(arrowPrefab, arrowContainer); // Instantiate inside ArrowContainer
+            Image arrowImage = arrowGO.GetComponent<Image>();
+            arrowSlots.Add(arrowImage);
         }
 
-        // Displays sequence inside the arrowContainer
-        void DisplaySequence()
+        // Update layout
+        LayoutRebuilder.ForceRebuildLayoutImmediate(arrowContainer.GetComponent<RectTransform>());
+    }
+
+    // Displays sequence inside the arrowContainer
+    void DisplaySequence()
+    {
+        for (int i = 0; i < requiredSequence.Count; i++)
         {
-            for (int i = 0; i < requiredSequence.Count; i++)
+            if (i < arrowSlots.Count)
             {
-                if (i < arrowSlots.Count)
-                {
-                    arrowSlots[i].gameObject.SetActive(true);
-                    arrowSlots[i].sprite = GetArrowSprite(requiredSequence[i]);
-                }
+                arrowSlots[i].gameObject.SetActive(true);
+                arrowSlots[i].sprite = GetArrowSprite(requiredSequence[i]);
             }
         }
+    }
 
-        bool CheckInput()
+    bool CheckInput()
+    {
+        if (requiredSequence[currentStep].wasPressedThisFrame)
         {
-            if (requiredSequence[currentStep].wasPressedThisFrame)
-            {
-                arrowSlots[currentStep].color = Color.green;
-                currentStep++;
-                return true;
-            }
-            else if (Keyboard.current.anyKey.wasPressedThisFrame)
-            {
-                Debug.Log("Wrong Input! Restarting...");
-                arrowSlots[currentStep].color = Color.red;
-                ResetSequence();
-                return false;
-            }
+            arrowSlots[currentStep].color = Color.green;
+            currentStep++;
+            return true;
+        }
+        else if (Keyboard.current.anyKey.wasPressedThisFrame)
+        {
+            Debug.Log("Wrong Input! Restarting...");
+            arrowSlots[currentStep].color = Color.red;
+            ResetSequence();
             return false;
         }
+        return false;
+    }
 
-        // Grabs the arrow sprites. Can be changed publically
-        Sprite GetArrowSprite(KeyControl key)
-        {
-            if (key == up) return upArrow;
-            if (key == down) return downArrow;
-            if (key == left) return leftArrow;
-            if (key == right) return rightArrow;
-            return null;
-        }
+    // Grabs the arrow sprites. Can be changed publically
+    Sprite GetArrowSprite(KeyControl key)
+    {
+        if (key == up) return upArrow;
+        if (key == down) return downArrow;
+        if (key == left) return leftArrow;
+        if (key == right) return rightArrow;
+        return null;
+    }
 
-        // Resets game
-        void ResetSequence()
+    // Resets game
+    void ResetSequence()
+    {
+        currentStep = 0;
+        foreach (Image arrow in arrowSlots)
         {
-            currentStep = 0;
-            foreach (Image arrow in arrowSlots)
-            {
-                arrow.color = Color.white; // Reset color
-            }
+            arrow.color = Color.white; // Reset color
         }
+    }
 }
