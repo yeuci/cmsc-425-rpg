@@ -16,13 +16,15 @@ public enum ActionType {
 
 public struct ItemStatistics {
     public int attack;
+    public int attackPower;
     public int defense;
     public int health;
     public int mana;
     public int speed;
 
-    public ItemStatistics(int attack, int defense, int health, int mana, int speed) {
+    public ItemStatistics(int attack, int attackPower, int defense, int health, int mana, int speed) {
         this.attack = attack;
+        this.attackPower = attackPower;
         this.defense = defense;
         this.health = health;
         this.mana = mana;
@@ -31,6 +33,10 @@ public struct ItemStatistics {
 
     public readonly  int Attack() {
         return attack;
+    }
+
+    public readonly  int AttackPower() {
+        return attackPower;
     }
 
     public readonly  int Defense() {
@@ -50,7 +56,7 @@ public struct ItemStatistics {
     }
 
     public readonly override string ToString() {
-        return $"Attack: {attack}, Defense: {defense}, Health: {health}, Mana: {mana}, Speed: {speed}";
+        return $"Attack: {attack}, Attack Power: {attackPower}, Defense: {defense}, Health: {health}, Mana: {mana}, Speed: {speed}";
     }
 }
 
@@ -63,6 +69,7 @@ public class Item : ScriptableObject {
     
     [Header("Item Statistics")]
     public int attack;
+    public int attackPower;
     public int defense;
     public int health;
     public int mana;
@@ -72,5 +79,5 @@ public class Item : ScriptableObject {
     public Sprite image;
     public bool stackable = true;
     public int maxStack;
-    public Vector2Int range = new Vector2Int(0, 5);
+    public Vector2Int range = new Vector2Int(0, 6);
 }
