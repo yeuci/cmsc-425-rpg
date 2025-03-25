@@ -33,7 +33,7 @@ public class CameraRotation : MonoBehaviour {
 
         Quaternion rotation = Quaternion.Euler(0, currentRotationY, 0);
         transform.position = player.position + rotation * offset;
-        player.eulerAngles = new Vector3(player.eulerAngles.x, 90 + currentRotationY, player.eulerAngles.z);
+        player.eulerAngles = new Vector3(player.eulerAngles.x, currentRotationY+90, player.eulerAngles.z);
         transform.LookAt(player);
     }
 }

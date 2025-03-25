@@ -7,6 +7,7 @@ using UnityEngine;
 public class Entity : MonoBehaviour
 {
     [SerializeField] public Stat stats;
+    [SerializeField] public Item[] equippedGear;
     [SerializeField] public Class eClass;
 
     // Remaining HP of entity
@@ -21,7 +22,7 @@ public class Entity : MonoBehaviour
 
     // Basic Entity
     public Entity() {
-        stats = new Stat();   
+        stats = new Stat();
     }
 
     // Entity with custom stats
