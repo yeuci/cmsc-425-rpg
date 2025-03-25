@@ -9,7 +9,10 @@ public class Entity : MonoBehaviour
     [SerializeField] public Stat stats;
     [SerializeField] public Class eClass;
 
+    // Remaining HP of entity
     public float remainingHP;
+
+    // Alive check (Should destroy Entity gameobject if false)
     bool isAlive = true;
 
     void Start() {

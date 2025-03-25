@@ -1,10 +1,10 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Detection : MonoBehaviour
 {
     SphereCollider detector;
-    public Scene transitionScene;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -12,6 +12,7 @@ public class Detection : MonoBehaviour
         detector = gameObject.AddComponent<SphereCollider>();
         detector.isTrigger = true;
         detector.radius = 3;
+
     }
 
     // Update is called once per frame
@@ -20,9 +21,12 @@ public class Detection : MonoBehaviour
         
     }
 
-    void OnTriggerEnter(Collider other) {
-        if (other.tag == "Player") {
-            SceneManager.LoadScene("Scenes/TransitionScene");
+    void OnTriggerStay(Collider other)
+    {
+        if (Input.GetKeyDown(KeyCode.E) && other.tag == "Player") {
+            DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(other.gameObject);
+            SceneManager.LoadScene("Scenes/CombatManagerScene");
         }
     }
 }
