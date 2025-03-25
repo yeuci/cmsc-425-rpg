@@ -52,12 +52,16 @@ public class InputSequenceManager : MonoBehaviour
     IEnumerator StartMinigame()
     {
 
+        // Instantiates the arrows that will be displayed
         CreateArrowSlots(sequenceLength);
+        // Generate random arrow sequence
         GenerateRandomSequence(sequenceLength);
+        // Display arrow sequence
         DisplaySequence();
 
 
         float timer = timeLimit; // Start countdown
+        // Loop while you still have arrows to press and above timer
         while (currentStep < requiredSequence.Count && timer > 0)
         {
             if (CheckInput()) // Check input every frame
