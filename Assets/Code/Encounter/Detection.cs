@@ -11,7 +11,7 @@ public class Detection : MonoBehaviour
     {
         detector = gameObject.AddComponent<SphereCollider>();
         detector.isTrigger = true;
-        detector.radius = 3;
+        detector.radius = 0.2f;
     }
 
     // Update is called once per frame
@@ -22,7 +22,7 @@ public class Detection : MonoBehaviour
 
     void OnTriggerEnter(Collider other) {
         if (other.tag == "Player") {
-            SceneManager.LoadScene("Scenes/TransitionScene");
+            SceneManager.LoadScene("Scenes/CombatScene");
         }
     }
 }
