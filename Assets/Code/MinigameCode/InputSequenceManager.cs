@@ -37,6 +37,8 @@ public class InputSequenceManager : MonoBehaviour
     private List<KeyControl> requiredSequence = new List<KeyControl>();
     // Current key player needs to hit
     private int currentStep = 0;
+    public bool isMinigameSuccessful; // Tracks success or failure
+
     void Start()
     {
         // Instantiate each key
@@ -69,9 +71,15 @@ public class InputSequenceManager : MonoBehaviour
                 if (currentStep == requiredSequence.Count)
                 {
                     Debug.Log("Sequence Completed!");
+                    isMinigameSuccessful = true;
                     arrowMinigamePanel.SetActive(false);
                     yield break; // End coroutine
                 }
+            } else {
+                yield return new WaitForSeconds(1);
+                isMinigameSuccessful = false;
+                Destroy(arrowMinigamePanel);
+                yield return null;
             }
             timer -= Time.deltaTime; // Decrease time
             timerText.text = "Time: " + Mathf.Ceil(timer).ToString();
@@ -79,11 +87,9 @@ public class InputSequenceManager : MonoBehaviour
         }
 
         Debug.Log("Time's Up! Restarting...");        
-        // Reset sequence and current step
-        yield return new WaitForSeconds(1);
-        ResetSequence();
-        currentStep = 0; // Reset current step
-        StartCoroutine(StartMinigame()); // Restart the minigame coroutine
+        isMinigameSuccessful = false;
+        Destroy(arrowMinigamePanel);
+        yield return null;
     }
 
     // Generates a random button sequence
@@ -146,12 +152,11 @@ public class InputSequenceManager : MonoBehaviour
         }
         else if (Keyboard.current.anyKey.wasPressedThisFrame)
         {
-            Debug.Log("Wrong Input! Restarting...");
+            Debug.Log("Wrong Input! Stopping...");
             arrowSlots[currentStep].color = Color.red;
-            ResetSequence();
             return false;
         }
-        return false;
+        return true;
     }
 
     // Grabs the arrow sprites. Can be changed publically
