@@ -1,0 +1,10 @@
+*.png binary
+*.jpg binary
+*.tga binary
+*.exr binary
+*.psd binary
+*.hdr binary
+
+*.mat text eol=lf
+*.meta text eol=lf
+*.tif text eol=lf
