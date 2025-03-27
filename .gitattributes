@@ -4,7 +4,7 @@
 *.exr binary
 *.psd binary
 *.hdr binary
+*.tif binary
 
 *.mat text eol=lf
 *.meta text eol=lf
-*.tif text eol=lf
