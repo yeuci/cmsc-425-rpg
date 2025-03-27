@@ -24,8 +24,6 @@ public class Detection : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         if (Input.GetKeyDown(KeyCode.E) && other.tag == "Player") {
-            DontDestroyOnLoad(this.gameObject);
-            DontDestroyOnLoad(other.gameObject);
             SceneManager.LoadScene("Scenes/CombatManagerScene");
         }
     }

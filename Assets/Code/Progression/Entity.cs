@@ -1,7 +1,11 @@
-using System.Text.RegularExpressions;
-using Unity.VisualScripting;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
+using System.Linq.Expressions;
 using UnityEngine;
+
+public enum ScalingMethod {
+        PLAYER_LEVEL,
+        CLASS,
+        CUSTOM
+    }
 
 [System.Serializable]
 public class Entity : MonoBehaviour
@@ -23,15 +27,6 @@ public class Entity : MonoBehaviour
     // Basic Entity
     public Entity() {
         stats = new Stat();
-    }
-
-    // Entity with custom stats
-    public Entity(Stat customStats) {
-        stats = customStats;
-    }    
-
-    public Entity(Class entityClass) {
-        // Add check for class and stats based on class
     }
 
     public float calculateXPValue() {
@@ -68,5 +63,24 @@ public class Entity : MonoBehaviour
             adjStats[4] += i.speed;
         }
         return adjStats;
+    }
+
+    public void scaleStats(ScalingMethod scaleMethod, float[] scalings = default) {
+        float constantScale = 1.0f;
+        if (scalings == default) constantScale = Random.Range(0.8f, 1.2f);
+
+        switch (scaleMethod) {
+            case ScalingMethod.PLAYER_LEVEL: // scale stats based on player level
+                stats = new Stat(PlayerManager.player.entity().stats.level, constantScale);
+                break;
+            case ScalingMethod.CLASS: // scale stats based on class
+                // add later
+                break;
+            case ScalingMethod.CUSTOM: // scale stats based on player level and scalings[] array
+                stats = new Stat(PlayerManager.player.entity().stats.level, scalings);
+                break;
+        }
+
+        remainingHP = stats.health;
     }
 }
