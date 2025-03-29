@@ -14,6 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   actionType: 0
-  range: {x: 5, y: 4}
-  stackable: 1
+  attack: 0
+  attackPower: 5
+  defense: 0
+  health: 0
+  mana: 0
+  speed: 0
   image: {fileID: 0}
+  stackable: 1
+  maxStack: 0
+  range: {x: 5, y: 4}
