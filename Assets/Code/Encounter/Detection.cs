@@ -16,14 +16,11 @@ public class Detection : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {  
-        
-    }
 
-    void OnTriggerStay(Collider other)
+    void OnTriggerEnter(Collider other)
     {
-        if (Input.GetKeyDown(KeyCode.E) && other.tag == "Player") {
+        if (other.tag == "Player") {
+            Debug.Log("Contact Made");
             SceneManager.LoadScene("Scenes/CombatManagerScene");
         }
     }
