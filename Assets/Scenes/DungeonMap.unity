@@ -12490,7 +12490,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8395878610197010207, guid: c78656f2f53ae1249834e1e17ceb9c20, type: 3}
       propertyPath: m_LocalScale.x
-      value: 10
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8395878610197010207, guid: c78656f2f53ae1249834e1e17ceb9c20, type: 3}
       propertyPath: m_LocalScale.z
@@ -12498,7 +12498,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8395878610197010207, guid: c78656f2f53ae1249834e1e17ceb9c20, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 20
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 8395878610197010207, guid: c78656f2f53ae1249834e1e17ceb9c20, type: 3}
       propertyPath: m_LocalPosition.y
@@ -22654,9 +22654,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
-    - target: {fileID: 2255909017655270148, guid: 20bac623a78bb434f9b96d0741237384, type: 3}
-      propertyPath: m_Enabled
-      value: 0
+    - target: {fileID: 1375092813246905453, guid: 20bac623a78bb434f9b96d0741237384, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 5791966827707902810, guid: 20bac623a78bb434f9b96d0741237384, type: 3}
       propertyPath: m_LocalPosition.x
@@ -22701,10 +22701,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1375092813246905453, guid: 20bac623a78bb434f9b96d0741237384, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2053544091}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 20bac623a78bb434f9b96d0741237384, type: 3}
 --- !u!4 &1910720319 stripped
 Transform:
@@ -24642,23 +24639,6 @@ Transform:
   - {fileID: 205058275}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2053544090 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1375092813246905453, guid: 20bac623a78bb434f9b96d0741237384, type: 3}
-  m_PrefabInstance: {fileID: 1909661493}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2053544091
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2053544090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5740feb16e3d747629a51727599cc5e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &2057940613
 PrefabInstance:
   m_ObjectHideFlags: 0
