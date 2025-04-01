@@ -184,9 +184,10 @@ GameObject:
   - component: {fileID: 5791966827707902810}
   - component: {fileID: 3392420770630281657}
   - component: {fileID: 8261458496377216202}
+  - component: {fileID: -4740061685278142405}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -247,6 +248,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5740feb16e3d747629a51727599cc5e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-4740061685278142405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1375092813246905453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb78b0c18dcb58489be2e72cddd758e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats:
+    level: 1
+    experience: 0
+    expToNext: 198
+    health: 100
+    attack: 10
+    defense: 10
+    speed: 10
+    magic: 5
+  equippedGear: []
+  eClass: 3
+  remainingHP: 100
 --- !u!1 &1633505016458564740
 GameObject:
   m_ObjectHideFlags: 0
