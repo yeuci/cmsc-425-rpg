@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FireballExplosion : MonoBehaviour {
@@ -18,6 +19,9 @@ public class FireballExplosion : MonoBehaviour {
             transform.localScale+=scaleFactor;
             routineRun++;
             yield return new WaitForSeconds(0.01f);
+        }
+        if(transform.parent.gameObject != null) {
+            Destroy(transform.parent.gameObject);
         }
         Destroy(gameObject);
         yield return null;
