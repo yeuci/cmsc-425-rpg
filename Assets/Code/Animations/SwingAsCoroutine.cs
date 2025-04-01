@@ -2,6 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+//Credit to Professor Stevens for the original Sinusoidal Swing code and idea to make it a coroutine
+//I (Jason Altneu) upgraded the original sinusoidal swing and implemented it as a coroutine
 public class SwingAsCoroutine : MonoBehaviour
 {
     public float frequency = 1; //Start to Start takes frequency seconds
