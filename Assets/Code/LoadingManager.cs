@@ -41,6 +41,6 @@ public class LoadingManager : MonoBehaviour
     private IEnumerator LoadSelectedScene()
     {
         yield return new WaitForSeconds(10f); 
-        UnityEngine.SceneManagement.SceneManager.LoadScene("InventoryScene");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("DungeonMap");
     }
 }
