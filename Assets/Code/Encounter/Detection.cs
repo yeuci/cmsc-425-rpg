@@ -6,7 +6,6 @@ public class Detection : MonoBehaviour
 {
     SphereCollider detector;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         detector = gameObject.AddComponent<SphereCollider>();
@@ -15,17 +14,10 @@ public class Detection : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {  
-        
-    }
-
-    void OnTriggerStay(Collider other)
+    void OnTriggerEnter(Collider other)
     {
-        if (Input.GetKeyDown(KeyCode.E) && other.tag == "Player") {
-            DontDestroyOnLoad(this.gameObject);
-            DontDestroyOnLoad(other.gameObject);
+        if (other.tag == "Player") {
+            Debug.Log("Contact Made");
             SceneManager.LoadScene("Scenes/CombatManagerScene");
         }
     }

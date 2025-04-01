@@ -274,7 +274,7 @@ GameObject:
   - component: {fileID: 3545723370087567146}
   - component: {fileID: 1304591677598995999}
   - component: {fileID: 1593894413014568176}
-  - component: {fileID: 7505291913909646521}
+  - component: {fileID: 3785400371157437322}
   m_Layer: 0
   m_Name: LeftUpperArm
   m_TagString: Untagged
@@ -351,7 +351,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7505291913909646521
+--- !u!114 &3785400371157437322
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -360,7 +360,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1634718780316211975}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56955e8b4f8e44a48a72885e14449eea, type: 3}
+  m_Script: {fileID: 11500000, guid: 598884c81feab9640bb3f110400d5306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   frequency: 1
@@ -380,7 +380,7 @@ GameObject:
   - component: {fileID: 7469578341363614816}
   - component: {fileID: 2355140004767953598}
   - component: {fileID: 1849536814094550463}
-  - component: {fileID: 2173794207906851430}
+  - component: {fileID: 5509156900473795223}
   m_Layer: 0
   m_Name: RightLowerArm
   m_TagString: Untagged
@@ -456,7 +456,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2173794207906851430
+--- !u!114 &5509156900473795223
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -465,7 +465,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2181595633335568143}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56955e8b4f8e44a48a72885e14449eea, type: 3}
+  m_Script: {fileID: 11500000, guid: 598884c81feab9640bb3f110400d5306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   frequency: 1
@@ -571,7 +571,7 @@ GameObject:
   - component: {fileID: 6342822688930286717}
   - component: {fileID: 7332806652547347615}
   - component: {fileID: 6522983005503585522}
-  - component: {fileID: 4194121886012098091}
+  - component: {fileID: 1373611666944425907}
   m_Layer: 0
   m_Name: LeftLowerArm
   m_TagString: Untagged
@@ -647,7 +647,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &4194121886012098091
+--- !u!114 &1373611666944425907
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -656,7 +656,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3066438540415477054}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56955e8b4f8e44a48a72885e14449eea, type: 3}
+  m_Script: {fileID: 11500000, guid: 598884c81feab9640bb3f110400d5306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   frequency: 1
@@ -849,7 +849,7 @@ GameObject:
   - component: {fileID: 5386372107539835134}
   - component: {fileID: 8178973475092324226}
   - component: {fileID: 7625843478344686049}
-  - component: {fileID: 9221083052650456568}
+  - component: {fileID: 8536492398145800232}
   m_Layer: 0
   m_Name: RightUpperLeg
   m_TagString: Untagged
@@ -926,7 +926,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &9221083052650456568
+--- !u!114 &8536492398145800232
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -935,7 +935,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4211243316745520654}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56955e8b4f8e44a48a72885e14449eea, type: 3}
+  m_Script: {fileID: 11500000, guid: 598884c81feab9640bb3f110400d5306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   frequency: 1
@@ -955,7 +955,7 @@ GameObject:
   - component: {fileID: 4004379730574546122}
   - component: {fileID: 1738024213188892815}
   - component: {fileID: 1891870524201147505}
-  - component: {fileID: 2918822404158654479}
+  - component: {fileID: 6790423369902056623}
   m_Layer: 0
   m_Name: LeftUpperLeg
   m_TagString: Untagged
@@ -1032,7 +1032,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &2918822404158654479
+--- !u!114 &6790423369902056623
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1041,7 +1041,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5271872229140801066}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56955e8b4f8e44a48a72885e14449eea, type: 3}
+  m_Script: {fileID: 11500000, guid: 598884c81feab9640bb3f110400d5306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   frequency: 1
@@ -1064,7 +1064,7 @@ GameObject:
   - component: {fileID: -8496098600899121676}
   m_Layer: 0
   m_Name: Character2
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1146,7 +1146,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -1165,7 +1165,7 @@ GameObject:
   - component: {fileID: 2890013799391277745}
   - component: {fileID: 2248810809236791274}
   - component: {fileID: 6365745887216052649}
-  - component: {fileID: 759305384404346701}
+  - component: {fileID: 6464545176663675910}
   m_Layer: 0
   m_Name: LeftLowerLeg
   m_TagString: Untagged
@@ -1241,7 +1241,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &759305384404346701
+--- !u!114 &6464545176663675910
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1250,7 +1250,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5636456132756943466}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56955e8b4f8e44a48a72885e14449eea, type: 3}
+  m_Script: {fileID: 11500000, guid: 598884c81feab9640bb3f110400d5306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   frequency: 1
@@ -1401,8 +1401,8 @@ GameObject:
   - component: {fileID: 9083938426170737688}
   - component: {fileID: 8184422397542298572}
   - component: {fileID: 4190358022346455667}
-  - component: {fileID: 7473918079114778078}
-  - component: {fileID: 4962937270687649136}
+  - component: {fileID: 5013155619924069515}
+  - component: {fileID: 9103462533185801098}
   m_Layer: 0
   m_Name: RightLowerLeg
   m_TagString: Untagged
@@ -1478,7 +1478,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7473918079114778078
+--- !u!114 &5013155619924069515
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1487,7 +1487,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6593521263992175443}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56955e8b4f8e44a48a72885e14449eea, type: 3}
+  m_Script: {fileID: 11500000, guid: 598884c81feab9640bb3f110400d5306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   frequency: 1
@@ -1496,7 +1496,7 @@ MonoBehaviour:
   startPhase: 0
   endPhase: 0.5
   animStart: 0
---- !u!114 &4962937270687649136
+--- !u!114 &9103462533185801098
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1505,7 +1505,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6593521263992175443}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56955e8b4f8e44a48a72885e14449eea, type: 3}
+  m_Script: {fileID: 11500000, guid: 598884c81feab9640bb3f110400d5306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   frequency: 1
@@ -1698,7 +1698,7 @@ GameObject:
   - component: {fileID: 5444348679705950590}
   - component: {fileID: 1466922892847293027}
   - component: {fileID: 8001518350935615645}
-  - component: {fileID: 6986992066533286630}
+  - component: {fileID: 1893869838608755847}
   m_Layer: 0
   m_Name: RightUpperArm
   m_TagString: Untagged
@@ -1775,7 +1775,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &6986992066533286630
+--- !u!114 &1893869838608755847
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1784,7 +1784,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8459969367740639576}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56955e8b4f8e44a48a72885e14449eea, type: 3}
+  m_Script: {fileID: 11500000, guid: 598884c81feab9640bb3f110400d5306, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   frequency: 1
