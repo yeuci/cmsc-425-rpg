@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a8df97bb9312cb045bee5855112ca6ad, type: 3}
-  m_Name: BasicSword
+  m_Name: Fireball
   m_EditorClassIdentifier: 
   type: 0
   actionType: 0
   attack: 0
-  attackPower: 5
+  attackPower: 0
   defense: 0
   health: 0
   mana: 0
   speed: 0
-  image: {fileID: 21300000, guid: 009d4fc67f3ecc341a5229c548eea9a0, type: 3}
+  image: {fileID: 21300000, guid: 9f69b220176e6964fbd87f5f158d45e3, type: 3}
   stackable: 1
   maxStack: 0
-  range: {x: 5, y: 4}
+  range: {x: 0, y: 6}
