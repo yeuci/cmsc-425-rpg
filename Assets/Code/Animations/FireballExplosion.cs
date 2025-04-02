@@ -42,7 +42,7 @@ public class FireballExplosion : MonoBehaviour {
         float frames = 50f;
         //yield return new WaitUntil(() => Keyboard.current[Key.I].isPressed);
         for(int i = 1; i <= frames; i++){
-            transform.Translate(0f,-(yStart/frames),(zMove/frames));
+            transform.Translate(0f,-yStart/frames,zMove/frames);
             yield return new WaitForSeconds(.75f/frames);
         }
         
