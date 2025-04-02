@@ -37,8 +37,15 @@ public class FireballExplosion : MonoBehaviour {
     }
 
     public IEnumerator Explode() { 
+        float zMove = GetZMove();
+        float yStart = transform.position.y;
+        float frames = 50f;
         //yield return new WaitUntil(() => Keyboard.current[Key.I].isPressed);
-        transform.Translate(0f,-transform.position.y,GetZMove());
+        for(int i = 1; i <= frames; i++){
+            transform.Translate(0f,-(yStart/frames),(zMove/frames));
+            yield return new WaitForSeconds(.75f/frames);
+        }
+        
         //yield return new WaitUntil(() => Keyboard.current[Key.Q].isPressed);
         while(loopCount < 50) {
             child.localScale+=scaleFactor;
