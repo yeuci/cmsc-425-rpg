@@ -7,11 +7,16 @@ public class FireballExplosion : MonoBehaviour {
 
     Vector3 scaleFactor = new Vector3(0f,0f,0f);
     Vector3 movement = new Vector3(0f,0f,0f);
+    GameObject targetObj;
     public Entity target;
     Transform child;
     int loopCount = 0;
     void Start()
     {
+        if(target == null) {
+            targetObj = GameObject.FindGameObjectWithTag("Enemy");
+            target = targetObj.GetComponent<Entity>();
+        }
         transform.LookAt(target.transform);
         movement = target.transform.position - transform.position;
          child = transform.Find("BallCenter");
@@ -27,8 +32,14 @@ public class FireballExplosion : MonoBehaviour {
         return Mathf.Sqrt(deltaX+deltaZ);
     }
 
-    IEnumerator Explode() { 
+    public void setTarget(Entity e) {
+        target = e;
+    }
+
+    public IEnumerator Explode() { 
+        //yield return new WaitUntil(() => Keyboard.current[Key.I].isPressed);
         transform.Translate(0f,-transform.position.y,GetZMove());
+        //yield return new WaitUntil(() => Keyboard.current[Key.Q].isPressed);
         while(loopCount < 50) {
             child.localScale+=scaleFactor;
             loopCount+=1;
