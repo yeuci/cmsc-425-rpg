@@ -1,33 +1,38 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
 public class FireballExplosion : MonoBehaviour {
 
-    public Entity target;
-    int routineRun = 0;
     Vector3 scaleFactor = new Vector3(0f,0f,0f);
-    Vector3 movement = new Vector3(0,0,0);
+    Vector3 movement = new Vector3(0f,0f,0f);
+    public Entity target;
+    Transform child;
+    int loopCount = 0;
     void Start()
     {
-        scaleFactor = transform.localScale;
-        scaleFactor*=.4f;
+        transform.LookAt(target.transform);
         movement = target.transform.position - transform.position;
-        
-        StartCoroutine(Explode());   
+         child = transform.Find("BallCenter");
+         scaleFactor = child.localScale;
+         scaleFactor*=0.1f;
+         StartCoroutine(Explode());
     }
 
-    IEnumerator Explode() {
-        //The entire object should be moving before this happens
-        transform.parent.Translate(movement);
-        while(routineRun < 10) {
-            transform.localScale+=scaleFactor;
-            routineRun++;
-            yield return new WaitForSeconds(0.01f);
-        }
-        if(transform.parent.gameObject != null) {
-            Destroy(transform.parent.gameObject);
+    float GetZMove() {
+        float deltaX = Mathf.Pow(target.transform.position.x-transform.position.x,2);
+        float deltaZ = Mathf.Pow(target.transform.position.z-transform.position.z,2);
+
+        return Mathf.Sqrt(deltaX+deltaZ);
+    }
+
+    IEnumerator Explode() { 
+        transform.Translate(0f,-transform.position.y,GetZMove());
+        while(loopCount < 50) {
+            child.localScale+=scaleFactor;
+            loopCount+=1;
+            yield return new WaitForSeconds(0.005f);
         }
         Destroy(gameObject);
         yield return null;
