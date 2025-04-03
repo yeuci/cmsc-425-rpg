@@ -18,6 +18,10 @@ public class EncounterResolve : MonoBehaviour
         attacker.stats.health += usedItem.health;
 
         //User deals damage equal to weapon power * player attack / enemy defense
-        defender.stats.health -= attackerStats[0]*usedItem.attackPower/defenderStats[1];
+        if(usedItem.actionType == ActionType.Attack){
+            defender.remainingHP -= attackerStats[0]*usedItem.attackPower/defenderStats[1];
+        } else if (usedItem.actionType == ActionType.Cast) {
+            defender.remainingHP -= attackerStats[3]*usedItem.magicPower;
+        }
     }
 }
