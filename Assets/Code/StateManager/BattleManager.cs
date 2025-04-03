@@ -37,7 +37,7 @@ public class BattleManager : MonoBehaviour
     }
 
     public void playerAttack() {
-        enemyEntity.remainingHP -= player.attack * 5;
+        enemyEntity.remainingHP -= player.attack*5/enemy.defense;
         Debug.Log("Player attacked enemy for " + player.attack * 5 + " damage!");     
         Debug.Log("PLAYER ATTACK!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
     
@@ -56,7 +56,7 @@ public class BattleManager : MonoBehaviour
     }
 
     public void enemyAttack() {
-        playerEntity.remainingHP -= enemy.attack;
+        playerEntity.remainingHP -= enemy.attack/player.defense;
         Debug.Log("Enemy attacked player for " + enemy.attack + " damage!");
         Debug.Log("ENEMY ATTACK!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
         if(playerEntity.remainingHP <= 0) {
