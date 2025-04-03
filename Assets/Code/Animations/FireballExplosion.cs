@@ -19,6 +19,7 @@ public class FireballExplosion : MonoBehaviour {
         }
         transform.LookAt(target.transform);
         movement = target.transform.position - transform.position;
+        transform.localScale*=0.5f;
          child = transform.Find("BallCenter");
          scaleFactor = child.localScale;
          scaleFactor*=0.1f;
