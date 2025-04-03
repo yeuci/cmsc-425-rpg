@@ -49,7 +49,7 @@ public class BattleManager : MonoBehaviour
             playerEntity.recalculateLvl();
             Debug.Log("Player is Lvl " + player.level + "! Progress: " + player.experience + "/"+player.expToNext);
 
-            SceneManager.LoadScene("Scenes/EncounterScene");
+            SceneManager.LoadScene("Scenes/DungeonMap");
         }
    
         playerMove = false;
@@ -61,7 +61,7 @@ public class BattleManager : MonoBehaviour
         Debug.Log("ENEMY ATTACK!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
         if(playerEntity.remainingHP <= 0) {
             Debug.Log("Player has lost the battle");
-            SceneManager.LoadScene("Scenes/EncounterScene");
+            SceneManager.LoadScene("Scenes/DungeonMap");
         }
     }
     
