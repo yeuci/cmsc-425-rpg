@@ -2,7 +2,13 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/* CLASS DESCRIPTION: This is meant to be attached to a FireBall prefab.
+    When run, this will move towards a target (default to any Enemy).
+    Upon reaching the target, the center of the fireball will swell to
+    5 times its original size, then the entire fireball will be destroyed.
 
+    Purely visual, no impact on stats.
+*/
 public class FireballExplosion : MonoBehaviour {
 
     Vector3 scaleFactor = new Vector3(0f,0f,0f);
