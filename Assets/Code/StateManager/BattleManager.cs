@@ -4,7 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
-    public Entity playerEntity, enemyEntity;
+    Entity playerEntity, enemyEntity;
+    GameObject playerObject, enemyObject;
     Stat player, enemy;
     bool playerMove;
 
@@ -12,23 +13,21 @@ public class BattleManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        playerEntity = PlayerManager.player.entity();
-        enemyEntity = this.AddComponent<Entity>(); // create enemy entity on battle start based on player level
-        enemyEntity.scaleStats(ScalingMethod.PLAYER_LEVEL);
+        playerObject = GameObject.FindGameObjectWithTag("Player");
+        enemyObject = GameObject.FindGameObjectWithTag("Enemy");
+
+        playerEntity = playerObject.GetComponent<Entity>();
+        enemyEntity = enemyObject.GetComponent<Entity>();
+        //So far, I gain access to the GameObjects and their Entity components. I now need to work with them.
+
+        //MISSING: ADJUST scaleStats TO SET UP THE STATS CORRECTLY
 
         player = playerEntity.stats;
         enemy = enemyEntity.stats;
 
-        playerMove = false;
-        if (player.speed >= enemy.speed) playerMove = true;
-
-        playerHealth = playerEntity.remainingHP;
-        enemyHealth = enemyEntity.remainingHP;
-
         Debug.Log("BATTLE STARTED!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(!playerMove) {
@@ -65,4 +64,5 @@ public class BattleManager : MonoBehaviour
             SceneManager.LoadScene("Scenes/EncounterScene");
         }
     }
+    
 }
