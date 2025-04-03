@@ -12,9 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8df97bb9312cb045bee5855112ca6ad, type: 3}
   m_Name: HealthPotion
   m_EditorClassIdentifier: 
-  tile: {fileID: 0}
-  type: 0
-  actionType: 0
-  range: {x: 5, y: 4}
-  stackable: 1
+  type: 2
+  actionType: 2
+  attack: 0
+  attackPower: 0
+  defense: 0
+  health: 0
+  mana: 0
+  speed: 0
   image: {fileID: 0}
+  stackable: 1
+  maxStack: 0
+  range: {x: 5, y: 4}
