@@ -38,7 +38,7 @@ public class BattleManager : MonoBehaviour
 
     public void playerAttack() {
         enemyEntity.remainingHP -= player.attack*5/enemy.defense;
-        Debug.Log("Player attacked enemy for " + player.attack * 5 + " damage!");     
+        Debug.Log("Player attacked enemy for " + player.attack * 5/enemy.defense + " damage!");     
         Debug.Log("PLAYER ATTACK!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
     
         if(enemyEntity.remainingHP <= 0) {

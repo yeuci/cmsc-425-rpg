@@ -20544,6 +20544,7 @@ MonoBehaviour:
   equippedGear:
   - {fileID: 11400000, guid: 25c29a11422fd214c986a7afa9ea0f42, type: 2}
   - {fileID: 11400000, guid: 0e76f221c2b210b4d97c8b0b917170e9, type: 2}
+  - {fileID: 11400000, guid: e3aedde71f29bbc40896439a6b511ae7, type: 2}
   eClass: 0
   remainingHP: 100
 --- !u!1001 &1702537264

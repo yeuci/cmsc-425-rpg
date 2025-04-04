@@ -10,8 +10,8 @@ public class EncounterResolve : MonoBehaviour
     {
         //Get adjusted stats for attacker and defender for purposes of calculation
         //Attack, Defense, Health, Magic, Speed
-        float [] attackerStats = attacker.getAdjustedStats();
-        float [] defenderStats = defender.getAdjustedStats();
+        Stat attackerStats = attacker.getAdjustedStats();
+        Stat defenderStats = defender.getAdjustedStats();
 
         //User heals HP set by the item
         //We need to separate current and maximum health for me to bind this.
@@ -19,9 +19,9 @@ public class EncounterResolve : MonoBehaviour
 
         //User deals damage equal to weapon power * player attack / enemy defense
         if(usedItem.actionType == ActionType.Attack){
-            defender.remainingHP -= attackerStats[0]*usedItem.attackPower/defenderStats[1];
+            defender.remainingHP -= attackerStats.attack*usedItem.attackPower/defenderStats.defense;
         } else if (usedItem.actionType == ActionType.Cast) {
-            defender.remainingHP -= attackerStats[3]*usedItem.magicPower;
+            defender.remainingHP -= attackerStats.magic*usedItem.magicPower;
         }
     }
 }

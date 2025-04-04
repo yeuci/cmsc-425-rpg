@@ -28,10 +28,10 @@ public class UIHandler : MonoBehaviour
     {
         GameObject instance = Instantiate(fireball, source.transform.position,Quaternion.identity);
         
-        Debug.Log("Attack Clicked");
+        //Debug.Log("Attack Clicked");
     }
 
     void DefendListener() {
-        Debug.Log("Defend Clicked");
+        //Debug.Log("Defend Clicked");
     }
 }
