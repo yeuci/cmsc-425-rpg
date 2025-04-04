@@ -10,7 +10,7 @@ using UnityEngine.InputSystem;
     Purely visual, no impact on stats.
 */
 public class FireballExplosion : MonoBehaviour {
-
+//
     Vector3 scaleFactor = new Vector3(0f,0f,0f);
     Vector3 movement = new Vector3(0f,0f,0f);
     GameObject targetObj;
