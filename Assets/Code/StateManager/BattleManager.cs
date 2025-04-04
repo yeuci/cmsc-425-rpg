@@ -22,8 +22,8 @@ public class BattleManager : MonoBehaviour
 
         //MISSING: ADJUST scaleStats TO SET UP THE STATS CORRECTLY
 
-        player = playerEntity.stats;
-        enemy = enemyEntity.stats;
+        player = playerEntity.getAdjustedStats();
+        enemy = enemyEntity.getAdjustedStats();
 
         Debug.Log("BATTLE STARTED!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
     }
