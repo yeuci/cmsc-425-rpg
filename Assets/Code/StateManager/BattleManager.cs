@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
+    public GameObject fireball; //Remove after. This is just to test
     Entity playerEntity, enemyEntity;
     GameObject playerObject, enemyObject;
     Stat player, enemy;
@@ -37,6 +38,7 @@ public class BattleManager : MonoBehaviour
     }
 
     public void playerAttack() {
+        GameObject instance = Instantiate(fireball, playerEntity.transform.position,Quaternion.identity);
         enemyEntity.remainingHP -= player.attack*5/enemy.defense;
         Debug.Log("Player attacked enemy for " + player.attack * 5/enemy.defense + " damage!");     
         Debug.Log("PLAYER ATTACK!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
