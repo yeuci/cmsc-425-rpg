@@ -8,7 +8,9 @@ public class BattleManager : MonoBehaviour
     Entity playerEntity, enemyEntity;
     GameObject playerObject, enemyObject;
     Stat player, enemy;
+    EncounterResolve manager;
     bool playerMove;
+    public Item usedItem;
 
     float playerHealth, enemyHealth;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -25,6 +27,9 @@ public class BattleManager : MonoBehaviour
 
         player = playerEntity.getAdjustedStats();
         enemy = enemyEntity.getAdjustedStats();
+        
+
+        manager = new EncounterResolve(playerEntity, enemyEntity, usedItem );
 
         Debug.Log("BATTLE STARTED!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
     }
@@ -39,8 +44,11 @@ public class BattleManager : MonoBehaviour
 
     public void playerAttack() {
         GameObject instance = Instantiate(fireball, playerEntity.transform.position,Quaternion.identity);
-        enemyEntity.remainingHP -= player.attack*5/enemy.defense;
-        Debug.Log("Player attacked enemy for " + player.attack * 5/enemy.defense + " damage!");     
+        manager.setAttacker(playerEntity);
+        manager.setDefender(enemyEntity);
+
+        enemyEntity.remainingHP -= manager.returnDamage();
+        Debug.Log("Player attacked enemy for " + manager.returnDamage() + " damage!");     
         Debug.Log("PLAYER ATTACK!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
     
         if(enemyEntity.remainingHP <= 0) {
@@ -58,8 +66,11 @@ public class BattleManager : MonoBehaviour
     }
 
     public void enemyAttack() {
-        playerEntity.remainingHP -= enemy.attack/player.defense;
-        Debug.Log("Enemy attacked player for " + enemy.attack/player.defense + " damage!");
+        manager.setAttacker(enemyEntity);
+        manager.setDefender(playerEntity);
+
+        playerEntity.remainingHP -= manager.returnDamage();
+        Debug.Log("Enemy attacked player for " + manager.returnDamage() + " damage!");
         Debug.Log("ENEMY ATTACK!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
         if(playerEntity.remainingHP <= 0) {
             Debug.Log("Player has lost the battle");

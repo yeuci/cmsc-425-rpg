@@ -20509,6 +20509,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5551276656269014274, guid: 2e1efcd38b7ca844f97db79406ae842f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1692649527}
+    - targetCorrespondingSourceObject: {fileID: 5551276656269014274, guid: 2e1efcd38b7ca844f97db79406ae842f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1692649528}
   m_SourcePrefab: {fileID: 100100000, guid: 2e1efcd38b7ca844f97db79406ae842f, type: 3}
 --- !u!4 &1692649523 stripped
 Transform:
@@ -20547,6 +20550,20 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e3aedde71f29bbc40896439a6b511ae7, type: 2}
   eClass: 0
   remainingHP: 100
+--- !u!114 &1692649528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1633185117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ff753b82dd2aef419365076c2274300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 1692649523}
+  folderName: CMSC425_SaveGames
 --- !u!1001 &1702537264
 PrefabInstance:
   m_ObjectHideFlags: 0
