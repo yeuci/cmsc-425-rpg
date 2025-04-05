@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public class UIHandler : MonoBehaviour
 {
-    public Button attackButton, defendButton;
+    public Button attackButton, magicButton;
 
     public GameObject fireball;
     Entity target, source;
@@ -14,7 +14,8 @@ public class UIHandler : MonoBehaviour
     void Start()
     {
         attackButton.onClick.AddListener(AttackListener);
-        defendButton.onClick.AddListener(DefendListener);
+        magicButton.onClick.AddListener(MagicListener);
+
         targetObj = GameObject.FindWithTag("Enemy");
         target = targetObj.GetComponent<Entity>();
         sourceObj = GameObject.FindWithTag("Player");
@@ -31,7 +32,7 @@ public class UIHandler : MonoBehaviour
         //Debug.Log("Attack Clicked");
     }
 
-    void DefendListener() {
+    void MagicListener() {
         //Debug.Log("Defend Clicked");
     }
 }

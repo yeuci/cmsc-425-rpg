@@ -72,7 +72,7 @@ public class InputSequenceManager : MonoBehaviour
                 {
                     Debug.Log("Sequence Completed!");
                     isMinigameSuccessful = true;
-                    arrowMinigamePanel.SetActive(false);
+                    Destroy(arrowMinigamePanel);
                     yield break; // End coroutine
                 }
             } else {

@@ -1,3 +1,4 @@
+using System.Threading;
 using UnityEngine;
 
 public class OpenArrowMinigame : MonoBehaviour
@@ -7,6 +8,8 @@ public class OpenArrowMinigame : MonoBehaviour
     public GameObject minigamePrefab; 
     // The Canvas where the minigame will show up
     public Canvas canvas;
+    public int sequenceLength;
+    public int timeLimit;
 
     // Current instance of the minigame
     private GameObject currentMinigameInstance = null;
@@ -15,7 +18,7 @@ public class OpenArrowMinigame : MonoBehaviour
 
     void Start()
     {
-
+        
     }
 
     public void StartMinigame() {
@@ -26,8 +29,8 @@ public class OpenArrowMinigame : MonoBehaviour
             inputSequenceManager = currentMinigameInstance.GetComponent<InputSequenceManager>();
 
             // Can change number of buttons and the time limit
-            inputSequenceManager.sequenceLength = 10;
-            inputSequenceManager.timeLimit = 4;
+            inputSequenceManager.sequenceLength = sequenceLength;
+            inputSequenceManager.timeLimit = timeLimit;
         }
     }
 
