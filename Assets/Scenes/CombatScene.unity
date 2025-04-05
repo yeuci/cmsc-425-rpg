@@ -1471,7 +1471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackButton: {fileID: 1913106082}
-  defendButton: {fileID: 516717199}
+  magicButton: {fileID: 516717199}
   fireball: {fileID: 8704502419844733050, guid: cff34c82fdf898640b4951621857a456, type: 3}
 --- !u!1001 &1073880415581209522
 PrefabInstance:
