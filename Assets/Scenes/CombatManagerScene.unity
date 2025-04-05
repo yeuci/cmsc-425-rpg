@@ -1455,6 +1455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireball: {fileID: 8704502419844733050, guid: cff34c82fdf898640b4951621857a456, type: 3}
+  usedItem: {fileID: 11400000, guid: 25c29a11422fd214c986a7afa9ea0f42, type: 2}
 --- !u!1001 &1073880415581209522
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1,27 +1,45 @@
 using UnityEngine;
 
-public class EncounterResolve : MonoBehaviour
+public class EncounterResolve
 {
-    public Entity attacker;
-    public Entity defender;
+    Entity attacker;
+    Entity defender;
     public Item usedItem;
+
+    Stat attackerStats, defenderStats;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        //Get adjusted stats for attacker and defender for purposes of calculation
-        //Attack, Defense, Health, Magic, Speed
-        Stat attackerStats = attacker.getAdjustedStats();
-        Stat defenderStats = defender.getAdjustedStats();
+    
+    public EncounterResolve(Entity a, Entity d, Item uI) {
+        attacker = a;
+        defender = d;
+        usedItem = uI;
 
-        //User heals HP set by the item
-        //We need to separate current and maximum health for me to bind this.
-        attacker.stats.health += usedItem.health;
-
-        //User deals damage equal to weapon power * player attack / enemy defense
-        if(usedItem.actionType == ActionType.Attack){
-            defender.remainingHP -= attackerStats.attack*usedItem.attackPower/defenderStats.defense;
-        } else if (usedItem.actionType == ActionType.Cast) {
-            defender.remainingHP -= attackerStats.magic*usedItem.magicPower;
-        }
+        attackerStats = attacker.getAdjustedStats();
+        defenderStats = defender.getAdjustedStats();
     }
+
+    public void setAttacker(Entity a) {
+        attacker = a;
+        attackerStats = attacker.getAdjustedStats();
+    }
+
+    public void setDefender(Entity d) {
+        defender = d;
+        defenderStats = defender.getAdjustedStats();
+    }
+    
+    public float returnDamage() {
+        float damage = 0f;
+        if(usedItem.actionType == ActionType.Attack){
+            damage = attackerStats.attack*usedItem.attackPower/defenderStats.defense;
+        } else if (usedItem.actionType == ActionType.Cast) {
+            damage = attackerStats.magic*usedItem.magicPower;
+        }
+
+        return damage;
+    }
+    
+
+
 }
