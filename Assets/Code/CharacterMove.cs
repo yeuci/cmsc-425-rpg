@@ -21,6 +21,7 @@ public class CharacterMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // This part handles movement and jumping
         isGrounded = controller.isGrounded;
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
@@ -46,5 +47,7 @@ public class CharacterMove : MonoBehaviour
         }
         velocity.y -= gravity * Time.deltaTime;
         controller.Move((moveDirection * moveSpeed + velocity) * Time.deltaTime);
+
+        // This part handles rotation
     }
 }

@@ -4,7 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
-    public Entity playerEntity, enemyEntity;
+    Entity playerEntity, enemyEntity;
+    GameObject playerObject, enemyObject;
     Stat player, enemy;
     bool playerMove;
 
@@ -12,23 +13,21 @@ public class BattleManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        playerEntity = PlayerManager.player.entity();
-        enemyEntity = this.AddComponent<Entity>(); // create enemy entity on battle start based on player level
-        enemyEntity.scaleStats(ScalingMethod.PLAYER_LEVEL);
+        playerObject = GameObject.FindGameObjectWithTag("Player");
+        enemyObject = GameObject.FindGameObjectWithTag("Enemy");
 
-        player = playerEntity.stats;
-        enemy = enemyEntity.stats;
+        playerEntity = playerObject.GetComponent<Entity>();
+        enemyEntity = enemyObject.GetComponent<Entity>();
+        //So far, I gain access to the GameObjects and their Entity components. I now need to work with them.
 
-        playerMove = false;
-        if (player.speed >= enemy.speed) playerMove = true;
+        //MISSING: ADJUST scaleStats TO SET UP THE STATS CORRECTLY
 
-        playerHealth = playerEntity.remainingHP;
-        enemyHealth = enemyEntity.remainingHP;
+        player = playerEntity.getAdjustedStats();
+        enemy = enemyEntity.getAdjustedStats();
 
         Debug.Log("BATTLE STARTED!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(!playerMove) {
@@ -38,8 +37,8 @@ public class BattleManager : MonoBehaviour
     }
 
     public void playerAttack() {
-        enemyEntity.remainingHP -= player.attack * 5;
-        Debug.Log("Player attacked enemy for " + player.attack * 5 + " damage!");     
+        enemyEntity.remainingHP -= player.attack*5/enemy.defense;
+        Debug.Log("Player attacked enemy for " + player.attack * 5/enemy.defense + " damage!");     
         Debug.Log("PLAYER ATTACK!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
     
         if(enemyEntity.remainingHP <= 0) {
@@ -50,19 +49,20 @@ public class BattleManager : MonoBehaviour
             playerEntity.recalculateLvl();
             Debug.Log("Player is Lvl " + player.level + "! Progress: " + player.experience + "/"+player.expToNext);
 
-            SceneManager.LoadScene("Scenes/EncounterScene");
+            SceneManager.LoadScene("Scenes/DungeonMap");
         }
    
         playerMove = false;
     }
 
     public void enemyAttack() {
-        playerEntity.remainingHP -= enemy.attack;
-        Debug.Log("Enemy attacked player for " + enemy.attack + " damage!");
+        playerEntity.remainingHP -= enemy.attack/player.defense;
+        Debug.Log("Enemy attacked player for " + enemy.attack/player.defense + " damage!");
         Debug.Log("ENEMY ATTACK!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
         if(playerEntity.remainingHP <= 0) {
             Debug.Log("Player has lost the battle");
-            SceneManager.LoadScene("Scenes/EncounterScene");
+            SceneManager.LoadScene("Scenes/DungeonMap");
         }
     }
+    
 }

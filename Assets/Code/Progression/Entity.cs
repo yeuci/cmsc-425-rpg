@@ -52,9 +52,9 @@ public class Entity : MonoBehaviour
         return true;
     }
 
-    public float[] getAdjustedStats() {
+    public Stat getAdjustedStats() {
         //Attack, Defense, Health, Magic Speed
-        float[] adjStats = stats.getStatArray();
+        float[] adjStats = this.stats.getStatArray();
         foreach (Item i in equippedGear){
             adjStats[0] += i.attack;
             adjStats[1] += i.defense;
@@ -62,7 +62,8 @@ public class Entity : MonoBehaviour
             adjStats[3] += i.mana;
             adjStats[4] += i.speed;
         }
-        return adjStats;
+        Stat stats = new Stat(this.stats.level, adjStats[2],adjStats[0],adjStats[1],adjStats[4],adjStats[3]);
+        return stats;
     }
 
     public void scaleStats(ScalingMethod scaleMethod, float[] scalings = default) {

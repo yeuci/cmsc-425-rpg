@@ -4,31 +4,42 @@ using UnityEngine.Tilemaps;
 
 public enum ItemType {
     Weapon,
+    Spell,
     Armor,
     Consumable
 }
 
 public enum ActionType {
     Attack,
+    Cast,
     Defend,
     Consume
 }
 
 public struct ItemStatistics {
+
+    //Equip Statistics
     public int attack;
-    public int attackPower;
     public int defense;
     public int health;
     public int mana;
     public int speed;
 
-    public ItemStatistics(int attack, int attackPower, int defense, int health, int mana, int speed) {
+    //Use Stats
+    public int attackPower;
+    public int healing;
+    public int magicPower;
+
+    public ItemStatistics(int attack, int attackPower, int defense, int health, int mana, int speed, int healing, int magicPower) {
         this.attack = attack;
         this.attackPower = attackPower;
         this.defense = defense;
         this.health = health;
         this.mana = mana;
         this.speed = speed;
+        this.healing = healing;
+        this.magicPower = magicPower;
+        Debug.Log(this);
     }
 
     public readonly  int Attack() {
@@ -55,6 +66,13 @@ public struct ItemStatistics {
         return speed;
     }
 
+    public readonly int Healing() {
+        return healing;
+    }
+    public readonly int MagicPower() {
+        return magicPower;
+    }
+
     public readonly override string ToString() {
         return $"Attack: {attack}, Attack Power: {attackPower}, Defense: {defense}, Health: {health}, Mana: {mana}, Speed: {speed}";
     }
@@ -67,13 +85,17 @@ public class Item : ScriptableObject {
     public ItemType type;
     public ActionType actionType;
     
-    [Header("Item Statistics")]
+    [Header("Equip Statistics")]
     public int attack;
-    public int attackPower;
     public int defense;
     public int health;
     public int mana;
     public int speed;
+
+    [Header("Use Statistics")]
+    public int attackPower;
+    public int healing;
+    public int magicPower;
 
     [Header("UI")]
     public Sprite image;
