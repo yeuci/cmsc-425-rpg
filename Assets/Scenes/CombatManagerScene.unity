@@ -364,53 +364,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
---- !u!1 &427099898
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 427099900}
-  - component: {fileID: 427099899}
-  m_Layer: 0
-  m_Name: ButtonHandler
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &427099899
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 427099898}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 914fe4964ba00d14b81b203744373e1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attackButton: {fileID: 1913106082}
-  magicButton: {fileID: 516717199}
-  fireball: {fileID: 8704502419844733050, guid: cff34c82fdf898640b4951621857a456, type: 3}
---- !u!4 &427099900
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 427099898}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.8812999, y: -11.101845, z: 21.325527}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &516717197
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,8 +376,9 @@ GameObject:
   - component: {fileID: 516717201}
   - component: {fileID: 516717200}
   - component: {fileID: 516717199}
+  - component: {fileID: 516717202}
   m_Layer: 5
-  m_Name: Defend
+  m_Name: Magic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -493,7 +447,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 516717200}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 516717202}
+        m_TargetAssemblyTypeName: OpenArrowMinigame, Assembly-CSharp
+        m_MethodName: StartMinigame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &516717200
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -532,6 +498,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 516717197}
   m_CullTransparentMesh: 1
+--- !u!114 &516717202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 516717197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ebe5ef7360a4bb4bae57b1a11a28efd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minigamePrefab: {fileID: 6487977543823871858, guid: 35ac53038e18a1b48b3d6d65e337d27a, type: 3}
+  canvas: {fileID: 1272351636}
+  sequenceLength: 10
+  timeLimit: 5
 --- !u!1 &926195550
 GameObject:
   m_ObjectHideFlags: 0
@@ -589,7 +571,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Defend
+  m_text: Magic
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1689,4 +1671,3 @@ SceneRoots:
   - {fileID: 1633845632}
   - {fileID: 1272351637}
   - {fileID: 2069830878}
-  - {fileID: 427099900}
