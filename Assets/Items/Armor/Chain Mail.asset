@@ -15,7 +15,7 @@ MonoBehaviour:
   type: 2
   actionType: 2
   attack: 0
-  defense: 20
+  defense: 10
   health: 0
   mana: 0
   speed: 0

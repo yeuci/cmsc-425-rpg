@@ -2,6 +2,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.UI;
 
+//This code is no longer being used, so I should be able to delete it without consequences
 public class UIHandler : MonoBehaviour
 {
     public Button attackButton, defendButton;
@@ -19,8 +20,6 @@ public class UIHandler : MonoBehaviour
         target = targetObj.GetComponent<Entity>();
         sourceObj = GameObject.FindWithTag("Player");
         source = sourceObj.GetComponent<Entity>();
-        Debug.Log(target);
-        Debug.Log(source);
     }
 
     // Update is called once per frame
