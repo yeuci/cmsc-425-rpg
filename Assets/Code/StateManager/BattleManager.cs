@@ -1,3 +1,4 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -32,6 +33,13 @@ public class BattleManager : MonoBehaviour
         manager = new EncounterResolve(playerEntity, enemyEntity, usedItem );
 
         Debug.Log("BATTLE STARTED!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
+        playerMove =  player.speed >= enemy.speed;
+        String msg = " has higher speed stat, and is going first";
+        if(playerMove) {
+            Debug.Log("PLAYER"+msg);
+        } else {
+            Debug.Log("ENEMY"+msg);
+        }
     }
 
     void Update()
@@ -77,5 +85,24 @@ public class BattleManager : MonoBehaviour
             SceneManager.LoadScene("Scenes/DungeonMap");
         }
     }
+
+    public void playerRun() {
+        playerMove = false;
+        if(player.speed > enemy.speed) {
+            Debug.Log("Player has fled the encounter");
+            SceneManager.LoadScene("Scenes/DungeonMap");
+        }
+    }
+
+    public void playerCast() {
+        Debug.Log("Magic Clicked");
+        playerMove = false;
+    }
+
+    public void playerPotion(){
+        Debug.Log("Player drank a potion");
+        playerMove = false;
+    }
+    
     
 }
