@@ -5,7 +5,7 @@ public class CharacterMove : MonoBehaviour
 {
 
     public float moveSpeed = 10.0f;
-    public float jumpSpeed = 8.0f;
+    public float jumpSpeed = 6.0f;
     public float gravity = 9.8f;
 
     private CharacterController controller;
@@ -48,6 +48,7 @@ public class CharacterMove : MonoBehaviour
         velocity.y -= gravity * Time.deltaTime;
         controller.Move((moveDirection * moveSpeed + velocity) * Time.deltaTime);
 
-        // This part handles rotation
+        // This part handles horizontal rotation
+
     }
 }
