@@ -20636,7 +20636,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1692649523}
-  folderName: MyGameSaves
+  folderName: CMSC425_SaveGames
 --- !u!1001 &1702537264
 PrefabInstance:
   m_ObjectHideFlags: 0
