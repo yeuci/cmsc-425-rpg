@@ -101,6 +101,10 @@ public class BattleManager : MonoBehaviour
 
     public void playerPotion(){
         Debug.Log("Player drank a potion");
+        playerEntity.remainingHP += 10;
+        if (playerEntity.remainingHP > player.health) {
+            playerEntity.remainingHP = player.health;
+        }
         playerMove = false;
     }
     
