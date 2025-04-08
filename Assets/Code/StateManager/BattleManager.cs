@@ -2,6 +2,7 @@ using System;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UIElements;
 
 public class BattleManager : MonoBehaviour
 {
@@ -12,6 +13,9 @@ public class BattleManager : MonoBehaviour
     EncounterResolve manager;
     bool playerMove;
     public Item usedItem;
+    float leftBound;
+
+    public SpriteRenderer healthBar;
 
     float playerHealth, enemyHealth;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -28,6 +32,9 @@ public class BattleManager : MonoBehaviour
 
         player = playerEntity.getAdjustedStats();
         enemy = enemyEntity.getAdjustedStats();
+
+        leftBound = healthBar.transform.position.x - healthBar.size.x/2;
+        Debug.Log(leftBound);
         
 
         manager = new EncounterResolve(playerEntity, enemyEntity, usedItem );
@@ -78,6 +85,7 @@ public class BattleManager : MonoBehaviour
         manager.setDefender(playerEntity);
 
         playerEntity.remainingHP -= manager.returnDamage();
+        healthBar.size = new Vector2(10.24f*playerEntity.remainingHP/player.health, 0.64f);
         Debug.Log("Enemy attacked player for " + manager.returnDamage() + " damage!");
         Debug.Log("ENEMY ATTACK!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
         if(playerEntity.remainingHP <= 0) {
