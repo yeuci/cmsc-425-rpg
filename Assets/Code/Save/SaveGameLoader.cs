@@ -87,7 +87,7 @@ public class SaveGameLoader : MonoBehaviour
         
         Debug.Log("DungeonMap scene loaded.");
         
-        yield return new WaitForSeconds(0.5f);
+        // yield return new WaitForSeconds(0.5f);
         
         Debug.Log("Attempting to find player...");
         GameObject player = GameObject.FindWithTag("Player");
