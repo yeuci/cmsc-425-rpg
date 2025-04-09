@@ -625,7 +625,7 @@ GameObject:
   m_Component:
   - component: {fileID: 790305840}
   - component: {fileID: 790305841}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Player_MP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1532,7 +1532,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1413191542}
   - component: {fileID: 1413191543}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Player_HP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1608,7 +1608,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1
 --- !u!1 &1552911716 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8242901318830913211, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
@@ -2390,10 +2390,10 @@ PrefabInstance:
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 1501898899443169836, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1413191542}
+      addedObject: {fileID: 790305840}
     - targetCorrespondingSourceObject: {fileID: 1501898899443169836, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 790305840}
+      addedObject: {fileID: 1413191542}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8242901318830913211, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
       insertIndex: -1

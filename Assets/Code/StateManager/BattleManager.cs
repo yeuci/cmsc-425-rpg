@@ -88,6 +88,12 @@ public class BattleManager : MonoBehaviour
 
         playerEntity.remainingHP -= manager.returnDamage();
         healthBar.size = new Vector2(originalSize*playerEntity.remainingHP/player.health, 0.64f);
+        Debug.Log("Health Bar Size: "+healthBar.size.x+
+        "\nCentered on "+healthBar.transform.position);
+        float leftShift = (10-healthBar.size.x)*.25f;
+        healthBar.transform.position = new Vector3(-4-leftShift,3f,0f);
+        
+
 
         Debug.Log("Enemy attacked player for " + manager.returnDamage() + " damage!");
         Debug.Log("ENEMY ATTACK!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
