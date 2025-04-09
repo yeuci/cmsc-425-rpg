@@ -14,6 +14,7 @@ public class BattleManager : MonoBehaviour
     bool playerMove;
     public Item usedItem;
     float leftBound;
+    float originalSize;
 
     public SpriteRenderer healthBar;
 
@@ -34,6 +35,7 @@ public class BattleManager : MonoBehaviour
         enemy = enemyEntity.getAdjustedStats();
 
         leftBound = healthBar.transform.position.x - healthBar.size.x/2;
+        originalSize = healthBar.size.x;
         Debug.Log(leftBound);
         
 
@@ -85,7 +87,8 @@ public class BattleManager : MonoBehaviour
         manager.setDefender(playerEntity);
 
         playerEntity.remainingHP -= manager.returnDamage();
-        healthBar.size = new Vector2(10.24f*playerEntity.remainingHP/player.health, 0.64f);
+        healthBar.size = new Vector2(originalSize*playerEntity.remainingHP/player.health, 0.64f);
+
         Debug.Log("Enemy attacked player for " + manager.returnDamage() + " damage!");
         Debug.Log("ENEMY ATTACK!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
         if(playerEntity.remainingHP <= 0) {
