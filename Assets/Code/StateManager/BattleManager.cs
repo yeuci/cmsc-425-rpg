@@ -38,7 +38,6 @@ public class BattleManager : MonoBehaviour
         leftBound = healthBar.transform.position.x - healthBar.size.x/2;
         originalSize = healthBar.size.x;
         enemyOriginalSize = enemyHealthBar.size.x;
-        Debug.Log(leftBound);
         
         playerHealthBarLoc = healthBar.transform.position;
         enemyHealthBarLoc = enemyHealthBar.transform.position;
@@ -73,8 +72,6 @@ public class BattleManager : MonoBehaviour
         enemyHealthBar.size = new Vector2(enemyOriginalSize*enemyEntity.remainingHP/enemy.health, 0.64f);
         float leftShift = (enemyOriginalSize-enemyHealthBar.size.x)*.25f ;
         enemyHealthBar.transform.position = new Vector3(enemyHealthBarLoc.x-leftShift,enemyHealthBarLoc.y,enemyHealthBarLoc.z);
-        Debug.Log("Player attacked enemy for " + manager.returnDamage() + " damage!");     
-        Debug.Log("PLAYER ATTACK!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
     
         if(enemyEntity.remainingHP <= 0) {
             float enemyXP = enemyEntity.calculateXPValue();
@@ -96,15 +93,9 @@ public class BattleManager : MonoBehaviour
 
         playerEntity.remainingHP -= manager.returnDamage();
         healthBar.size = new Vector2(originalSize*playerEntity.remainingHP/player.health, 0.64f);
-        Debug.Log("Health Bar Size: "+healthBar.size.x+
-        "\nCentered on "+healthBar.transform.position);
         float leftShift = (originalSize-healthBar.size.x)*.25f;
         healthBar.transform.position = new Vector3(playerHealthBarLoc.x-leftShift,playerHealthBarLoc.y,playerHealthBarLoc.z);
         
-
-
-        Debug.Log("Enemy attacked player for " + manager.returnDamage() + " damage!");
-        Debug.Log("ENEMY ATTACK!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
         if(playerEntity.remainingHP <= 0) {
             Debug.Log("Player has lost the battle");
             SceneManager.LoadScene("Scenes/DungeonMap");
