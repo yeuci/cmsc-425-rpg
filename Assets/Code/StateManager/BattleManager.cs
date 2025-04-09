@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -62,7 +63,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    public void playerAttack() {
+    IEnumerator PlayerAttack() {
         GameObject instance = Instantiate(fireball, playerEntity.transform.position,Quaternion.identity);
         manager.setAttacker(playerEntity);
         manager.setDefender(enemyEntity);
@@ -84,10 +85,17 @@ public class BattleManager : MonoBehaviour
             SceneManager.LoadScene("Scenes/DungeonMap");
         }
    
+        yield return new WaitForSeconds(1f);
         playerMove = false;
+
+        
     }
 
-    public void enemyAttack() {
+    public void playerAttack() {
+        StartCoroutine(PlayerAttack());
+    }
+
+    IEnumerator EnemyAttack() {
         manager.setAttacker(enemyEntity);
         manager.setDefender(playerEntity);
 
@@ -100,6 +108,11 @@ public class BattleManager : MonoBehaviour
             Debug.Log("Player has lost the battle");
             SceneManager.LoadScene("Scenes/DungeonMap");
         }
+        yield return new WaitForSeconds(1f);
+    }
+
+    public void enemyAttack() {
+        StartCoroutine(EnemyAttack());
     }
 
     public void playerRun() {
