@@ -1608,7 +1608,7 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 1
+  m_SpriteSortPoint: 0
 --- !u!1 &1552911716 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8242901318830913211, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}

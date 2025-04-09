@@ -70,7 +70,7 @@ public class BattleManager : MonoBehaviour
         enemyEntity.remainingHP -= manager.returnDamage();
 
         enemyHealthBar.size = new Vector2(enemyOriginalSize*enemyEntity.remainingHP/enemy.health, 0.64f);
-        float leftShift = (enemyOriginalSize-enemyHealthBar.size.x)*.25f ;
+        float leftShift = (enemyOriginalSize-enemyHealthBar.size.x)*enemyOriginalSize/40;
         enemyHealthBar.transform.position = new Vector3(enemyHealthBarLoc.x-leftShift,enemyHealthBarLoc.y,enemyHealthBarLoc.z);
     
         if(enemyEntity.remainingHP <= 0) {
@@ -93,7 +93,7 @@ public class BattleManager : MonoBehaviour
 
         playerEntity.remainingHP -= manager.returnDamage();
         healthBar.size = new Vector2(originalSize*playerEntity.remainingHP/player.health, 0.64f);
-        float leftShift = (originalSize-healthBar.size.x)*.25f;
+        float leftShift = (originalSize-healthBar.size.x)*originalSize/40;
         healthBar.transform.position = new Vector3(playerHealthBarLoc.x-leftShift,playerHealthBarLoc.y,playerHealthBarLoc.z);
         
         if(playerEntity.remainingHP <= 0) {
