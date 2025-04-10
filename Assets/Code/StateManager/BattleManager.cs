@@ -13,6 +13,7 @@ public class BattleManager : MonoBehaviour
     Stat player, enemy;
     EncounterResolve manager;
     bool playerMove;
+    System.Func<bool> isEnemyMove;
     public Item usedItem;
     float leftBound;
     float originalSize, enemyOriginalSize;
@@ -53,17 +54,27 @@ public class BattleManager : MonoBehaviour
         } else {
             Debug.Log("ENEMY"+msg);
         }
+        isEnemyMove = () => !playerMove;
+        StartCoroutine(StalledUpdate());
     }
 
     void Update()
     {
-        if(!playerMove) {
-            enemyAttack();
-            playerMove = true;
-        }
+        isEnemyMove = () => !playerMove;
     }
 
-    IEnumerator PlayerAttack() {
+
+    IEnumerator StalledUpdate() {
+        yield return new WaitUntil(isEnemyMove);
+        yield return new WaitForSeconds(1);
+        enemyAttack();
+        playerMove = true;
+        StartCoroutine(StalledUpdate());
+    }
+
+
+
+    public void playerAttack() {
         GameObject instance = Instantiate(fireball, playerEntity.transform.position,Quaternion.identity);
         manager.setAttacker(playerEntity);
         manager.setDefender(enemyEntity);
@@ -85,17 +96,12 @@ public class BattleManager : MonoBehaviour
             SceneManager.LoadScene("Scenes/DungeonMap");
         }
    
-        yield return new WaitForSeconds(1f);
         playerMove = false;
-
-        
     }
 
-    public void playerAttack() {
-        StartCoroutine(PlayerAttack());
-    }
 
-    IEnumerator EnemyAttack() {
+
+    public void enemyAttack() {
         manager.setAttacker(enemyEntity);
         manager.setDefender(playerEntity);
 
@@ -108,11 +114,6 @@ public class BattleManager : MonoBehaviour
             Debug.Log("Player has lost the battle");
             SceneManager.LoadScene("Scenes/DungeonMap");
         }
-        yield return new WaitForSeconds(1f);
-    }
-
-    public void enemyAttack() {
-        StartCoroutine(EnemyAttack());
     }
 
     public void playerRun() {
@@ -134,6 +135,9 @@ public class BattleManager : MonoBehaviour
         if (playerEntity.remainingHP > player.health) {
             playerEntity.remainingHP = player.health;
         }
+        healthBar.size = new Vector2(originalSize*playerEntity.remainingHP/player.health, 0.64f);
+        float leftShift = (originalSize-healthBar.size.x)*originalSize/40;
+        healthBar.transform.position = new Vector3(playerHealthBarLoc.x-leftShift,playerHealthBarLoc.y,playerHealthBarLoc.z);
         playerMove = false;
     }
     
