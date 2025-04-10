@@ -1259,6 +1259,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3767264168337556274, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 1182f65f04ea8da41ae9958bf08dee04, type: 2}
     - target: {fileID: -8679921383154817045, guid: 4a0084f698ab6de46aff418f7a5a5730, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -1321,16 +1325,12 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 1182f65f04ea8da41ae9958bf08dee04, type: 2}
     - target: {fileID: 919132149155446097, guid: 4a0084f698ab6de46aff418f7a5a5730, type: 3}
       propertyPath: m_Name
-      value: character
+      value: EnemyCharacter
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 4a0084f698ab6de46aff418f7a5a5730, type: 3}
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
-    - target: {fileID: 3767264168337556274, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 1182f65f04ea8da41ae9958bf08dee04, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -1653,7 +1653,7 @@ MonoBehaviour:
     health: 100
     attack: 10
     defense: 10
-    speed: 11
+    speed: 9
     magic: 5
   equippedGear:
   - {fileID: 11400000, guid: e3aedde71f29bbc40896439a6b511ae7, type: 2}
@@ -2342,10 +2342,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3767264168337556274, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: edc35a55e889186449377107d7593e54, type: 2}
     - target: {fileID: -8496098600899121676, guid: ea8154cc12d76c944b6820b5a270b156, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -2412,13 +2408,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5551276656269014274, guid: ea8154cc12d76c944b6820b5a270b156, type: 3}
       propertyPath: m_Name
-      value: UnanimatedCharacter
+      value: PlayerCharacter
       objectReference: {fileID: 0}
     - target: {fileID: 5551276656269014274, guid: ea8154cc12d76c944b6820b5a270b156, type: 3}
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 3767264168337556274, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: edc35a55e889186449377107d7593e54, type: 2}
+    m_RemovedComponents:
+    - {fileID: -8496098600899121676, guid: ea8154cc12d76c944b6820b5a270b156, type: 3}
+    - {fileID: -4150352846665392391, guid: ea8154cc12d76c944b6820b5a270b156, type: 3}
     m_RemovedGameObjects:
     - {fileID: 6238676341749248393, guid: ea8154cc12d76c944b6820b5a270b156, type: 3}
     m_AddedGameObjects:

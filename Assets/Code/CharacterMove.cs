@@ -3,8 +3,7 @@ using System.Collections;
 
 public class CharacterMove : MonoBehaviour
 {
-
-    public float moveSpeed = 10.0f;
+    public float moveSpeed;
     public float jumpSpeed = 6.0f;
     public float gravity = 9.8f;
 
@@ -16,6 +15,7 @@ public class CharacterMove : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        moveSpeed = (float)PlayerManager.player.entity().stats.speed;
     }
 
     // Update is called once per frame

@@ -23,6 +23,10 @@ public class BattleManager : MonoBehaviour
     public SpriteRenderer healthBar, enemyHealthBar;
 
     float playerHealth, enemyHealth;
+
+    // Tracks escape attempts for Run option
+    float escapeAttempts;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -44,6 +48,8 @@ public class BattleManager : MonoBehaviour
         
         playerHealthBarLoc = healthBar.transform.position;
         enemyHealthBarLoc = enemyHealthBar.transform.position;
+
+        escapeAttempts = 0;
 
         manager = new EncounterResolve(playerEntity, enemyEntity, usedItem );
 
@@ -121,10 +127,24 @@ public class BattleManager : MonoBehaviour
 
     public void playerRun() {
         if(playerMove){
-            playerMove = false;
             if(player.speed > enemy.speed) {
                 Debug.Log("Player has fled the encounter");
                 SceneManager.LoadScene("Scenes/DungeonMap");
+            }
+            else {
+                escapeAttempts += 1;
+                float escapeChance = Mathf.Floor((player.speed * 32) / (enemy.speed / 4)) + 30.0f * escapeAttempts;
+                float rand = UnityEngine.Random.Range(0.0f, 255.0f);
+                if (rand < escapeChance) 
+                {
+                    Debug.Log("Player has fled the encounter");
+                    SceneManager.LoadScene("Scenes/DungeonMap");
+                }
+                else 
+                {
+                    Debug.Log("Enemy was too fast, player failed to flee the encounter");
+                    playerMove = false;
+                }
             }
         }
     }
