@@ -41,14 +41,19 @@ public class InputSequenceManager : MonoBehaviour
 
     void Start()
     {
-        // Instantiate each key
         up = Keyboard.current[upKey];
         left = Keyboard.current[leftKey];
         down = Keyboard.current[downKey];
         right = Keyboard.current[rightKey];
+    }
 
-        // Starts the Coroutine for the minigame
-        StartCoroutine(StartMinigame());
+    public IEnumerator runMinigame() {
+        Debug.Log("RUNNING MINIGAME");
+        up = Keyboard.current[upKey];
+        left = Keyboard.current[leftKey];
+        down = Keyboard.current[downKey];
+        right = Keyboard.current[rightKey];
+        yield return StartCoroutine(StartMinigame());
     }
 
     IEnumerator StartMinigame()
@@ -86,7 +91,7 @@ public class InputSequenceManager : MonoBehaviour
             yield return null; // Wait until next frame
         }
 
-        Debug.Log("Time's Up! Restarting...");        
+        Debug.Log("Time's Up! Stopping...");        
         isMinigameSuccessful = false;
         Destroy(arrowMinigamePanel);
         yield return null;
@@ -104,6 +109,7 @@ public class InputSequenceManager : MonoBehaviour
             // Adds random button sequence to requiredSequence
             requiredSequence.Add(possibleKeys[Random.Range(0, possibleKeys.Length)]);
         }
+
     }
 
     // Creates arrow key images to be displayed
@@ -143,7 +149,7 @@ public class InputSequenceManager : MonoBehaviour
     }
 
     bool CheckInput()
-    {
+    {   
         if (requiredSequence[currentStep].wasPressedThisFrame)
         {
             arrowSlots[currentStep].color = Color.green;

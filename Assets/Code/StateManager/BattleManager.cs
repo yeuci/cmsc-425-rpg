@@ -8,6 +8,7 @@ using UnityEngine.UIElements;
 public class BattleManager : MonoBehaviour
 {
     public GameObject fireball; //Remove after. This is just to test
+    public OpenArrowMinigame minigame;
     Entity playerEntity, enemyEntity;
     GameObject playerObject, enemyObject;
     Stat player, enemy;
@@ -28,7 +29,7 @@ public class BattleManager : MonoBehaviour
         playerObject = GameObject.FindGameObjectWithTag("Player");
         enemyObject = GameObject.FindGameObjectWithTag("Enemy");
 
-        playerEntity = PlayerManager.player.entity();
+        playerEntity = playerObject.GetComponent<Entity>();
         enemyEntity = enemyObject.GetComponent<Entity>();
         //So far, I gain access to the GameObjects and their Entity components. I now need to work with them.
 
@@ -76,7 +77,7 @@ public class BattleManager : MonoBehaviour
 
     public void playerAttack() {
         if(playerMove) {
-            GameObject instance = Instantiate(fireball, playerObject.transform.position,Quaternion.identity);
+            GameObject instance = Instantiate(fireball, playerEntity.transform.position,Quaternion.identity);
             manager.setAttacker(playerEntity);
             manager.setDefender(enemyEntity);
 
@@ -89,10 +90,10 @@ public class BattleManager : MonoBehaviour
             if(enemyEntity.remainingHP <= 0) {
                 float enemyXP = enemyEntity.calculateXPValue();
                 Debug.Log("Enemy is defeated. Player gains " + enemyXP + " XP!");
-                playerEntity.stats.experience += enemyXP;
+                player.experience += enemyXP;
 
                 playerEntity.recalculateLvl();
-                Debug.Log("Player is Lvl " + playerEntity.stats.level + "! Progress: " + playerEntity.stats.experience + "/"+playerEntity.stats.expToNext);
+                Debug.Log("Player is Lvl " + player.level + "! Progress: " + player.experience + "/"+player.expToNext);
 
                 SceneManager.LoadScene("Scenes/DungeonMap");
             }
@@ -129,10 +130,25 @@ public class BattleManager : MonoBehaviour
     }
 
     public void playerCast() {
-        if(playerMove) {
+        if (playerMove) {
             Debug.Log("Magic Clicked");
-            playerMove = false;
+            StartCoroutine(HandlePlayerCast());
         }
+    }
+
+     // Coroutine so it waits for minigame to finish before moving on
+    private IEnumerator HandlePlayerCast() {
+        // Wait for the minigame to finish
+        yield return minigame.StartMinigame();
+
+        // Check the result of the minigame
+        bool success = minigame.isMinigameSuccessful;
+        Debug.Log("Minigame success: " + success);
+
+        // Proceed with the rest of the logic
+        playerMove = false;
+
+        Debug.Log("FINISHED");
     }
 
     public void playerPotion(){
@@ -147,4 +163,6 @@ public class BattleManager : MonoBehaviour
             playerMove = false;
         }
     }
+    
+    
 }
