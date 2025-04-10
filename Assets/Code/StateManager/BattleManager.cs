@@ -75,28 +75,30 @@ public class BattleManager : MonoBehaviour
 
 
     public void playerAttack() {
-        GameObject instance = Instantiate(fireball, playerEntity.transform.position,Quaternion.identity);
-        manager.setAttacker(playerEntity);
-        manager.setDefender(enemyEntity);
+        if(playerMove) {
+            GameObject instance = Instantiate(fireball, playerEntity.transform.position,Quaternion.identity);
+            manager.setAttacker(playerEntity);
+            manager.setDefender(enemyEntity);
 
-        enemyEntity.remainingHP -= manager.returnDamage();
+            enemyEntity.remainingHP -= manager.returnDamage();
 
-        enemyHealthBar.size = new Vector2(enemyOriginalSize*enemyEntity.remainingHP/enemy.health, 0.64f);
-        float leftShift = (enemyOriginalSize-enemyHealthBar.size.x)*enemyOriginalSize/40;
-        enemyHealthBar.transform.position = new Vector3(enemyHealthBarLoc.x-leftShift,enemyHealthBarLoc.y,enemyHealthBarLoc.z);
+            enemyHealthBar.size = new Vector2(enemyOriginalSize*enemyEntity.remainingHP/enemy.health, 0.64f);
+            float leftShift = (enemyOriginalSize-enemyHealthBar.size.x)*enemyOriginalSize/40;
+            enemyHealthBar.transform.position = new Vector3(enemyHealthBarLoc.x-leftShift,enemyHealthBarLoc.y,enemyHealthBarLoc.z);
+        
+            if(enemyEntity.remainingHP <= 0) {
+                float enemyXP = enemyEntity.calculateXPValue();
+                Debug.Log("Enemy is defeated. Player gains " + enemyXP + " XP!");
+                player.experience += enemyXP;
+
+                playerEntity.recalculateLvl();
+                Debug.Log("Player is Lvl " + player.level + "! Progress: " + player.experience + "/"+player.expToNext);
+
+                SceneManager.LoadScene("Scenes/DungeonMap");
+            }
     
-        if(enemyEntity.remainingHP <= 0) {
-            float enemyXP = enemyEntity.calculateXPValue();
-            Debug.Log("Enemy is defeated. Player gains " + enemyXP + " XP!");
-            player.experience += enemyXP;
-
-            playerEntity.recalculateLvl();
-            Debug.Log("Player is Lvl " + player.level + "! Progress: " + player.experience + "/"+player.expToNext);
-
-            SceneManager.LoadScene("Scenes/DungeonMap");
+            playerMove = false;
         }
-   
-        playerMove = false;
     }
 
 
@@ -117,28 +119,33 @@ public class BattleManager : MonoBehaviour
     }
 
     public void playerRun() {
-        playerMove = false;
-        if(player.speed > enemy.speed) {
-            Debug.Log("Player has fled the encounter");
-            SceneManager.LoadScene("Scenes/DungeonMap");
+        if(playerMove){
+            playerMove = false;
+            if(player.speed > enemy.speed) {
+                Debug.Log("Player has fled the encounter");
+                SceneManager.LoadScene("Scenes/DungeonMap");
+            }
         }
     }
 
     public void playerCast() {
-        Debug.Log("Magic Clicked");
-        playerMove = false;
+        if(playerMove) {
+            Debug.Log("Magic Clicked");
+            playerMove = false;
+        }
     }
 
     public void playerPotion(){
-        Debug.Log("Player drank a potion");
-        playerEntity.remainingHP += 10;
-        if (playerEntity.remainingHP > player.health) {
-            playerEntity.remainingHP = player.health;
+        if(playerMove) {
+            playerEntity.remainingHP += 10;
+            if (playerEntity.remainingHP > player.health) {
+                playerEntity.remainingHP = player.health;
+            }
+            healthBar.size = new Vector2(originalSize*playerEntity.remainingHP/player.health, 0.64f);
+            float leftShift = (originalSize-healthBar.size.x)*originalSize/40;
+            healthBar.transform.position = new Vector3(playerHealthBarLoc.x-leftShift,playerHealthBarLoc.y,playerHealthBarLoc.z);
+            playerMove = false;
         }
-        healthBar.size = new Vector2(originalSize*playerEntity.remainingHP/player.health, 0.64f);
-        float leftShift = (originalSize-healthBar.size.x)*originalSize/40;
-        healthBar.transform.position = new Vector3(playerHealthBarLoc.x-leftShift,playerHealthBarLoc.y,playerHealthBarLoc.z);
-        playerMove = false;
     }
     
     
