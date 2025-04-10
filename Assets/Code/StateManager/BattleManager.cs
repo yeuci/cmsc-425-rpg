@@ -28,7 +28,7 @@ public class BattleManager : MonoBehaviour
         playerObject = GameObject.FindGameObjectWithTag("Player");
         enemyObject = GameObject.FindGameObjectWithTag("Enemy");
 
-        playerEntity = playerObject.GetComponent<Entity>();
+        playerEntity = PlayerManager.player.entity();
         enemyEntity = enemyObject.GetComponent<Entity>();
         //So far, I gain access to the GameObjects and their Entity components. I now need to work with them.
 
@@ -76,7 +76,7 @@ public class BattleManager : MonoBehaviour
 
     public void playerAttack() {
         if(playerMove) {
-            GameObject instance = Instantiate(fireball, playerEntity.transform.position,Quaternion.identity);
+            GameObject instance = Instantiate(fireball, playerObject.transform.position,Quaternion.identity);
             manager.setAttacker(playerEntity);
             manager.setDefender(enemyEntity);
 
@@ -89,10 +89,10 @@ public class BattleManager : MonoBehaviour
             if(enemyEntity.remainingHP <= 0) {
                 float enemyXP = enemyEntity.calculateXPValue();
                 Debug.Log("Enemy is defeated. Player gains " + enemyXP + " XP!");
-                player.experience += enemyXP;
+                playerEntity.stats.experience += enemyXP;
 
                 playerEntity.recalculateLvl();
-                Debug.Log("Player is Lvl " + player.level + "! Progress: " + player.experience + "/"+player.expToNext);
+                Debug.Log("Player is Lvl " + playerEntity.stats.level + "! Progress: " + playerEntity.stats.experience + "/"+playerEntity.stats.expToNext);
 
                 SceneManager.LoadScene("Scenes/DungeonMap");
             }
@@ -147,6 +147,4 @@ public class BattleManager : MonoBehaviour
             playerMove = false;
         }
     }
-    
-    
 }

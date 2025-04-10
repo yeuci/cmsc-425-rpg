@@ -21,6 +21,7 @@ public class Entity : MonoBehaviour
     bool isAlive = true;
 
     void Start() {
+        equippedGear = new Item[0];
         remainingHP = stats.health;
     }
 
@@ -39,6 +40,7 @@ public class Entity : MonoBehaviour
             stats.experience -= stats.expToNext;
             stats.expToNext *= 2;
             recalculateLvl();
+            scaleStats(ScalingMethod.PLAYER_LEVEL);
         } else {
             return;
         }
