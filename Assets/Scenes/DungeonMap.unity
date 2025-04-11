@@ -20427,7 +20427,7 @@ MonoBehaviour:
     health: 100
     attack: 10
     defense: 10
-    speed: 30
+    speed: 11
     magic: 5
   equippedGear:
   - {fileID: 11400000, guid: 25c29a11422fd214c986a7afa9ea0f42, type: 2}

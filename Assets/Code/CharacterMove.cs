@@ -3,6 +3,9 @@ using System.Collections;
 
 public class CharacterMove : MonoBehaviour
 {
+    GameObject playerObject;
+    Entity playerEntity;
+    Stat player;
     public float moveSpeed;
     public float jumpSpeed = 6.0f;
     public float gravity = 9.8f;
@@ -15,7 +18,10 @@ public class CharacterMove : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        moveSpeed = PlayerManager.player.entity().stats.speed;
+        playerObject = GameObject.FindGameObjectWithTag("Player");
+        playerEntity = playerObject.GetComponent<Entity>();
+        player = playerEntity.getAdjustedStats();
+        moveSpeed = player.speed;
     }
 
     // Update is called once per frame
