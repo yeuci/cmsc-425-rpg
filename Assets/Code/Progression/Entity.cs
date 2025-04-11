@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Linq.Expressions;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ public class Entity : MonoBehaviour
 {
     [SerializeField] public Stat stats;
     [SerializeField] public Item[] equippedGear;
+    [SerializeField] public ArrayList inventory;
     [SerializeField] public Class eClass;
 
     // Remaining HP of entity

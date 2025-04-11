@@ -34,4 +34,21 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         transform.SetParent(parentAfterDrag, false); 
         transform.position = parentAfterDrag.position;
     }
+
+    void Start() {
+        gameObject.AddComponent<SphereCollider>();
+            SphereCollider pickupBox = gameObject.GetComponent<SphereCollider>();
+            pickupBox.radius = 3f;
+            pickupBox.isTrigger = true;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Player") {
+            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+            Entity player = playerObject.GetComponent<Entity>();
+            player.equippedGear[0] = item;
+            Destroy(gameObject);
+        }
+    }
 }
