@@ -15,7 +15,7 @@ public class CharacterMove : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        moveSpeed = (float)PlayerManager.player.entity().stats.speed;
+        moveSpeed = PlayerManager.player.entity().stats.speed;
     }
 
     // Update is called once per frame

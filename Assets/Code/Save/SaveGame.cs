@@ -25,8 +25,7 @@ public class SaveGame : MonoBehaviour
             Save();
         }
     }
-
-    void Save()
+        void Save()
     {
         if (player == null)
         {
@@ -34,18 +33,39 @@ public class SaveGame : MonoBehaviour
             return;
         }
 
-        int saveID = Random.Range(10000, 99999);
+        Entity playerEntity = player.GetComponent<Entity>();
+        if (playerEntity == null)
+        {
+            Debug.LogWarning("Player Entity component not found!");
+            return;
+        }
 
+        Stat playerStats = playerEntity.stats;
+        if (playerStats == null)
+        {
+            Debug.LogWarning("Player Stats not found in Entity component!");
+            return;
+        }
+
+        int saveID = Random.Range(10000, 99999);
         Vector3 pos = player.position;
         Vector3 rot = player.eulerAngles;
 
-        string data = $"Save ID: {saveID}\nPosition: {pos.x}, {pos.y}, {pos.z}\nRotation: {rot.x}, {rot.y}, {rot.z}";
+        string data = $"Save ID: {saveID}\n" +
+                    $"Position: {pos.x}, {pos.y}, {pos.z}\n" +
+                    $"Rotation: {rot.x}, {rot.y}, {rot.z}\n" +
+                    $"Level: {playerStats.level}\n" +
+                    $"Experience: {playerStats.experience}\n" +
+                    $"Health: {playerStats.health}\n" +
+                    $"Attack: {playerStats.attack}\n" +
+                    $"Defense: {playerStats.defense}\n" +
+                    $"Speed: {playerStats.speed}\n" +
+                    $"Magic: {playerStats.magic}\n" +
+                    $"ExpToNext: {playerStats.expToNext}";
 
         string fileName = $"savegame_{saveID}.txt";
         string fullPath = Path.Combine(savePath, fileName);
-
         File.WriteAllText(fullPath, data);
-
         Debug.Log($"Game saved to: {fullPath}");
     }
 }
