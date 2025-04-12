@@ -84,7 +84,7 @@ public class InputSequenceManager : MonoBehaviour
                 yield return new WaitForSeconds(1);
                 isMinigameSuccessful = false;
                 Destroy(arrowMinigamePanel);
-                yield return null;
+                yield break;
             }
             timer -= Time.deltaTime; // Decrease time
             timerText.text = "Time: " + Mathf.Ceil(timer).ToString();
@@ -94,7 +94,7 @@ public class InputSequenceManager : MonoBehaviour
         Debug.Log("Time's Up! Stopping...");        
         isMinigameSuccessful = false;
         Destroy(arrowMinigamePanel);
-        yield return null;
+        yield break;
     }
 
     // Generates a random button sequence
