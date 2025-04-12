@@ -143,12 +143,12 @@ public class BattleManager : MonoBehaviour
 
         // Check the result of the minigame
         bool success = minigame.isMinigameSuccessful;
+
+        Debug.Log("Success Value: ");
         Debug.Log("Minigame success: " + success);
 
         // Proceed with the rest of the logic
         playerMove = false;
-
-        Debug.Log("FINISHED");
     }
 
     public void playerPotion(){
