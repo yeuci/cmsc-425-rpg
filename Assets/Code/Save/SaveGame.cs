@@ -25,7 +25,7 @@ public class SaveGame : MonoBehaviour
             Save();
         }
     }
-        void Save()
+        public void Save()
     {
         if (player == null)
         {
