@@ -19,6 +19,20 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         RefreshCount();
     }
 
+    void Start() {
+        SphereCollider pickup = gameObject.AddComponent<SphereCollider>();
+        pickup.radius = 3f;
+        pickup.isTrigger = true;
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Player") {
+            //Add logic to add the item to the inventory here. Ask whoever worked on InventoryManager
+            Destroy(gameObject);
+        }
+    }
+
     public void RefreshCount() {
         countText.text = count.ToString();
         bool textVisible = count > 1;
