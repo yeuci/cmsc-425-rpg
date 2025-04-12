@@ -22,11 +22,25 @@ public class ButtonFX : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
         {
             clickAudioSource.Play();
         }
+    }
 
+    public void NewGame() {
         if (!string.IsNullOrEmpty(gameScene))
         {
             Invoke(nameof(LoadGameScene), 0.2f);
         }
+    }
+
+    public void Settings() {
+        Debug.Log("Settings button clicked.");
+    }
+
+    public void QuitGame() {
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
     }
 
     private void LoadGameScene()
