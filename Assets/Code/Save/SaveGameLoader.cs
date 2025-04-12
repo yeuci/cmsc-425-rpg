@@ -6,7 +6,7 @@ using System.Collections;
 
 public class SaveGameLoader : MonoBehaviour
 {
-    public string folderName = "CMSC425_SaveGames";
+    private string folderName = "CMSC425_SaveGames";
     private string savePath;
 
     private void Awake()
