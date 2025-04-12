@@ -1,21 +1,28 @@
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using NUnit.Framework.Internal;
 
 public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-
-
     [Header("UI")]
     public Image image;
+    public Text countText;
 
-    public Item item;
+    [HideInInspector] public Item item;
+    [HideInInspector] public int count = 1;
     [HideInInspector] public Transform parentAfterDrag;
-
 
     public void InitializeItem(Item newItem) {
         item = newItem;
         image.sprite = newItem.image;
+        RefreshCount();
+    }
+
+    public void RefreshCount() {
+        countText.text = count.ToString();
+        bool textVisible = count > 1;
+        countText.gameObject.SetActive(textVisible);
     }
 
     public void OnBeginDrag(PointerEventData eventData) {
@@ -33,22 +40,5 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         image.raycastTarget = true; 
         transform.SetParent(parentAfterDrag, false); 
         transform.position = parentAfterDrag.position;
-    }
-
-    void Start() {
-        gameObject.AddComponent<SphereCollider>();
-            SphereCollider pickupBox = gameObject.GetComponent<SphereCollider>();
-            pickupBox.radius = 3f;
-            pickupBox.isTrigger = true;
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if(other.tag == "Player") {
-            GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
-            Entity player = playerObject.GetComponent<Entity>();
-            player.equippedGear[0] = item;
-            Destroy(gameObject);
-        }
     }
 }

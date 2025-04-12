@@ -98,8 +98,9 @@ public class Item : ScriptableObject {
     public int magicPower;
 
     [Header("UI")]
-    public Sprite image;
     public bool stackable = true;
+    public Sprite image;
     public int maxStack;
+    public bool consumable;
     public Vector2Int range = new Vector2Int(0, 6);
 }
