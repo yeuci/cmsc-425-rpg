@@ -8,8 +8,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [Header("UI")]
     public Image image;
     public Text countText;
-
-    [HideInInspector] public Item item;
+    public Item item;
     [HideInInspector] public int count = 1;
     [HideInInspector] public Transform parentAfterDrag;
 
@@ -28,7 +27,9 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Player") {
-            //Add logic to add the item to the inventory here. Ask whoever worked on InventoryManager
+            //Add logic to add the item to the inventory here.
+                //Step 1: Find first open inventory slot
+                //Step 2: Add the item to that inventory slot
             Destroy(gameObject);
         }
     }
