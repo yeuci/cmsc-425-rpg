@@ -465,7 +465,6 @@ GameObject:
   - component: {fileID: 516717201}
   - component: {fileID: 516717200}
   - component: {fileID: 516717199}
-  - component: {fileID: 516717202}
   m_Layer: 5
   m_Name: Magic
   m_TagString: Untagged
@@ -537,18 +536,6 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 516717202}
-        m_TargetAssemblyTypeName: OpenArrowMinigame, Assembly-CSharp
-        m_MethodName: StartMinigame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 2069830879}
         m_TargetAssemblyTypeName: BattleManager, Assembly-CSharp
         m_MethodName: playerCast
@@ -599,22 +586,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 516717197}
   m_CullTransparentMesh: 1
---- !u!114 &516717202
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 516717197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1ebe5ef7360a4bb4bae57b1a11a28efd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minigamePrefab: {fileID: 6487977543823871858, guid: 35ac53038e18a1b48b3d6d65e337d27a, type: 3}
-  canvas: {fileID: 1272351636}
-  sequenceLength: 10
-  timeLimit: 5
 --- !u!1 &790305839
 GameObject:
   m_ObjectHideFlags: 0
@@ -1259,10 +1230,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3767264168337556274, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 1182f65f04ea8da41ae9958bf08dee04, type: 2}
     - target: {fileID: -8679921383154817045, guid: 4a0084f698ab6de46aff418f7a5a5730, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.5
@@ -1331,6 +1298,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
+    - target: {fileID: 3767264168337556274, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 1182f65f04ea8da41ae9958bf08dee04, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -2296,6 +2267,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2069830878}
   - component: {fileID: 2069830879}
+  - component: {fileID: 2069830880}
   m_Layer: 0
   m_Name: BattleManager
   m_TagString: Untagged
@@ -2331,9 +2303,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireball: {fileID: 8704502419844733050, guid: cff34c82fdf898640b4951621857a456, type: 3}
+  minigame: {fileID: 2069830880}
   usedItem: {fileID: 11400000, guid: 25c29a11422fd214c986a7afa9ea0f42, type: 2}
   healthBar: {fileID: 1413191543}
   enemyHealthBar: {fileID: 58601571}
+--- !u!114 &2069830880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069830876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ebe5ef7360a4bb4bae57b1a11a28efd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minigamePrefab: {fileID: 6487977543823871858, guid: 35ac53038e18a1b48b3d6d65e337d27a, type: 3}
+  canvas: {fileID: 1272351636}
+  sequenceLength: 10
+  timeLimit: 5
+  isMinigameSuccessful: 0
 --- !u!1001 &1073880415581209522
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2342,6 +2332,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3767264168337556274, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: edc35a55e889186449377107d7593e54, type: 2}
     - target: {fileID: -8496098600899121676, guid: ea8154cc12d76c944b6820b5a270b156, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -2414,10 +2408,6 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 3767264168337556274, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: edc35a55e889186449377107d7593e54, type: 2}
     m_RemovedComponents:
     - {fileID: -8496098600899121676, guid: ea8154cc12d76c944b6820b5a270b156, type: 3}
     - {fileID: -4150352846665392391, guid: ea8154cc12d76c944b6820b5a270b156, type: 3}
