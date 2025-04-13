@@ -15,18 +15,17 @@ public class Skillcheck : MonoBehaviour
     private bool isRotating = true;
     public bool isMinigameSuccessful;
 
-    public void Start()
-    {
-        StartCoroutine(CheckSkillcheck());
-    }
-
     public IEnumerator CheckSkillcheck() {
+        float angle = Random.Range(20, 170);
+
+        successZone.eulerAngles = new Vector3(0, 0, angle);
+        Debug.Log("STARTING");
         yield return new WaitForSeconds(1);
 
         float totalRotation = 0;
         isRotating = true;
 
-        float successZoneStartAngle = 360f - successZone.eulerAngles.z; // Starting angle of the success zone
+        float successZoneStartAngle = 360f - angle; // Starting angle of the success zone
         float successZoneFillAngle = 360f * 0.05f; 
         float successZoneEndAngle = (successZoneStartAngle + successZoneFillAngle) % 360f;
 

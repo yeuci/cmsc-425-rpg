@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 public class BattleManager : MonoBehaviour
 {
     public GameObject fireball; //Remove after. This is just to test
-    public OpenArrowMinigame minigame;
+    public OpenMinigame minigame;
     Entity playerEntity, enemyEntity;
     GameObject playerObject, enemyObject;
     Stat player, enemy;

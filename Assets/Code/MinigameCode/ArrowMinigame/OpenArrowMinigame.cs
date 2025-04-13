@@ -3,28 +3,14 @@ using UnityEngine;
 using System.Collections;
 
 
-public class OpenArrowMinigame : MonoBehaviour
+public class OpenArrowMinigame : OpenMinigame
 {
-
-    // Takes in the Prefab of the minigame
-    public GameObject minigamePrefab; 
-    // The Canvas where the minigame will show up
-    public Canvas canvas;
     public int sequenceLength;
     public int timeLimit;
-    public bool isMinigameSuccessful;
-
-    // Current instance of the minigame
-    private GameObject currentMinigameInstance = null;
     // Allows us to modify the public fields of the minigame
     private InputSequenceManager inputSequenceManager = null;
 
-    void Start()
-    {
-        
-    }
-
-    public IEnumerator StartMinigame() {
+    public override IEnumerator StartMinigame() {
         // Instantiates the minigame if there is not one running
         if (minigamePrefab != null && currentMinigameInstance == null) {
 
