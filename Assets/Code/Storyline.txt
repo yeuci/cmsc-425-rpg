@@ -1,0 +1,20 @@
+Storyline 1 (Icewind Dale Ripoff): It is the middle of winter, and food supplies are running low in your hometown.
+    The cold has frozen the lake, preventing others from fishing. The traps are bare, and
+    animals are scarce. The capital is sending a caravan of food, but it was scheduled to
+    arrive days ago, and you have been sent out to find it.
+
+    You found the wagons abandoned and looted. No horses are attached, and the crates have
+    been removed. Luckily, the heavy snow left footprints for you to follow, and you tracked
+    the culprits back to their cave. You enter the mouth of the cave, ready to reclaim the 
+    food for your home.
+__________________________________________________________________________________________________________________
+Storyline 2: The world is teetering on the brink. From the far North, an army of orcs is on the march, destroying
+    every city in their path. You have weeks, maybe days before the orc army arrives at your small village. Local
+    legends talk of a tomb where an ancient hero was buried, a hero who had defended your village once before. He
+    was said to carry a magical amulet (chosen due to ambiguity for character class) that gave him the power to
+    face an army.
+
+    The location of this tomb is well known, and many have tried to claim this amulet, but none have returned. Out 
+    of desperation, you have made the trek to the tomb and entered. The door closes behind you and locks. You must
+    claim the amulet, or die in the process.
+__________________________________________________________________________________________________________________

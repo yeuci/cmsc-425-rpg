@@ -13,6 +13,10 @@ public class InventoryManager : MonoBehaviour
 
     int selectedSlot = -1;
 
+    [SerializeField] GameObject swordPrefab;
+    [SerializeField] GameObject runeSwordPrefab;
+    public bool equipped = false;
+
     private void Start() {
         inventoryGroup.SetActive(false);
         ChangeSelectedSlot(0);
@@ -32,11 +36,13 @@ public class InventoryManager : MonoBehaviour
 
     private void Update()
     {
+        // OPEN INVENTORY
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             inventoryGroup.SetActive(!inventoryGroup.activeSelf);
         }
 
+        // TEST SUITE
         if (Input.GetKeyDown(KeyCode.O))
         {
             PickupItem();
@@ -52,29 +58,89 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
+        // HOTBAR SWITCHING
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             ChangeSelectedSlot(0);
+            RemoveAllChildrenFromTorso();
         } else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             ChangeSelectedSlot(1);
+            RemoveAllChildrenFromTorso();
+
         } else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             ChangeSelectedSlot(2);
+            RemoveAllChildrenFromTorso();
+
         } else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             ChangeSelectedSlot(3);
+            RemoveAllChildrenFromTorso();
+
         } else if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             ChangeSelectedSlot(4);
+            RemoveAllChildrenFromTorso();
+
         } else if (Input.GetKeyDown(KeyCode.Alpha6))
         {
             ChangeSelectedSlot(5);
+            RemoveAllChildrenFromTorso();
+
         } else if (Input.GetKeyDown(KeyCode.Alpha7))
         {
             ChangeSelectedSlot(6);
+            RemoveAllChildrenFromTorso();
+
+        }
+
+        // SHOW WEAPON ON CHARACTER IF ITS CURRENTLY SELECTED
+        if (selectedSlot >= 0) {
+            InventorySlot slot = inventorySlots[selectedSlot];
+            InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
+
+            if (itemInSlot && itemInSlot.item.name.Contains("Sword") && !equipped) {
+                GameObject torso = GameObject.FindGameObjectWithTag("Torso");
+
+                if (torso != null) {
+                    GameObject newSword;
+                    if (itemInSlot.item.name.Contains("Rune")) {
+                        newSword = Instantiate(runeSwordPrefab, torso.transform);
+                        newSword.transform.localPosition = new Vector3(0.01076f, -0.01143f, 0.03788f);
+                        newSword.transform.localEulerAngles = new Vector3(-60f, 0f, -90f);
+                        newSword.transform.localScale = new Vector3(0.01598134f, 0.01902541f, 0.01598134f);
+                    } else {
+                        newSword = Instantiate(swordPrefab, torso.transform);
+                        newSword.transform.localPosition = new Vector3(0.0073f, 0f, 0.0143f);
+                        newSword.transform.localEulerAngles = new Vector3(-60f, 0f, -90f);
+                        newSword.transform.localScale = new Vector3(0.01598134f, 0.01902541f, 0.01598134f);
+                    }
+
+                    equipped = true;
+                    Debug.Log("Sword equipped.");
+                } else {
+                    Debug.LogWarning("No torso found in the scene..... for some reason...");
+                }
+            }
+        }
+
+    }
+
+    public void RemoveAllChildrenFromTorso() {
+        GameObject torso = GameObject.FindGameObjectWithTag("Torso");
+        equipped = false;
+
+        if (torso != null) {
+            foreach (Transform child in torso.transform) {
+                Destroy(child.gameObject);
+            }
+            Debug.Log("All children removed from Torso.");
+        } else {
+            Debug.LogWarning("No torso found in the scene..... for some reason...");
         }
     }
+
 
     public bool AddItem(Item item) {
         for (int i = 0; i < inventorySlots.Length; i++) {
