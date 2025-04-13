@@ -9,8 +9,11 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public Image image;
     public Text countText;
     public Item item;
+    // public 
     [HideInInspector] public int count = 1;
     [HideInInspector] public Transform parentAfterDrag;
+
+    public InventoryManager inventoryManager;
 
     public void InitializeItem(Item newItem) {
         item = newItem;
@@ -19,8 +22,9 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     }
 
     void Start() {
+
         SphereCollider pickup = gameObject.AddComponent<SphereCollider>();
-        pickup.radius = 3f;
+        pickup.radius = 1f;
         pickup.isTrigger = true;
     }
 
@@ -28,8 +32,8 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         if(other.tag == "Player") {
             //Add logic to add the item to the inventory here.
-                //Step 1: Find first open inventory slot
-                //Step 2: Add the item to that inventory slot
+            inventoryManager.AddItem(item);
+            Debug.Log("Item picked up: " + item.name);
             Destroy(gameObject);
         }
     }
