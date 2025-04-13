@@ -8,21 +8,25 @@ public class OptionsManager : MonoBehaviour
 
     [SerializeField] Slider volumeSlider;
     public GameObject optionsMenu;
+    public static bool isOpen = false;
 
     void Awake()
     {
-        Debug.Log("OptionsManager started.");
+        Debug.Log("OptionsManager AWAKE.");
 
         #if !UNITY_EDITOR
             Screen.fullScreen = false;
         #endif
 
         optionsMenu.SetActive(false);
+        isOpen = false;
         
         if (!PlayerPrefs.HasKey("musicVolume")) {
+            Debug.Log("No volume key found, setting default volume.");
             PlayerPrefs.SetFloat("musicVolume", 1f);
             Load();
         } else {
+            Debug.Log("Volume key found, loading volume.");
             Load();
         }
         Debug.Log("Volume is... : " + volumeSlider.value);
@@ -32,7 +36,11 @@ public class OptionsManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        optionsMenu.SetActive(true);
+        if (!isOpen) {
+            optionsMenu.SetActive(true);
+            isOpen = true;
+        }
+        Debug.Log("OptionsManager START.");
     }
 
 void Update() {
@@ -48,6 +56,7 @@ void Update() {
 
     private void Load() {
         volumeSlider.value = PlayerPrefs.GetFloat("musicVolume");
+        ChangeVolume();
     }
 
     private void Save() {
