@@ -1522,6 +1522,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1272351637}
     m_Modifications:
+    - target: {fileID: 51887687638116789, guid: f580f3604fdf5c74c90264d984daa84f, type: 3}
+      propertyPath: skillcheckPanel
+      value: 
+      objectReference: {fileID: 1335144194}
     - target: {fileID: 4356792377830501684, guid: f580f3604fdf5c74c90264d984daa84f, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1606,6 +1610,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SkillcheckMinigame
       objectReference: {fileID: 0}
+    - target: {fileID: 6487977543823871858, guid: f580f3604fdf5c74c90264d984daa84f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1614,6 +1622,11 @@ PrefabInstance:
 --- !u!224 &1335144193 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4356792377830501684, guid: f580f3604fdf5c74c90264d984daa84f, type: 3}
+  m_PrefabInstance: {fileID: 1335144192}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1335144194 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6487977543823871858, guid: f580f3604fdf5c74c90264d984daa84f, type: 3}
   m_PrefabInstance: {fileID: 1335144192}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1413191541
