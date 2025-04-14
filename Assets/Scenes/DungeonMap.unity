@@ -2229,8 +2229,8 @@ GameObject:
   - component: {fileID: 158083232}
   - component: {fileID: 158083231}
   m_Layer: 5
-  m_Name: InventoryManger
-  m_TagString: Untagged
+  m_Name: InventoryManager
+  m_TagString: InventoryManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2276,6 +2276,7 @@ MonoBehaviour:
   inventoryItemPrefab: {fileID: 7751437297567135904, guid: c4dad20bda6d284408f33a3226b23387, type: 3}
   inventoryGroup: {fileID: 1929463254}
   maxStackedItems: 4
+  selectedSlot: -1
   swordPrefab: {fileID: 258498120851308776, guid: 117f14757284fba46bb6198dc63a99d2, type: 3}
   runeSwordPrefab: {fileID: 919132149155446097, guid: 53a65d13058f1b340b586f4c507e4276, type: 3}
   equipped: 0
@@ -19984,6 +19985,8 @@ MonoBehaviour:
     speed: 10
     magic: 5
   equippedGear: []
+  equippedGearCount: 0
+  inventory: []
   eClass: 3
   remainingHP: 100
 --- !u!114 &1447707663
@@ -23220,6 +23223,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 25c29a11422fd214c986a7afa9ea0f42, type: 2}
   - {fileID: 11400000, guid: 0e76f221c2b210b4d97c8b0b917170e9, type: 2}
   - {fileID: 11400000, guid: e3aedde71f29bbc40896439a6b511ae7, type: 2}
+  equippedGearCount: 0
+  inventory: []
   eClass: 0
   remainingHP: 100
 --- !u!114 &1692649531

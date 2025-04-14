@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Linq.Expressions;
 using UnityEngine;
+using System.Collections.Generic;
 
 public enum ScalingMethod {
         PLAYER_LEVEL,
@@ -13,7 +14,10 @@ public class Entity : MonoBehaviour
 {
     [SerializeField] public Stat stats;
     [SerializeField] public Item[] equippedGear;
-    [SerializeField] public ArrayList inventory;
+    [SerializeField] public int equippedGearCount = 0;
+
+    // proxy for inventory
+   [SerializeField] public List<InventoryItem> inventory = new List<InventoryItem>();
     [SerializeField] public Class eClass;
 
     // Remaining HP of entity
@@ -23,7 +27,7 @@ public class Entity : MonoBehaviour
     bool isAlive = true;
 
     void Start() {
-        equippedGear = new Item[0];
+        equippedGear = new Item[25];
         remainingHP = stats.health;
     }
 
