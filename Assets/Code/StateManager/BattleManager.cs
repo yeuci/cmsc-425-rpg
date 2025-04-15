@@ -19,6 +19,7 @@ public class BattleManager : MonoBehaviour
     float leftBound;
     float originalSize, enemyOriginalSize;
     Vector3 playerHealthBarLoc, enemyHealthBarLoc;
+    bool minigameSuccess;
 
     public SpriteRenderer healthBar, enemyHealthBar;
 
@@ -67,6 +68,7 @@ public class BattleManager : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(playerMove);
         isEnemyMove = () => !playerMove;
     }
 
@@ -83,34 +85,44 @@ public class BattleManager : MonoBehaviour
 
     public void playerAttack() {
         if(playerMove) {
+            usedItem.actionType = ActionType.Attack;
             GameObject instance = Instantiate(fireball, playerEntity.transform.position,Quaternion.identity);
             manager.setAttacker(playerEntity);
             manager.setDefender(enemyEntity);
 
             enemyEntity.remainingHP -= manager.returnDamage();
 
-            enemyHealthBar.size = new Vector2(enemyOriginalSize*enemyEntity.remainingHP/enemy.health, 0.64f);
-            float leftShift = (enemyOriginalSize-enemyHealthBar.size.x)*enemyOriginalSize/40;
-            enemyHealthBar.transform.position = new Vector3(enemyHealthBarLoc.x-leftShift,enemyHealthBarLoc.y,enemyHealthBarLoc.z);
+            recalculateEnemyHealthBar();
         
-            if(enemyEntity.remainingHP <= 0) {
-                float enemyXP = enemyEntity.calculateXPValue();
-                Debug.Log("Enemy is defeated. Player gains " + enemyXP + " XP!");
-                player.experience += enemyXP;
-
-                playerEntity.recalculateLvl();
-                Debug.Log("Player is Lvl " + player.level + "! Progress: " + player.experience + "/"+player.expToNext);
-
-                SceneManager.LoadScene("Scenes/DungeonMap");
-            }
+            checkDeath();
     
             playerMove = false;
+        }
+    }
+
+    void recalculateEnemyHealthBar() {
+        enemyHealthBar.size = new Vector2(enemyOriginalSize*enemyEntity.remainingHP/enemy.health, 0.64f);
+        float leftShift = (enemyOriginalSize-enemyHealthBar.size.x)*enemyOriginalSize/40;
+        enemyHealthBar.transform.position = new Vector3(enemyHealthBarLoc.x-leftShift,enemyHealthBarLoc.y,enemyHealthBarLoc.z);
+    }
+
+    void checkDeath() {
+        if(enemyEntity.remainingHP <= 0) {
+            float enemyXP = enemyEntity.calculateXPValue();
+            Debug.Log("Enemy is defeated. Player gains " + enemyXP + " XP!");
+            player.experience += enemyXP;
+
+            playerEntity.recalculateLvl();
+            Debug.Log("Player is Lvl " + player.level + "! Progress: " + player.experience + "/"+player.expToNext);
+
+            SceneManager.LoadScene("Scenes/DungeonMap");
         }
     }
 
 
 
     public void enemyAttack() {
+        Debug.Log("ATTACKING FROM ENEMY");
         manager.setAttacker(enemyEntity);
         manager.setDefender(playerEntity);
 
@@ -151,24 +163,30 @@ public class BattleManager : MonoBehaviour
 
     public void playerCast() {
         if (playerMove) {
-            Debug.Log("Magic Clicked");
             StartCoroutine(HandlePlayerCast());
         }
     }
 
-     // Coroutine so it waits for minigame to finish before moving on
+    // Coroutine so it waits for minigame to finish before moving on
     private IEnumerator HandlePlayerCast() {
         // Wait for the minigame to finish
         yield return minigame.StartMinigame();
 
         // Check the result of the minigame
-        bool success = minigame.isMinigameSuccessful;
+        minigameSuccess = minigame.isMinigameSuccessful;
 
-        Debug.Log("Success Value: ");
-        Debug.Log("Minigame success: " + success);
+        if (minigameSuccess) {
+                usedItem.actionType = ActionType.Attack;
+                enemyEntity.remainingHP -= manager.returnDamage();
+                
+                recalculateEnemyHealthBar();
+        
+                checkDeath();
+        }
 
-        // Proceed with the rest of the logic
         playerMove = false;
+
+        yield break;
     }
 
     public void playerPotion(){
