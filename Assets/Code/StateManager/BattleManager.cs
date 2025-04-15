@@ -5,12 +5,20 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
+public enum BattleOption {
+        ATTACK = 0,
+        MAGIC = 1,
+        RUN = 2,
+        POTION = 3
+
+}
+
 public class BattleManager : MonoBehaviour
 {
+    public AnimationManager animationManager;
     public GameObject fireball; //Remove after. This is just to test
     public OpenMinigame minigame;
     Entity playerEntity, enemyEntity;
-    GameObject playerObject, enemyObject;
     Stat player, enemy;
     EncounterResolve manager;
     bool playerMove;
@@ -31,14 +39,8 @@ public class BattleManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        playerObject = GameObject.FindGameObjectWithTag("Player");
-        enemyObject = GameObject.FindGameObjectWithTag("Enemy");
-
-        playerEntity = playerObject.GetComponent<Entity>();
-        enemyEntity = enemyObject.GetComponent<Entity>();
-        //So far, I gain access to the GameObjects and their Entity components. I now need to work with them.
-
-        //MISSING: ADJUST scaleStats TO SET UP THE STATS CORRECTLY
+        playerEntity = PlayerManager.player.entity();
+        enemyEntity = this.AddComponent<Entity>();
 
         player = playerEntity.getAdjustedStats();
         enemy = enemyEntity.getAdjustedStats();
@@ -68,7 +70,7 @@ public class BattleManager : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(playerMove);
+        // Debug.Log(playerMove);
         isEnemyMove = () => !playerMove;
     }
 
@@ -86,7 +88,11 @@ public class BattleManager : MonoBehaviour
     public void playerAttack() {
         if(playerMove) {
             usedItem.actionType = ActionType.Attack;
-            GameObject instance = Instantiate(fireball, playerEntity.transform.position,Quaternion.identity);
+
+
+            animationManager.Animate(BattleOption.ATTACK);
+
+
             manager.setAttacker(playerEntity);
             manager.setDefender(enemyEntity);
 
