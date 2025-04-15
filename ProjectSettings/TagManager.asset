@@ -9,6 +9,7 @@ TagManager:
   - Torso
   - InventoryManager
   - InventoryManger
+  - TrapDynamicComponent
   layers:
   - Default
   - TransparentFX
