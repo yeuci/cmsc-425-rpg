@@ -48,7 +48,6 @@ public class InputSequenceManager : MonoBehaviour
     }
 
     public IEnumerator runMinigame() {
-        Debug.Log("RUNNING MINIGAME");
         up = Keyboard.current[upKey];
         left = Keyboard.current[leftKey];
         down = Keyboard.current[downKey];
