@@ -19,7 +19,6 @@ public class Skillcheck : MonoBehaviour
         float angle = Random.Range(20, 170);
 
         successZone.eulerAngles = new Vector3(0, 0, angle);
-        Debug.Log("STARTING");
         yield return new WaitForSeconds(1);
 
         float totalRotation = 0;
@@ -29,8 +28,6 @@ public class Skillcheck : MonoBehaviour
         float successZoneFillAngle = 360f * 0.05f; 
         float successZoneEndAngle = (successZoneStartAngle + successZoneFillAngle) % 360f;
 
-        Debug.Log($"Success Zone Start: {successZoneStartAngle}, End: {successZoneEndAngle}");
-
         while (isRotating) {
             float rotationThisFrame = -rotationSpeed * Time.deltaTime;
             needle.Rotate(0f, 0f, rotationThisFrame);
@@ -39,7 +36,6 @@ public class Skillcheck : MonoBehaviour
 
             // Check if the needle overlaps with the success zone
             if (Keyboard.current[spaceKey].wasPressedThisFrame) {
-                Debug.Log("PRESSED SPACE");
                 if (totalRotation >= successZoneStartAngle && totalRotation <= successZoneEndAngle) {
                     Debug.Log("SUCCESS: Needle is in the success zone!");
                     isMinigameSuccessful = true;
