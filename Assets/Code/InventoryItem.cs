@@ -59,5 +59,10 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         image.raycastTarget = true; 
         transform.SetParent(parentAfterDrag, false); 
         transform.position = parentAfterDrag.position;
+
+        GameObject iM = GameObject.FindGameObjectWithTag("InventoryManager");
+        InventoryManager iMEntity = iM.GetComponent<InventoryManager>();
+        
+        iMEntity.ChangeSelectedSlot(iMEntity.selectedSlot);
     }
 }

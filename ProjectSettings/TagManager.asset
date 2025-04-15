@@ -7,6 +7,9 @@ TagManager:
   - Ally
   - Enemy
   - Torso
+  - InventoryManager
+  - InventoryManger
+  - TrapDynamicComponent
   layers:
   - Default
   - TransparentFX

@@ -11,7 +11,7 @@ public class InventoryManager : MonoBehaviour
 
     public int maxStackedItems = 4;
 
-    int selectedSlot = -1;
+    [SerializeField] public int selectedSlot = -1;
 
     [SerializeField] GameObject swordPrefab;
     [SerializeField] GameObject runeSwordPrefab;
@@ -22,12 +22,13 @@ public class InventoryManager : MonoBehaviour
         ChangeSelectedSlot(0);
     }
     
-    void ChangeSelectedSlot(int newValue) {
+    public void ChangeSelectedSlot(int newValue) {
         if (selectedSlot >= 0) {
             inventorySlots[selectedSlot].Deselect();
         }
         inventorySlots[newValue].Select();
         selectedSlot = newValue;
+        RemoveAllChildrenFromTorso();
     }
 
 
@@ -62,36 +63,29 @@ public class InventoryManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             ChangeSelectedSlot(0);
-            RemoveAllChildrenFromTorso();
         } else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             ChangeSelectedSlot(1);
-            RemoveAllChildrenFromTorso();
 
         } else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             ChangeSelectedSlot(2);
-            RemoveAllChildrenFromTorso();
 
         } else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             ChangeSelectedSlot(3);
-            RemoveAllChildrenFromTorso();
 
         } else if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             ChangeSelectedSlot(4);
-            RemoveAllChildrenFromTorso();
 
         } else if (Input.GetKeyDown(KeyCode.Alpha6))
         {
             ChangeSelectedSlot(5);
-            RemoveAllChildrenFromTorso();
 
         } else if (Input.GetKeyDown(KeyCode.Alpha7))
         {
             ChangeSelectedSlot(6);
-            RemoveAllChildrenFromTorso();
 
         }
 
@@ -159,17 +153,39 @@ public class InventoryManager : MonoBehaviour
             InventorySlot slot = inventorySlots[i];
             InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
             if (itemInSlot == null) {
-                SpawnNewItem(item, slot);
+                InventoryItem spawnedItem = SpawnNewItem(item, slot);
+
+                AddItemToPlayerInventory(spawnedItem);
                 return true;
             }
         }
         return false;
     }
 
-    void SpawnNewItem(Item item, InventorySlot slot) {
+    void AddItemToPlayerInventory(InventoryItem inItem) {
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+        if (player) {
+            Entity playerEntity = player.GetComponent<Entity>();
+            if (playerEntity) {
+                Debug.Log("----- IMPORTANT -------> " + inItem.item.name);
+                playerEntity.inventory.Add(inItem);
+                playerEntity.equippedGear[playerEntity.equippedGearCount] = inItem.item;
+                playerEntity.equippedGearCount++;
+                Debug.Log("Player entity found. Adding item to inventory.");
+            } else {
+                Debug.LogWarning("No player entity found. Can't add item to inventory.");
+            }
+        } else {
+            Debug.LogWarning("No player found in the scene. Can't add item to inventory.");
+        }
+    }
+
+    InventoryItem SpawnNewItem(Item item, InventorySlot slot) {
         GameObject newItem = Instantiate(inventoryItemPrefab, slot.transform);
         InventoryItem inventoryItem = newItem.GetComponent<InventoryItem>();
         inventoryItem.InitializeItem(item);
+        return inventoryItem;
     }
 
     public void PickupItem() {
