@@ -12,8 +12,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     // public 
     [HideInInspector] public int count = 1;
     [HideInInspector] public Transform parentAfterDrag;
-
-    public InventoryManager inventoryManager;
+    [HideInInspector] public InventoryManager iMEntity;
 
     public void InitializeItem(Item newItem) {
         item = newItem;
@@ -22,19 +21,9 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     }
 
     void Start() {
-
-        SphereCollider pickup = gameObject.AddComponent<SphereCollider>();
-        pickup.radius = 1f;
-        pickup.isTrigger = true;
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        if(other.tag == "Player") {
-            //Add logic to add the item to the inventory here.
-            inventoryManager.AddItem(item);
-            Debug.Log("Item picked up: " + item.name);
-            Destroy(gameObject);
+        iMEntity = GameObject.FindGameObjectWithTag("InventoryManager")?.GetComponent<InventoryManager>();
+        if (iMEntity == null) {
+            Debug.LogWarning("No InventoryManager found in the scene. -- START");
         }
     }
 
@@ -60,9 +49,10 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         transform.SetParent(parentAfterDrag, false); 
         transform.position = parentAfterDrag.position;
 
-        GameObject iM = GameObject.FindGameObjectWithTag("InventoryManager");
-        InventoryManager iMEntity = iM.GetComponent<InventoryManager>();
-        
-        iMEntity.ChangeSelectedSlot(iMEntity.selectedSlot);
+        if (iMEntity) {
+            iMEntity.ChangeSelectedSlot(iMEntity.selectedSlot);
+        } else {
+            Debug.LogWarning("No InventoryManager found in the scene. -- ONDRAG");
+        }
     }
 }
