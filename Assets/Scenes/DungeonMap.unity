@@ -23309,7 +23309,8 @@ PrefabInstance:
       propertyPath: lightRange
       value: 10
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2770138529435600407, guid: 2e1efcd38b7ca844f97db79406ae842f, type: 3}
     m_RemovedGameObjects:
     - {fileID: 3380683134750710417, guid: 2e1efcd38b7ca844f97db79406ae842f, type: 3}
     m_AddedGameObjects: []
