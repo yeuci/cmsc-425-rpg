@@ -10,13 +10,11 @@ public class DartTrap : MonoBehaviour
         BoxCollider pressurePlate = GetComponent<BoxCollider>();
         pressurePlate.isTrigger = true;
         dartPanel = transform.parent.gameObject;
-        Debug.Log("Dart Panel: "+dartPanel);
     }
 
     void OnTriggerEnter(Collider other)
     {
         if(other.tag == "Player") {
-            Debug.Log("Player Triggered dart trap");
             Instantiate(dartModel, dartPanel.transform);
         }
     }
