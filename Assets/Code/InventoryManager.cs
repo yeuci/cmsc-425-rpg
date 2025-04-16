@@ -90,7 +90,7 @@ public class InventoryManager : MonoBehaviour
         }
 
         // SHOW WEAPON ON CHARACTER IF ITS CURRENTLY SELECTED
-        if (selectedSlot >= 0) {
+        if (selectedSlot >= 0 && selectedSlot <= 6) {
             InventorySlot slot = inventorySlots[selectedSlot];
             InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
 
@@ -99,16 +99,21 @@ public class InventoryManager : MonoBehaviour
 
                 if (torso != null) {
                     GameObject newSword;
-                    if (itemInSlot.item.name.Contains("Rune")) {
+                    if (itemInSlot.item.name.Contains("RuneSword")) {
                         newSword = Instantiate(runeSwordPrefab, torso.transform);
                         newSword.transform.localPosition = new Vector3(0.01076f, -0.01143f, 0.03788f);
                         newSword.transform.localEulerAngles = new Vector3(-60f, 0f, -90f);
                         newSword.transform.localScale = new Vector3(0.01598134f, 0.01902541f, 0.01598134f);
-                    } else {
+                        Debug.Log("Rune sword attached.");
+                    } else if (itemInSlot.item.name.Contains("BasicSword")) {
                         newSword = Instantiate(swordPrefab, torso.transform);
                         newSword.transform.localPosition = new Vector3(0.0073f, 0f, 0.0143f);
                         newSword.transform.localEulerAngles = new Vector3(-60f, 0f, -90f);
                         newSword.transform.localScale = new Vector3(0.01598134f, 0.01902541f, 0.01598134f);
+                        Debug.Log("Basic sword attached.");
+                    } else {
+                        Debug.LogWarning("What kind of sword is this???");
+                        return;
                     }
 
                     equipped = true;
@@ -118,7 +123,6 @@ public class InventoryManager : MonoBehaviour
                 }
             }
         }
-
     }
 
     public void RemoveAllChildrenFromTorso() {
