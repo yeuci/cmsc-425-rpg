@@ -129,7 +129,7 @@ public class InventoryManager : MonoBehaviour
             foreach (Transform child in torso.transform) {
                 Destroy(child.gameObject);
             }
-            Debug.Log("All children removed from Torso.");
+            //Debug.Log("All children removed from Torso.");
         } else {
             Debug.LogWarning("No torso found in the scene..... for some reason...");
         }
