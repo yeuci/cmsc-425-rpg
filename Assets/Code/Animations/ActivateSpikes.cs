@@ -5,11 +5,13 @@ public class ActivateSpikes : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     GameObject spikes;
+    GameObject player;
     void Start()
     {
         BoxCollider hitbox = GetComponent<BoxCollider>();
         hitbox.isTrigger = true;
         spikes = transform.parent.gameObject;
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     // Update is called once per frame
