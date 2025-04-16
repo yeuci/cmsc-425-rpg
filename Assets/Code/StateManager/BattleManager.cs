@@ -10,13 +10,11 @@ public enum BattleOption {
         MAGIC = 1,
         RUN = 2,
         POTION = 3
-
 }
 
 public class BattleManager : MonoBehaviour
 {
     public AnimationManager animationManager;
-    public GameObject fireball; //Remove after. This is just to test
     public OpenMinigame minigame;
     Entity playerEntity, enemyEntity;
     Stat player, enemy;
@@ -54,7 +52,7 @@ public class BattleManager : MonoBehaviour
 
         escapeAttempts = 0;
 
-        manager = new EncounterResolve(playerEntity, enemyEntity, usedItem );
+        manager = new EncounterResolve(playerEntity, enemyEntity, usedItem);
 
         Debug.Log("BATTLE STARTED!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
         playerMove =  player.speed >= enemy.speed;
@@ -145,6 +143,7 @@ public class BattleManager : MonoBehaviour
 
     public void playerRun() {
         if(playerMove){
+            animationManager.Animate(BattleOption.RUN);
             if(player.speed > enemy.speed) {
                 Debug.Log("Player has fled the encounter");
                 SceneManager.LoadScene("Scenes/DungeonMap");
@@ -197,6 +196,7 @@ public class BattleManager : MonoBehaviour
 
     public void playerPotion(){
         if(playerMove) {
+            animationManager.Animate(BattleOption.POTION);
             playerEntity.remainingHP += 10;
             if (playerEntity.remainingHP > player.health) {
                 playerEntity.remainingHP = player.health;
