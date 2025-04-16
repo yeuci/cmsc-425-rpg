@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2617033493724202434}
   m_Layer: 0
   m_Name: Dart Trap
-  m_TagString: Untagged
+  m_TagString: TrapDynamicComponent
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8104294047339492007}
+  - {fileID: 6920515871525254504}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7654678097784125925
@@ -58,12 +58,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7654678097784125925}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.04, z: 0.23999988}
-  m_LocalScale: {x: 1, y: 0.04, z: 25}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
+  m_LocalPosition: {x: 0, y: 2.4999995, z: 10}
+  m_LocalScale: {x: 250, y: 10, z: 249.99998}
   m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8104294047339492007}
+  m_Children:
+  - {fileID: 8104294047339492007}
+  m_Father: {fileID: 2617033493724202434}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8482986004762442768
 MeshFilter:
@@ -130,7 +131,7 @@ GameObject:
   - component: {fileID: 2428977537403113022}
   - component: {fileID: 5006488824674476941}
   - component: {fileID: 8368117488536422145}
-  - component: {fileID: 1684876461780457565}
+  - component: {fileID: 8927130564897992419}
   m_Layer: 0
   m_Name: Pressure Plate
   m_TagString: Untagged
@@ -146,13 +147,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7747758759477359671}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071067}
-  m_LocalPosition: {x: 0, y: 0.099999905, z: 0}
-  m_LocalScale: {x: 250, y: 249.99998, z: 10}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: -0.009599995}
+  m_LocalScale: {x: 1, y: 25, z: 0.04}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 6920515871525254504}
-  m_Father: {fileID: 2617033493724202434}
+  m_Children: []
+  m_Father: {fileID: 6920515871525254504}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2428977537403113022
 MeshFilter:
@@ -228,7 +228,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.02, y: 0.019999998, z: 0.2}
   m_Center: {x: 0, y: 0, z: 0.11}
---- !u!114 &1684876461780457565
+--- !u!114 &8927130564897992419
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -6,13 +6,13 @@ using UnityEngine;
 public class DartLaunch : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    
+    //Remember that the child's parent is the dart panel
     void Start()
     {
         //This is set up as a child of the pressure plate
-        transform.position = new Vector3(128.830002f,1.28000069f,167.853668f);
-        transform.localEulerAngles = new Vector3(270,270,0);
-        transform.localScale = new Vector3(5,0.200000048f,0.200000077f);
+        transform.localPosition = new Vector3(0,0.064000003f,-0.00487999432f);
+        transform.localEulerAngles = new Vector3(-90,180,90);
+        transform.localScale = new Vector3(0.25f,0.25f,4f);
         
     }
 
