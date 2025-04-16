@@ -23150,6 +23150,18 @@ PrefabInstance:
       propertyPath: moveSpeed
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: -4150352846665392391, guid: 2e1efcd38b7ca844f97db79406ae842f, type: 3}
+      propertyPath: m_Height
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -4150352846665392391, guid: 2e1efcd38b7ca844f97db79406ae842f, type: 3}
+      propertyPath: m_Radius
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1017764596012747261, guid: 2e1efcd38b7ca844f97db79406ae842f, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3255961041466668330, guid: 2e1efcd38b7ca844f97db79406ae842f, type: 3}
       propertyPath: m_TagString
       value: Torso
@@ -23176,7 +23188,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4962862009478031522, guid: 2e1efcd38b7ca844f97db79406ae842f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1
+      value: 2.91
       objectReference: {fileID: 0}
     - target: {fileID: 4962862009478031522, guid: 2e1efcd38b7ca844f97db79406ae842f, type: 3}
       propertyPath: m_LocalPosition.z
