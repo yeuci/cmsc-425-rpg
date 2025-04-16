@@ -15,9 +15,12 @@ public class InventoryManager : MonoBehaviour
 
     [SerializeField] GameObject swordPrefab;
     [SerializeField] GameObject runeSwordPrefab;
+    [HideInInspector] Entity playerEntity;
+    
     public bool equipped = false;
 
     private void Start() {
+        playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
         inventoryGroup.SetActive(false);
         ChangeSelectedSlot(0);
     }
@@ -167,21 +170,15 @@ public class InventoryManager : MonoBehaviour
     }
 
     void AddItemToPlayerInventory(InventoryItem inItem) {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
-
-        if (player) {
-            Entity playerEntity = player.GetComponent<Entity>();
-            if (playerEntity) {
-                Debug.Log("----- IMPORTANT -------> " + inItem.item.name);
-                playerEntity.inventory.Add(inItem);
-                playerEntity.equippedGear[playerEntity.equippedGearCount] = inItem.item;
-                playerEntity.equippedGearCount++;
-                Debug.Log("Player entity found. Adding item to inventory.");
-            } else {
-                Debug.LogWarning("No player entity found. Can't add item to inventory.");
-            }
+        if (playerEntity) {
+            Debug.Log("----- IMPORTANT -------> " + inItem.item.name);
+            playerEntity.inventory[playerEntity.inventoryCount] = inItem;
+            playerEntity.inventoryCount++;
+            playerEntity.equippedGear[playerEntity.equippedGearCount] = inItem.item;
+            playerEntity.equippedGearCount++;
+            Debug.Log("Player entity found. Adding item to inventory.");
         } else {
-            Debug.LogWarning("No player found in the scene. Can't add item to inventory.");
+            Debug.LogWarning("No player entity found. Can't add item to inventory.");
         }
     }
 

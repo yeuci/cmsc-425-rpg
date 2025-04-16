@@ -8,9 +8,12 @@ public class SaveGameLoader : MonoBehaviour
 {
     private string folderName = "CMSC425_SaveGames";
     private string savePath;
+    
+    [HideInInspector] Entity playerEntity;
 
     private void Awake()
     {
+        playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
         DontDestroyOnLoad(this.gameObject);
         savePath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments), folderName);
     }
@@ -163,7 +166,7 @@ public class SaveGameLoader : MonoBehaviour
             Debug.Log($"Player position set to: {position}");
             Debug.Log($"Player rotation set to: {rotation}");
             
-            Entity playerEntity = player.GetComponent<Entity>();
+            // Entity playerEntity = player.GetComponent<Entity>();
             if (playerEntity != null && playerEntity.stats != null)
             {
                 Debug.Log("Applying stats to player...");

@@ -17,7 +17,9 @@ public class Entity : MonoBehaviour
     [SerializeField] public int equippedGearCount = 0;
 
     // proxy for inventory
-   [SerializeField] public List<InventoryItem> inventory = new List<InventoryItem>();
+    [SerializeField] public List<InventoryItem> inventory = new List<InventoryItem>(new InventoryItem[25]);
+    [SerializeField] public int inventoryCount = 0;
+
     [SerializeField] public Class eClass;
 
     // Remaining HP of entity

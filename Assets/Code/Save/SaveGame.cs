@@ -7,9 +7,13 @@ public class SaveGame : MonoBehaviour
     public string folderName = "CMSC425_SaveGames";
 
     private string savePath;
+    [HideInInspector] Entity playerEntity;
+
 
     void Start()
     {
+        playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
+
         savePath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments), folderName);
 
         if (!Directory.Exists(savePath))
@@ -33,7 +37,7 @@ public class SaveGame : MonoBehaviour
             return;
         }
 
-        Entity playerEntity = player.GetComponent<Entity>();
+        // Entity playerEntity = player.GetComponent<Entity>();
         if (playerEntity == null)
         {
             Debug.LogWarning("Player Entity component not found!");

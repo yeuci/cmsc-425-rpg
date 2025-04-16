@@ -13,6 +13,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [HideInInspector] public int count = 1;
     [HideInInspector] public Transform parentAfterDrag;
     [HideInInspector] public InventoryManager iMEntity;
+    [HideInInspector] public int uuid;
 
     public void InitializeItem(Item newItem) {
         item = newItem;
@@ -22,6 +23,8 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     void Start() {
         iMEntity = GameObject.FindGameObjectWithTag("InventoryManager")?.GetComponent<InventoryManager>();
+        uuid = Random.Range(10000, 99999);
+
         if (iMEntity == null) {
             Debug.LogWarning("No InventoryManager found in the scene. -- START");
         }
@@ -49,10 +52,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         transform.SetParent(parentAfterDrag, false); 
         transform.position = parentAfterDrag.position;
 
-        if (iMEntity) {
-            iMEntity.ChangeSelectedSlot(iMEntity.selectedSlot);
-        } else {
-            Debug.LogWarning("No InventoryManager found in the scene. -- ONDRAG");
-        }
+        Debug.Log("Item with ID " + uuid + " dropped on " + eventData.pointerCurrentRaycast.gameObject.name + " with ID " + eventData.pointerCurrentRaycast.gameObject.GetComponent<InventorySlot>().uuid);
+        iMEntity.ChangeSelectedSlot(iMEntity.selectedSlot);
     }
 }
