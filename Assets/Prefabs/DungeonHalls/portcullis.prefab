@@ -10,15 +10,15 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: bddf9919b07890b44ba4d83bfee2c073, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 121.013596
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bddf9919b07890b44ba4d83bfee2c073, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.00000047683716
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bddf9919b07890b44ba4d83bfee2c073, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 160.6637
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: bddf9919b07890b44ba4d83bfee2c073, type: 3}
       propertyPath: m_LocalRotation.w
@@ -51,6 +51,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: bddf9919b07890b44ba4d83bfee2c073, type: 3}
       propertyPath: m_Name
       value: portcullis
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bddf9919b07890b44ba4d83bfee2c073, type: 3}
+      propertyPath: m_TagString
+      value: Dungeon
       objectReference: {fileID: 0}
     - target: {fileID: 1954859237364998489, guid: bddf9919b07890b44ba4d83bfee2c073, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
