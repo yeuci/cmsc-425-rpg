@@ -17,7 +17,6 @@ public class DartLaunch : MonoBehaviour
         transform.localEulerAngles = new Vector3(-90,180,90);
         transform.localScale = new Vector3(0.25f,0.25f,4f);
         target = transform.parent.GetChild(0).gameObject;
-        Debug.Log("Target: "+target);
         direction = target.transform.position - transform.position;
         direction.y = 0;
         direction *= 2;
@@ -27,7 +26,6 @@ public class DartLaunch : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log("Updating");
         lifeTime+= Time.deltaTime;
         if(lifeTime >= 5f) {
             Destroy(gameObject);
