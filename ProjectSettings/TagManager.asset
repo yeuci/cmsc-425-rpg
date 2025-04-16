@@ -10,6 +10,7 @@ TagManager:
   - InventoryManager
   - InventoryManger
   - TrapDynamicComponent
+  - Dungeon
   layers:
   - Default
   - TransparentFX
