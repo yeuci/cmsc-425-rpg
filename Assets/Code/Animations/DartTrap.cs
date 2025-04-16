@@ -16,7 +16,7 @@ public class DartTrap : MonoBehaviour
         if(other.tag == "Player") {
             
             Debug.Log("Made contact with trap");
-            
+            Instantiate(dartModel, transform);
         }
     }
 }
