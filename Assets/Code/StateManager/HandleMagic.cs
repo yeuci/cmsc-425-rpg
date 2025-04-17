@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class HandleMagic : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public GameObject informationPanel;
     void Start()
     {
         

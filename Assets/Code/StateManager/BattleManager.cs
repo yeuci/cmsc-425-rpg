@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -26,6 +27,7 @@ public class BattleManager : MonoBehaviour
     float originalSize, enemyOriginalSize;
     Vector3 playerHealthBarLoc, enemyHealthBarLoc;
     bool minigameSuccess;
+    public GameObject UIBlocker;
 
     public SpriteRenderer healthBar, enemyHealthBar;
 
@@ -76,7 +78,6 @@ public class BattleManager : MonoBehaviour
 
     void Update()
     {
-        // Debug.Log(playerMove);
         isEnemyMove = () => !playerMove;
 
         if(playerEntity.remainingHP <= 0) {
@@ -93,6 +94,7 @@ public class BattleManager : MonoBehaviour
 
             SceneManager.LoadScene("Scenes/DungeonMap");
         }
+
     }
 
 
@@ -190,23 +192,26 @@ public class BattleManager : MonoBehaviour
     // Coroutine so it waits for minigame to finish before moving on
     private IEnumerator HandlePlayerCast() {
         // Wait for the minigame to finish
+        UIBlocker.SetActive(true);
         yield return minigame.StartMinigame();
 
         // Check the result of the minigame
         minigameSuccess = minigame.isMinigameSuccessful;
 
         if (minigameSuccess) {
-                usedItem.actionType = ActionType.Attack;
-                enemyEntity.remainingHP -= battle.returnDamage();
-                
+                battle.perform(BattleOption.MAGIC);
+
                 recalculateEnemyHealthBar();
         
                 checkDeath();
         }
 
-        playerMove = false;
+        battle.endTurn();
 
-        yield break;
+        playerMove = false;
+        UIBlocker.SetActive(false);
+
+        // yield break;
     }
 
     public void playerPotion(){
