@@ -11,7 +11,7 @@ public class BarManager : MonoBehaviour
     void Start()
     {
         barImage = GetComponent<RectTransform>();
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Entity>();
+        player = GameObject.FindGameObjectWithTag("PlayerState").GetComponent<Entity>();
         barSize = barImage.localScale;
     }
 
