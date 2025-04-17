@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2711642324891554740}
   - component: {fileID: 7818090869570697595}
   - component: {fileID: 7383506243651766854}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DeadEnd
   m_TagString: Dungeon
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 7239273911443760265}
   - component: {fileID: 4331199280461660333}
   - component: {fileID: 2267989792257475641}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ceiling
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -232,6 +232,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RightWall
       objectReference: {fileID: 0}
+    - target: {fileID: 7084084630244841083, guid: c78656f2f53ae1249834e1e17ceb9c20, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8395878610197010207, guid: c78656f2f53ae1249834e1e17ceb9c20, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -306,6 +310,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LeftWall
       objectReference: {fileID: 0}
+    - target: {fileID: 7084084630244841083, guid: c78656f2f53ae1249834e1e17ceb9c20, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8395878610197010207, guid: c78656f2f53ae1249834e1e17ceb9c20, type: 3}
       propertyPath: m_LocalScale.x
       value: 1
@@ -379,6 +387,10 @@ PrefabInstance:
     - target: {fileID: 7084084630244841083, guid: c78656f2f53ae1249834e1e17ceb9c20, type: 3}
       propertyPath: m_Name
       value: WallTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 7084084630244841083, guid: c78656f2f53ae1249834e1e17ceb9c20, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8395878610197010207, guid: c78656f2f53ae1249834e1e17ceb9c20, type: 3}
       propertyPath: m_LocalScale.x

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2711642324891554740}
   - component: {fileID: 7818090869570697595}
   - component: {fileID: 7383506243651766854}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FloorTile
   m_TagString: Dungeon
   m_Icon: {fileID: 0}

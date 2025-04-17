@@ -12,6 +12,10 @@ TagManager:
   - TrapDynamicComponent
   - Dungeon
   - PlayerState
+  - vfx_fireball
+  - vfx_trail
+  - vfx_claw
+  - vfx_heal
   layers:
   - Default
   - TransparentFX
@@ -19,7 +23,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Dungeon
   - 
   - 
   - 

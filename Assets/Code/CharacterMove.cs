@@ -54,7 +54,5 @@ public class CharacterMove : MonoBehaviour
         velocity.y -= gravity * Time.deltaTime;
         controller.Move((moveDirection * moveSpeed + velocity) * Time.deltaTime);
 
-        // This part handles horizontal rotation
-
     }
 }
