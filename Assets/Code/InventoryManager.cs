@@ -172,10 +172,30 @@ public class InventoryManager : MonoBehaviour
     void AddItemToPlayerInventory(InventoryItem inItem) {
         if (playerEntity) {
             Debug.Log("----- IMPORTANT -------> " + inItem.item.name);
-            playerEntity.inventory[playerEntity.inventoryCount] = inItem;
-            playerEntity.inventoryCount++;
-            playerEntity.equippedGear[playerEntity.equippedGearCount] = inItem.item;
-            playerEntity.equippedGearCount++;
+            for (int i = 0; i < playerEntity.inventory.Count; i++) {
+                Debug.Log("inventory currently: " + i);
+                if (playerEntity.inventory[i] == null) {
+                    playerEntity.inventory[i] = inItem;
+                    playerEntity.inventoryCount++;
+                    Debug.Log("Added item to player inventory.");
+                    break;
+                }
+            }
+            // playerEntity.inventory[playerEntity.inventoryCount] = inItem;
+            // playerEntity.inventoryCount++;
+
+            for (int i = 0; i < playerEntity.equippedGear.Length; i++) {
+                Debug.Log("equippedGear currently: " + i);
+                if (playerEntity.equippedGear[i] == null) {
+                    playerEntity.equippedGear[i] = inItem.item;
+                    playerEntity.equippedGearCount++;
+                    Debug.Log("Added item to player equipped gear.");
+                    break;
+                }
+            }
+            // playerEntity.equippedGear[playerEntity.equippedGearCount] = inItem.item;
+            // playerEntity.equippedGearCount++;
+
             Debug.Log("Player entity found. Adding item to inventory.");
         } else {
             Debug.LogWarning("No player entity found. Can't add item to inventory.");

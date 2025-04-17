@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using NUnit.Framework.Internal;
+using System.Text.RegularExpressions;
 
 public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -13,7 +14,10 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [HideInInspector] public int count = 1;
     [HideInInspector] public Transform parentAfterDrag;
     [HideInInspector] public InventoryManager iMEntity;
-    [HideInInspector] public int uuid;
+    [HideInInspector] public Entity playerEntity;
+    [HideInInspector] public InventorySlot originalSlot;
+
+     public int uuid;
 
     public void InitializeItem(Item newItem) {
         item = newItem;
@@ -23,6 +27,8 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     void Start() {
         iMEntity = GameObject.FindGameObjectWithTag("InventoryManager")?.GetComponent<InventoryManager>();
+        playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
+
         uuid = Random.Range(10000, 99999);
 
         if (iMEntity == null) {
@@ -39,6 +45,10 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void OnBeginDrag(PointerEventData eventData) {
         image.raycastTarget = false;
         parentAfterDrag = transform.parent;
+
+        // save original slot
+        originalSlot = parentAfterDrag.GetComponent<InventorySlot>();
+
         transform.SetParent(transform.root);
         transform.SetAsLastSibling(); 
     }
@@ -48,11 +58,46 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     }
 
     public void OnEndDrag(PointerEventData eventData) {
-        image.raycastTarget = true; 
-        transform.SetParent(parentAfterDrag, false); 
+        image.raycastTarget = true;
+        transform.SetParent(parentAfterDrag, false);
         transform.position = parentAfterDrag.position;
+
         if (eventData != null && eventData.pointerCurrentRaycast.gameObject != null && eventData.pointerCurrentRaycast.gameObject.GetComponent<InventorySlot>() != null) {
+            // align with entity inventory
             Debug.Log("Item with ID " + uuid + " dropped on " + eventData.pointerCurrentRaycast.gameObject.name + " with ID " + eventData.pointerCurrentRaycast.gameObject.GetComponent<InventorySlot>().uuid);
+
+            string input = eventData.pointerCurrentRaycast.gameObject.name;
+            Match matchInput = Regex.Match(input, @"InventorySlot \((\d+)\)");
+            Match matchOriginal = Regex.Match(originalSlot.name, @"InventorySlot \((\d+)\)");
+
+            int slotDroppedOn = 0;
+            int slotToClear = 0;
+
+            if (matchInput.Success)
+            {
+                int slotNumber = int.Parse(matchInput.Groups[1].Value);
+                slotDroppedOn = slotNumber;
+            }
+
+            if (matchOriginal.Success)
+            {
+                int slotNumber = int.Parse(matchOriginal.Groups[1].Value);
+                slotToClear = slotNumber;
+            }
+
+            Debug.Log("Slot dropped on: " + slotDroppedOn);
+            Debug.Log("Slot to clear: " + slotToClear);
+
+            InventoryItem droppedItem = this;
+
+            if (droppedItem == null) {
+                Debug.Log("Dropped item is null.");
+            } else {
+                playerEntity.inventory[slotToClear] = null;
+                playerEntity.inventory[slotDroppedOn] = droppedItem;
+            }
+
+            // refresh hotbar
             iMEntity.ChangeSelectedSlot(iMEntity.selectedSlot);
         } else {
             Debug.Log("Item with ID " + uuid + " attempted to be dropped outside of inventory slots.");
