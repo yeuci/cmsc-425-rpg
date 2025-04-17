@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+//Currently only works for Health Bar. Need to extrapolate for magic
 public class BarManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -18,12 +19,7 @@ public class BarManager : MonoBehaviour
     //Bar Size is set
     void Update()
     {
-        float percentHealthRemaining = player.remainingHP/player.getAdjustedStats().health;
-        Debug.Log(percentHealthRemaining);
         barSize = new Vector3(player.remainingHP/player.getAdjustedStats().health, barSize.y, barSize.z);
         barImage.localScale = barSize;
-
-        Debug.Log("Right: "+barImage.right);
-        
     }
 }
