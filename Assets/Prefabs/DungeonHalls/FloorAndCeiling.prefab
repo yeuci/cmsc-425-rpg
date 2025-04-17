@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2711642324891554740}
   - component: {fileID: 7818090869570697595}
   - component: {fileID: 7383506243651766854}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: FloorAndCeiling
   m_TagString: Dungeon
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1987504646336319264}
   - component: {fileID: 4578185336719735574}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Spot Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 7239273911443760265}
   - component: {fileID: 4331199280461660333}
   - component: {fileID: 2267989792257475641}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Ceiling
   m_TagString: Untagged
   m_Icon: {fileID: 0}
