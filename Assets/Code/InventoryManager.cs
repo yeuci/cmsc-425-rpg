@@ -51,6 +51,10 @@ public class InventoryManager : MonoBehaviour
         {
             PickupItem();
         }
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            CreateSpell();
+        }
 
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -211,6 +215,16 @@ public class InventoryManager : MonoBehaviour
 
     public void PickupItem() {
         int id = Random.Range(0, itemsToPickup.Length);
+        bool res = AddItem(itemsToPickup[id]);
+        if (res) {
+            Debug.Log($"Picked up {itemsToPickup[id].name}");
+        } else {
+            Debug.Log("Inventory is full!");
+        }
+    }
+
+    public void CreateSpell() {
+        int id = 4;
         bool res = AddItem(itemsToPickup[id]);
         if (res) {
             Debug.Log($"Picked up {itemsToPickup[id].name}");
