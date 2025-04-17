@@ -26,7 +26,7 @@ public class Entity : MonoBehaviour
     public float remainingHP;
 
     // Alive check (Should destroy Entity gameobject if false)
-    bool isAlive = true;
+    [HideInInspector] public bool isAlive = true;
 
     void Start() {
         equippedGear = new Item[25];

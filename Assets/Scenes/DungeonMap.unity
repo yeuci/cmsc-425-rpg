@@ -20069,8 +20069,10 @@ MonoBehaviour:
   equippedGear: []
   equippedGearCount: 0
   inventory: []
+  inventoryCount: 0
   eClass: 3
   remainingHP: 100
+  isAlive: 1
 --- !u!114 &1447707663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23357,8 +23359,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e3aedde71f29bbc40896439a6b511ae7, type: 2}
   equippedGearCount: 0
   inventory: []
+  inventoryCount: 0
   eClass: 0
   remainingHP: 100
+  isAlive: 1
 --- !u!114 &1692649531
 MonoBehaviour:
   m_ObjectHideFlags: 0

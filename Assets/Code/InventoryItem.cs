@@ -51,8 +51,11 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         image.raycastTarget = true; 
         transform.SetParent(parentAfterDrag, false); 
         transform.position = parentAfterDrag.position;
-
-        Debug.Log("Item with ID " + uuid + " dropped on " + eventData.pointerCurrentRaycast.gameObject.name + " with ID " + eventData.pointerCurrentRaycast.gameObject.GetComponent<InventorySlot>().uuid);
-        iMEntity.ChangeSelectedSlot(iMEntity.selectedSlot);
+        if (eventData != null && eventData.pointerCurrentRaycast.gameObject != null && eventData.pointerCurrentRaycast.gameObject.GetComponent<InventorySlot>() != null) {
+            Debug.Log("Item with ID " + uuid + " dropped on " + eventData.pointerCurrentRaycast.gameObject.name + " with ID " + eventData.pointerCurrentRaycast.gameObject.GetComponent<InventorySlot>().uuid);
+            iMEntity.ChangeSelectedSlot(iMEntity.selectedSlot);
+        } else {
+            Debug.Log("Item with ID " + uuid + " attempted to be dropped outside of inventory slots.");
+        }
     }
 }
