@@ -18,7 +18,7 @@ public class BattleManager : MonoBehaviour
     public OpenMinigame minigame;
     Entity playerEntity, enemyEntity;
     Stat player, enemy;
-    EncounterResolve manager;
+    Battle battle;
     bool playerMove;
     System.Func<bool> isEnemyMove;
     public Item usedItem;
@@ -34,14 +34,24 @@ public class BattleManager : MonoBehaviour
     // Tracks escape attempts for Run option
     float escapeAttempts;
 
+    void Awake()
+    {
+        if(enemyEntity != null) {
+            Destroy(enemyEntity);
+        }   
+        
+        enemyEntity = this.AddComponent<Entity>();
+    }
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         playerEntity = PlayerManager.player.entity();
-        enemyEntity = this.AddComponent<Entity>();
-
+        
         player = playerEntity.getAdjustedStats();
         enemy = enemyEntity.getAdjustedStats();
+        
+        battle = new Battle(playerEntity, enemyEntity, usedItem);
 
         leftBound = healthBar.transform.position.x - healthBar.size.x/2;
         originalSize = healthBar.size.x;
@@ -52,10 +62,8 @@ public class BattleManager : MonoBehaviour
 
         escapeAttempts = 0;
 
-        manager = new EncounterResolve(playerEntity, enemyEntity, usedItem);
-
         Debug.Log("BATTLE STARTED!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
-        playerMove =  player.speed >= enemy.speed;
+        playerMove = player.speed >= enemy.speed;
         String msg = " has higher speed stat, and is going first";
         if(playerMove) {
             Debug.Log("PLAYER"+msg);
@@ -70,6 +78,21 @@ public class BattleManager : MonoBehaviour
     {
         // Debug.Log(playerMove);
         isEnemyMove = () => !playerMove;
+
+        if(playerEntity.remainingHP <= 0) {
+            Debug.Log("Player has lost the battle");
+            SceneManager.LoadScene("Scenes/DungeonMap");
+        }
+        if(enemyEntity.remainingHP <= 0) {
+            float enemyXP = enemyEntity.calculateXPValue();
+            Debug.Log("Enemy is defeated. Player gains " + enemyXP + " XP!");
+            player.experience += enemyXP;
+
+            playerEntity.recalculateLvl();
+            Debug.Log("Player is Lvl " + player.level + "! Progress: " + player.experience + "/"+player.expToNext);
+
+            SceneManager.LoadScene("Scenes/DungeonMap");
+        }
     }
 
 
@@ -87,14 +110,9 @@ public class BattleManager : MonoBehaviour
         if(playerMove) {
             usedItem.actionType = ActionType.Attack;
 
-
             animationManager.Animate(BattleOption.ATTACK);
-
-
-            manager.setAttacker(playerEntity);
-            manager.setDefender(enemyEntity);
-
-            enemyEntity.remainingHP -= manager.returnDamage();
+            battle.perform(BattleOption.ATTACK);
+            battle.endTurn();
 
             recalculateEnemyHealthBar();
         
@@ -127,23 +145,20 @@ public class BattleManager : MonoBehaviour
 
     public void enemyAttack() {
         Debug.Log("ATTACKING FROM ENEMY");
-        manager.setAttacker(enemyEntity);
-        manager.setDefender(playerEntity);
+        battle.perform(BattleOption.ATTACK);
+        battle.endTurn();
 
-        playerEntity.remainingHP -= manager.returnDamage();
         healthBar.size = new Vector2(originalSize*playerEntity.remainingHP/player.health, 0.64f);
         float leftShift = (originalSize-healthBar.size.x)*originalSize/40;
         healthBar.transform.position = new Vector3(playerHealthBarLoc.x-leftShift,playerHealthBarLoc.y,playerHealthBarLoc.z);
         
-        if(playerEntity.remainingHP <= 0) {
-            Debug.Log("Player has lost the battle");
-            SceneManager.LoadScene("Scenes/DungeonMap");
-        }
+        
     }
 
     public void playerRun() {
         if(playerMove){
             animationManager.Animate(BattleOption.RUN);
+            battle.perform(BattleOption.RUN);
             if(player.speed > enemy.speed) {
                 Debug.Log("Player has fled the encounter");
                 SceneManager.LoadScene("Scenes/DungeonMap");
@@ -182,7 +197,7 @@ public class BattleManager : MonoBehaviour
 
         if (minigameSuccess) {
                 usedItem.actionType = ActionType.Attack;
-                enemyEntity.remainingHP -= manager.returnDamage();
+                enemyEntity.remainingHP -= battle.returnDamage();
                 
                 recalculateEnemyHealthBar();
         
@@ -197,10 +212,9 @@ public class BattleManager : MonoBehaviour
     public void playerPotion(){
         if(playerMove) {
             animationManager.Animate(BattleOption.POTION);
-            playerEntity.remainingHP += 10;
-            if (playerEntity.remainingHP > player.health) {
-                playerEntity.remainingHP = player.health;
-            }
+            battle.perform(BattleOption.POTION);
+            battle.endTurn();
+
             healthBar.size = new Vector2(originalSize*playerEntity.remainingHP/player.health, 0.64f);
             float leftShift = (originalSize-healthBar.size.x)*originalSize/40;
             healthBar.transform.position = new Vector3(playerHealthBarLoc.x-leftShift,playerHealthBarLoc.y,playerHealthBarLoc.z);
