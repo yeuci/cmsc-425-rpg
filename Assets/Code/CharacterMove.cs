@@ -18,11 +18,10 @@ public class CharacterMove : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        /*playerObject = GameObject.FindGameObjectWithTag("Player");
+        playerObject = GameObject.FindGameObjectWithTag("Player");
         playerEntity = playerObject.GetComponent<Entity>();
         player = playerEntity.getAdjustedStats();
-        moveSpeed = player.speed;*/
-        moveSpeed = 10.0f;
+        moveSpeed = player.speed;
     }
 
     // Update is called once per frame
