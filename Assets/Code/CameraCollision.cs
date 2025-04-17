@@ -6,7 +6,7 @@ public class CameraCollision : MonoBehaviour
     public Vector3 offset = new Vector3(0, 8, -10); // Default camera position
     public float rotationSpeed = 5f;
     public float minY = -45f;
-    public float maxY = 55f;
+    public float maxY = 50f;
     public LayerMask collisionMask;
 
     public bool inventoryActive = false;

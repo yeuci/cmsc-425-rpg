@@ -28265,10 +28265,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1692649523}
-  offset: {x: 0, y: 3, z: -5}
+  offset: {x: 0, y: 8, z: -10}
   rotationSpeed: 5
   minY: -45
-  maxY: 55
+  maxY: 50
   collisionMask:
     serializedVersion: 2
     m_Bits: 64
