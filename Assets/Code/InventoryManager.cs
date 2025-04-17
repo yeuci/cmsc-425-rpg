@@ -150,6 +150,7 @@ public class InventoryManager : MonoBehaviour
             if (itemInSlot != null && itemInSlot.item == item &&
                 itemInSlot.count < maxStackedItems && item.stackable == true) {
                 itemInSlot.count++;
+                itemInSlot.item.count++;
                 itemInSlot.RefreshCount();
                 return true;
             }

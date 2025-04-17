@@ -18,6 +18,8 @@ public class Detection : MonoBehaviour
     {
         if (other.tag == "Player") {
             Debug.Log("Contact Made");
+
+            // TODO!! layer scene on top of current scene and unload combatmanagerscene after battle ends
             SceneManager.LoadScene("Scenes/CombatManagerScene");
         }
     }
