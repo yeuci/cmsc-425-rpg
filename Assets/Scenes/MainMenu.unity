@@ -250,7 +250,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 965669483}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &239308870
 GameObject:
@@ -1578,7 +1578,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 132156425}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1108308402
@@ -3450,7 +3451,7 @@ GameObject:
   - component: {fileID: 2136625332}
   m_Layer: 0
   m_Name: GameStart
-  m_TagString: Untagged
+  m_TagString: PlayerState
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3467,6 +3468,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a58db1fa2494963afc807626e321d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemsArray:
+  - {fileID: 11400000, guid: ac9350f2c4583e240bceedca0420fe94, type: 2}
+  - {fileID: 11400000, guid: 25c29a11422fd214c986a7afa9ea0f42, type: 2}
+  - {fileID: 11400000, guid: 0e76f221c2b210b4d97c8b0b917170e9, type: 2}
+  - {fileID: 11400000, guid: d8e36a19d0a657a4892ec5d67aaa9827, type: 2}
 --- !u!4 &2136625333
 Transform:
   m_ObjectHideFlags: 0
@@ -3487,7 +3493,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 621993386}
-  - {fileID: 132156425}
   - {fileID: 965669483}
   - {fileID: 1108308404}
   - {fileID: 1847906078}

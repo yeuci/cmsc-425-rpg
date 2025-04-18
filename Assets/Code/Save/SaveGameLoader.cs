@@ -8,14 +8,27 @@ public class SaveGameLoader : MonoBehaviour
 {
     private string folderName = "CMSC425_SaveGames";
     private string savePath;
+    private ItemSave[] loadedInventory = new ItemSave[25];
     
     [HideInInspector] Entity playerEntity;
+    [HideInInspector] PlayerManager playerManager;
+    [HideInInspector] InventoryManager iMEntity;
 
     private void Awake()
     {
-        playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
+        playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
+
         DontDestroyOnLoad(this.gameObject);
         savePath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments), folderName);
+    }
+
+    private Item GetItem(string name) {
+        foreach (var item in playerManager.itemsArray) {
+            if (item && item.name == name) {
+                return item;
+            }
+        }
+        return null;
     }
 
     public void LoadLastSave()
@@ -24,7 +37,7 @@ public class SaveGameLoader : MonoBehaviour
         Debug.Log("Loading last save...");
         if (!Directory.Exists(savePath))
         {
-            // will add a error message in UI later
+            // will add a error message in UI later 
             Debug.LogWarning("No save folder found. --> " + savePath);
             return;
         }
@@ -98,6 +111,52 @@ public class SaveGameLoader : MonoBehaviour
             else if (line.StartsWith("ExpToNext:"))
             {
                 expToNext = float.Parse(line.Replace("ExpToNext:", "").Trim());
+            } else if (line.StartsWith("Inventory:")) {
+                string raw = line.Replace("Inventory:", "").Trim();
+
+                raw = raw.TrimStart('[').TrimEnd(']');
+
+                string[] entries = raw.Split(new string[] { "},", "null," }, System.StringSplitOptions.None);
+
+                for (int i = 0; i < entries.Length; i++)
+                {
+                    string entry = entries[i].Trim();
+
+                    if (entry == "null" || string.IsNullOrWhiteSpace(entry))
+                    {
+                        loadedInventory[i] = null;
+                    }
+                    else
+                    {
+                        entry = entry.TrimStart('{').TrimEnd('}', ',').Trim();
+                        string[] parts = entry.Split(new char[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries);
+
+                        int count = 0;
+                        string itemName = "";
+
+                        foreach (var part in parts)
+                        {
+                            string[] kv = part.Split('=');
+                            if (kv.Length == 2)
+                            {
+                                string key = kv[0].Trim();
+                                string value = kv[1].Trim().Trim('"');
+
+                                if (key == "count")
+                                    int.TryParse(value, out count);
+                                else if (key == "item")
+                                    itemName = value;
+                            }
+                        }
+
+                        ItemSave itemSave = new ItemSave();
+                        itemSave.count = count;
+                        itemSave.item = itemName;
+                        itemSave.itemData = GetItem(itemName);
+
+                        loadedInventory[i] = itemSave;
+                    }
+                }
             }
         }
 
@@ -165,8 +224,9 @@ public class SaveGameLoader : MonoBehaviour
 
             Debug.Log($"Player position set to: {position}");
             Debug.Log($"Player rotation set to: {rotation}");
+
+            playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
             
-            // Entity playerEntity = player.GetComponent<Entity>();
             if (playerEntity != null && playerEntity.stats != null)
             {
                 Debug.Log("Applying stats to player...");
@@ -178,11 +238,30 @@ public class SaveGameLoader : MonoBehaviour
                 playerEntity.stats.speed = speed;
                 playerEntity.stats.magic = magic;
                 playerEntity.stats.expToNext = expToNext;
+
+                for (int i = 0; i < 25; i++) {
+                    if (loadedInventory[i] == null)
+                    {
+                        playerEntity.inventory[i] = null;
+                        continue;
+                    }
+                    playerEntity.inventory[i] = new ItemSave();
+                    playerEntity.inventory[i].count = loadedInventory[i].count;
+                    playerEntity.inventory[i].item = loadedInventory[i].item;
+                    playerEntity.inventory[i].itemData = GetItem(loadedInventory[i].item);
+
+                    Debug.Log($"Item {i}: {playerEntity.inventory[i].item} with count {playerEntity.inventory[i].count} i = {i}");
+                }
+
+                // refresh the ui
+                iMEntity = GameObject.FindGameObjectWithTag("InventoryManager")?.GetComponent<InventoryManager>();
+                iMEntity.UpdateInventoryUIWithItemSave();
+
                 Debug.Log("Player stats restored from save");
             }
             else
             {
-                Debug.LogWarning("Player Entity component or stats not found!");
+                Debug.LogWarning("Player Entity component or stats not found! ");
             }
             
             yield return null;

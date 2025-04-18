@@ -16,13 +16,123 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] GameObject swordPrefab;
     [SerializeField] GameObject runeSwordPrefab;
     [HideInInspector] Entity playerEntity;
+    [HideInInspector] public GameObject inventoryContainer;
+    [HideInInspector] public GameObject hotbarContainer;
+    // random items for testing
+    private ItemSave[] itemsInInventory = new ItemSave[25];
+    public Item[] itemsArray;
     
     public bool equipped = false;
 
     private void Start() {
         playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
+        inventoryContainer = GameObject.FindGameObjectWithTag("gui_inventory");
+        hotbarContainer = GameObject.FindGameObjectWithTag("gui_hotbar");
+
+        // for (int i = 0; i < itemsInInventory.Length; i++)
+        // {
+        //     itemsInInventory[i] = new ItemSave();
+        //     itemsInInventory[i].count = Random.Range(1, 5);
+        //     itemsInInventory[i].item = itemsArray[Random.Range(0, itemsArray.Length)];
+        // }
+
         inventoryGroup.SetActive(false);
         ChangeSelectedSlot(0);
+    }
+
+    public void UpdateInventoryUIWithItemSave() {
+        playerEntity.inventoryCount = 0;
+
+        for (int i = 0; i < 7; i++) 
+        { 
+            if (playerEntity.inventory[playerEntity.inventoryCount] != null) {
+                Transform child = hotbarContainer.transform.GetChild(i);
+                InventoryItem item = SpawnNewItemForSave(playerEntity.inventory[playerEntity.inventoryCount].count, playerEntity.inventory[playerEntity.inventoryCount].itemData, child.GetComponent<InventorySlot>());
+            }
+            playerEntity.inventoryCount++;
+        }
+
+        for (int i = 0; i < 18; i++) 
+        { 
+            if (playerEntity.inventory[playerEntity.inventoryCount] != null) {
+                Transform child = inventoryContainer.transform.GetChild(i);
+                InventoryItem item = SpawnNewItemForSave(playerEntity.inventory[playerEntity.inventoryCount].count, playerEntity.inventory[playerEntity.inventoryCount].itemData, child.GetComponent<InventorySlot>());
+            }
+            playerEntity.inventoryCount++;
+        }
+    }
+
+    InventoryItem SpawnNewItemForSave(int n, Item item, InventorySlot slot) {
+        GameObject newItem = Instantiate(inventoryItemPrefab, slot.transform);
+        InventoryItem inventoryItem = newItem.GetComponent<InventoryItem>();
+        inventoryItem.InitializeItem(item);
+        inventoryItem.count = n;
+        inventoryItem.countText.text = inventoryItem.count.ToString();
+        inventoryItem.countText.gameObject.SetActive(inventoryItem.count > 1);
+        Debug.Log("SPAWNED THE N GIVEN WAS " + n + " AND THE ITEM N IS " + inventoryItem.count );
+        return inventoryItem;
+    }
+
+    public void SendCurrentInventoryToState() {
+        Debug.Log("------ HERE ARE THE SLOTS IN THE HOTBAR WHEN CALLED ------");
+        playerEntity.inventoryCount = 0;    
+
+        for (int i = 0; i < 7; i++) 
+        { 
+            Transform child = hotbarContainer.transform.GetChild(i); 
+            if (child.childCount > 0)
+            {
+                Transform grandchild = child.GetChild(0); 
+                InventoryItem item = grandchild.GetComponent<InventoryItem>();
+                if (item != null)
+                {
+                    Debug.Log(item.name + " - " + item.item.name);
+
+                    ItemSave itemSave = new ItemSave();
+                    itemSave.count = item.count;
+                    itemSave.item = item.item.name;
+                    itemSave.itemData = item.item;
+                    
+                    playerEntity.inventory[playerEntity.inventoryCount] = itemSave;
+                    if (itemSave.count == 0) {
+                        playerEntity.inventory[playerEntity.inventoryCount] = null;
+                    }
+                }
+            } else {
+                playerEntity.inventory[playerEntity.inventoryCount] = null;
+            }
+            playerEntity.inventoryCount++;
+        }
+
+        Debug.Log("-------------------------------------------------");
+        Debug.Log("------ HERE ARE THE SLOTS IN THE INVENTORY WHEN CALLED ------");
+
+        for (int i = 0; i < 18; i++) 
+        { 
+            Transform child = inventoryContainer.transform.GetChild(i); 
+            if (child.childCount > 0)
+            {
+                Transform grandchild = child.GetChild(0); 
+                InventoryItem item = grandchild.GetComponent<InventoryItem>();
+                if (item != null)
+                {
+                    Debug.Log(item.name + " - " + item.item.name);
+
+                    ItemSave itemSave = new ItemSave();
+                    itemSave.count = item.count;
+                    itemSave.item = item.item.name;
+                    itemSave.itemData = item.item;
+
+                    playerEntity.inventory[playerEntity.inventoryCount] = itemSave;
+                    if (itemSave.count == 0) {
+                        playerEntity.inventory[playerEntity.inventoryCount] = null;
+                    }
+                }
+            } else {
+                playerEntity.inventory[playerEntity.inventoryCount] = null;
+            }
+            playerEntity.inventoryCount++;
+        }
     }
     
     public void ChangeSelectedSlot(int newValue) {
@@ -92,6 +202,10 @@ public class InventoryManager : MonoBehaviour
 
         }
 
+        if (Input.GetKeyDown(KeyCode.E)) {
+            SendCurrentInventoryToState();
+        }
+
         // SHOW WEAPON ON CHARACTER IF ITS CURRENTLY SELECTED
         if (selectedSlot >= 0 && selectedSlot <= 6) {
             InventorySlot slot = inventorySlots[selectedSlot];
@@ -150,7 +264,6 @@ public class InventoryManager : MonoBehaviour
             if (itemInSlot != null && itemInSlot.item == item &&
                 itemInSlot.count < maxStackedItems && item.stackable == true) {
                 itemInSlot.count++;
-                itemInSlot.item.count++;
                 itemInSlot.RefreshCount();
                 return true;
             }
@@ -162,46 +275,42 @@ public class InventoryManager : MonoBehaviour
             InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
             if (itemInSlot == null) {
                 InventoryItem spawnedItem = SpawnNewItem(item, slot);
-
-                AddItemToPlayerInventory(spawnedItem);
                 return true;
             }
         }
+
+        SendCurrentInventoryToState();
         return false;
     }
 
-    void AddItemToPlayerInventory(InventoryItem inItem) {
-        if (playerEntity) {
-            Debug.Log("----- IMPORTANT -------> " + inItem.item.name);
-            for (int i = 0; i < playerEntity.inventory.Count; i++) {
-                Debug.Log("inventory currently: " + i);
-                if (playerEntity.inventory[i] == null) {
-                    playerEntity.inventory[i] = inItem;
-                    playerEntity.inventoryCount++;
-                    Debug.Log("Added item to player inventory.");
-                    break;
-                }
-            }
-            // playerEntity.inventory[playerEntity.inventoryCount] = inItem;
-            // playerEntity.inventoryCount++;
+    // void AddItemToPlayerInventory(InventoryItem inItem) {
+    //     if (playerEntity) {
+    //         Debug.Log("----- IMPORTANT -------> " + inItem.item.name);
+    //         for (int i = 0; i < playerEntity.inventory.Count; i++) {
+    //             Debug.Log("inventory currently: " + i);
+    //             if (playerEntity.inventory[i] == null) {
+    //                 playerEntity.inventory[i] = inItem.item;
+    //                 playerEntity.inventoryCount++;
+    //                 Debug.Log("Added item to player inventory.");
+    //                 break;
+    //             }
+    //         }
 
-            for (int i = 0; i < playerEntity.equippedGear.Length; i++) {
-                Debug.Log("equippedGear currently: " + i);
-                if (playerEntity.equippedGear[i] == null) {
-                    playerEntity.equippedGear[i] = inItem.item;
-                    playerEntity.equippedGearCount++;
-                    Debug.Log("Added item to player equipped gear.");
-                    break;
-                }
-            }
-            // playerEntity.equippedGear[playerEntity.equippedGearCount] = inItem.item;
-            // playerEntity.equippedGearCount++;
+    //         for (int i = 0; i < playerEntity.equippedGear.Length; i++) {
+    //             Debug.Log("equippedGear currently: " + i);
+    //             if (playerEntity.equippedGear[i] == null) {
+    //                 playerEntity.equippedGear[i] = inItem.item;
+    //                 playerEntity.equippedGearCount++;
+    //                 Debug.Log("Added item to player equipped gear.");
+    //                 break;
+    //             }
+    //         }
 
-            Debug.Log("Player entity found. Adding item to inventory.");
-        } else {
-            Debug.LogWarning("No player entity found. Can't add item to inventory.");
-        }
-    }
+    //         Debug.Log("Player entity found. Adding item to inventory.");
+    //     } else {
+    //         Debug.LogWarning("No player entity found. Can't add item to inventory.");
+    //     }
+    // }
 
     InventoryItem SpawnNewItem(Item item, InventorySlot slot) {
         GameObject newItem = Instantiate(inventoryItemPrefab, slot.transform);
@@ -218,6 +327,7 @@ public class InventoryManager : MonoBehaviour
         } else {
             Debug.Log("Inventory is full!");
         }
+        SendCurrentInventoryToState();
     }
 
     public Item UseSelectedItem() {
@@ -232,6 +342,7 @@ public class InventoryManager : MonoBehaviour
                 } else {
                     itemInSlot.RefreshCount();
                 }
+                SendCurrentInventoryToState();
             }
             return item;
         } else {

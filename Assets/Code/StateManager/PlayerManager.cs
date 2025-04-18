@@ -5,7 +5,8 @@ public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager player;
 
-    Entity playerEntity;
+    public Entity playerEntity;
+    public Item[] itemsArray;
 
 
     void Awake()

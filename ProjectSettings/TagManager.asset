@@ -16,6 +16,8 @@ TagManager:
   - vfx_trail
   - vfx_claw
   - vfx_heal
+  - gui_inventory
+  - gui_hotbar
   layers:
   - Default
   - TransparentFX
