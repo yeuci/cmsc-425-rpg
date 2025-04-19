@@ -17,7 +17,9 @@ public class BattleManager : MonoBehaviour
 {
     public AnimationManager animationManager;
     public OpenMinigame minigame;
+    public DamagePopupGenerator popupGenerator;
     Entity playerEntity, enemyEntity;
+    public GameObject enemyGameObject;
     Stat player, enemy;
     Battle battle;
     bool playerMove;
@@ -28,6 +30,7 @@ public class BattleManager : MonoBehaviour
     Vector3 playerHealthBarLoc, enemyHealthBarLoc;
     bool minigameSuccess;
     public GameObject UIBlocker;
+    public TextMeshPro movetext;
 
     public SpriteRenderer healthBar, enemyHealthBar;
 
@@ -42,7 +45,7 @@ public class BattleManager : MonoBehaviour
             Destroy(enemyEntity);
         }   
         
-        enemyEntity = this.AddComponent<Entity>();
+        enemyEntity = enemyGameObject.GetComponent<Entity>();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -53,7 +56,7 @@ public class BattleManager : MonoBehaviour
         player = playerEntity.getAdjustedStats();
         enemy = enemyEntity.getAdjustedStats();
         
-        battle = new Battle(playerEntity, enemyEntity, usedItem);
+        battle = new Battle(playerEntity, enemyEntity, usedItem, popupGenerator);
 
         leftBound = healthBar.transform.position.x - healthBar.size.x/2;
         originalSize = healthBar.size.x;
@@ -94,6 +97,8 @@ public class BattleManager : MonoBehaviour
 
             SceneManager.LoadScene("Scenes/DungeonMap");
         }
+
+        movetext.text = playerMove.ToString();
 
     }
 
@@ -146,6 +151,7 @@ public class BattleManager : MonoBehaviour
 
 
     public void enemyAttack() {
+        usedItem.actionType = ActionType.Attack;
         Debug.Log("ATTACKING FROM ENEMY");
         battle.perform(BattleOption.ATTACK);
         battle.endTurn();
@@ -199,6 +205,7 @@ public class BattleManager : MonoBehaviour
         minigameSuccess = minigame.isMinigameSuccessful;
 
         if (minigameSuccess) {
+                usedItem.actionType = ActionType.Cast;
                 battle.perform(BattleOption.MAGIC);
 
                 recalculateEnemyHealthBar();
@@ -211,7 +218,9 @@ public class BattleManager : MonoBehaviour
         playerMove = false;
         UIBlocker.SetActive(false);
 
-        // yield break;
+        minigameSuccess = false;
+
+        yield break;
     }
 
     public void playerPotion(){

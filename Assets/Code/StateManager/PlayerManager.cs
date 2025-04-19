@@ -5,6 +5,7 @@ public class PlayerManager : MonoBehaviour
 {
     public static PlayerManager player;
 
+    public GameObject playerGameObject;
     Entity playerEntity;
 
 
@@ -23,7 +24,7 @@ public class PlayerManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        playerEntity = this.AddComponent<Entity>();
+        playerEntity = playerGameObject.GetComponent<Entity>();
     }
 
     // Update is called once per frame
