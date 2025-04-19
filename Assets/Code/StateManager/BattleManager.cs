@@ -52,6 +52,8 @@ public class BattleManager : MonoBehaviour
     void Start()
     {
         playerEntity = PlayerManager.player.entity();
+        playerEntity.transform.position = new Vector3(-3.25f, 0.5f, 0);
+        playerEntity.transform.right = Vector3.left;
         
         player = playerEntity.getAdjustedStats();
         enemy = enemyEntity.getAdjustedStats();
