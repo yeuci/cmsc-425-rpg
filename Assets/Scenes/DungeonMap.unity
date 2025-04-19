@@ -1360,6 +1360,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a58db1fa2494963afc807626e321d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerEntity: {fileID: 0}
+  itemsArray: []
+  enemyBeforeCombat: 0
+  enemyPositionBeforeCombat: {x: 0, y: 0, z: 0}
 --- !u!4 &66689199
 Transform:
   m_ObjectHideFlags: 0
@@ -22292,6 +22296,7 @@ MonoBehaviour:
   eClass: 3
   remainingHP: 100
   isAlive: 1
+  enemyId: 1
 --- !u!114 &1447707663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26041,6 +26046,7 @@ MonoBehaviour:
   eClass: 0
   remainingHP: 100
   isAlive: 1
+  enemyId: 0
 --- !u!114 &1692649531
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -67,6 +67,8 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             iMEntity.SendCurrentInventoryToState();
         } else {
             Debug.Log("Item with ID " + uuid + " attempted to be dropped outside of inventory slots.");
+
+            Destroy(this.gameObject);
         }
     }
 }

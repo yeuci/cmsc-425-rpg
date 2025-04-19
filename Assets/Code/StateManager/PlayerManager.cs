@@ -7,6 +7,8 @@ public class PlayerManager : MonoBehaviour
 
     public Entity playerEntity;
     public Item[] itemsArray;
+    [HideInInspector] public int enemyBeforeCombat;
+    [HideInInspector] public Vector3 enemyPositionBeforeCombat;
 
 
     void Awake()

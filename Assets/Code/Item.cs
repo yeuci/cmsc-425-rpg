@@ -102,6 +102,5 @@ public class Item : ScriptableObject {
     public Sprite image;
     public int maxStack;
     public bool consumable;
-    public int count = 1;
     public Vector2Int range = new Vector2Int(0, 6);
 }
