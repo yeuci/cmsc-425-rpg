@@ -63,44 +63,12 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         transform.position = parentAfterDrag.position;
 
         if (eventData != null && eventData.pointerCurrentRaycast.gameObject != null && eventData.pointerCurrentRaycast.gameObject.GetComponent<InventorySlot>() != null) {
-            // align with entity inventory
-            Debug.Log("Item with ID " + uuid + " dropped on " + eventData.pointerCurrentRaycast.gameObject.name + " with ID " + eventData.pointerCurrentRaycast.gameObject.GetComponent<InventorySlot>().uuid);
-
-            string input = eventData.pointerCurrentRaycast.gameObject.name;
-            Match matchInput = Regex.Match(input, @"InventorySlot \((\d+)\)");
-            Match matchOriginal = Regex.Match(originalSlot.name, @"InventorySlot \((\d+)\)");
-
-            int slotDroppedOn = 0;
-            int slotToClear = 0;
-
-            if (matchInput.Success)
-            {
-                int slotNumber = int.Parse(matchInput.Groups[1].Value);
-                slotDroppedOn = slotNumber;
-            }
-
-            if (matchOriginal.Success)
-            {
-                int slotNumber = int.Parse(matchOriginal.Groups[1].Value);
-                slotToClear = slotNumber;
-            }
-
-            Debug.Log("Slot dropped on: " + slotDroppedOn);
-            Debug.Log("Slot to clear: " + slotToClear);
-
-            InventoryItem droppedItem = this;
-
-            if (droppedItem == null) {
-                Debug.Log("Dropped item is null.");
-            } else {
-                playerEntity.inventory[slotToClear] = null;
-                playerEntity.inventory[slotDroppedOn] = droppedItem;
-            }
-
-            // refresh hotbar
             iMEntity.ChangeSelectedSlot(iMEntity.selectedSlot);
+            iMEntity.SendCurrentInventoryToState();
         } else {
             Debug.Log("Item with ID " + uuid + " attempted to be dropped outside of inventory slots.");
+
+            Destroy(this.gameObject);
         }
     }
 }

@@ -17,7 +17,8 @@ public class Entity : MonoBehaviour
     [SerializeField] public int equippedGearCount = 0;
 
     // proxy for inventory
-    [SerializeField] public List<InventoryItem> inventory = new List<InventoryItem>(new InventoryItem[25]);
+    // [SerializeField] public List<Item> inventory = new List<Item>(new Item[25]);
+    [SerializeField] public ItemSave[] inventory = new ItemSave[25];
     [SerializeField] public int inventoryCount = 0;
 
     [SerializeField] public Class eClass;
@@ -27,6 +28,10 @@ public class Entity : MonoBehaviour
 
     // Alive check (Should destroy Entity gameobject if false)
     [HideInInspector] public bool isAlive = true;
+
+    // used to determine enemy gameobject for before and after combat scene. not needed for anything else
+    // each anemy should be assigned a unique id in the editor
+    public int enemyId = 0;
 
     void Start() {
         equippedGear = new Item[25];

@@ -31,6 +31,8 @@ public class ItemPickup : MonoBehaviour
                 iMEntity.AddItem(itemToPickup);
                 Debug.Log("Item picked up: " + itemToPickup.name);
                 Destroy(gameObject);
+
+                iMEntity.SendCurrentInventoryToState();
             } else {
                 Debug.LogWarning("No InventoryManager found in the scene. -- ONTRIGGERENTER");
             }

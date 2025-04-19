@@ -8,11 +8,14 @@ public class SaveGame : MonoBehaviour
 
     private string savePath;
     [HideInInspector] Entity playerEntity;
+    [HideInInspector] InventoryManager iMEntity;
 
 
     void Start()
     {
         playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
+        iMEntity = GameObject.FindGameObjectWithTag("InventoryManager")?.GetComponent<InventoryManager>();
+
 
         savePath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments), folderName);
 
@@ -44,6 +47,8 @@ public class SaveGame : MonoBehaviour
             return;
         }
 
+        iMEntity.SendCurrentInventoryToState();
+
         Stat playerStats = playerEntity.stats;
         if (playerStats == null)
         {
@@ -66,6 +71,22 @@ public class SaveGame : MonoBehaviour
                     $"Speed: {playerStats.speed}\n" +
                     $"Magic: {playerStats.magic}\n" +
                     $"ExpToNext: {playerStats.expToNext}";
+
+        string inventoryData = "Inventory: [ ";
+        foreach (var itemSave in playerEntity.inventory)
+        {
+            if (itemSave != null)
+            {
+                inventoryData += $"{{count = {itemSave.count}, item = \"{itemSave.item}\"}}, ";
+            }
+            else
+            {
+                inventoryData += "null, ";
+            }
+        }
+        inventoryData = inventoryData.TrimEnd(',', ' ') + " ]";
+        data += "\n" + inventoryData;
+
 
         string fileName = $"savegame_{saveID}.txt";
         string fullPath = Path.Combine(savePath, fileName);
