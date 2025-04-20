@@ -3468,11 +3468,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a58db1fa2494963afc807626e321d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerEntity: {fileID: 0}
   itemsArray:
   - {fileID: 11400000, guid: ac9350f2c4583e240bceedca0420fe94, type: 2}
   - {fileID: 11400000, guid: 25c29a11422fd214c986a7afa9ea0f42, type: 2}
   - {fileID: 11400000, guid: 0e76f221c2b210b4d97c8b0b917170e9, type: 2}
   - {fileID: 11400000, guid: d8e36a19d0a657a4892ec5d67aaa9827, type: 2}
+  - {fileID: 11400000, guid: 1439296bc9fe07145818ae2dc7d42a57, type: 2}
+  enemyBeforeCombat: 0
+  enemyPositionBeforeCombat: {x: 0, y: 0, z: 0}
+  isMenuActive: 0
+  inventoryGameObject: {fileID: 0}
+  escapeGameObject: {fileID: 0}
 --- !u!4 &2136625333
 Transform:
   m_ObjectHideFlags: 0

@@ -23,7 +23,7 @@ MonoBehaviour:
   healing: 0
   magicPower: 20
   stackable: 1
-  image: {fileID: 0}
+  image: {fileID: 21300000, guid: 1f4f38c6738437c4ea4e3c50616ef790, type: 3}
   maxStack: 10
   consumable: 0
   range: {x: 0, y: 6}

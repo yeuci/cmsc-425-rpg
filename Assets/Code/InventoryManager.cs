@@ -16,6 +16,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] GameObject swordPrefab;
     [SerializeField] GameObject runeSwordPrefab;
     [HideInInspector] Entity playerEntity;
+    [HideInInspector] PlayerManager playerManager;
     [HideInInspector] public GameObject inventoryContainer;
     [HideInInspector] public GameObject hotbarContainer;
     // random items for testing
@@ -26,6 +27,7 @@ public class InventoryManager : MonoBehaviour
 
     private void Start() {
         playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
+        playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
         inventoryContainer = GameObject.FindGameObjectWithTag("gui_inventory");
         hotbarContainer = GameObject.FindGameObjectWithTag("gui_hotbar");
 

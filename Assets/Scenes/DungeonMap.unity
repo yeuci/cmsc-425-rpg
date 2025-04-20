@@ -1364,6 +1364,9 @@ MonoBehaviour:
   itemsArray: []
   enemyBeforeCombat: 0
   enemyPositionBeforeCombat: {x: 0, y: 0, z: 0}
+  isMenuActive: 0
+  inventoryGameObject: {fileID: 1929463254}
+  escapeGameObject: {fileID: 1731271319}
 --- !u!4 &66689199
 Transform:
   m_ObjectHideFlags: 0
@@ -22310,6 +22313,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5740feb16e3d747629a51727599cc5e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyEntityPrefab: {fileID: 1447707662}
+  playerManager: {fileID: 0}
 --- !u!4 &1454290967 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4756490073816273334, guid: c958412f7bde25649af76940cb6918d4, type: 3}
@@ -26499,7 +26504,7 @@ GameObject:
   - component: {fileID: 1731271320}
   m_Layer: 5
   m_Name: EscapeMenu
-  m_TagString: Untagged
+  m_TagString: EscapeMenu
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29552,7 +29557,7 @@ GameObject:
   - component: {fileID: 1929463255}
   m_Layer: 5
   m_Name: InventoryGroup
-  m_TagString: Untagged
+  m_TagString: InventoryMenu
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

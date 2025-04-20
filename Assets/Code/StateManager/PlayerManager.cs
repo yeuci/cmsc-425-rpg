@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -7,9 +8,11 @@ public class PlayerManager : MonoBehaviour
 
     public Entity playerEntity;
     public Item[] itemsArray;
-    [HideInInspector] public int enemyBeforeCombat;
-    [HideInInspector] public Vector3 enemyPositionBeforeCombat;
-
+    public int enemyBeforeCombat;
+    public Vector3 enemyPositionBeforeCombat;
+    public bool isMenuActive = false; 
+    [HideInInspector] public GameObject inventoryGameObject;
+    [HideInInspector] public GameObject escapeGameObject;
 
     void Awake()
     {
@@ -21,18 +24,39 @@ public class PlayerManager : MonoBehaviour
         Debug.Log("MADE");
         player = this;
         DontDestroyOnLoad(gameObject);
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
+        escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
+
+        // playerEntity = this.AddComponent<Entity>();
         playerEntity = player.AddComponent<Entity>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (inventoryGameObject != null && escapeGameObject != null) {
+            isMenuActive = inventoryGameObject.activeSelf || escapeGameObject.activeSelf;
+        } else {
+            isMenuActive = false;
+        }
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log($"Scene loaded: {scene.name}");
+
+        if (scene.name == "DungeonMap")
+        {
+            inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
+            escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
+        }
     }
 
     public Entity entity() {

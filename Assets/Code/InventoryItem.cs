@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using NUnit.Framework.Internal;
 using System.Text.RegularExpressions;
+using System.Collections;
 
 public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
@@ -67,8 +68,11 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             iMEntity.SendCurrentInventoryToState();
         } else {
             Debug.Log("Item with ID " + uuid + " attempted to be dropped outside of inventory slots.");
+            gameObject.SetActive(false); 
+            Destroy(gameObject);
 
-            Destroy(this.gameObject);
+            iMEntity.SendCurrentInventoryToState();
+            iMEntity.ChangeSelectedSlot(iMEntity.selectedSlot);
         }
     }
 }

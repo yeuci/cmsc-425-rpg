@@ -32,6 +32,7 @@ public class BattleManager : MonoBehaviour
     public GameObject UIBlocker;
 
     public SpriteRenderer healthBar, enemyHealthBar;
+    [HideInInspector] public PlayerManager playerManager;
     public Image CanvasHealthBar, CanvasManaBar;
     public Image canvasEnemyHealthBar;
     public Canvas healthstuff;
@@ -53,6 +54,7 @@ public class BattleManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
         playerEntity = PlayerManager.player.entity();
         playerEntity.transform.position = new Vector3(-3.25f, 0.5f, 0);
         playerEntity.transform.right = Vector3.left;
@@ -87,21 +89,11 @@ public class BattleManager : MonoBehaviour
     {
         isEnemyMove = () => !playerMove;
 
-        if(playerEntity.remainingHP <= 0) {
-            Debug.Log("Player has lost the battle");
-            SceneManager.LoadScene("Scenes/DungeonMap");
-        }
-        if(enemyEntity.remainingHP <= 0) {
-            float enemyXP = enemyEntity.calculateXPValue();
-            Debug.Log("Enemy is defeated. Player gains " + enemyXP + " XP!");
-            player.experience += enemyXP;
+        // check if player is dead
+        checkEnemyDeath();
 
-            playerEntity.recalculateLvl();
-            Debug.Log("Player is Lvl " + player.level + "! Progress: " + player.experience + "/"+player.expToNext);
-
-            SceneManager.LoadScene("Scenes/DungeonMap");
-        }
-
+        // check if enemy is dead
+        checkDeath();
     }
 
 
@@ -148,10 +140,37 @@ public class BattleManager : MonoBehaviour
             Debug.Log("Player is Lvl " + player.level + "! Progress: " + player.experience + "/"+player.expToNext);
 
             SceneManager.LoadScene("Scenes/DungeonMap");
+
+            // set prev position
+            playerEntity.transform.position = playerManager.enemyPositionBeforeCombat;
+
+            // find and remove defeated enemy
+            GameObject[] allObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
+            foreach (GameObject obj in allObjects)
+            {
+                if (obj.CompareTag("Enemy"))
+                {
+                    Entity entity = obj.GetComponent<Entity>();
+                    if (entity != null)
+                    {
+                        if (entity.enemyId == playerManager.enemyBeforeCombat) {
+                            Destroy(obj);
+                        }
+                    }
+                }
+            }
         }
     }
 
+    void checkEnemyDeath() {
+        if(playerEntity.remainingHP <= 0) {
+            Debug.Log("Player has lost the battle");
 
+            // TODO: Add death screen NOT load screen
+
+            SceneManager.LoadScene("Scenes/DungeonMap");
+        }
+    }
 
     public void enemyAttack() {
         usedItem.actionType = ActionType.Attack;
