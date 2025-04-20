@@ -70,7 +70,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             Debug.Log("Item with ID " + uuid + " attempted to be dropped outside of inventory slots.");
             gameObject.SetActive(false); 
             Destroy(gameObject);
-            
+
             iMEntity.SendCurrentInventoryToState();
             iMEntity.ChangeSelectedSlot(iMEntity.selectedSlot);
         }

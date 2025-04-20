@@ -82,7 +82,7 @@ public class InventoryManager : MonoBehaviour
         for (int i = 0; i < 7; i++) 
         { 
             Transform child = hotbarContainer.transform.GetChild(i); 
-            if (child.childCount > 0 && child.GetChild(0).gameObject.activeSelf == true)
+            if (child.childCount > 0)
             {
                 Transform grandchild = child.GetChild(0); 
                 InventoryItem item = grandchild.GetComponent<InventoryItem>();
@@ -112,7 +112,7 @@ public class InventoryManager : MonoBehaviour
         for (int i = 0; i < 18; i++) 
         { 
             Transform child = inventoryContainer.transform.GetChild(i); 
-            if (child.childCount > 0 && child.GetChild(0).gameObject.activeSelf == true)
+            if (child.childCount > 0)
             {
                 Transform grandchild = child.GetChild(0); 
                 InventoryItem item = grandchild.GetComponent<InventoryItem>();
