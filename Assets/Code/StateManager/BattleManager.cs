@@ -109,6 +109,8 @@ public class BattleManager : MonoBehaviour
 
             animationManager.Animate(BattleOption.ATTACK);
             battle.perform(BattleOption.ATTACK);
+            AudioSource swordSwipe = GetComponent<AudioSource>();
+            swordSwipe.Play();
             battle.endTurn();
 
             recalculateEnemyHealthBar();
