@@ -35,6 +35,7 @@ public class PlayerManager : MonoBehaviour
         escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
 
         playerEntity = this.AddComponent<Entity>();
+        playerEntity = player.AddComponent<Entity>();
     }
 
     // Update is called once per frame

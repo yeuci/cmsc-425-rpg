@@ -163,6 +163,10 @@ public class InventoryManager : MonoBehaviour
         {
             PickupItem();
         }
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            CreateSpell();
+        }
 
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -330,6 +334,16 @@ public class InventoryManager : MonoBehaviour
             Debug.Log("Inventory is full!");
         }
         SendCurrentInventoryToState();
+    }
+
+    public void CreateSpell() {
+        int id = 4;
+        bool res = AddItem(itemsToPickup[id]);
+        if (res) {
+            Debug.Log($"Picked up {itemsToPickup[id].name}");
+        } else {
+            Debug.Log("Inventory is full!");
+        }
     }
 
     public Item UseSelectedItem() {

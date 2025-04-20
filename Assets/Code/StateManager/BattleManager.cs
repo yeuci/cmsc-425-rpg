@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,7 +17,9 @@ public class BattleManager : MonoBehaviour
 {
     public AnimationManager animationManager;
     public OpenMinigame minigame;
+    public DamagePopupGenerator popupGenerator;
     Entity playerEntity, enemyEntity;
+    public GameObject enemyGameObject;
     Stat player, enemy;
     Battle battle;
     bool playerMove;
@@ -26,6 +29,8 @@ public class BattleManager : MonoBehaviour
     float originalSize, enemyOriginalSize;
     Vector3 playerHealthBarLoc, enemyHealthBarLoc;
     bool minigameSuccess;
+    public GameObject UIBlocker;
+    public TextMeshPro movetext;
 
     public SpriteRenderer healthBar, enemyHealthBar;
     [HideInInspector] public PlayerManager playerManager;
@@ -41,7 +46,7 @@ public class BattleManager : MonoBehaviour
             Destroy(enemyEntity);
         }   
         
-        enemyEntity = this.AddComponent<Entity>();
+        enemyEntity = enemyGameObject.GetComponent<Entity>();
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -49,11 +54,13 @@ public class BattleManager : MonoBehaviour
     {
         playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
         playerEntity = PlayerManager.player.entity();
+        playerEntity.transform.position = new Vector3(-3.25f, 0.5f, 0);
+        playerEntity.transform.right = Vector3.left;
         
         player = playerEntity.getAdjustedStats();
         enemy = enemyEntity.getAdjustedStats();
         
-        battle = new Battle(playerEntity, enemyEntity, usedItem);
+        battle = new Battle(playerEntity, enemyEntity, usedItem, popupGenerator);
 
         leftBound = healthBar.transform.position.x - healthBar.size.x/2;
         originalSize = healthBar.size.x;
@@ -78,7 +85,6 @@ public class BattleManager : MonoBehaviour
 
     void Update()
     {
-        // Debug.Log(playerMove);
         isEnemyMove = () => !playerMove;
 
         // check if player is dead
@@ -164,6 +170,7 @@ public class BattleManager : MonoBehaviour
     }
 
     public void enemyAttack() {
+        usedItem.actionType = ActionType.Attack;
         Debug.Log("ATTACKING FROM ENEMY");
         battle.perform(BattleOption.ATTACK);
         battle.endTurn();
@@ -210,21 +217,27 @@ public class BattleManager : MonoBehaviour
     // Coroutine so it waits for minigame to finish before moving on
     private IEnumerator HandlePlayerCast() {
         // Wait for the minigame to finish
+        UIBlocker.SetActive(true);
         yield return minigame.StartMinigame();
 
         // Check the result of the minigame
         minigameSuccess = minigame.isMinigameSuccessful;
 
         if (minigameSuccess) {
-                usedItem.actionType = ActionType.Attack;
-                enemyEntity.remainingHP -= battle.returnDamage();
-                
+                usedItem.actionType = ActionType.Cast;
+                battle.perform(BattleOption.MAGIC);
+
                 recalculateEnemyHealthBar();
         
                 checkDeath();
         }
 
+        battle.endTurn();
+
         playerMove = false;
+        UIBlocker.SetActive(false);
+
+        minigameSuccess = false;
 
         yield break;
     }
