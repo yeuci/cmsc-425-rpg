@@ -34,7 +34,7 @@ public class PlayerManager : MonoBehaviour
         inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
         escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
 
-        playerEntity = this.AddComponent<Entity>();
+        // playerEntity = this.AddComponent<Entity>();
         playerEntity = player.AddComponent<Entity>();
     }
 
