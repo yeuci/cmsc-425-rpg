@@ -4,7 +4,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public enum BattleOption {
         ATTACK = 0,
@@ -30,9 +30,11 @@ public class BattleManager : MonoBehaviour
     Vector3 playerHealthBarLoc, enemyHealthBarLoc;
     bool minigameSuccess;
     public GameObject UIBlocker;
-    public TextMeshPro movetext;
 
     public SpriteRenderer healthBar, enemyHealthBar;
+    public Image CanvasHealthBar, CanvasManaBar;
+    public Image canvasEnemyHealthBar;
+    public Canvas healthstuff;
 
     float playerHealth, enemyHealth;
 
@@ -100,8 +102,6 @@ public class BattleManager : MonoBehaviour
             SceneManager.LoadScene("Scenes/DungeonMap");
         }
 
-        movetext.text = playerMove.ToString();
-
     }
 
 
@@ -132,6 +132,7 @@ public class BattleManager : MonoBehaviour
     }
 
     void recalculateEnemyHealthBar() {
+        canvasEnemyHealthBar.fillAmount = enemyEntity.remainingHP / enemy.health;
         enemyHealthBar.size = new Vector2(enemyOriginalSize*enemyEntity.remainingHP/enemy.health, 0.64f);
         float leftShift = (enemyOriginalSize-enemyHealthBar.size.x)*enemyOriginalSize/40;
         enemyHealthBar.transform.position = new Vector3(enemyHealthBarLoc.x-leftShift,enemyHealthBarLoc.y,enemyHealthBarLoc.z);
@@ -158,6 +159,7 @@ public class BattleManager : MonoBehaviour
         battle.perform(BattleOption.ATTACK);
         battle.endTurn();
 
+        CanvasHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
         healthBar.size = new Vector2(originalSize*playerEntity.remainingHP/player.health, 0.64f);
         float leftShift = (originalSize-healthBar.size.x)*originalSize/40;
         healthBar.transform.position = new Vector3(playerHealthBarLoc.x-leftShift,playerHealthBarLoc.y,playerHealthBarLoc.z);
