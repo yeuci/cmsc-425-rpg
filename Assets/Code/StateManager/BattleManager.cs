@@ -25,19 +25,15 @@ public class BattleManager : MonoBehaviour
     bool playerMove;
     System.Func<bool> isEnemyMove;
     public Item usedItem;
-    float leftBound;
-    float originalSize, enemyOriginalSize;
-    Vector3 playerHealthBarLoc, enemyHealthBarLoc;
     bool minigameSuccess;
+    // Blocks UI when minigame is starting
     public GameObject UIBlocker;
 
-    public SpriteRenderer healthBar, enemyHealthBar;
     [HideInInspector] public PlayerManager playerManager;
-    public Image CanvasHealthBar, CanvasManaBar;
-    public Image canvasEnemyHealthBar;
+    // Player and enemy health and mana bars
+    public Image playerHealthBar, playerManaBar;
+    public Image enemyHealthBar;
     public Canvas healthstuff;
-
-    float playerHealth, enemyHealth;
 
     // Tracks escape attempts for Run option
     float escapeAttempts;
@@ -64,12 +60,7 @@ public class BattleManager : MonoBehaviour
         
         battle = new Battle(playerEntity, enemyEntity, usedItem, popupGenerator);
 
-        leftBound = healthBar.transform.position.x - healthBar.size.x/2;
-        originalSize = healthBar.size.x;
-        enemyOriginalSize = enemyHealthBar.size.x;
-        
-        playerHealthBarLoc = healthBar.transform.position;
-        enemyHealthBarLoc = enemyHealthBar.transform.position;
+        playerHealthBar.fillAmount = playerEntity.remainingHP / player.health;
 
         escapeAttempts = 0;
 
@@ -124,10 +115,7 @@ public class BattleManager : MonoBehaviour
     }
 
     void recalculateEnemyHealthBar() {
-        canvasEnemyHealthBar.fillAmount = enemyEntity.remainingHP / enemy.health;
-        enemyHealthBar.size = new Vector2(enemyOriginalSize*enemyEntity.remainingHP/enemy.health, 0.64f);
-        float leftShift = (enemyOriginalSize-enemyHealthBar.size.x)*enemyOriginalSize/40;
-        enemyHealthBar.transform.position = new Vector3(enemyHealthBarLoc.x-leftShift,enemyHealthBarLoc.y,enemyHealthBarLoc.z);
+        enemyHealthBar.fillAmount = enemyEntity.remainingHP / enemy.health;
     }
 
     void checkDeath() {
@@ -178,12 +166,7 @@ public class BattleManager : MonoBehaviour
         battle.perform(BattleOption.ATTACK);
         battle.endTurn();
 
-        CanvasHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
-        healthBar.size = new Vector2(originalSize*playerEntity.remainingHP/player.health, 0.64f);
-        float leftShift = (originalSize-healthBar.size.x)*originalSize/40;
-        healthBar.transform.position = new Vector3(playerHealthBarLoc.x-leftShift,playerHealthBarLoc.y,playerHealthBarLoc.z);
-        
-        
+        playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
     }
 
     public void playerRun() {
@@ -252,9 +235,8 @@ public class BattleManager : MonoBehaviour
             battle.perform(BattleOption.POTION);
             battle.endTurn();
 
-            healthBar.size = new Vector2(originalSize*playerEntity.remainingHP/player.health, 0.64f);
-            float leftShift = (originalSize-healthBar.size.x)*originalSize/40;
-            healthBar.transform.position = new Vector3(playerHealthBarLoc.x-leftShift,playerHealthBarLoc.y,playerHealthBarLoc.z);
+            playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
+
             playerMove = false;
         }
     }

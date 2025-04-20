@@ -24,8 +24,6 @@ public class DamagePopupGenerator : MonoBehaviour
 
         var offest = position + new Vector3(0, -1.5f, 0);
 
-        Debug.Log(position);
-
         var popup = Instantiate(prefab, offest, Quaternion.identity);
         var temp = popup.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
         temp.text = text;
