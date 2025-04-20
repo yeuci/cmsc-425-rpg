@@ -5,13 +5,16 @@ using UnityEngine.SceneManagement;
 public class Detection : MonoBehaviour
 {
     SphereCollider detector;
+    public Entity enemyEntityPrefab;
+    [HideInInspector] public PlayerManager playerManager;
 
     void Start()
-    {
+    {   
+        playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
+
         detector = gameObject.AddComponent<SphereCollider>();
         detector.isTrigger = true;
         detector.radius = 3;
-
     }
 
     void OnTriggerEnter(Collider other)
@@ -19,7 +22,9 @@ public class Detection : MonoBehaviour
         if (other.tag == "Player") {
             Debug.Log("Contact Made");
 
-            // TODO!! layer scene on top of current scene and unload combatmanagerscene after battle ends
+            playerManager.enemyBeforeCombat = enemyEntityPrefab.enemyId;
+            playerManager.enemyPositionBeforeCombat = transform.position;
+
             SceneManager.LoadScene("Scenes/CombatManagerScene");
         }
     }

@@ -1,5 +1,4 @@
 using UnityEngine;
-using System.Collections;
 
 public class CharacterMove : MonoBehaviour
 {
@@ -13,10 +12,12 @@ public class CharacterMove : MonoBehaviour
     private CharacterController controller;
     private Vector3 velocity;
     private bool isGrounded;
+    private PlayerManager playerManager;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
+        
         controller = GetComponent<CharacterController>();
         playerObject = GameObject.FindGameObjectWithTag("Player");
         playerEntity = playerObject.GetComponent<Entity>();
@@ -24,15 +25,20 @@ public class CharacterMove : MonoBehaviour
         moveSpeed = player.speed;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        // This part handles movement and jumping
+        if (playerManager != null && playerManager.isMenuActive)
+        {
+            return; 
+        }
+
         isGrounded = controller.isGrounded;
+
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
 
         Vector3 moveDirection = new Vector3(horizontal, 0, vertical);
+
         if (moveDirection.magnitude > 0.1f)
         {
             Transform cameraTransform = Camera.main.transform;
@@ -47,12 +53,13 @@ public class CharacterMove : MonoBehaviour
             moveDirection = forward * vertical + right * horizontal;
             moveDirection.Normalize();
         }
+
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             velocity.y = jumpSpeed;
         }
+
         velocity.y -= gravity * Time.deltaTime;
         controller.Move((moveDirection * moveSpeed + velocity) * Time.deltaTime);
-
     }
 }

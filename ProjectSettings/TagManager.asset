@@ -18,6 +18,8 @@ TagManager:
   - vfx_heal
   - gui_inventory
   - gui_hotbar
+  - EscapeMenu
+  - InventoryMenu
   layers:
   - Default
   - TransparentFX

@@ -17,9 +17,13 @@ public class SwingAsCoroutine : MonoBehaviour
     float start;
 
     float effectiveTime = 0;
+    private PlayerManager playerManager;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
+
         baseRot = transform.localRotation;
         start = degrees*Mathf.Sin(startPhase * 2 * Mathf.PI);
         StartCoroutine(Swing());
@@ -33,9 +37,10 @@ public class SwingAsCoroutine : MonoBehaviour
     }
 
     bool MoveKeyPressed() {
-        return KeyPressed(Key.W) || KeyPressed(Key.A) || KeyPressed(Key.D) || KeyPressed(Key.S) ||
+        bool pressed = KeyPressed(Key.W) || KeyPressed(Key.A) || KeyPressed(Key.D) || KeyPressed(Key.S) ||
                 KeyPressed(Key.UpArrow) || KeyPressed(Key.DownArrow) || KeyPressed(Key.LeftArrow) ||
                 KeyPressed(Key.RightArrow);
+        return pressed && !playerManager.isMenuActive;
     }
 
     IEnumerator Swing() {

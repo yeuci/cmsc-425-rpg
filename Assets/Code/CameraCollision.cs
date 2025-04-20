@@ -9,71 +9,67 @@ public class CameraCollision : MonoBehaviour
     public float maxY = 50f;
     public LayerMask collisionMask;
 
-    public bool inventoryActive = false;
-
     private float currentYaw = 0f;
     private float currentPitch = 10f;
     private float distance;
 
+    private PlayerManager playerManager;
     void Start()
     {
+        playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
         distance = offset.magnitude;
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void LateUpdate()
     {
-        // Disable camera rotation if on inventory or in combat
-        if (Input.GetKeyDown(KeyCode.Tab) || Input.GetKeyDown(KeyCode.Escape))
+        if (playerManager == null) return;
+
+        if (playerManager.isMenuActive)
         {
-            inventoryActive = !inventoryActive;
+            Cursor.lockState = CursorLockMode.None;
+            Cursor.visible = true;
+            return;
         }
+        else
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
         HandleRotation();
         HandleCameraCollision();
     }
 
     void HandleRotation()
     {
-        // Rotate player by cursor coordinates
         float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
         float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed;
 
-        // If inventory is open, disable rotation and unlock cursor
-        if (inventoryActive)
-        {
-            Cursor.lockState = CursorLockMode.None;
-        }
-        // If inventory isn't open, enable rotation and lock cursor
-        else
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            currentYaw += mouseX;
-            currentPitch -= mouseY;
-            currentPitch = Mathf.Clamp(currentPitch, minY, maxY);
-        }
+        currentYaw += mouseX;
+        currentPitch -= mouseY;
+        currentPitch = Mathf.Clamp(currentPitch, minY, maxY);
     }
 
     void HandleCameraCollision()
     {
-        // Desired camera position based on rotation and offset
         Quaternion rotation = Quaternion.Euler(currentPitch, currentYaw, 0);
         Vector3 desiredPosition = player.position + rotation * offset;
         player.eulerAngles = new Vector3(player.eulerAngles.x, currentYaw + 90, player.eulerAngles.z);
 
-        // Raycast from target to desired position
         RaycastHit hit;
         Vector3 direction = desiredPosition - player.position;
 
         if (Physics.Raycast(player.position, direction.normalized, out hit, distance, collisionMask))
         {
-            // If there's a hit, move camera to that point instead
-            transform.position = hit.point - direction.normalized * 0.3f; // offset so it doesn't clip into object
+            transform.position = hit.point - direction.normalized * 0.3f;
         }
         else
         {
             transform.position = desiredPosition;
         }
-        // Always look at the player
-        transform.LookAt(player.position + Vector3.up * 2.0f); // Adjust for head height
+
+        transform.LookAt(player.position + Vector3.up * 2.0f);
     }
 }
