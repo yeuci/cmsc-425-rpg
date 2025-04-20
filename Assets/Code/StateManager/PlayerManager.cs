@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -57,6 +58,22 @@ public class PlayerManager : MonoBehaviour
             inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
             escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
         }
+    }
+
+    public IEnumerator DelayedDungeonRestore()
+    {
+        yield return null;
+        yield return null;
+
+        Debug.Log("WE ARE BACK IN DUNGEON FROM THE BATTLE SCENE");
+
+        InventoryManager inventoryManager = GameObject.FindGameObjectWithTag("InventoryManager")?.GetComponent<InventoryManager>();
+        inventoryManager.UpdateInventoryUIWithItemSave();
+    }
+
+    void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     public Entity entity() {

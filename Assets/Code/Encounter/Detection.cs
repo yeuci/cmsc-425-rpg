@@ -20,6 +20,11 @@ public class Detection : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player") {
+            if (enemyEntityPrefab == null) {
+                Debug.Log("MADE ENEMY CONTACT RIGHT AFTER BATTLE SCENE... LIKELY DUE TO GAMEOBJECT NOT DESTROYING FAST ENOUGH");
+                return;
+            }
+
             Debug.Log("Contact Made");
 
             playerManager.enemyBeforeCombat = enemyEntityPrefab.enemyId;
