@@ -31631,6 +31631,200 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4756490073816273334, guid: c958412f7bde25649af76940cb6918d4, type: 3}
   m_PrefabInstance: {fileID: 1752419683}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2101353949
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1501898899443169836, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 59.53
+      objectReference: {fileID: 0}
+    - target: {fileID: 1501898899443169836, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1501898899443169836, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 114.64
+      objectReference: {fileID: 0}
+    - target: {fileID: 1501898899443169836, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1501898899443169836, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1501898899443169836, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1501898899443169836, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1501898899443169836, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1501898899443169836, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1501898899443169836, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4260596686202681483, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8242901318830913211, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
+      propertyPath: m_Name
+      value: Enemy (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8242901318830913211, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8242901318830913211, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2101353952}
+    - targetCorrespondingSourceObject: {fileID: 8242901318830913211, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2101353951}
+  m_SourcePrefab: {fileID: 100100000, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
+--- !u!1 &2101353950 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8242901318830913211, guid: b5349e6cc9a7770459f38c7b175447ac, type: 3}
+  m_PrefabInstance: {fileID: 2101353949}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2101353951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101353950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb78b0c18dcb58489be2e72cddd758e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stats:
+    level: 1
+    experience: 0
+    expToNext: 198
+    health: 100
+    attack: 10
+    defense: 10
+    speed: 10
+    magic: 5
+  equippedGear: []
+  equippedGearCount: 0
+  inventory:
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  inventoryCount: 0
+  eClass: 3
+  remainingHP: 100
+  isAlive: 1
+  enemyId: 2
+--- !u!114 &2101353952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2101353950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5740feb16e3d747629a51727599cc5e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyEntityPrefab: {fileID: 2101353951}
+  playerManager: {fileID: 0}
 --- !u!4 &2102859420 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8395878610197010207, guid: c78656f2f53ae1249834e1e17ceb9c20, type: 3}
@@ -32700,6 +32894,7 @@ SceneRoots:
   - {fileID: 1892593645}
   - {fileID: 1692649522}
   - {fileID: 2021285643}
+  - {fileID: 2101353949}
   - {fileID: 66689199}
   - {fileID: 680616772}
   - {fileID: 1968981818}
