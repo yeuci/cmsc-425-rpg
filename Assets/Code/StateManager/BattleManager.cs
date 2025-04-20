@@ -76,6 +76,8 @@ public class BattleManager : MonoBehaviour
             Debug.Log("ENEMY"+msg);
         }
         isEnemyMove = () => !playerMove;
+        UnityEngine.Cursor.lockState = CursorLockMode.None;
+        UnityEngine.Cursor.visible = true;
         StartCoroutine(StalledUpdate());
     }
 
