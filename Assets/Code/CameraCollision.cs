@@ -4,10 +4,12 @@ public class CameraCollision : MonoBehaviour
 {
     public Transform player; // The player
     public Vector3 offset = new Vector3(0, 8, -10); // Default camera position
-    public float rotationSpeed = 5f;
-    public float minY = -45f;
-    public float maxY = 50f;
+    public float rotationSpeed = 5f; // Rotation speed of camera/player
+    public float minY = -45f; // Minimum Y degree of camera rotation
+    public float maxY = 50f; // Maximum Y degree of camera rotation
     public LayerMask collisionMask;
+
+    public bool openedMenu = false;
 
     private float currentYaw = 0f;
     private float currentPitch = 10f;
@@ -46,7 +48,6 @@ public class CameraCollision : MonoBehaviour
     {
         float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
         float mouseY = Input.GetAxis("Mouse Y") * rotationSpeed;
-
         currentYaw += mouseX;
         currentPitch -= mouseY;
         currentPitch = Mathf.Clamp(currentPitch, minY, maxY);

@@ -54,6 +54,9 @@ public class BattleManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
         playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
         playerEntity = PlayerManager.player.entity();
         playerEntity.transform.position = new Vector3(-3.25f, 0.5f, 0);
