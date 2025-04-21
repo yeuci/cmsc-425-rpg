@@ -2530,7 +2530,10 @@ MonoBehaviour:
     defense: 10
     speed: 10
     magic: 5
-  equippedGear: []
+  equippedGear:
+  - {fileID: 11400000, guid: 25c29a11422fd214c986a7afa9ea0f42, type: 2}
+  - {fileID: 11400000, guid: 25c29a11422fd214c986a7afa9ea0f42, type: 2}
+  - {fileID: 11400000, guid: 0e76f221c2b210b4d97c8b0b917170e9, type: 2}
   equippedGearCount: 0
   inventory:
   - count: 0

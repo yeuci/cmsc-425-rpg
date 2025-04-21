@@ -259,17 +259,23 @@ public class BattleManager : MonoBehaviour
     public void determineEnemyAction() {
         Item bestOffense = null;
         float highestDamage = 0f;
+        float bestHealing = 0f;
         bool canHeal = false;
         //Step 1: Get Best offensive action.
         foreach(Item i in enemyEntity.equippedGear) {
             if(i.actionType == ActionType.Consume) {
                 canHeal = true;
+                if(i.healing > bestHealing) {
+                    bestHealing = i.healing;
+                }
+            } else {
+                battle.setUsedItem(i);
+                if(battle.returnDamage() > highestDamage) {
+                    highestDamage = battle.returnDamage();
+                    bestOffense = i;
+                }
             }
-            battle.setUsedItem(i);
-            if(battle.returnDamage() > highestDamage) {
-                highestDamage = battle.returnDamage();
-                bestOffense = i;
-            }
+            
         }
         if(playerEntity.remainingHP <= highestDamage) { //If I can kill the player this turn
             battle.setUsedItem(bestOffense);
@@ -280,7 +286,8 @@ public class BattleManager : MonoBehaviour
             }
             playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
         } else if (enemyEntity.remainingHP/enemy.health <= 0.1f && canHeal) { //If I am below 10% health and I have a healing potion
-            //Do the healing
+            enemyEntity.remainingHP += Mathf.Min(enemy.health, enemyEntity.remainingHP+bestHealing);
+            //Decrement the number of healing potions in my inventory.
         } else { //Make my best attack
             battle.setUsedItem(bestOffense);
             Debug.Log("ATTACKING FROM ENEMY");
