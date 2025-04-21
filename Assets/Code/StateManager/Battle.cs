@@ -51,32 +51,28 @@ public class Battle
 
     public void perform(BattleOption battleOption) {
         switch (battleOption) {
-            case BattleOption.ATTACK:
-                if(usedItem.actionType == ActionType.Attack) {
+            case BattleOption.USE_ITEM:
+                Debug.Log(usedItem);
+                if(usedItem.actionType == ActionType.Attack){
                     float damage =  attackerStats.attack + attackerStats.attack*usedItem.attackPower/defenderStats.defense;
                     defender.remainingHP -= damage;
 
                     popupGenerator.CreatePopUp(defender.transform.position, damage.ToString(), defender.transform.right);
-                }
-                endTurn();
-                break;        
-            case BattleOption.MAGIC:
-                if (usedItem.actionType == ActionType.Cast) {
+                } else if (usedItem.actionType == ActionType.Cast) {
                     float damage = attackerStats.magic + attackerStats.magic*usedItem.magicPower;
                     defender.remainingHP -= damage;
 
                     popupGenerator.CreatePopUp(defender.transform.position, damage.ToString(),defender.transform.right);
+                } else if (usedItem.actionType == ActionType.Consume) {
+                    //Eliminate the item in the player's inventory.
                 }
+                //Do the healing
+                attacker.remainingHP = Mathf.Min(attackerStats.health,attacker.remainingHP+usedItem.healing);
+
                 endTurn();
                 break;
+            
             case BattleOption.RUN:
-                endTurn();
-                break;
-            case BattleOption.POTION:
-                attacker.remainingHP += 10;
-                if (attacker.remainingHP > attackerStats.health) {
-                    attacker.remainingHP = attackerStats.health;
-                }
                 endTurn();
                 break;
         }
