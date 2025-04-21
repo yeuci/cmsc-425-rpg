@@ -98,7 +98,7 @@ public class BattleManager : MonoBehaviour
     IEnumerator StalledUpdate() {
         yield return new WaitUntil(isEnemyMove);
         yield return new WaitForSeconds(1);
-        enemyAttack();
+        determineEnemyAction();
         playerMove = true;
         StartCoroutine(StalledUpdate());
     }
@@ -113,7 +113,7 @@ public class BattleManager : MonoBehaviour
             battle.perform(BattleOption.ATTACK);
             AudioSource swordSwipe = GetComponent<AudioSource>();
             swordSwipe.Play();
-            battle.endTurn();
+            //battle.endTurn();
 
             recalculateEnemyHealthBar();
         
@@ -179,15 +179,6 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    public void enemyAttack() {
-        usedItem.actionType = ActionType.Attack;
-        Debug.Log("ATTACKING FROM ENEMY");
-        battle.perform(BattleOption.ATTACK);
-        battle.endTurn();
-
-        playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
-    }
-
     public void playerRun() {
         if(playerMove){
             animationManager.Animate(BattleOption.RUN);
@@ -236,9 +227,11 @@ public class BattleManager : MonoBehaviour
                 recalculateEnemyHealthBar();
         
                 checkDeath();
+        } else {
+            battle.endTurn();
         }
 
-        battle.endTurn();
+        //battle.endTurn();
 
         playerMove = false;
         UIBlocker.SetActive(false);
@@ -252,7 +245,7 @@ public class BattleManager : MonoBehaviour
         if(playerMove) {
             animationManager.Animate(BattleOption.POTION);
             battle.perform(BattleOption.POTION);
-            battle.endTurn();
+            //battle.endTurn();
 
             playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
 
@@ -261,4 +254,50 @@ public class BattleManager : MonoBehaviour
     }
     
     
+//Enemy Actions
+
+    public void determineEnemyAction() {
+        Item bestOffense = null;
+        float highestDamage = 0f;
+        bool canHeal = false;
+        //Step 1: Get Best offensive action.
+        foreach(Item i in enemyEntity.equippedGear) {
+            if(i.actionType == ActionType.Consume) {
+                canHeal = true;
+            }
+            battle.setUsedItem(i);
+            if(battle.returnDamage() > highestDamage) {
+                highestDamage = battle.returnDamage();
+                bestOffense = i;
+            }
+        }
+        if(playerEntity.remainingHP <= highestDamage) { //If I can kill the player this turn
+            battle.setUsedItem(bestOffense);
+            if(bestOffense.actionType == ActionType.Attack) {
+                battle.perform(BattleOption.ATTACK);
+            } else {
+                battle.perform(BattleOption.MAGIC);
+            }
+            playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
+        } else if (enemyEntity.remainingHP/enemy.health <= 0.1f && canHeal) { //If I am below 10% health and I have a healing potion
+            //Do the healing
+        } else { //Make my best attack
+            battle.setUsedItem(bestOffense);
+            Debug.Log("ATTACKING FROM ENEMY");
+            if(bestOffense.actionType == ActionType.Attack) {
+                battle.perform(BattleOption.ATTACK);
+            } else {
+                battle.perform(BattleOption.MAGIC);
+            }
+            playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
+        }
+    }
+    public void enemyAttack() {
+        usedItem.actionType = ActionType.Attack;
+        Debug.Log("ATTACKING FROM ENEMY");
+        battle.perform(BattleOption.ATTACK);
+        //battle.endTurn();
+
+        playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
+    }
 }
