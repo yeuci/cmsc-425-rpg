@@ -254,42 +254,52 @@ public class BattleManager : MonoBehaviour
     
     
 //Enemy Action
+    //The goal is to have the AI make less mistakes as the player becomes more powerful.
     public void enemyArtificialIntelligence() {
-        Item bestDamage = null;
-        Item bestHealing = null;
-        float maxDamage = 0f;
-        float maxHealing = 0f;
-        //Use equipped gear to determine best healing and best damage
-        if(enemyEntity.equippedGearCount == 0) {
-            Debug.Log("No equipped items found. Running");
-            battle.perform(BattleOption.RUN);
-        }
-        foreach (Item i in enemyEntity.equippedGear){
-            if(i != null) {
-                if(i.healing > maxHealing) {
-                    bestHealing = i;
-                    maxHealing = i.healing;
-                }
-                battle.setUsedItem(i);
-                if(battle.returnDamage() > maxDamage) {
-                    maxDamage = battle.returnDamage();
-                    bestDamage = i;
+        System.Random rd = new System.Random();
+        int rand_num = rd.Next(1,10);
+        if(rand_num <= player.level) {
+            //Take a random action.
+            Item itemPick = enemyEntity.inventory[rd.Next(0,enemyEntity.inventoryCount)].itemData;
+            battle.setUsedItem(itemPick);
+        } else {
+            Item bestDamage = null;
+            Item bestHealing = null;
+            float maxDamage = 0f;
+            float maxHealing = 0f;
+            //Use equipped gear to determine best healing and best damage
+            if(enemyEntity.equippedGearCount == 0) {
+                Debug.Log("No equipped items found. Running");
+                battle.perform(BattleOption.RUN);
+            }
+            foreach (Item i in enemyEntity.equippedGear){
+                if(i != null) {
+                    if(i.healing > maxHealing) {
+                        bestHealing = i;
+                        maxHealing = i.healing;
+                    }
+                    battle.setUsedItem(i);
+                    if(battle.returnDamage() > maxDamage) {
+                        maxDamage = battle.returnDamage();
+                        bestDamage = i;
+                    }
                 }
             }
-        }
-        //Determine the course of action
-        if(playerEntity.remainingHP <= maxDamage) { //If I can kill the player this turn, do it
-            Debug.Log("Can Kill player. Max damage is "+maxDamage );
-            battle.setUsedItem(bestDamage);
-        } else if (enemyEntity.remainingHP/enemy.health <= 0.1f && maxHealing > 0f) { //I am at at < 10% HP and can heal
-            Debug.Log("At risk of death. Healing now");
-            battle.setUsedItem(bestHealing);
-        } else {
-            Debug.Log("Not at risk of death. Attacking");
-            battle.setUsedItem(bestDamage);
+            //Determine the course of action
+            if(playerEntity.remainingHP <= maxDamage) { //If I can kill the player this turn, do it
+                Debug.Log("Can Kill player. Max damage is "+maxDamage );
+                battle.setUsedItem(bestDamage);
+            } else if (enemyEntity.remainingHP/enemy.health <= 0.1f && maxHealing > 0f) { //I am at at < 10% HP and can heal
+                Debug.Log("At risk of death. Healing now");
+                battle.setUsedItem(bestHealing);
+            } else {
+                Debug.Log("Not at risk of death. Attacking");
+                battle.setUsedItem(bestDamage);
+            }
         }
         battle.perform(BattleOption.USE_ITEM);
         playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
-        recalculateEnemyHealthBar();
+        enemyHealthBar.fillAmount   = enemyEntity.remainingHP / enemy.health;
+        recalculateEnemyHealthBar(); 
     }
 }
