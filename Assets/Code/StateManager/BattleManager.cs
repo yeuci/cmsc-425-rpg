@@ -259,7 +259,7 @@ public class BattleManager : MonoBehaviour
         System.Random rd = new System.Random();
         int rand_num = rd.Next(1,10);
         if(rand_num <= player.level) {
-            //Take a random action.
+            //Take a random action. This works if the player can hit level 10.
             Item itemPick = enemyEntity.inventory[rd.Next(0,enemyEntity.inventoryCount)].itemData;
             battle.setUsedItem(itemPick);
         } else {
