@@ -7,6 +7,8 @@ public class ActivateSpikes : MonoBehaviour
     GameObject spikes;
     GameObject player;
     AudioSource spikeAudio;
+    CharacterController controller;
+    public Entity playerEntity;
     void Start()
     {
         BoxCollider hitbox = GetComponent<BoxCollider>();
@@ -14,12 +16,23 @@ public class ActivateSpikes : MonoBehaviour
         spikes = transform.parent.gameObject;
         player = GameObject.FindGameObjectWithTag("Player");
         spikeAudio = GetComponent<AudioSource>();
+        playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
+        controller = player.GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player") {
+            
+            if (playerEntity != null) {
+                Debug.Log("Current HP: " + playerEntity.remainingHP);
+                playerEntity.remainingHP -= 15; // Deal 15 damage to player's health   
+            }
+            
+            Vector3 knockbackDirection = (other.transform.position - transform.position).normalized;
+            StartCoroutine(Knockback(knockbackDirection));
+
             StartCoroutine(SpikeTrapActivation());
         }
     }
@@ -39,5 +52,19 @@ public class ActivateSpikes : MonoBehaviour
         }
         transform.parent = spikes.transform;
         yield return null;
+    }
+
+    IEnumerator Knockback(Vector3 direction)
+    {
+        float knockbackDuration = 0.2f;
+        float timer = 0f;
+        float knockbackSpeed = 25f;
+
+        while (timer < knockbackDuration)
+        {
+            controller.Move(direction * knockbackSpeed * Time.deltaTime);
+            timer += Time.deltaTime;
+            yield return null;
+        }
     }
 }
