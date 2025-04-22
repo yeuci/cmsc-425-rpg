@@ -12,6 +12,10 @@ public class Battle
     Stat attackerStats, defenderStats;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    public Color dmgColor = Color.red;
+    public Color healColor = Color.green;
+
     
     public Battle(Entity a, Entity d, Item uI, DamagePopupGenerator popupGen) {
         attacker = a;
@@ -56,7 +60,7 @@ public class Battle
                     float damage =  attackerStats.attack + attackerStats.attack*usedItem.attackPower/defenderStats.defense;
                     defender.remainingHP -= damage;
 
-                    popupGenerator.CreatePopUp(defender.transform.position, damage.ToString(), defender.transform.right);
+                    popupGenerator.CreatePopUp(defender.transform.position, damage.ToString(), defender.transform.right, dmgColor);
                 }
                 endTurn();
                 break;        
@@ -65,7 +69,7 @@ public class Battle
                     float damage = attackerStats.magic + attackerStats.magic*usedItem.magicPower;
                     defender.remainingHP -= damage;
 
-                    popupGenerator.CreatePopUp(defender.transform.position, damage.ToString(),defender.transform.right);
+                    popupGenerator.CreatePopUp(defender.transform.position, damage.ToString(),defender.transform.right, dmgColor);
                 }
                 endTurn();
                 break;
@@ -73,10 +77,12 @@ public class Battle
                 endTurn();
                 break;
             case BattleOption.POTION:
-                attacker.remainingHP += 10;
+                float healAmount = 10f;
+                attacker.remainingHP += healAmount;
                 if (attacker.remainingHP > attackerStats.health) {
                     attacker.remainingHP = attackerStats.health;
                 }
+                popupGenerator.CreatePopUp(attacker.transform.position, healAmount.ToString(),attacker.transform.right, healColor);
                 endTurn();
                 break;
         }

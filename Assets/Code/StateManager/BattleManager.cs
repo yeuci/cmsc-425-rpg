@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
 using Unity.VisualScripting.ReorderableList;
@@ -44,8 +45,7 @@ public class BattleManager : MonoBehaviour
     public Image enemyHealthBar;
     public Canvas healthstuff;
 
-    // Tracks escape attempts for Run option
-    float escapeAttempts;
+
     [HideInInspector] private InventoryManager inventoryManager;
 
     void Awake()
@@ -88,7 +88,7 @@ public class BattleManager : MonoBehaviour
         }
         isEnemyMove = () => !playerMove;
 
-        GetSpells();
+        // GetSpells();
 
         // Debug.Log(spells.Count);
         StartCoroutine(StalledUpdate());
@@ -256,7 +256,6 @@ public class BattleManager : MonoBehaviour
         if(playerMove) {
             animationManager.Animate(BattleOption.POTION);
             battle.perform(BattleOption.POTION);
-            //battle.endTurn();
 
             playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
 
@@ -301,22 +300,30 @@ public class BattleManager : MonoBehaviour
         float highestDamage = 0f;
         float bestHealing = 0f;
         bool canHeal = false;
+        Dictionary<int, ItemSave> potions = new Dictionary<int, ItemSave>();
         //Step 1: Get Best offensive action.
-        foreach(Item i in enemyEntity.equippedGear) {
-            if(i.actionType == ActionType.Consume) {
-                canHeal = true;
-                if(i.healing > bestHealing) {
-                    bestHealing = i.healing;
+        for (int j=0; j < enemyEntity.inventory.Length; ++j) {
+            ItemSave item = enemyEntity.inventory[j];
+            if (item != null && item.itemData != null) {
+                Item i = enemyEntity.inventory[j].itemData;
+                
+                if(i.actionType == ActionType.Consume) {
+                    canHeal = true;
+                    if(i.healing > bestHealing) {
+                        bestHealing = i.healing;
+                        potions.Add(j, item);
+                    }
+                } else {
+                    battle.setUsedItem(i);
+                    if(battle.returnDamage() > highestDamage) {
+                        highestDamage = battle.returnDamage();
+                        bestOffense = i;
+                    }
                 }
-            } else {
-                battle.setUsedItem(i);
-                if(battle.returnDamage() > highestDamage) {
-                    highestDamage = battle.returnDamage();
-                    bestOffense = i;
-                }
+                
             }
-            
         }
+
         if(playerEntity.remainingHP <= highestDamage) { //If I can kill the player this turn
             battle.setUsedItem(bestOffense);
             if(bestOffense.actionType == ActionType.Attack) {
@@ -326,8 +333,12 @@ public class BattleManager : MonoBehaviour
             }
             playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
         } else if (enemyEntity.remainingHP/enemy.health <= 0.1f && canHeal) { //If I am below 10% health and I have a healing potion
-            enemyEntity.remainingHP += Mathf.Min(enemy.health, enemyEntity.remainingHP+bestHealing);
+            battle.perform(BattleOption.POTION);
+            // enemyEntity.remainingHP += Mathf.Min(enemy.health, enemyEntity.remainingHP+bestHealing);
+            recalculateEnemyHealthBar();
             //Decrement the number of healing potions in my inventory.
+            ItemSave potion = potions[0];
+            potion.count -= 1;
         } else { //Make my best attack
             battle.setUsedItem(bestOffense);
             Debug.Log("ATTACKING FROM ENEMY");
