@@ -44,6 +44,10 @@ public class BattleManager : MonoBehaviour
     public Image enemyHealthBar;
     public Canvas healthstuff;
 
+    // Tracks escape attempts for Run option
+    float escapeAttempts;
+    [HideInInspector] private InventoryManager inventoryManager;
+
     void Awake()
     {
         if(enemyEntity != null) {
@@ -51,6 +55,7 @@ public class BattleManager : MonoBehaviour
         }   
         
         enemyEntity = enemyGameObject.GetComponent<Entity>();
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -58,7 +63,7 @@ public class BattleManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-
+        
         playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
         playerEntity = PlayerManager.player.entity();
         playerEntity.transform.position = new Vector3(-3.25f, 0.5f, 0);
@@ -104,7 +109,7 @@ public class BattleManager : MonoBehaviour
     IEnumerator StalledUpdate() {
         yield return new WaitUntil(isEnemyMove);
         yield return new WaitForSeconds(1);
-        enemyAttack();
+        determineEnemyAction();
         playerMove = true;
         StartCoroutine(StalledUpdate());
     }
@@ -117,7 +122,9 @@ public class BattleManager : MonoBehaviour
 
             animationManager.Animate(BattleOption.ATTACK);
             battle.perform(BattleOption.ATTACK);
-            battle.endTurn();
+            AudioSource swordSwipe = GetComponent<AudioSource>();
+            swordSwipe.Play();
+            //battle.endTurn();
 
             recalculateEnemyHealthBar();
         
@@ -141,10 +148,25 @@ public class BattleManager : MonoBehaviour
             Debug.Log("Player is Lvl " + player.level + "! Progress: " + player.experience + "/"+player.expToNext);
 
             SceneManager.LoadScene("Scenes/DungeonMap");
+        }
+    }
 
-            // set prev position
-            playerEntity.transform.position = playerManager.enemyPositionBeforeCombat;
+    void checkEnemyDeath() {
+        if(playerEntity.remainingHP <= 0) {
+            Debug.Log("Player has lost the battle");
 
+            // TODO: Add death screen NOT load screen
+            SceneManager.LoadScene("Scenes/DungeonMap");
+        }
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "DungeonMap")
+        {
+            GameObject playerTransform = GameObject.FindGameObjectWithTag("Player");
+            playerTransform.transform.position = new Vector3(playerManager.enemyPositionBeforeCombat.x, playerManager.enemyPositionBeforeCombat.y, playerManager.enemyPositionBeforeCombat.z);
+            
             // find and remove defeated enemy
             GameObject[] allObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
             foreach (GameObject obj in allObjects)
@@ -155,31 +177,17 @@ public class BattleManager : MonoBehaviour
                     if (entity != null)
                     {
                         if (entity.enemyId == playerManager.enemyBeforeCombat) {
+                            obj.gameObject.SetActive(false);
                             Destroy(obj);
                         }
                     }
                 }
             }
+
+            playerManager.StartCoroutine(playerManager.DelayedDungeonRestore());
+
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
-    }
-
-    void checkEnemyDeath() {
-        if(playerEntity.remainingHP <= 0) {
-            Debug.Log("Player has lost the battle");
-
-            // TODO: Add death screen NOT load screen
-
-            SceneManager.LoadScene("Scenes/DungeonMap");
-        }
-    }
-
-    public void enemyAttack() {
-        usedItem.actionType = ActionType.Attack;
-        Debug.Log("ATTACKING FROM ENEMY");
-        battle.perform(BattleOption.ATTACK);
-        battle.endTurn();
-
-        playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
     }
 
     public void playerRun() {
@@ -230,9 +238,11 @@ public class BattleManager : MonoBehaviour
                 recalculateEnemyHealthBar();
         
                 checkDeath();
+        } else {
+            battle.endTurn();
         }
 
-        battle.endTurn();
+        //battle.endTurn();
 
         playerMove = false;
         UIBlocker.SetActive(false);
@@ -246,7 +256,7 @@ public class BattleManager : MonoBehaviour
         if(playerMove) {
             animationManager.Animate(BattleOption.POTION);
             battle.perform(BattleOption.POTION);
-            battle.endTurn();
+            //battle.endTurn();
 
             playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
 
@@ -283,5 +293,58 @@ public class BattleManager : MonoBehaviour
 
     void OpenMagicMenu() {
 
+    }
+//Enemy Actions
+
+    public void determineEnemyAction() {
+        Item bestOffense = null;
+        float highestDamage = 0f;
+        float bestHealing = 0f;
+        bool canHeal = false;
+        //Step 1: Get Best offensive action.
+        foreach(Item i in enemyEntity.equippedGear) {
+            if(i.actionType == ActionType.Consume) {
+                canHeal = true;
+                if(i.healing > bestHealing) {
+                    bestHealing = i.healing;
+                }
+            } else {
+                battle.setUsedItem(i);
+                if(battle.returnDamage() > highestDamage) {
+                    highestDamage = battle.returnDamage();
+                    bestOffense = i;
+                }
+            }
+            
+        }
+        if(playerEntity.remainingHP <= highestDamage) { //If I can kill the player this turn
+            battle.setUsedItem(bestOffense);
+            if(bestOffense.actionType == ActionType.Attack) {
+                battle.perform(BattleOption.ATTACK);
+            } else {
+                battle.perform(BattleOption.MAGIC);
+            }
+            playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
+        } else if (enemyEntity.remainingHP/enemy.health <= 0.1f && canHeal) { //If I am below 10% health and I have a healing potion
+            enemyEntity.remainingHP += Mathf.Min(enemy.health, enemyEntity.remainingHP+bestHealing);
+            //Decrement the number of healing potions in my inventory.
+        } else { //Make my best attack
+            battle.setUsedItem(bestOffense);
+            Debug.Log("ATTACKING FROM ENEMY");
+            if(bestOffense.actionType == ActionType.Attack) {
+                battle.perform(BattleOption.ATTACK);
+            } else {
+                battle.perform(BattleOption.MAGIC);
+            }
+            playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
+        }
+    }
+    public void enemyAttack() {
+        usedItem.actionType = ActionType.Attack;
+        Debug.Log("ATTACKING FROM ENEMY");
+        battle.perform(BattleOption.ATTACK);
+        //battle.endTurn();
+
+        playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
     }
 }

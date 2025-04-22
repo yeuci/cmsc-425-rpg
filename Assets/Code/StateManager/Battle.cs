@@ -32,6 +32,11 @@ public class Battle
         defender = d;
         defenderStats = defender.getAdjustedStats();
     }
+
+    public void setUsedItem(Item uI) {
+        usedItem = uI;
+        attackerStats = attacker.getAdjustedStats();
+    }
     
     public float returnDamage() {
         float damage = 0f;
@@ -53,6 +58,7 @@ public class Battle
 
                     popupGenerator.CreatePopUp(defender.transform.position, damage.ToString(), defender.transform.right);
                 }
+                endTurn();
                 break;        
             case BattleOption.MAGIC:
                 if (usedItem.actionType == ActionType.Cast) {
@@ -61,14 +67,17 @@ public class Battle
 
                     popupGenerator.CreatePopUp(defender.transform.position, damage.ToString(),defender.transform.right);
                 }
+                endTurn();
                 break;
             case BattleOption.RUN:
+                endTurn();
                 break;
             case BattleOption.POTION:
                 attacker.remainingHP += 10;
                 if (attacker.remainingHP > attackerStats.health) {
                     attacker.remainingHP = attackerStats.health;
                 }
+                endTurn();
                 break;
         }
     }
