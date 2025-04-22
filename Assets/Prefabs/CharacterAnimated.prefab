@@ -1061,7 +1061,6 @@ GameObject:
   - component: {fileID: 4962862009478031522}
   - component: {fileID: -6341129828074135891}
   - component: {fileID: -4150352846665392391}
-  - component: {fileID: 2770138529435600407}
   m_Layer: 0
   m_Name: CharacterAnimated
   m_TagString: Player
@@ -1105,11 +1104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 30
   jumpSpeed: 8
-  mouseSensitivity: 100
   gravity: 9.8
-  playerCamera: {fileID: 0}
-  cameraPitch: 0
-  pitchClamp: 80
 --- !u!143 &-4150352846665392391
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1135,33 +1130,6 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
---- !u!54 &2770138529435600407
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5551276656269014274}
-  serializedVersion: 4
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
 --- !u!1 &5636456132756943466
 GameObject:
   m_ObjectHideFlags: 0
