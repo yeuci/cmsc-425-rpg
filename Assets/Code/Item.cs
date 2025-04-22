@@ -96,6 +96,7 @@ public class Item : ScriptableObject {
     public int attackPower;
     public int healing;
     public int magicPower;
+    public int manaCost;
 
     [Header("UI")]
     public bool stackable = true;

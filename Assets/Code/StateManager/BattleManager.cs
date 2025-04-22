@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using Unity.VisualScripting;
+using Unity.VisualScripting.ReorderableList;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -16,28 +19,34 @@ public enum BattleOption {
 
 public class BattleManager : MonoBehaviour
 {
+    Entity playerEntity, enemyEntity;       // Player and enemy entity
+    Stat player, enemy;                     // Player and enemy stats
+    Battle battle;                          // Manages battle actions
+    bool playerMove;                        // Track if player can move
+    System.Func<bool> isEnemyMove;          // Track if enemy can move
+    bool minigameSuccess;                   // Tracks if minigame is successfull
+    float escapeAttempts;                   // Tracks escape attempts for Run option
+    List<ItemSave> spells = new List<ItemSave>();   // Tracks which spells the player has access to
+
+    // Managers
     public AnimationManager animationManager;
     public OpenMinigame minigame;
     public DamagePopupGenerator popupGenerator;
-    Entity playerEntity, enemyEntity;
+
     public GameObject enemyGameObject;
-    Stat player, enemy;
-    Battle battle;
-    bool playerMove;
-    System.Func<bool> isEnemyMove;
     public Item usedItem;
-    bool minigameSuccess;
-    // Blocks UI when minigame is starting
-    public GameObject UIBlocker;
+
+    public GameObject UIBlocker;              // Blocks UI when minigame is starting
+    public GameObject inventoryPanel;
 
     [HideInInspector] public PlayerManager playerManager;
+
     // Player and enemy health and mana bars
     public Image playerHealthBar, playerManaBar;
     public Image enemyHealthBar;
     public Canvas healthstuff;
 
-    // Tracks escape attempts for Run option
-    float escapeAttempts;
+
     [HideInInspector] private InventoryManager inventoryManager;
 
     void Awake()
@@ -79,8 +88,10 @@ public class BattleManager : MonoBehaviour
             Debug.Log("ENEMY"+msg);
         }
         isEnemyMove = () => !playerMove;
-        UnityEngine.Cursor.lockState = CursorLockMode.None;
-        UnityEngine.Cursor.visible = true;
+
+        // GetSpells();
+
+        // Debug.Log(spells.Count);
         StartCoroutine(StalledUpdate());
     }
 

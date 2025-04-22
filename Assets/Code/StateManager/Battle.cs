@@ -12,6 +12,10 @@ public class Battle
     Stat attackerStats, defenderStats;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
+
+    public Color dmgColor = Color.red;
+    public Color healColor = Color.green;
+
     
     public Battle(Entity a, Entity d, Item uI, DamagePopupGenerator popupGen) {
         attacker = a;
@@ -57,12 +61,12 @@ public class Battle
                     float damage =  attackerStats.attack + attackerStats.attack*usedItem.attackPower/defenderStats.defense;
                     defender.remainingHP -= damage;
 
-                    popupGenerator.CreatePopUp(defender.transform.position, damage.ToString(), defender.transform.right);
+                    popupGenerator.CreatePopUp(defender.transform.position, damage.ToString(), defender.transform.right, dmgColor);
                 } else if (usedItem.actionType == ActionType.Cast) {
                     float damage = attackerStats.magic + attackerStats.magic*usedItem.magicPower;
                     defender.remainingHP -= damage;
 
-                    popupGenerator.CreatePopUp(defender.transform.position, damage.ToString(),defender.transform.right);
+                    popupGenerator.CreatePopUp(defender.transform.position, damage.ToString(),defender.transform.right, dmgColor);
                 } else if (usedItem.actionType == ActionType.Consume) {
                     //Eliminate the item in the player's inventory.
                 }
@@ -73,6 +77,15 @@ public class Battle
                 break;
             
             case BattleOption.RUN:
+                endTurn();
+                break;
+            case BattleOption.POTION:
+                float healAmount = 10f;
+                attacker.remainingHP += healAmount;
+                if (attacker.remainingHP > attackerStats.health) {
+                    attacker.remainingHP = attackerStats.health;
+                }
+                popupGenerator.CreatePopUp(attacker.transform.position, healAmount.ToString(),attacker.transform.right, healColor);
                 endTurn();
                 break;
         }

@@ -344,6 +344,7 @@ public class InventoryManager : MonoBehaviour
         } else {
             Debug.Log("Inventory is full!");
         }
+        SendCurrentInventoryToState();
     }
 
     public Item UseSelectedItem() {

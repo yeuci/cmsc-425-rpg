@@ -20,12 +20,13 @@ public class DamagePopupGenerator : MonoBehaviour
         // }
     }
 
-    public void CreatePopUp(Vector3 position, string text, Vector3 facingDirection) {
+    public void CreatePopUp(Vector3 position, string text, Vector3 facingDirection, Color textColor) {
 
         var offest = position + new Vector3(0, -1.5f, 0);
 
         var popup = Instantiate(prefab, offest, Quaternion.identity);
         var temp = popup.transform.GetChild(0).GetComponent<TextMeshProUGUI>();
+        temp.color = textColor;
         temp.text = text;
 
         var popupAnimation = popup.GetComponent<DamagePopupAnimation>();
