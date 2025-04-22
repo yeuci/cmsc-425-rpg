@@ -13,7 +13,8 @@ public enum BattleOption {
         ATTACK = 0,
         MAGIC = 1,
         RUN = 2,
-        POTION = 3
+        POTION = 3,
+        USE_ITEM = 4
 }
 
 public class BattleManager : MonoBehaviour
@@ -109,7 +110,7 @@ public class BattleManager : MonoBehaviour
     IEnumerator StalledUpdate() {
         yield return new WaitUntil(isEnemyMove);
         yield return new WaitForSeconds(1);
-        determineEnemyAction();
+        enemyArtificialIntelligence();
         playerMove = true;
         StartCoroutine(StalledUpdate());
     }
@@ -121,7 +122,7 @@ public class BattleManager : MonoBehaviour
             usedItem.actionType = ActionType.Attack;
 
             animationManager.Animate(BattleOption.ATTACK);
-            battle.perform(BattleOption.ATTACK);
+            battle.perform(BattleOption.USE_ITEM);
             AudioSource swordSwipe = GetComponent<AudioSource>();
             swordSwipe.Play();
             //battle.endTurn();
@@ -233,7 +234,7 @@ public class BattleManager : MonoBehaviour
 
         if (minigameSuccess) {
                 usedItem.actionType = ActionType.Cast;
-                battle.perform(BattleOption.MAGIC);
+                battle.perform(BattleOption.USE_ITEM);
 
                 recalculateEnemyHealthBar();
         
@@ -255,107 +256,61 @@ public class BattleManager : MonoBehaviour
     public void playerPotion(){
         if(playerMove) {
             animationManager.Animate(BattleOption.POTION);
-            battle.perform(BattleOption.POTION);
-
+            battle.perform(BattleOption.USE_ITEM);
+            //battle.endTurn();
             playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
-
             playerMove = false;
         }
     }
     
-    void GetSpells()
-    {
-        if (playerEntity != null && playerEntity.inventory != null)
-        {
-            for (int i = 0; i < playerEntity.inventory.Length; i++)
-            {
-                ItemSave item = playerEntity.inventory[i];
-                if (item != null && item.itemData != null) // Check if the slot is not empty
-                {
-                    Debug.Log($"Slot {i}: {item.itemData}");
-
-                    // if (item.itemData.type == ItemType.Spell) {
-                    //     spells.Add(item);
-                    // }
-                }
-                else
-                {
-                    Debug.Log($"Slot {i}: Empty");
-                }
+    
+//Enemy Action
+    //The goal is to have the AI make less mistakes as the player becomes more powerful.
+    public void enemyArtificialIntelligence() {
+        System.Random rd = new System.Random();
+        int rand_num = rd.Next(1,10);
+        if(rand_num <= player.level) {
+            //Take a random action. This works if the player can hit level 10.
+            Item itemPick = enemyEntity.inventory[rd.Next(0,enemyEntity.inventoryCount)].itemData;
+            battle.setUsedItem(itemPick);
+        } else {
+            Item bestDamage = null;
+            Item bestHealing = null;
+            float maxDamage = 0f;
+            float maxHealing = 0f;
+            //Use equipped gear to determine best healing and best damage
+            if(enemyEntity.equippedGearCount == 0) {
+                Debug.Log("No equipped items found. Running");
+                battle.perform(BattleOption.RUN);
             }
-        }
-        else
-        {
-            Debug.LogError("Player entity or inventory is null!");
-        }
-    }
-
-    void OpenMagicMenu() {
-
-    }
-//Enemy Actions
-
-    public void determineEnemyAction() {
-        Item bestOffense = null;
-        float highestDamage = 0f;
-        float bestHealing = 0f;
-        bool canHeal = false;
-        Dictionary<int, ItemSave> potions = new Dictionary<int, ItemSave>();
-        //Step 1: Get Best offensive action.
-        for (int j=0; j < enemyEntity.inventory.Length; ++j) {
-            ItemSave item = enemyEntity.inventory[j];
-            if (item != null && item.itemData != null) {
-                Item i = enemyEntity.inventory[j].itemData;
-                
-                if(i.actionType == ActionType.Consume) {
-                    canHeal = true;
-                    if(i.healing > bestHealing) {
-                        bestHealing = i.healing;
-                        potions.Add(j, item);
+            foreach (Item i in enemyEntity.equippedGear){
+                if(i != null) {
+                    if(i.healing > maxHealing) {
+                        bestHealing = i;
+                        maxHealing = i.healing;
                     }
-                } else {
                     battle.setUsedItem(i);
-                    if(battle.returnDamage() > highestDamage) {
-                        highestDamage = battle.returnDamage();
-                        bestOffense = i;
+                    if(battle.returnDamage() > maxDamage) {
+                        maxDamage = battle.returnDamage();
+                        bestDamage = i;
                     }
                 }
-                
+            }
+            //Determine the course of action
+            if(playerEntity.remainingHP <= maxDamage) { //If I can kill the player this turn, do it
+                Debug.Log("Can Kill player. Max damage is "+maxDamage );
+                battle.setUsedItem(bestDamage);
+            } else if (enemyEntity.remainingHP/enemy.health <= 0.1f && maxHealing > 0f) { //I am at at < 10% HP and can heal
+                Debug.Log("At risk of death. Healing now");
+                battle.setUsedItem(bestHealing);
+            } else {
+                Debug.Log("Not at risk of death. Attacking");
+                battle.setUsedItem(bestDamage);
             }
         }
-
-        if(playerEntity.remainingHP <= highestDamage) { //If I can kill the player this turn
-            battle.setUsedItem(bestOffense);
-            if(bestOffense.actionType == ActionType.Attack) {
-                battle.perform(BattleOption.ATTACK);
-            } else {
-                battle.perform(BattleOption.MAGIC);
-            }
-            playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
-        } else if (enemyEntity.remainingHP/enemy.health <= 0.1f && canHeal) { //If I am below 10% health and I have a healing potion
-            battle.perform(BattleOption.POTION);
-            // enemyEntity.remainingHP += Mathf.Min(enemy.health, enemyEntity.remainingHP+bestHealing);
-            recalculateEnemyHealthBar();
-            //Decrement the number of healing potions in my inventory.
-            ItemSave potion = potions[0];
-            potion.count -= 1;
-        } else { //Make my best attack
-            battle.setUsedItem(bestOffense);
-            Debug.Log("ATTACKING FROM ENEMY");
-            if(bestOffense.actionType == ActionType.Attack) {
-                battle.perform(BattleOption.ATTACK);
-            } else {
-                battle.perform(BattleOption.MAGIC);
-            }
-            playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
-        }
-    }
-    public void enemyAttack() {
-        usedItem.actionType = ActionType.Attack;
-        Debug.Log("ATTACKING FROM ENEMY");
-        battle.perform(BattleOption.ATTACK);
-        //battle.endTurn();
-
+        battle.perform(BattleOption.USE_ITEM);
         playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
+        enemyHealthBar.fillAmount   = enemyEntity.remainingHP / enemy.health;
+        recalculateEnemyHealthBar(); 
     }
 }
