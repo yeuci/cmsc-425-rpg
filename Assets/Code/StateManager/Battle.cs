@@ -72,8 +72,9 @@ public class Battle
                 }
                 //Do the healing
                 attacker.remainingHP = Mathf.Min(attackerStats.health,attacker.remainingHP+usedItem.healing);
-
+                Debug.Log("Ending turn. Old Attacker: "+attacker.name);
                 endTurn();
+                Debug.Log("Attacker: "+attacker.name);
                 break;
             
             case BattleOption.RUN:
