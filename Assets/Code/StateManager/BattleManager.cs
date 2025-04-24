@@ -270,7 +270,7 @@ public class BattleManager : MonoBehaviour
             //Use equipped gear to determine best healing and best damage
             if(enemyEntity.equippedGearCount == 0) {
                 Debug.Log("No equipped items found. Running");
-                battle.perform(BattleOption.RUN);
+                //battle.perform(BattleOption.RUN);
             }
             foreach (Item i in enemyEntity.equippedGear){
                 if(i != null) {
@@ -297,6 +297,11 @@ public class BattleManager : MonoBehaviour
                 battle.setUsedItem(bestDamage);
             }
         }
+
+        //Temporary fix to prevent game from breaking
+        usedItem.actionType = ActionType.Attack;
+        battle.setUsedItem(usedItem);
+        //End of temporary fix.
         battle.perform(BattleOption.USE_ITEM);
         playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
         enemyHealthBar.fillAmount   = enemyEntity.remainingHP / enemy.health;
