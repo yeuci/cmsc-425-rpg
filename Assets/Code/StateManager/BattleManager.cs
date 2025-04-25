@@ -27,6 +27,7 @@ public class BattleManager : MonoBehaviour
     bool minigameSuccess;                   // Tracks if minigame is successfull
     float escapeAttempts;                   // Tracks escape attempts for Run option
     List<ItemSave> spells = new List<ItemSave>();   // Tracks which spells the player has access to
+    
 
     // Managers
     public AnimationManager animationManager;
@@ -48,6 +49,25 @@ public class BattleManager : MonoBehaviour
 
 
     [HideInInspector] private InventoryManager inventoryManager;
+    public GameObject spellButtonPrefab; // Drag the prefab here in the Inspector
+    public Transform spellListContainer;
+
+    void getPlayerSpells() {
+        ItemSave[] playerInventory = playerEntity.inventory;
+
+        for (int i =0; i < playerInventory.Length; ++i) {
+            if (playerInventory[i] != null && playerInventory[i].itemData != null) {
+                ItemSave item = playerInventory[i];
+
+                if (item.itemData.type == ItemType.Spell) {
+                    spells.Add(item);
+                }
+            }
+        }
+
+        Debug.Log(spells.Count);
+        
+    }
 
     void Awake()
     {
@@ -69,6 +89,8 @@ public class BattleManager : MonoBehaviour
         playerEntity = PlayerManager.player.entity();
         playerEntity.transform.position = new Vector3(-3.25f, 0.5f, 0);
         playerEntity.transform.right = Vector3.left;
+
+        getPlayerSpells();
         
         player = playerEntity.getAdjustedStats();
         enemy = enemyEntity.getAdjustedStats();
@@ -223,9 +245,11 @@ public class BattleManager : MonoBehaviour
     }
 
     public void playerCast() {
-        if (playerMove) {
-            StartCoroutine(HandlePlayerCast());
-        }
+        // if (playerMove) {
+        //     StartCoroutine(HandlePlayerCast());
+        // }
+
+        DisplaySpellButtons();
     }
 
     // Coroutine so it waits for minigame to finish before moving on
@@ -289,16 +313,18 @@ public class BattleManager : MonoBehaviour
                 //battle.perform(BattleOption.RUN);
             }
             foreach (ItemSave iS in enemyEntity.equippedGear){
-                Item i = iS.itemData;
-                if(i != null) {
-                    if(i.healing > maxHealing) {
-                        bestHealing = i;
-                        maxHealing = i.healing;
-                    }
-                    battle.setUsedItem(i);
-                    if(battle.returnDamage() > maxDamage) {
-                        maxDamage = battle.returnDamage();
-                        bestDamage = i;
+                if (iS != null && iS.itemData != null) {
+                    Item i = iS.itemData;
+                    if(i != null) {
+                        if(i.healing > maxHealing) {
+                            bestHealing = i;
+                            maxHealing = i.healing;
+                        }
+                        battle.setUsedItem(i);
+                        if(battle.returnDamage() > maxDamage) {
+                            maxDamage = battle.returnDamage();
+                            bestDamage = i;
+                        }
                     }
                 }
             }
@@ -321,7 +347,29 @@ public class BattleManager : MonoBehaviour
         //End of temporary fix.
         battle.perform(BattleOption.USE_ITEM);
         playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
-        enemyHealthBar.fillAmount   = enemyEntity.remainingHP / enemy.health;
         recalculateEnemyHealthBar(); 
+    }
+
+    void DisplaySpellButtons()
+    {
+        foreach (Transform child in spellListContainer)
+        {
+            Destroy(child.gameObject); // Clear existing buttons
+        }
+
+        foreach (ItemSave spell in spells)
+        {
+            GameObject buttonObj = Instantiate(spellButtonPrefab, spellListContainer);
+            TMP_Text buttonText = buttonObj.GetComponentInChildren<TMP_Text>();
+            buttonText.text = spell.item;
+
+            // Optional: Add button logic
+            Button button = buttonObj.GetComponent<Button>();
+            button.onClick.AddListener(() => {
+                usedItem = spell.itemData;
+                playerCast(); // Or any method you want
+            });
+        }
+
     }
 }
