@@ -55,6 +55,8 @@ public class SaveGameLoader : MonoBehaviour
             return;
         }
 
+        playerManager.playerCanCollide = false;
+
         string[] lines = File.ReadAllLines(lastSaveFile);
         Vector3 position = Vector3.zero;
         Vector3 rotation = Vector3.zero;
@@ -256,6 +258,25 @@ public class SaveGameLoader : MonoBehaviour
                 // refresh the ui
                 iMEntity = GameObject.FindGameObjectWithTag("InventoryManager")?.GetComponent<InventoryManager>();
                 iMEntity.UpdateInventoryUIWithItemSave();
+
+                // destroy all defeated enemies
+                GameObject[] allObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
+                foreach (GameObject obj in allObjects)
+                {
+                    if (obj.CompareTag("Enemy"))
+                    {
+                        Entity entity = obj.GetComponent<Entity>();
+                        if (entity != null)
+                        {
+                            if (playerManager.defeatedEnemies.Contains(entity.enemyId)) {
+                                obj.gameObject.SetActive(false);
+                                Destroy(obj);
+                            }
+                        }
+                    }
+                }
+
+                playerManager.playerCanCollide = true;
 
                 Debug.Log("Player stats restored from save");
             }

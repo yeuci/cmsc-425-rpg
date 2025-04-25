@@ -28,6 +28,8 @@ public class Entity : MonoBehaviour
 
     // Alive check (Should destroy Entity gameobject if false)
     [HideInInspector] public bool isAlive = true;
+    [HideInInspector] public List<int> defeatedEnemies = new List<int>();
+
 
     // used to determine enemy gameobject for before and after combat scene. not needed for anything else
     // each anemy should be assigned a unique id in the editor
