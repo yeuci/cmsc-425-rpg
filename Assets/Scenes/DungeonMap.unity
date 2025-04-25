@@ -1367,6 +1367,8 @@ MonoBehaviour:
   isMenuActive: 0
   inventoryGameObject: {fileID: 1929463254}
   escapeGameObject: {fileID: 1731271319}
+  defeatedEnemies: 
+  playerCanCollide: 1
 --- !u!4 &66689199
 Transform:
   m_ObjectHideFlags: 0
@@ -2468,6 +2470,7 @@ MonoBehaviour:
   runeSwordPrefab: {fileID: 4055060861964054874, guid: 2e837b62b6c657c4890d9a7c11bcbcb1, type: 3}
   inventoryContainer: {fileID: 0}
   hotbarContainer: {fileID: 0}
+  equippedContainer: {fileID: 0}
   itemsArray:
   - {fileID: 11400000, guid: d8e36a19d0a657a4892ec5d67aaa9827, type: 2}
   - {fileID: 11400000, guid: 0e76f221c2b210b4d97c8b0b917170e9, type: 2}
@@ -6425,6 +6428,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Offhand Slot
       objectReference: {fileID: 0}
+    - target: {fileID: 4556560663395932494, guid: a484b6732e1b33949983208155b95276, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7679572645632746126, guid: a484b6732e1b33949983208155b95276, type: 3}
       propertyPath: m_CellSize.x
       value: 84
@@ -6433,7 +6440,8 @@ PrefabInstance:
       propertyPath: m_CellSize.y
       value: 84
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4294553856197225326, guid: a484b6732e1b33949983208155b95276, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -10708,7 +10716,8 @@ PrefabInstance:
       propertyPath: m_CellSize.y
       value: 84
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4294553856197225326, guid: a484b6732e1b33949983208155b95276, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -22755,6 +22764,7 @@ MonoBehaviour:
   eClass: 3
   remainingHP: 100
   isAlive: 1
+  defeatedEnemies: 
   enemyId: 1
 --- !u!114 &1447707663
 MonoBehaviour:
@@ -23419,7 +23429,7 @@ GameObject:
   - component: {fileID: 1492015084}
   m_Layer: 0
   m_Name: Equipped Items Slots
-  m_TagString: Untagged
+  m_TagString: gui_equipment
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26618,9 +26628,15 @@ MonoBehaviour:
     speed: 11
     magic: 5
   equippedGear:
-  - {fileID: 11400000, guid: 25c29a11422fd214c986a7afa9ea0f42, type: 2}
-  - {fileID: 11400000, guid: 0e76f221c2b210b4d97c8b0b917170e9, type: 2}
-  - {fileID: 11400000, guid: e3aedde71f29bbc40896439a6b511ae7, type: 2}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
   equippedGearCount: 0
   inventory:
   - count: 0
@@ -26702,6 +26718,7 @@ MonoBehaviour:
   eClass: 0
   remainingHP: 100
   isAlive: 1
+  defeatedEnemies: 
   enemyId: 0
 --- !u!114 &1692649531
 MonoBehaviour:
@@ -31166,6 +31183,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Weapon Slot
       objectReference: {fileID: 0}
+    - target: {fileID: 4556560663395932494, guid: a484b6732e1b33949983208155b95276, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7679572645632746126, guid: a484b6732e1b33949983208155b95276, type: 3}
       propertyPath: m_CellSize.x
       value: 84
@@ -31174,7 +31195,8 @@ PrefabInstance:
       propertyPath: m_CellSize.y
       value: 84
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4294553856197225326, guid: a484b6732e1b33949983208155b95276, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
@@ -32571,6 +32593,7 @@ MonoBehaviour:
   eClass: 3
   remainingHP: 100
   isAlive: 1
+  defeatedEnemies: 
   enemyId: 2
 --- !u!114 &2101353952
 MonoBehaviour:

@@ -288,7 +288,8 @@ public class BattleManager : MonoBehaviour
                 Debug.Log("No equipped items found. Running");
                 //battle.perform(BattleOption.RUN);
             }
-            foreach (Item i in enemyEntity.equippedGear){
+            foreach (ItemSave iS in enemyEntity.equippedGear){
+                Item i = iS.itemData;
                 if(i != null) {
                     if(i.healing > maxHealing) {
                         bestHealing = i;

@@ -19,6 +19,7 @@ public class InventoryManager : MonoBehaviour
     [HideInInspector] PlayerManager playerManager;
     [HideInInspector] public GameObject inventoryContainer;
     [HideInInspector] public GameObject hotbarContainer;
+    [HideInInspector] public GameObject equippedContainer;
     // random items for testing
     private ItemSave[] itemsInInventory = new ItemSave[25];
     public Item[] itemsArray;
@@ -30,6 +31,7 @@ public class InventoryManager : MonoBehaviour
         playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
         inventoryContainer = GameObject.FindGameObjectWithTag("gui_inventory");
         hotbarContainer = GameObject.FindGameObjectWithTag("gui_hotbar");
+        equippedContainer = GameObject.FindGameObjectWithTag("gui_equipment");
 
         // for (int i = 0; i < itemsInInventory.Length; i++)
         // {
@@ -134,6 +136,34 @@ public class InventoryManager : MonoBehaviour
                 playerEntity.inventory[playerEntity.inventoryCount] = null;
             }
             playerEntity.inventoryCount++;
+        }
+
+        Debug.Log("-------------------------------------------------");
+        Debug.Log("------ HERE ARE THE EQUIPPED ITEMS WHEN CALLED ------");
+
+        for(int i = 0; i < 3; i++)
+        {
+            Transform child = equippedContainer.transform.GetChild(i);
+            if(child.childCount > 0) 
+            {
+                Transform grandchild = child.GetChild(0); 
+                InventoryItem item = grandchild.GetComponent<InventoryItem>();
+                if(item != null) {
+                    Debug.Log(item.name + " - " + item.item.name);
+
+                    ItemSave itemSave = new ItemSave();
+                    itemSave.count = item.count;
+                    itemSave.item = item.item.name;
+                    itemSave.itemData = item.item;
+
+                    playerEntity.equippedGear[i] = itemSave;
+                    if (itemSave.count == 0) {
+                        playerEntity.equippedGear[i] = null;
+                    }
+                }
+            } else {
+                playerEntity.equippedGear[i] = null;
+            }
         }
     }
     

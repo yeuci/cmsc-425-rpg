@@ -13,7 +13,7 @@ public enum ScalingMethod {
 public class Entity : MonoBehaviour
 {
     [SerializeField] public Stat stats;
-    [SerializeField] public Item[] equippedGear;
+    [SerializeField] public ItemSave[] equippedGear;
     [SerializeField] public int equippedGearCount = 0;
 
     // proxy for inventory
@@ -36,7 +36,7 @@ public class Entity : MonoBehaviour
     public int enemyId = 0;
 
     void Start() {
-        equippedGear = new Item[25];
+        equippedGear = new ItemSave[25];
         remainingHP = stats.health;
     }
 

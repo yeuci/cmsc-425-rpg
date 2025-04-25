@@ -20,6 +20,7 @@ TagManager:
   - gui_hotbar
   - EscapeMenu
   - InventoryMenu
+  - gui_equipment
   layers:
   - Default
   - TransparentFX
