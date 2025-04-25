@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
@@ -14,6 +15,8 @@ public class PlayerManager : MonoBehaviour
     public bool isMenuActive = false; 
     [HideInInspector] public GameObject inventoryGameObject;
     [HideInInspector] public GameObject escapeGameObject;
+    public List<int> defeatedEnemies = new List<int>();
+    public bool playerCanCollide = true;
 
     void Awake()
     {

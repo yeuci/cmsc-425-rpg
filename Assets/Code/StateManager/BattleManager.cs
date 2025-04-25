@@ -165,6 +165,8 @@ public class BattleManager : MonoBehaviour
     {
         if (scene.name == "DungeonMap")
         {
+            playerManager.playerCanCollide = false;
+
             GameObject playerTransform = GameObject.FindGameObjectWithTag("Player");
             playerTransform.transform.position = new Vector3(playerManager.enemyPositionBeforeCombat.x, playerManager.enemyPositionBeforeCombat.y, playerManager.enemyPositionBeforeCombat.z);
             
@@ -185,6 +187,9 @@ public class BattleManager : MonoBehaviour
                 }
             }
 
+            playerManager.playerCanCollide = true;
+
+            playerManager.defeatedEnemies.Add(playerManager.enemyBeforeCombat);
             playerManager.StartCoroutine(playerManager.DelayedDungeonRestore());
 
             SceneManager.sceneLoaded -= OnSceneLoaded;

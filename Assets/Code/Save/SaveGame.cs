@@ -8,11 +8,13 @@ public class SaveGame : MonoBehaviour
 
     private string savePath;
     [HideInInspector] Entity playerEntity;
+    [HideInInspector] PlayerManager playerManager;
     [HideInInspector] InventoryManager iMEntity;
 
 
     void Start()
     {
+        playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
         playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
         iMEntity = GameObject.FindGameObjectWithTag("InventoryManager")?.GetComponent<InventoryManager>();
 
@@ -32,7 +34,7 @@ public class SaveGame : MonoBehaviour
             Save();
         }
     }
-        public void Save()
+    public void Save()
     {
         if (player == null)
         {
@@ -40,7 +42,6 @@ public class SaveGame : MonoBehaviour
             return;
         }
 
-        // Entity playerEntity = player.GetComponent<Entity>();
         if (playerEntity == null)
         {
             Debug.LogWarning("Player Entity component not found!");
@@ -72,6 +73,7 @@ public class SaveGame : MonoBehaviour
                     $"Magic: {playerStats.magic}\n" +
                     $"ExpToNext: {playerStats.expToNext}";
 
+        // Inventory
         string inventoryData = "Inventory: [ ";
         foreach (var itemSave in playerEntity.inventory)
         {
@@ -87,10 +89,20 @@ public class SaveGame : MonoBehaviour
         inventoryData = inventoryData.TrimEnd(',', ' ') + " ]";
         data += "\n" + inventoryData;
 
+        // Defeated enemies
+        string enemiesData = "DefeatedEnemies: [ ";
+        foreach (int id in playerManager.defeatedEnemies)
+        {
+            enemiesData += $"{id}, ";
+        }
+        enemiesData = enemiesData.TrimEnd(',', ' ') + " ]";
+        data += "\n" + enemiesData;
 
+        // Save to file
         string fileName = $"savegame_{saveID}.txt";
         string fullPath = Path.Combine(savePath, fileName);
         File.WriteAllText(fullPath, data);
         Debug.Log($"Game saved to: {fullPath}");
     }
+
 }
