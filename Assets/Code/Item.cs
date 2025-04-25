@@ -97,6 +97,7 @@ public class Item : ScriptableObject {
     public int healing;
     public int magicPower;
     public int manaCost;
+    public GameObject minigame;
 
     [Header("UI")]
     public bool stackable = true;

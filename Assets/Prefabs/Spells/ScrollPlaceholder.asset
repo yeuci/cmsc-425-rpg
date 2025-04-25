@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ScrollPlaceholder
   m_EditorClassIdentifier: 
   type: 1
-  actionType: 1
+  actionType: 0
   attack: 0
   defense: 0
   health: 0
@@ -23,6 +23,7 @@ MonoBehaviour:
   healing: 0
   magicPower: 20
   manaCost: 30
+  minigame: {fileID: 4810281419856005368, guid: ee79bca4af2ea8c40b929f005a2edf2e, type: 3}
   stackable: 1
   image: {fileID: 21300000, guid: 1f4f38c6738437c4ea4e3c50616ef790, type: 3}
   maxStack: 10

@@ -3135,6 +3135,7 @@ MonoBehaviour:
   popupGenerator: {fileID: 1930295009}
   enemyGameObject: {fileID: 1883500874}
   usedItem: {fileID: 11400000, guid: 25c29a11422fd214c986a7afa9ea0f42, type: 2}
+  battleCanvas: {fileID: 1272351636}
   UIBlocker: {fileID: 1082125949}
   inventoryPanel: {fileID: 4437633172138844902}
   playerManager: {fileID: 0}

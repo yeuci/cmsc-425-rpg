@@ -37,8 +37,10 @@ public class BattleManager : MonoBehaviour
     public GameObject enemyGameObject;
     public Item usedItem;
 
+    public Canvas battleCanvas;
     public GameObject UIBlocker;              // Blocks UI when minigame is starting
     public GameObject inventoryPanel;
+    
 
     [HideInInspector] public PlayerManager playerManager;
 
@@ -46,6 +48,7 @@ public class BattleManager : MonoBehaviour
     public Image playerHealthBar, playerManaBar;
     public Image enemyHealthBar;
     public Canvas healthstuff;
+
 
 
     [HideInInspector] private InventoryManager inventoryManager;
@@ -249,14 +252,16 @@ public class BattleManager : MonoBehaviour
         //     StartCoroutine(HandlePlayerCast());
         // }
 
-        DisplaySpellButtons();
+        if (playerMove) {
+            DisplaySpellButtons();
+        }
     }
 
     // Coroutine so it waits for minigame to finish before moving on
     private IEnumerator HandlePlayerCast() {
         // Wait for the minigame to finish
         UIBlocker.SetActive(true);
-        yield return minigame.StartMinigame();
+        yield return StartCoroutine(minigame.StartMinigame());
 
         // Check the result of the minigame
         minigameSuccess = minigame.isMinigameSuccessful;
@@ -367,7 +372,9 @@ public class BattleManager : MonoBehaviour
             Button button = buttonObj.GetComponent<Button>();
             button.onClick.AddListener(() => {
                 usedItem = spell.itemData;
-                playerCast(); // Or any method you want
+                minigame.minigamePrefab = usedItem.minigame;
+                minigame.canvas = battleCanvas;
+                StartCoroutine(HandlePlayerCast());
             });
         }
 
