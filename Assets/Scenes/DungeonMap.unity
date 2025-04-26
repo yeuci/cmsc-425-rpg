@@ -60992,6 +60992,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5006488824674476941, guid: 46f88b2e919b79948ac96a88ee0554c8, type: 3}
+      propertyPath: m_CastShadows
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006488824674476941, guid: 46f88b2e919b79948ac96a88ee0554c8, type: 3}
       propertyPath: m_ReceiveShadows
       value: 1
       objectReference: {fileID: 0}
@@ -61034,6 +61038,14 @@ PrefabInstance:
     - target: {fileID: 8104294047339492007, guid: 46f88b2e919b79948ac96a88ee0554c8, type: 3}
       propertyPath: m_LocalPosition.z
       value: -0.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 8368117488536422145, guid: 46f88b2e919b79948ac96a88ee0554c8, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8368117488536422145, guid: 46f88b2e919b79948ac96a88ee0554c8, type: 3}
+      propertyPath: m_ProvidesContacts
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
