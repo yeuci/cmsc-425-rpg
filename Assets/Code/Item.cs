@@ -80,6 +80,8 @@ public struct ItemStatistics {
 
 [CreateAssetMenu(menuName = "Scriptable Item")]
 public class Item : ScriptableObject {
+    new public string name = "Default name";
+    public string itemDescription = "Some description";
     [Header("Gameplay")]
 
     public ItemType type;
@@ -97,12 +99,21 @@ public class Item : ScriptableObject {
     public int healing;
     public int magicPower;
     public int manaCost;
-    public GameObject minigame;
 
-    [Header("UI")]
+    
     public bool stackable = true;
     public Sprite image;
     public int maxStack;
     public bool consumable;
     public Vector2Int range = new Vector2Int(0, 6);
+
+    [Header("Minigame")]
+
+    public OpenMinigame minigameOpener;
+    public GameObject minigame;
+
+
+    public virtual string getItemDescription() {
+        return itemDescription;
+    }
 }

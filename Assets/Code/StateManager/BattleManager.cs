@@ -19,6 +19,8 @@ public enum BattleOption {
 
 public class BattleManager : MonoBehaviour
 {
+    public static BattleManager instance;
+    
     Entity playerEntity, enemyEntity;       // Player and enemy entity
     Stat player, enemy;                     // Player and enemy stats
     Battle battle;                          // Manages battle actions
@@ -49,11 +51,11 @@ public class BattleManager : MonoBehaviour
     public Image enemyHealthBar;
     public Canvas healthstuff;
 
-
-
     [HideInInspector] private InventoryManager inventoryManager;
     public GameObject spellButtonPrefab; // Drag the prefab here in the Inspector
     public Transform spellListContainer;
+    public GameObject spellInfoPrefab;
+    private GameObject currentSpellInfo = null;
 
     void getPlayerSpells() {
         ItemSave[] playerInventory = playerEntity.inventory;
@@ -66,10 +68,7 @@ public class BattleManager : MonoBehaviour
                     spells.Add(item);
                 }
             }
-        }
-
-        Debug.Log(spells.Count);
-        
+        }        
     }
 
     void Awake()
@@ -78,6 +77,7 @@ public class BattleManager : MonoBehaviour
             Destroy(enemyEntity);
         }   
         
+        instance = this;
         enemyEntity = enemyGameObject.GetComponent<Entity>();
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -253,7 +253,7 @@ public class BattleManager : MonoBehaviour
         // }
 
         if (playerMove) {
-            DisplaySpellButtons();
+            displaySpellButtons();
         }
     }
 
@@ -355,7 +355,7 @@ public class BattleManager : MonoBehaviour
         recalculateEnemyHealthBar(); 
     }
 
-    void DisplaySpellButtons()
+    void displaySpellButtons()
     {
         foreach (Transform child in spellListContainer)
         {
@@ -364,19 +364,56 @@ public class BattleManager : MonoBehaviour
 
         foreach (ItemSave spell in spells)
         {
-            GameObject buttonObj = Instantiate(spellButtonPrefab, spellListContainer);
-            TMP_Text buttonText = buttonObj.GetComponentInChildren<TMP_Text>();
-            buttonText.text = spell.item;
+            Item item = spell.itemData;
 
-            // Optional: Add button logic
+            GameObject buttonObj = Instantiate(spellButtonPrefab, spellListContainer);
+
+            TMP_Text buttonText = buttonObj.GetComponentInChildren<TMP_Text>();
+            buttonText.text = item.name;
+
+            HoverSpellButton hoverSpellButton = buttonObj.GetComponent<HoverSpellButton>();
+            hoverSpellButton.item = item;
+
             Button button = buttonObj.GetComponent<Button>();
             button.onClick.AddListener(() => {
-                usedItem = spell.itemData;
-                minigame.minigamePrefab = usedItem.minigame;
+                usedItem = item;
+                battle.setUsedItem(usedItem);
+
+                OpenMinigame minigameOpenerInstance = Instantiate(item.minigameOpener);
+                
+                if (minigame != null) {
+                    Destroy(minigame);
+                }
+                minigame = minigameOpenerInstance;
+                minigame.minigamePrefab = item.minigame;
                 minigame.canvas = battleCanvas;
+
+                minigame.gameObject.SetActive(true);
+
                 StartCoroutine(HandlePlayerCast());
             });
         }
 
     }
+
+    public void displaySpellInformation(string itemName, string itemDescription, Vector2 buttonPos) {
+        if (currentSpellInfo != null) {
+            Destroy(currentSpellInfo.gameObject);
+        }
+
+        buttonPos.x += 100;
+        buttonPos.y += 100;
+
+        currentSpellInfo = Instantiate(spellInfoPrefab, buttonPos, Quaternion.identity, battleCanvas.transform);
+        currentSpellInfo.GetComponent<SpellPopupInfo>().Setup(itemName, itemDescription);
+    }
+
+    public void DestroyItemInfo()
+    {
+        if(currentSpellInfo != null)
+        {
+            Destroy(currentSpellInfo.gameObject);
+        }
+    }
+
 }

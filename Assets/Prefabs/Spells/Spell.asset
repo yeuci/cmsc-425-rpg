@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bebc8a7a720ffd4cbcd1549792d2d21, type: 3}
+  m_Name: Spell
+  m_EditorClassIdentifier: 
+  name: Ice Spell
+  itemDescription: Something Something Something
+  type: 1
+  actionType: 1
+  attack: 0
+  defense: 0
+  health: 0
+  mana: 0
+  speed: 0
+  attackPower: 0
+  healing: 0
+  magicPower: 10
+  manaCost: 20
+  stackable: 0
+  image: {fileID: 0}
+  maxStack: 1
+  consumable: 0
+  range: {x: 0, y: 6}
+  minigameOpener: {fileID: 2950563620474365172, guid: ee79bca4af2ea8c40b929f005a2edf2e, type: 3}
+  minigame: {fileID: 0}

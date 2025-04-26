@@ -12,8 +12,8 @@ public class OpenArrowMinigame : OpenMinigame
 
     public override IEnumerator StartMinigame() {
         // Instantiates the minigame if there is not one running
-        if (minigamePrefab != null && currentMinigameInstance == null) {
-
+        if (minigamePrefab != null && currentMinigameInstance == null) {    
+            
             currentMinigameInstance = Instantiate(minigamePrefab, canvas.transform);
             inputSequenceManager = currentMinigameInstance.GetComponent<InputSequenceManager>();
 

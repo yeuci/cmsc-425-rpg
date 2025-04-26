@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8df97bb9312cb045bee5855112ca6ad, type: 3}
+  m_Name: Lightning Spell
+  m_EditorClassIdentifier: 
+  name: Lighting Spell
+  itemDescription: 30 mana and stuff
+  type: 1
+  actionType: 1
+  attack: 0
+  defense: 0
+  health: 0
+  mana: 0
+  speed: 0
+  attackPower: 0
+  healing: 0
+  magicPower: 20
+  manaCost: 30
+  stackable: 0
+  image: {fileID: 21300000, guid: 1f4f38c6738437c4ea4e3c50616ef790, type: 3}
+  maxStack: 1
+  consumable: 0
+  range: {x: 0, y: 6}
+  minigameOpener: {fileID: 2950563620474365172, guid: ee79bca4af2ea8c40b929f005a2edf2e, type: 3}
+  minigame: {fileID: 4487506651966386501, guid: 23082cd6116be1949830e2c4697210a4, type: 3}
