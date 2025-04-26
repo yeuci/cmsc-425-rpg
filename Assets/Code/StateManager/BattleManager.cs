@@ -49,6 +49,9 @@ public class BattleManager : MonoBehaviour
     public Image playerHealthBar, playerManaBar;
     public Image enemyHealthBar;
     public Canvas healthstuff;
+    public TextMeshProUGUI playerHealthText;
+    public TextMeshProUGUI playerManaText;
+
 
     // Invetory and Spells
     [HideInInspector] private InventoryManager inventoryManager;
@@ -108,6 +111,9 @@ public class BattleManager : MonoBehaviour
 
         escapeAttempts = 0;
 
+        playerHealthText.text = $"Health: {playerEntity.remainingHP} / {player.health}";
+        playerManaText.text = $"Mana: {playerEntity.remainingMP} / {player.mana}";
+
         Debug.Log("BATTLE STARTED!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
         playerMove = player.speed >= enemy.speed;
         String msg = " has higher speed stat, and is going first";
@@ -154,11 +160,12 @@ public class BattleManager : MonoBehaviour
             battle.perform(BattleOption.USE_ITEM);
             AudioSource swordSwipe = GetComponent<AudioSource>();
             swordSwipe.Play();
-            //battle.endTurn();
 
             recalculateEnemyHealthBar();
         
             checkDeath();
+            
+            updatePlayerHealthAndManaText();
     
             playerMove = false;
         }
@@ -166,6 +173,11 @@ public class BattleManager : MonoBehaviour
 
     void recalculateEnemyHealthBar() {
         enemyHealthBar.fillAmount = enemyEntity.remainingHP / enemy.health;
+    }
+
+    void updatePlayerHealthAndManaText() {
+        playerHealthText.text = $"Health: {playerEntity.remainingHP} / {player.health}";
+        playerManaText.text = $"Mana: {playerEntity.remainingMP} / {player.mana}";
     }
 
     void checkDeath() {
@@ -281,13 +293,12 @@ public class BattleManager : MonoBehaviour
             battle.endTurn();
         }
 
-        Debug.Log($"Mana Cost: {usedItem.manaCost}, Remaining MP Before: {playerEntity.remainingMP}");
         playerEntity.remainingMP -= usedItem.manaCost;
-        Debug.Log($"Remaining MP After: {playerEntity.remainingMP}, {player.mana}");
         playerManaBar.fillAmount = playerEntity.remainingMP / player.mana;
 
         playerMove = false;
         UIBlocker.SetActive(false);
+        updatePlayerHealthAndManaText();
 
         minigameSuccess = false;
         Destroy(minigame.gameObject);
@@ -301,6 +312,7 @@ public class BattleManager : MonoBehaviour
             battle.perform(BattleOption.USE_ITEM);
             //battle.endTurn();
             playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
+            updatePlayerHealthAndManaText();
             playerMove = false;
         }
     }
@@ -361,6 +373,7 @@ public class BattleManager : MonoBehaviour
         battle.perform(BattleOption.USE_ITEM);
         playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
         recalculateEnemyHealthBar(); 
+        updatePlayerHealthAndManaText();
     }
 
     void displaySpellButtons()
