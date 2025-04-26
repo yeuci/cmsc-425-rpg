@@ -296,6 +296,7 @@ MonoBehaviour:
     experience: 0
     expToNext: 198
     health: 100
+    mana: 50
     attack: 10
     defense: 10
     speed: 10
@@ -381,6 +382,7 @@ MonoBehaviour:
   inventoryCount: 0
   eClass: 0
   remainingHP: 0
+  remainingMP: 0
   isAlive: 1
   defeatedEnemies: 
   enemyId: 0
@@ -2629,6 +2631,7 @@ MonoBehaviour:
     experience: 0
     expToNext: 198
     health: 100
+    mana: 50
     attack: 10
     defense: 10
     speed: 10
@@ -2723,6 +2726,7 @@ MonoBehaviour:
   inventoryCount: 0
   eClass: 0
   remainingHP: 0
+  remainingMP: 0
   isAlive: 1
   defeatedEnemies: 
   enemyId: 0
@@ -3167,7 +3171,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animationManager: {fileID: 196670856}
-  minigame: {fileID: 2069830881}
   popupGenerator: {fileID: 1930295009}
   enemyGameObject: {fileID: 1883500874}
   usedItem: {fileID: 11400000, guid: 25c29a11422fd214c986a7afa9ea0f42, type: 2}
@@ -3183,6 +3186,7 @@ MonoBehaviour:
   spellListContainer: {fileID: 1187491317}
   spellInfoPrefab: {fileID: 1411338594673910739, guid: 489ecf6c4671b384eb041aec1af7ad0a, type: 3}
   spellPopupContainer: {fileID: 383406793}
+  minigame: {fileID: 2069830881}
 --- !u!114 &2069830881
 MonoBehaviour:
   m_ObjectHideFlags: 0
