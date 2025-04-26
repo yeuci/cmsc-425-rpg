@@ -15,8 +15,8 @@ public class ActivateSpikes : MonoBehaviour
         hitbox.isTrigger = true;
         spikes = transform.parent.gameObject;
         player = GameObject.FindGameObjectWithTag("Player");
+        Entity playerEntity = player.GetComponent<Entity>();
         spikeAudio = GetComponent<AudioSource>();
-        playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
         controller = player.GetComponent<CharacterController>();
     }
 
@@ -24,9 +24,7 @@ public class ActivateSpikes : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player") {
-            
             if (playerEntity != null) {
-                Debug.Log("Current HP: " + playerEntity.remainingHP);
                 playerEntity.remainingHP -= 15; // Deal 15 damage to player's health   
             }
             
