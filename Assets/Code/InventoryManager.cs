@@ -243,39 +243,40 @@ public class InventoryManager : MonoBehaviour
         }
 
         // SHOW WEAPON ON CHARACTER IF ITS CURRENTLY SELECTED
-        if (selectedSlot >= 0 && selectedSlot <= 6) {
-            InventorySlot slot = inventorySlots[selectedSlot];
-            InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
-
-            if (itemInSlot && itemInSlot.item.name.Contains("Sword") && !equipped) {
-                GameObject torso = GameObject.FindGameObjectWithTag("Torso");
-
-                if (torso != null) {
-                    GameObject newSword;
-                    if (itemInSlot.item.name.Contains("RuneSword")) {
-                        newSword = Instantiate(runeSwordPrefab, torso.transform);
-                        newSword.transform.localPosition = new Vector3(0.01076f, -0.01143f, 0.03788f);
-                        newSword.transform.localEulerAngles = new Vector3(-60f, 0f, -90f);
-                        newSword.transform.localScale = new Vector3(0.01598134f, 0.01902541f, 0.01598134f);
-                        Debug.Log("Rune sword attached.");
-                    } else if (itemInSlot.item.name.Contains("BasicSword")) {
-                        newSword = Instantiate(swordPrefab, torso.transform);
-                        newSword.transform.localPosition = new Vector3(0.0073f, 0f, 0.0143f);
-                        newSword.transform.localEulerAngles = new Vector3(-60f, 0f, -90f);
-                        newSword.transform.localScale = new Vector3(0.01598134f, 0.01902541f, 0.01598134f);
-                        Debug.Log("Basic sword attached.");
-                    } else {
-                        Debug.LogWarning("What kind of sword is this???");
-                        return;
-                    }
-
-                    equipped = true;
-                    Debug.Log("Sword equipped.");
-                } else {
-                    Debug.LogWarning("No torso found in the scene..... for some reason...");
+            //Step 1: Get the torso
+            GameObject torso = GameObject.FindGameObjectWithTag("Torso");
+            if(torso != null) {
+                //Step 2: Get the currently equipped weapon
+                Transform child = equippedContainer.transform.GetChild(1);
+                if(child.childCount > 0) {
+                    Transform grandChild = child.GetChild(0);
+                    InventoryItem item = grandChild.GetComponent<InventoryItem>();
+                    if(item != null) {
+                        GameObject newSword;
+                        if (item.item.name.Contains("RuneSword")) {
+                            newSword = Instantiate(runeSwordPrefab, torso.transform);
+                            newSword.transform.localPosition = new Vector3(0.01076f, -0.01143f, 0.03788f);
+                            newSword.transform.localEulerAngles = new Vector3(-60f, 0f, -90f);
+                            newSword.transform.localScale = new Vector3(0.01598134f, 0.01902541f, 0.01598134f);
+                            Debug.Log("Rune sword attached.");
+                        } else if (item.item.name.Contains("BasicSword")) {
+                            newSword = Instantiate(swordPrefab, torso.transform);
+                            newSword.transform.localPosition = new Vector3(0.0073f, 0f, 0.0143f);
+                            newSword.transform.localEulerAngles = new Vector3(-60f, 0f, -90f);
+                            newSword.transform.localScale = new Vector3(0.01598134f, 0.01902541f, 0.01598134f);
+                            Debug.Log("Basic sword attached.");
+                        } else {
+                            Debug.LogWarning("What kind of sword is this???");
+                            return;
+                        }
+                        equipped = true;
+                        Debug.Log("Sword equipped.");
+                    } 
+                    
                 }
-            }
-        }
+            } else {
+                Debug.LogWarning("No torso found in the scene..... for some reason...");
+            }     
     }
 
     public void RemoveAllChildrenFromTorso() {
