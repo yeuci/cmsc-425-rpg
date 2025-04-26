@@ -16,6 +16,7 @@ public class Skillcheck : MonoBehaviour
     public bool isMinigameSuccessful;
 
     public IEnumerator CheckSkillcheck() {
+        Debug.Log("I HAVE ENTERED THE SKILLCHECK MINIGAME");
         float angle = Random.Range(20, 170);
 
         successZone.eulerAngles = new Vector3(0, 0, angle);
