@@ -376,8 +376,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skillcheckPanel: {fileID: 4487506651966386501}
-  needle: {fileID: 7551856154211533915}
-  successZone: {fileID: 7604197399854683178}
+  needle: {fileID: 2779561445892710407}
+  successZone: {fileID: 1583760676814065114}
   rotationSpeed: 270
   spaceKey: 1
   isMinigameSuccessful: 0

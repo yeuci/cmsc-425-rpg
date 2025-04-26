@@ -2,13 +2,13 @@ using System.Collections;
 using UnityEngine.InputSystem;
 
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Skillcheck : MonoBehaviour
 {
     public GameObject skillcheckPanel;
-    public RectTransform needle;
-    public RectTransform successZone;
-
+    public Image needle;
+    public Image successZone;
     public float rotationSpeed = 180f;
     public Key spaceKey = Key.Space;
 
@@ -16,22 +16,21 @@ public class Skillcheck : MonoBehaviour
     public bool isMinigameSuccessful;
 
     public IEnumerator CheckSkillcheck() {
-        Debug.Log("I HAVE ENTERED THE SKILLCHECK MINIGAME");
         float angle = Random.Range(20, 170);
 
-        successZone.eulerAngles = new Vector3(0, 0, angle);
+        successZone.transform.eulerAngles = new Vector3(0, 0, angle);
         yield return new WaitForSeconds(1);
 
         float totalRotation = 0;
         isRotating = true;
 
         float successZoneStartAngle = 360f - angle; // Starting angle of the success zone
-        float successZoneFillAngle = 360f * 0.05f; 
+        float successZoneFillAngle = 360f * successZone.fillAmount; 
         float successZoneEndAngle = (successZoneStartAngle + successZoneFillAngle) % 360f;
 
         while (isRotating) {
             float rotationThisFrame = -rotationSpeed * Time.deltaTime;
-            needle.Rotate(0f, 0f, rotationThisFrame);
+            needle.transform.Rotate(0f, 0f, rotationThisFrame);
             totalRotation += Mathf.Abs(rotationThisFrame);
 
 
@@ -41,6 +40,7 @@ public class Skillcheck : MonoBehaviour
                     Debug.Log("SUCCESS: Needle is in the success zone!");
                     isMinigameSuccessful = true;
                     isRotating = false;
+                    needle.color = Color.green;
 
                     yield return new WaitForSeconds(1f);
 
@@ -50,6 +50,7 @@ public class Skillcheck : MonoBehaviour
                     Debug.Log("FAILED: Needle is outside the success zone...");
                     isMinigameSuccessful = false;
                     isRotating = false;
+                    needle.color = Color.red;
 
                     yield return new WaitForSeconds(1f);
 

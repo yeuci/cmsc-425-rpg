@@ -56,6 +56,7 @@ public class BattleManager : MonoBehaviour
     public Transform spellListContainer;
     public GameObject spellInfoPrefab;
     private GameObject currentSpellInfo = null;
+    public Transform spellPopupContainer;
 
     void getPlayerSpells() {
         ItemSave[] playerInventory = playerEntity.inventory;
@@ -401,10 +402,7 @@ public class BattleManager : MonoBehaviour
             Destroy(currentSpellInfo.gameObject);
         }
 
-        buttonPos.x += 100;
-        buttonPos.y += 100;
-
-        currentSpellInfo = Instantiate(spellInfoPrefab, buttonPos, Quaternion.identity, battleCanvas.transform);
+        currentSpellInfo = Instantiate(spellInfoPrefab, spellPopupContainer);
         currentSpellInfo.GetComponent<SpellPopupInfo>().Setup(itemName, itemDescription);
     }
 

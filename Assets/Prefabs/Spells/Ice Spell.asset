@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a8df97bb9312cb045bee5855112ca6ad, type: 3}
+  m_Script: {fileID: 11500000, guid: 8bebc8a7a720ffd4cbcd1549792d2d21, type: 3}
   m_Name: Ice Spell
   m_EditorClassIdentifier: 
   name: Ice Spell
-  itemDescription: Something something something
+  itemDescription: 'Cost: 15 mana \nGenerates ice magic'
   type: 1
-  actionType: 0
+  actionType: 1
   attack: 0
   defense: 0
   health: 0
@@ -24,11 +24,11 @@ MonoBehaviour:
   attackPower: 0
   healing: 0
   magicPower: 10
-  manaCost: 30
+  manaCost: 20
   stackable: 0
-  image: {fileID: 21300000, guid: 1f4f38c6738437c4ea4e3c50616ef790, type: 3}
+  image: {fileID: 21300000, guid: 6f98b3e70c3ad8a48a0396785dad48e8, type: 3}
   maxStack: 1
   consumable: 0
   range: {x: 0, y: 6}
-  minigameOpener: {fileID: 2950563620474365172, guid: ee79bca4af2ea8c40b929f005a2edf2e, type: 3}
-  minigame: {fileID: 4487506651966386501, guid: 23082cd6116be1949830e2c4697210a4, type: 3}
+  minigameOpener: {fileID: 1788146785986578035, guid: e45fe62f6052ec343ac2f9d968be059c, type: 3}
+  minigame: {fileID: 6487977543823871858, guid: 35ac53038e18a1b48b3d6d65e337d27a, type: 3}
