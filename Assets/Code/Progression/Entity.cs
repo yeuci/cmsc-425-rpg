@@ -25,6 +25,7 @@ public class Entity : MonoBehaviour
 
     // Remaining HP of entity
     public float remainingHP;
+    public float remainingMP;
 
     // Alive check (Should destroy Entity gameobject if false)
     [HideInInspector] public bool isAlive = true;
@@ -38,11 +39,14 @@ public class Entity : MonoBehaviour
     void Start() {
         equippedGear = new ItemSave[25];
         remainingHP = stats.health;
+        remainingMP = stats.mana;
     }
 
     // Basic Entity
     public Entity() {
         stats = new Stat();
+        remainingHP = stats.health;
+        remainingMP = stats.mana;
     }
 
     public float calculateXPValue() {
@@ -79,7 +83,7 @@ public class Entity : MonoBehaviour
             // adjStats[3] += i.mana;
             // adjStats[4] += i.speed;
         // }
-        Stat stats = new Stat(this.stats.level, adjStats[2],adjStats[0],adjStats[1],adjStats[4],adjStats[3]);
+        Stat stats = new Stat(this.stats.level, adjStats[0],adjStats[1],adjStats[2],adjStats[3],adjStats[4], adjStats[5]);
         return stats;
     }
 
@@ -100,5 +104,6 @@ public class Entity : MonoBehaviour
         }
 
         remainingHP = stats.health;
+        remainingMP = stats.mana;
     }
 }

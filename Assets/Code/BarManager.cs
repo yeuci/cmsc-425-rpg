@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,17 +8,26 @@ public class BarManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     Entity player;
-    Image healthBar;
+    public Image healthBar;
+    public Image manaBar;
+
+    IEnumerator LateStart()
+    {
+        yield return new WaitForFixedUpdate(); // Wait for one frame
+        player = GameObject.FindGameObjectWithTag("PlayerState").GetComponent<Entity>();
+    }
+
     void Start()
     {
-        healthBar = GetComponent<Image>();
-        player = GameObject.FindGameObjectWithTag("PlayerState").GetComponent<Entity>();
+        StartCoroutine(LateStart());
     }
 
     // Update is called once per frame
     //Bar Size is set
     void Update()
     {
+        Debug.Log(manaBar.fillAmount);
         healthBar.fillAmount = player.remainingHP/player.getAdjustedStats().health;
+        manaBar.fillAmount = player.remainingMP/player.getAdjustedStats().mana;
     }
 }

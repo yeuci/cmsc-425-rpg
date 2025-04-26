@@ -33,7 +33,6 @@ public class BattleManager : MonoBehaviour
 
     // Managers
     public AnimationManager animationManager;
-    public OpenMinigame minigame;
     public DamagePopupGenerator popupGenerator;
 
     public GameObject enemyGameObject;
@@ -51,12 +50,16 @@ public class BattleManager : MonoBehaviour
     public Image enemyHealthBar;
     public Canvas healthstuff;
 
+    // Invetory and Spells
     [HideInInspector] private InventoryManager inventoryManager;
     public GameObject spellButtonPrefab; // Drag the prefab here in the Inspector
     public Transform spellListContainer;
     public GameObject spellInfoPrefab;
     private GameObject currentSpellInfo = null;
     public Transform spellPopupContainer;
+
+    // Minigames
+    public OpenMinigame minigame;
 
     void getPlayerSpells() {
         ItemSave[] playerInventory = playerEntity.inventory;
@@ -278,12 +281,16 @@ public class BattleManager : MonoBehaviour
             battle.endTurn();
         }
 
-        //battle.endTurn();
+        Debug.Log($"Mana Cost: {usedItem.manaCost}, Remaining MP Before: {playerEntity.remainingMP}");
+        playerEntity.remainingMP -= usedItem.manaCost;
+        Debug.Log($"Remaining MP After: {playerEntity.remainingMP}, {player.mana}");
+        playerManaBar.fillAmount = playerEntity.remainingMP / player.mana;
 
         playerMove = false;
         UIBlocker.SetActive(false);
 
         minigameSuccess = false;
+        Destroy(minigame.gameObject);
 
         yield break;
     }
@@ -377,21 +384,24 @@ public class BattleManager : MonoBehaviour
 
             Button button = buttonObj.GetComponent<Button>();
             button.onClick.AddListener(() => {
-                usedItem = item;
-                battle.setUsedItem(usedItem);
+                if (playerEntity.remainingMP >= item.manaCost) {
+                    usedItem = item;
+                    battle.setUsedItem(usedItem);
 
-                OpenMinigame minigameOpenerInstance = Instantiate(item.minigameOpener);
-                
-                if (minigame != null) {
-                    Destroy(minigame);
+                    OpenMinigame minigameOpenerInstance = Instantiate(item.minigameOpener);
+                    
+                    if (minigame != null) {
+                        Destroy(minigame);
+                    }
+                    minigame = minigameOpenerInstance;
+                    minigame.minigamePrefab = item.minigame;
+                    minigame.canvas = battleCanvas;
+
+                    minigame.gameObject.SetActive(true);
+
+                    StartCoroutine(HandlePlayerCast());
                 }
-                minigame = minigameOpenerInstance;
-                minigame.minigamePrefab = item.minigame;
-                minigame.canvas = battleCanvas;
-
-                minigame.gameObject.SetActive(true);
-
-                StartCoroutine(HandlePlayerCast());
+                
             });
         }
 
