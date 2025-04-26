@@ -298,6 +298,8 @@ public class BattleManager : MonoBehaviour
     public void playerPotion(){
         if(playerMove) {
             animationManager.Animate(BattleOption.POTION);
+            
+            battle.setUsedItem(playerEntity.equippedGear[2].itemData); //This patch only works if they have a potion in offhand
             battle.perform(BattleOption.USE_ITEM);
             //battle.endTurn();
             playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
