@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 using UnityEngine.UI;
 using TMPro;
+using NUnit.Framework.Constraints;
 
 public class InputSequenceManager : MonoBehaviour
 {
@@ -65,8 +66,10 @@ public class InputSequenceManager : MonoBehaviour
         // Display arrow sequence
         DisplaySequence();
 
-
         float timer = timeLimit; // Start countdown
+        timerText.text = "Time: " + Mathf.Ceil(timer).ToString();
+        yield return new WaitForSeconds(0.5f);
+
         // Loop while you still have arrows to press and above timer
         while (currentStep < requiredSequence.Count && timer > 0)
         {
@@ -76,6 +79,7 @@ public class InputSequenceManager : MonoBehaviour
                 {
                     Debug.Log("Sequence Completed!");
                     isMinigameSuccessful = true;
+                    yield return new WaitForSeconds(1f);
                     Destroy(arrowMinigamePanel);
                     yield break; // End coroutine
                 }
@@ -90,7 +94,7 @@ public class InputSequenceManager : MonoBehaviour
             yield return null; // Wait until next frame
         }
 
-        Debug.Log("Time's Up! Stopping...");        
+        yield return new WaitForSeconds(1f);
         isMinigameSuccessful = false;
         Destroy(arrowMinigamePanel);
         yield break;
@@ -174,13 +178,4 @@ public class InputSequenceManager : MonoBehaviour
         return null;
     }
 
-    // Resets game
-    void ResetSequence()
-    {
-        currentStep = 0;
-        foreach (Image arrow in arrowSlots)
-        {
-            arrow.color = Color.white; // Reset color
-        }
-    }
 }
