@@ -383,6 +383,7 @@ public class InventoryManager : MonoBehaviour
         SendCurrentInventoryToState();
     }
 
+    //This creates an issue
     public void CreateSpell() {
         int id = Random.Range(5,8);
         bool res = AddItem(itemsToPickup[id]);
