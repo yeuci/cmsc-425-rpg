@@ -29,6 +29,8 @@ public class BattleManager : MonoBehaviour
     bool minigameSuccess;                   // Tracks if minigame is successfull
     float escapeAttempts;                   // Tracks escape attempts for Run option
     List<ItemSave> spells = new List<ItemSave>();   // Tracks which spells the player has access to
+    List<ItemSave> consumables = new List<ItemSave>();
+
     
 
     // Managers
@@ -55,6 +57,7 @@ public class BattleManager : MonoBehaviour
 
     // Invetory and Spells
     [HideInInspector] private InventoryManager inventoryManager;
+    
     public GameObject spellButtonPrefab; // Drag the prefab here in the Inspector
     public Transform spellListContainer;
     public GameObject spellInfoPrefab;
@@ -64,7 +67,7 @@ public class BattleManager : MonoBehaviour
     // Minigames
     public OpenMinigame minigame;
 
-    void getPlayerSpells() {
+    void getPlayerInventory() {
         ItemSave[] playerInventory = playerEntity.inventory;
 
         for (int i =0; i < playerInventory.Length; ++i) {
@@ -73,7 +76,11 @@ public class BattleManager : MonoBehaviour
 
                 if (item.itemData.type == ItemType.Spell) {
                     spells.Add(item);
+                } else if (item.itemData.type == ItemType.Consumable) {
+                    consumables.Add(item); // Add the reference to the consumables list
                 }
+
+                
             }
         }        
     }
@@ -100,7 +107,7 @@ public class BattleManager : MonoBehaviour
         playerEntity.transform.position = new Vector3(-3.25f, 0.5f, 0);
         playerEntity.transform.right = Vector3.left;
 
-        getPlayerSpells();
+        getPlayerInventory();
         
         player = playerEntity.getAdjustedStats();
         enemy = enemyEntity.getAdjustedStats();
@@ -306,14 +313,20 @@ public class BattleManager : MonoBehaviour
         yield break;
     }
 
-    public void playerPotion(){
+    // public void playerPotion(){
+    //     if(playerMove) {
+    //         animationManager.Animate(BattleOption.POTION);
+    //         battle.perform(BattleOption.USE_ITEM);
+    //         //battle.endTurn();
+    //         playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
+    //         updatePlayerHealthAndManaText();
+    //         playerMove = false;
+    //     }
+    // }
+
+    public void openInventory() {
         if(playerMove) {
-            animationManager.Animate(BattleOption.POTION);
-            battle.perform(BattleOption.USE_ITEM);
-            //battle.endTurn();
-            playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
-            updatePlayerHealthAndManaText();
-            playerMove = false;
+            displayConsumableButtons();
         }
     }
     
@@ -374,6 +387,52 @@ public class BattleManager : MonoBehaviour
         playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
         recalculateEnemyHealthBar(); 
         updatePlayerHealthAndManaText();
+    }
+
+    void displayConsumableButtons() {
+        foreach (Transform child in spellListContainer)
+        {
+            Destroy(child.gameObject); // Clear existing buttons
+        }
+
+        foreach(ItemSave consumable in consumables) {
+            Item item = consumable.itemData;
+
+            GameObject buttonObj = Instantiate(spellButtonPrefab, spellListContainer);
+
+            TMP_Text buttonText = buttonObj.GetComponentInChildren<TMP_Text>();
+            buttonText.text = $"{item.name}: x{consumable.count}";
+
+            HoverSpellButton hoverSpellButton = buttonObj.GetComponent<HoverSpellButton>();
+            hoverSpellButton.item = item;
+
+            Button button = buttonObj.GetComponent<Button>();
+            button.onClick.AddListener(() => {
+                    usedItem = item;
+                    usedItem.actionType = ActionType.Consume;
+                    battle.setUsedItem(usedItem);
+
+                    if (item.healing > 0 && playerEntity.remainingHP < player.health || 
+                        item.manaRestore > 0 && playerEntity.remainingMP < player.mana) {
+                        battle.perform(BattleOption.USE_ITEM);
+
+                        updatePlayerHealthAndManaText();
+
+                        playerHealthBar.fillAmount = playerEntity.remainingHP / player.health;
+                        playerManaBar.fillAmount = playerEntity.remainingMP / player.mana;
+
+                        consumable.count -= 1;
+
+                        if (consumable.count <= 0) {
+                            consumables.Remove(consumable);
+                            displayConsumableButtons();
+                        }
+                        buttonText.text = $"{item.name}: x{consumable.count}";
+                        playerMove = false;
+                    }
+             });
+            
+        }
     }
 
     void displaySpellButtons()

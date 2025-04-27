@@ -197,6 +197,14 @@ public class InventoryManager : MonoBehaviour
         {
             CreateSpell();
         }
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            CreateManaPotion();
+        }
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            CreateHealthPotion();
+        }
 
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -368,7 +376,28 @@ public class InventoryManager : MonoBehaviour
     }
 
     public void CreateSpell() {
-        int id = Random.Range(4, 6);
+        int id = Random.Range(4,6);
+        bool res = AddItem(itemsToPickup[id]);
+        if (res) {
+            Debug.Log($"Picked up {itemsToPickup[id].name}");
+        } else {
+            Debug.Log("Inventory is full!");
+        }
+        SendCurrentInventoryToState();
+    }
+
+    public void CreateHealthPotion() {
+        int id = 6;
+        bool res = AddItem(itemsToPickup[id]);
+        if (res) {
+            Debug.Log($"Picked up {itemsToPickup[id].name}");
+        } else {
+            Debug.Log("Inventory is full!");
+        }
+        SendCurrentInventoryToState();
+    }
+    public void CreateManaPotion() {
+        int id = 1;
         bool res = AddItem(itemsToPickup[id]);
         if (res) {
             Debug.Log($"Picked up {itemsToPickup[id].name}");
