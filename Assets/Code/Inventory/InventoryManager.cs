@@ -64,6 +64,13 @@ public class InventoryManager : MonoBehaviour
             }
             playerEntity.inventoryCount++;
         }
+
+        for(int i = 0; i < 3; i++) {
+            if(playerEntity.equippedGear[i] != null && playerEntity.equippedGear[i].itemData != null) {
+                Transform child = equippedContainer.transform.GetChild(i);
+                InventoryItem item = SpawnNewItemForSave(1,playerEntity.equippedGear[i].itemData,child.GetComponent<InventorySlot>());
+            }
+        }
     }
 
     InventoryItem SpawnNewItemForSave(int n, Item item, InventorySlot slot) {
