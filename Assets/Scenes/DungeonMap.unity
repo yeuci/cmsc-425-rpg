@@ -828,6 +828,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 27447284}
+  - component: {fileID: 27447285}
   m_Layer: 5
   m_Name: PlayerUI
   m_TagString: Untagged
@@ -857,6 +858,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -78.196655}
   m_SizeDelta: {x: 1920, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &27447285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 27447283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 170a41ffd68e0d044879da4e8b3e8f60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthBar: {fileID: 1517482387}
+  manaBar: {fileID: 1711688915}
 --- !u!1001 &29209462
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4442,11 +4457,12 @@ MonoBehaviour:
   equipped: 0
   itemsToPickup:
   - {fileID: 11400000, guid: d8e36a19d0a657a4892ec5d67aaa9827, type: 2}
-  - {fileID: 11400000, guid: 0e76f221c2b210b4d97c8b0b917170e9, type: 2}
+  - {fileID: 11400000, guid: 720a519e68f816a4b8b97441de5c6309, type: 2}
   - {fileID: 11400000, guid: 25c29a11422fd214c986a7afa9ea0f42, type: 2}
   - {fileID: 11400000, guid: ac9350f2c4583e240bceedca0420fe94, type: 2}
   - {fileID: 11400000, guid: 99432ffe851defc41a54ae092a9c47da, type: 2}
-  - {fileID: 11400000, guid: e923e7b40ab75a1438d5bbb7a156d95f, type: 2}
+  - {fileID: 11400000, guid: 7349d4abd5b2ef4439908fa6a34d6c1c, type: 2}
+  - {fileID: 11400000, guid: 0938f8d4c8bc705409259e1cf718d4b3, type: 2}
 --- !u!224 &158083232
 RectTransform:
   m_ObjectHideFlags: 0
@@ -41695,6 +41711,7 @@ MonoBehaviour:
     experience: 0
     expToNext: 198
     health: 100
+    mana: 50
     attack: 10
     defense: 10
     speed: 10
@@ -41780,6 +41797,7 @@ MonoBehaviour:
   inventoryCount: 0
   eClass: 3
   remainingHP: 100
+  remainingMP: 0
   isAlive: 1
   defeatedEnemies: 
   enemyId: 1
@@ -43837,7 +43855,6 @@ GameObject:
   - component: {fileID: 1517482386}
   - component: {fileID: 1517482388}
   - component: {fileID: 1517482387}
-  - component: {fileID: 1517482389}
   m_Layer: 5
   m_Name: PlayerHealthBar
   m_TagString: Untagged
@@ -43902,18 +43919,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1517482385}
   m_CullTransparentMesh: 1
---- !u!114 &1517482389
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1517482385}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 170a41ffd68e0d044879da4e8b3e8f60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1521917553
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -48201,6 +48206,7 @@ MonoBehaviour:
     experience: 0
     expToNext: 198
     health: 100
+    mana: 50
     attack: 10
     defense: 10
     speed: 11
@@ -48295,6 +48301,7 @@ MonoBehaviour:
   inventoryCount: 0
   eClass: 0
   remainingHP: 100
+  remainingMP: 0
   isAlive: 1
   defeatedEnemies: 
   enemyId: 0
@@ -48605,10 +48612,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 686138b3b5cfaa04da25fcc63da7e623, type: 3}
-  m_Type: 0
-  m_PreserveAspect: 0
+  m_Type: 3
+  m_PreserveAspect: 1
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
@@ -59105,6 +59112,7 @@ MonoBehaviour:
     experience: 0
     expToNext: 198
     health: 100
+    mana: 50
     attack: 10
     defense: 10
     speed: 10
@@ -59190,6 +59198,7 @@ MonoBehaviour:
   inventoryCount: 0
   eClass: 3
   remainingHP: 100
+  remainingMP: 0
   isAlive: 1
   defeatedEnemies: 
   enemyId: 2

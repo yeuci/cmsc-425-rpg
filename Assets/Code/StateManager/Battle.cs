@@ -13,8 +13,9 @@ public class Battle
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-    public Color dmgColor = Color.red;
-    public Color healColor = Color.green;
+    public Color DMGCOLOR = Color.red;
+    public Color HEALCOLOR = Color.green;
+    public Color MANACOLOR = Color.blue;
 
     
     public Battle(Entity a, Entity d, Item uI, DamagePopupGenerator popupGen) {
@@ -61,17 +62,34 @@ public class Battle
                     float damage =  attackerStats.attack + attackerStats.attack*usedItem.attackPower/defenderStats.defense;
                     defender.remainingHP -= damage;
 
-                    popupGenerator.CreatePopUp(defender.transform.position, damage.ToString(), defender.transform.right, dmgColor);
+                    popupGenerator.CreatePopUp(defender.transform.position, damage.ToString(), defender.transform.right, DMGCOLOR);
                 } else if (usedItem.actionType == ActionType.Cast) {
                     float damage = attackerStats.magic + attackerStats.magic*usedItem.magicPower;
                     defender.remainingHP -= damage;
 
-                    popupGenerator.CreatePopUp(defender.transform.position, damage.ToString(),defender.transform.right, dmgColor);
+                    popupGenerator.CreatePopUp(defender.transform.position, damage.ToString(),defender.transform.right, DMGCOLOR);
                 } else if (usedItem.actionType == ActionType.Consume) {
-                    //Eliminate the item in the player's inventory.
+                    float healing = 0;
+                    float manaRestore = 0;
+                    if (usedItem.healing > 0) {
+                        healing = usedItem.healing;
+                    }
+
+                    if (usedItem.manaRestore > 0) {
+                        manaRestore = usedItem.manaRestore;
+                    }
+
+                    attacker.remainingHP = Mathf.Min(attackerStats.health,attacker.remainingHP+usedItem.healing);
+                    attacker.remainingMP = Mathf.Min(attackerStats.mana,attacker.remainingMP+usedItem.manaRestore);
+
+                    if (healing > 0) {
+                        popupGenerator.CreatePopUp(attacker.transform.position, healing.ToString(),attacker.transform.right, HEALCOLOR);
+                    }
+                    if (manaRestore > 0) {
+                        popupGenerator.CreatePopUp(attacker.transform.position,manaRestore.ToString(),attacker.transform.right, MANACOLOR);
+                    }
                 }
-                //Do the healing
-                attacker.remainingHP = Mathf.Min(attackerStats.health,attacker.remainingHP+usedItem.healing);
+
                 Debug.Log("Ending turn. Old Attacker: "+attacker.name);
                 endTurn();
                 Debug.Log("Attacker: "+attacker.name);
@@ -86,7 +104,7 @@ public class Battle
                 if (attacker.remainingHP > attackerStats.health) {
                     attacker.remainingHP = attackerStats.health;
                 }
-                popupGenerator.CreatePopUp(attacker.transform.position, healAmount.ToString(),attacker.transform.right, healColor);
+                popupGenerator.CreatePopUp(attacker.transform.position, healAmount.ToString(),attacker.transform.right, HEALCOLOR);
                 endTurn();
                 break;
         }

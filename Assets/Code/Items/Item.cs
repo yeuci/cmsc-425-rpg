@@ -78,7 +78,7 @@ public struct ItemStatistics {
     }
 }
 
-[CreateAssetMenu(menuName = "Scriptable Item")]
+[CreateAssetMenu(fileName = "Item", menuName = "Scriptable Item/Item")]
 public class Item : ScriptableObject {
     new public string name = "Default name";
     public string itemDescription = "Some description";
@@ -97,6 +97,7 @@ public class Item : ScriptableObject {
     [Header("Use Statistics")]
     public int attackPower;
     public int healing;
+    public float manaRestore;
     public int magicPower;
     public int manaCost;
 
