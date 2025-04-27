@@ -159,6 +159,19 @@ public class SaveGameLoader : MonoBehaviour
                         loadedInventory[i] = itemSave;
                     }
                 }
+            } else if (line.StartsWith("DefeatedEnemies:")) {
+                string raw = line.Replace("DefeatedEnemies:", "").Trim();
+                raw = raw.TrimStart('[').TrimEnd(']');
+
+                string[] entries = raw.Split(new char[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var entry in entries)
+                {
+                    if (int.TryParse(entry.Trim(), out int enemyId))
+                    {
+                        playerManager.defeatedEnemies.Add(enemyId);
+                    }
+                }
             }
         }
 
@@ -192,7 +205,7 @@ public class SaveGameLoader : MonoBehaviour
         }
         
         Debug.Log("DungeonMap scene loaded.");
-        
+
         Debug.Log("Attempting to find player...");
         GameObject player = GameObject.FindWithTag("Player");
         
@@ -260,6 +273,7 @@ public class SaveGameLoader : MonoBehaviour
                 iMEntity.UpdateInventoryUIWithItemSave();
 
                 // destroy all defeated enemies
+                int destroyed = 0;
                 GameObject[] allObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
                 foreach (GameObject obj in allObjects)
                 {
@@ -268,14 +282,21 @@ public class SaveGameLoader : MonoBehaviour
                         Entity entity = obj.GetComponent<Entity>();
                         if (entity != null)
                         {
+                            Debug.Log($"Checking enemy: {entity.enemyId} against defeated list.");
+                            Debug.Log(playerManager.defeatedEnemies.Count);
+                            Debug.Log(playerManager.defeatedEnemies);
                             if (playerManager.defeatedEnemies.Contains(entity.enemyId)) {
                                 obj.gameObject.SetActive(false);
                                 Destroy(obj);
+                                destroyed += 1;
                             }
+                        } else {
+                            Debug.LogWarning("Entity component not found on enemy object!");
                         }
                     }
                 }
 
+                Debug.Log($"---------------- Destroyed {destroyed} enemies from defeated list. -----------");
                 playerManager.playerCanCollide = true;
 
                 Debug.Log("Player stats restored from save");
