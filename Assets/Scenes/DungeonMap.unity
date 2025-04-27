@@ -4458,11 +4458,12 @@ MonoBehaviour:
   itemsToPickup:
   - {fileID: 11400000, guid: d8e36a19d0a657a4892ec5d67aaa9827, type: 2}
   - {fileID: 11400000, guid: 720a519e68f816a4b8b97441de5c6309, type: 2}
+  - {fileID: 11400000, guid: 0938f8d4c8bc705409259e1cf718d4b3, type: 2}
   - {fileID: 11400000, guid: 25c29a11422fd214c986a7afa9ea0f42, type: 2}
   - {fileID: 11400000, guid: ac9350f2c4583e240bceedca0420fe94, type: 2}
   - {fileID: 11400000, guid: 99432ffe851defc41a54ae092a9c47da, type: 2}
   - {fileID: 11400000, guid: 7349d4abd5b2ef4439908fa6a34d6c1c, type: 2}
-  - {fileID: 11400000, guid: 0938f8d4c8bc705409259e1cf718d4b3, type: 2}
+  - {fileID: 11400000, guid: 1c57ab4f5cb88e14c8d128ba98a5bae3, type: 2}
 --- !u!224 &158083232
 RectTransform:
   m_ObjectHideFlags: 0

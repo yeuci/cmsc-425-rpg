@@ -376,7 +376,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     public void CreateSpell() {
-        int id = Random.Range(4,6);
+        int id = Random.Range(5,8);
         bool res = AddItem(itemsToPickup[id]);
         if (res) {
             Debug.Log($"Picked up {itemsToPickup[id].name}");
@@ -387,7 +387,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     public void CreateHealthPotion() {
-        int id = 6;
+        int id = 1;
         bool res = AddItem(itemsToPickup[id]);
         if (res) {
             Debug.Log($"Picked up {itemsToPickup[id].name}");
@@ -397,7 +397,7 @@ public class InventoryManager : MonoBehaviour
         SendCurrentInventoryToState();
     }
     public void CreateManaPotion() {
-        int id = 1;
+        int id = 2;
         bool res = AddItem(itemsToPickup[id]);
         if (res) {
             Debug.Log($"Picked up {itemsToPickup[id].name}");

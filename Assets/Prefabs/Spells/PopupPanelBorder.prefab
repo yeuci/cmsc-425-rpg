@@ -149,7 +149,7 @@ GameObject:
   - component: {fileID: 1534473537273769020}
   - component: {fileID: 3818867686126914048}
   m_Layer: 5
-  m_Name: SpellPopupPanelBorder
+  m_Name: PopupPanelBorder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

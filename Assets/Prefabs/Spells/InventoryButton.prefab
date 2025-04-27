@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6401732700260419625}
   - component: {fileID: 1460529764425240896}
   m_Layer: 5
-  m_Name: SpellButton
+  m_Name: InventoryButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
