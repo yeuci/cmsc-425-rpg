@@ -161,9 +161,10 @@ public class BattleManager : MonoBehaviour
 
     public void playerAttack() {
         if(playerMove) {
-            usedItem.actionType = ActionType.Attack;
+            usedItem = playerEntity.equippedGear[1].itemData;
 
             animationManager.Animate(BattleOption.ATTACK);
+            battle.setUsedItem(usedItem); //Set the used item to the weapon that the player currently has equipped
             battle.perform(BattleOption.USE_ITEM);
             AudioSource swordSwipe = GetComponent<AudioSource>();
             swordSwipe.Play();
@@ -396,10 +397,6 @@ public class BattleManager : MonoBehaviour
 
             Button button = buttonObj.GetComponent<Button>();
             button.onClick.AddListener(() => {
-                if (playerMove) {
-                    if (currentSpellInfo != null) {
-                        Destroy(currentSpellInfo.gameObject);
-                    }
                     usedItem = item;
                     usedItem.actionType = ActionType.Consume;
                     battle.setUsedItem(usedItem);
@@ -422,8 +419,6 @@ public class BattleManager : MonoBehaviour
                         buttonText.text = $"{item.name}: x{consumable.count}";
                         playerMove = false;
                     }
-                }
-                    
              });
             
         }
@@ -450,10 +445,7 @@ public class BattleManager : MonoBehaviour
 
             Button button = buttonObj.GetComponent<Button>();
             button.onClick.AddListener(() => {
-                if (playerMove && playerEntity.remainingMP >= item.manaCost) {
-                    if (currentSpellInfo != null) {
-                        Destroy(currentSpellInfo.gameObject);
-                    }
+                if (playerEntity.remainingMP >= item.manaCost) {
                     usedItem = item;
                     battle.setUsedItem(usedItem);
 
