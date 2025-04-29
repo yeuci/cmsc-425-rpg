@@ -50,8 +50,12 @@ public class InventoryManager : MonoBehaviour
         for (int i = 0; i < 7; i++) 
         { 
             if (playerEntity.inventory[playerEntity.inventoryCount] != null && playerEntity.inventory[playerEntity.inventoryCount].itemData != null) {
-                Transform child = hotbarContainer.transform.GetChild(i);
-                InventoryItem item = SpawnNewItemForSave(playerEntity.inventory[playerEntity.inventoryCount].count, playerEntity.inventory[playerEntity.inventoryCount].itemData, child.GetComponent<InventorySlot>());
+                if (playerEntity.inventory[playerEntity.inventoryCount].count > 0) {
+                    Transform child = hotbarContainer.transform.GetChild(i);
+                    InventoryItem item = SpawnNewItemForSave(playerEntity.inventory[playerEntity.inventoryCount].count, playerEntity.inventory[playerEntity.inventoryCount].itemData, child.GetComponent<InventorySlot>());
+                }
+                // Transform child = hotbarContainer.transform.GetChild(i);
+                // InventoryItem item = SpawnNewItemForSave(playerEntity.inventory[playerEntity.inventoryCount].count, playerEntity.inventory[playerEntity.inventoryCount].itemData, child.GetComponent<InventorySlot>());
             }
             playerEntity.inventoryCount++;
         }

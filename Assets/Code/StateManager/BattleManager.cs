@@ -397,6 +397,10 @@ public class BattleManager : MonoBehaviour
 
             Button button = buttonObj.GetComponent<Button>();
             button.onClick.AddListener(() => {
+                if (playerMove) {
+                    if (currentSpellInfo != null) {
+                        Destroy(currentSpellInfo.gameObject);
+                    }
                     usedItem = item;
                     usedItem.actionType = ActionType.Consume;
                     battle.setUsedItem(usedItem);
@@ -419,6 +423,8 @@ public class BattleManager : MonoBehaviour
                         buttonText.text = $"{item.name}: x{consumable.count}";
                         playerMove = false;
                     }
+                }
+                    
              });
             
         }
@@ -445,7 +451,10 @@ public class BattleManager : MonoBehaviour
 
             Button button = buttonObj.GetComponent<Button>();
             button.onClick.AddListener(() => {
-                if (playerEntity.remainingMP >= item.manaCost) {
+                if (playerMove && playerEntity.remainingMP >= item.manaCost) {
+                    if (currentSpellInfo != null) {
+                        Destroy(currentSpellInfo.gameObject);
+                    }
                     usedItem = item;
                     battle.setUsedItem(usedItem);
 
