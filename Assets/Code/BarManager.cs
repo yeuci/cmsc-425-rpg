@@ -8,6 +8,7 @@ public class BarManager : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     Entity player;
+    PlayerManager playerState;
     public Image healthBar;
     public Image manaBar;
 
@@ -15,6 +16,7 @@ public class BarManager : MonoBehaviour
     {
         yield return new WaitForFixedUpdate(); // Wait for one frame
         player = GameObject.FindGameObjectWithTag("PlayerState").GetComponent<Entity>();
+        playerState = GameObject.FindGameObjectWithTag("PlayerState").GetComponent<PlayerManager>();
     }
 
     void Start()
@@ -26,8 +28,10 @@ public class BarManager : MonoBehaviour
     //Bar Size is set
     void Update()
     {
-        Debug.Log(manaBar.fillAmount);
-        healthBar.fillAmount = player.remainingHP/player.getAdjustedStats().health;
-        manaBar.fillAmount = player.remainingMP/player.getAdjustedStats().mana;
+        // Debug.Log(manaBar.fillAmount);
+        if (playerState.playerCanCollide) {
+            healthBar.fillAmount = player.remainingHP/player.getAdjustedStats().health;
+            manaBar.fillAmount = player.remainingMP/player.getAdjustedStats().mana;
+        }
     }
 }

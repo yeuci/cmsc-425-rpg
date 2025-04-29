@@ -234,10 +234,9 @@ public class BattleManager : MonoBehaviour
                     }
                 }
             }
-
-            playerManager.playerCanCollide = true;
-
+            
             playerManager.defeatedEnemies.Add(playerManager.enemyBeforeCombat);
+            playerManager.playerCanCollide = true;
             playerManager.StartCoroutine(playerManager.DelayedDungeonRestore());
 
             SceneManager.sceneLoaded -= OnSceneLoaded;

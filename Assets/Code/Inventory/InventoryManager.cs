@@ -49,24 +49,27 @@ public class InventoryManager : MonoBehaviour
 
         for (int i = 0; i < 7; i++) 
         { 
-            if (playerEntity.inventory[playerEntity.inventoryCount] != null && playerEntity.inventory[playerEntity.inventoryCount].itemData != null) {
-                if (playerEntity.inventory[playerEntity.inventoryCount].count > 0) {
-                    Transform child = hotbarContainer.transform.GetChild(i);
-                    InventoryItem item = SpawnNewItemForSave(playerEntity.inventory[playerEntity.inventoryCount].count, playerEntity.inventory[playerEntity.inventoryCount].itemData, child.GetComponent<InventorySlot>());
-                }
-                // Transform child = hotbarContainer.transform.GetChild(i);
-                // InventoryItem item = SpawnNewItemForSave(playerEntity.inventory[playerEntity.inventoryCount].count, playerEntity.inventory[playerEntity.inventoryCount].itemData, child.GetComponent<InventorySlot>());
+            if (playerEntity.inventory[playerEntity.inventoryCount] != null && playerEntity.inventory[playerEntity.inventoryCount].itemData != null && playerEntity.inventory[playerEntity.inventoryCount].count > 0) {
+                Transform child = hotbarContainer.transform.GetChild(i);
+                InventoryItem item = SpawnNewItemForSave(playerEntity.inventory[playerEntity.inventoryCount].count, playerEntity.inventory[playerEntity.inventoryCount].itemData, child.GetComponent<InventorySlot>());
             }
             playerEntity.inventoryCount++;
         }
 
         for (int i = 0; i < 18; i++) 
         { 
-            if (playerEntity.inventory[playerEntity.inventoryCount] != null && playerEntity.inventory[playerEntity.inventoryCount].itemData != null) {
+            if (playerEntity.inventory[playerEntity.inventoryCount] != null && playerEntity.inventory[playerEntity.inventoryCount].itemData != null && playerEntity.inventory[playerEntity.inventoryCount].count > 0) {
                 Transform child = inventoryContainer.transform.GetChild(i);
                 InventoryItem item = SpawnNewItemForSave(playerEntity.inventory[playerEntity.inventoryCount].count, playerEntity.inventory[playerEntity.inventoryCount].itemData, child.GetComponent<InventorySlot>());
             }
             playerEntity.inventoryCount++;
+        }
+
+        for(int i = 0; i < 3; i++) {
+            if(playerEntity.equippedGear[i] != null && playerEntity.equippedGear[i].itemData != null) {
+                Transform child = equippedContainer.transform.GetChild(i);
+                InventoryItem item = SpawnNewItemForSave(1,playerEntity.equippedGear[i].itemData,child.GetComponent<InventorySlot>());
+            }
         }
     }
 
