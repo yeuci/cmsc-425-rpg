@@ -1,11 +1,11 @@
 using UnityEngine;
 
-public class HoverSpellButton : MonoBehaviour
+public class HoverButton : MonoBehaviour
 {
     public Item item;
 
     public void OnCursorEnter() {
-        BattleManager.instance.displaySpellInformation(item.name, item.getItemDescription(), transform.position);
+        BattleManager.instance.displayItemInformation(item.name, item.getItemDescription(), transform.position);
     }
 
     public void OnCursorExix() {

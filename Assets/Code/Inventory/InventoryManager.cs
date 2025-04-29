@@ -64,6 +64,13 @@ public class InventoryManager : MonoBehaviour
             }
             playerEntity.inventoryCount++;
         }
+
+        for(int i = 0; i < 3; i++) {
+            if(playerEntity.equippedGear[i] != null && playerEntity.equippedGear[i].itemData != null) {
+                Transform child = equippedContainer.transform.GetChild(i);
+                InventoryItem item = SpawnNewItemForSave(1,playerEntity.equippedGear[i].itemData,child.GetComponent<InventorySlot>());
+            }
+        }
     }
 
     InventoryItem SpawnNewItemForSave(int n, Item item, InventorySlot slot) {
@@ -376,7 +383,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     public void CreateSpell() {
-        int id = Random.Range(4,6);
+        int id = Random.Range(5,8);
         bool res = AddItem(itemsToPickup[id]);
         if (res) {
             Debug.Log($"Picked up {itemsToPickup[id].name}");
@@ -387,7 +394,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     public void CreateHealthPotion() {
-        int id = 6;
+        int id = 1;
         bool res = AddItem(itemsToPickup[id]);
         if (res) {
             Debug.Log($"Picked up {itemsToPickup[id].name}");
@@ -397,7 +404,7 @@ public class InventoryManager : MonoBehaviour
         SendCurrentInventoryToState();
     }
     public void CreateManaPotion() {
-        int id = 1;
+        int id = 2;
         bool res = AddItem(itemsToPickup[id]);
         if (res) {
             Debug.Log($"Picked up {itemsToPickup[id].name}");

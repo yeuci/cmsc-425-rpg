@@ -58,11 +58,11 @@ public class BattleManager : MonoBehaviour
     // Invetory and Spells
     [HideInInspector] private InventoryManager inventoryManager;
     
-    public GameObject spellButtonPrefab; // Drag the prefab here in the Inspector
+    public GameObject inventoryButtonPrefab; // Drag the prefab here in the Inspector
     public Transform spellListContainer;
-    public GameObject spellInfoPrefab;
+    public GameObject inventoryInfoPrefab;
     private GameObject currentSpellInfo = null;
-    public Transform spellPopupContainer;
+    public Transform inventoryPopupContainer;
 
     // Minigames
     public OpenMinigame minigame;
@@ -234,10 +234,9 @@ public class BattleManager : MonoBehaviour
                     }
                 }
             }
-
-            playerManager.playerCanCollide = true;
-
+            
             playerManager.defeatedEnemies.Add(playerManager.enemyBeforeCombat);
+            playerManager.playerCanCollide = true;
             playerManager.StartCoroutine(playerManager.DelayedDungeonRestore());
 
             SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -313,17 +312,6 @@ public class BattleManager : MonoBehaviour
         yield break;
     }
 
-    // public void playerPotion(){
-    //     if(playerMove) {
-    //         animationManager.Animate(BattleOption.POTION);
-    //         battle.perform(BattleOption.USE_ITEM);
-    //         //battle.endTurn();
-    //         playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
-    //         updatePlayerHealthAndManaText();
-    //         playerMove = false;
-    //     }
-    // }
-
     public void openInventory() {
         if(playerMove) {
             displayConsumableButtons();
@@ -398,13 +386,13 @@ public class BattleManager : MonoBehaviour
         foreach(ItemSave consumable in consumables) {
             Item item = consumable.itemData;
 
-            GameObject buttonObj = Instantiate(spellButtonPrefab, spellListContainer);
+            GameObject buttonObj = Instantiate(inventoryButtonPrefab, spellListContainer);
 
             TMP_Text buttonText = buttonObj.GetComponentInChildren<TMP_Text>();
             buttonText.text = $"{item.name}: x{consumable.count}";
 
-            HoverSpellButton hoverSpellButton = buttonObj.GetComponent<HoverSpellButton>();
-            hoverSpellButton.item = item;
+            HoverButton hoverItemButton = buttonObj.GetComponent<HoverButton>();
+            hoverItemButton.item = item;
 
             Button button = buttonObj.GetComponent<Button>();
             button.onClick.AddListener(() => {
@@ -446,12 +434,12 @@ public class BattleManager : MonoBehaviour
         {
             Item item = spell.itemData;
 
-            GameObject buttonObj = Instantiate(spellButtonPrefab, spellListContainer);
+            GameObject buttonObj = Instantiate(inventoryButtonPrefab, spellListContainer);
 
             TMP_Text buttonText = buttonObj.GetComponentInChildren<TMP_Text>();
             buttonText.text = item.name;
 
-            HoverSpellButton hoverSpellButton = buttonObj.GetComponent<HoverSpellButton>();
+            HoverButton hoverSpellButton = buttonObj.GetComponent<HoverButton>();
             hoverSpellButton.item = item;
 
             Button button = buttonObj.GetComponent<Button>();
@@ -479,13 +467,13 @@ public class BattleManager : MonoBehaviour
 
     }
 
-    public void displaySpellInformation(string itemName, string itemDescription, Vector2 buttonPos) {
+    public void displayItemInformation(string itemName, string itemDescription, Vector2 buttonPos) {
         if (currentSpellInfo != null) {
             Destroy(currentSpellInfo.gameObject);
         }
 
-        currentSpellInfo = Instantiate(spellInfoPrefab, spellPopupContainer);
-        currentSpellInfo.GetComponent<SpellPopupInfo>().Setup(itemName, itemDescription);
+        currentSpellInfo = Instantiate(inventoryInfoPrefab, inventoryPopupContainer);
+        currentSpellInfo.GetComponent<PopupInfo>().Setup(itemName, itemDescription);
     }
 
     public void DestroyItemInfo()

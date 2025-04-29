@@ -847,7 +847,7 @@ GameObject:
   m_Component:
   - component: {fileID: 383406793}
   m_Layer: 0
-  m_Name: SpellPopupContainer
+  m_Name: InventoryPopupContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3584,10 +3584,10 @@ MonoBehaviour:
   healthstuff: {fileID: 357313462}
   playerHealthText: {fileID: 303336520}
   playerManaText: {fileID: 1359554057}
-  spellButtonPrefab: {fileID: 4401704414497184916, guid: 545f904e1af0f7446a03f62701f0c272, type: 3}
+  inventoryButtonPrefab: {fileID: 4401704414497184916, guid: 545f904e1af0f7446a03f62701f0c272, type: 3}
   spellListContainer: {fileID: 1187491317}
-  spellInfoPrefab: {fileID: 1411338594673910739, guid: 489ecf6c4671b384eb041aec1af7ad0a, type: 3}
-  spellPopupContainer: {fileID: 383406793}
+  inventoryInfoPrefab: {fileID: 1411338594673910739, guid: 489ecf6c4671b384eb041aec1af7ad0a, type: 3}
+  inventoryPopupContainer: {fileID: 383406793}
   minigame: {fileID: 2069830881}
 --- !u!114 &2069830881
 MonoBehaviour:

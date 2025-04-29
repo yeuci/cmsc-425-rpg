@@ -60,6 +60,7 @@ public class PlayerManager : MonoBehaviour
         {
             inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
             escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
+            this.playerCanCollide = true;
         }
     }
 
@@ -72,6 +73,7 @@ public class PlayerManager : MonoBehaviour
 
         InventoryManager inventoryManager = GameObject.FindGameObjectWithTag("InventoryManager")?.GetComponent<InventoryManager>();
         inventoryManager.UpdateInventoryUIWithItemSave();
+        this.playerCanCollide = true;
     }
 
     void OnDestroy()

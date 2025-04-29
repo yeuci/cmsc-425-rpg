@@ -2,7 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 
-public class SpellPopupInfo : MonoBehaviour
+public class PopupInfo : MonoBehaviour
 {
     public TextMeshProUGUI spellName;
     public TextMeshProUGUI spellDescription;
