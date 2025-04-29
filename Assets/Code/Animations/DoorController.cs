@@ -3,97 +3,72 @@ using UnityEngine;
 
 public class DoorController : MonoBehaviour
 {
-    public float openAngle = 90f;
+    public float openAngle = -90f;
     public float openTime = 3f;
-    public float interactDistance = 3f;
-    
-    private Transform player;
-    private Quaternion rotOpened; // Rotation when fully opened.
-    private Quaternion rotClosed; // Rotation when full closed.
+    public float interactionDistance = 3f;
 
-    private bool isOpening = false; // Animate and lockout while true.
-    private bool isClosed = true; // Track open/closed state.
-    private bool isFacingPositive = true; // Whether we open + or - depending on player position
+    private Transform player;
+    private Quaternion rotClosed;
+    private Quaternion rotOpened;
+    private bool isOpening = false;
+    private bool isClosed = true;
+    private bool isFacingPositive = true;
 
     private void Start()
     {
         rotClosed = transform.localRotation;
+
+        // Find the player automatically by tag
+        GameObject playerObject = GameObject.FindGameObjectWithTag("Player");
+        if (playerObject != null)
+        {
+            player = playerObject.transform;
+        }
+        else
+        {
+            Debug.LogWarning("No GameObject tagged 'Player' found in the scene.");
+        }
     }
 
-    private void OnMouseDown()
+    private void Update()
     {
-        StartCoroutine(OpenDoor());
+        if (player == null) return; // Safeguard
+
+        if (Vector3.Distance(player.position, transform.position) <= interactionDistance)
+        {
+            if (Input.GetKeyDown(KeyCode.E) && !isOpening)
+            {
+                Vector3 doorToPlayer = player.position - transform.position;
+                float dot = Vector3.Dot(transform.right, doorToPlayer);
+
+                isFacingPositive = dot < 0;
+
+                float angle = isFacingPositive ? openAngle : -openAngle;
+                rotOpened = Quaternion.Euler(0, angle, 0) * rotClosed;
+
+                StartCoroutine(OpenDoor());
+            }
+        }
     }
 
     IEnumerator OpenDoor()
     {
-        // Lockout any attempt to start another OpenDoor while
-        // one is already running.
-
-        if (isOpening)
-        {
-            yield break;
-        }
-
-        // Start the animation and lockout others.
-
         isOpening = true;
 
-        // Vary this from zero to one, or from one to zero,
-        // to interpolate between our quaternions.
+        Quaternion startRotation = transform.localRotation;
+        Quaternion targetRotation = isClosed ? rotOpened : rotClosed;
 
-        float interpolationParameter;
+        float elapsed = 0f;
 
-        // Set this according to whether we are going from zero
-        // to one, or from one to zero.
-
-        float changeSign;
-
-        // Set lerp parameter to match our state, and the sign
-        // of the change to either increase or decrease the
-        // lerp parameter during animation.
-
-        if (isClosed)
+        while (elapsed < openTime)
         {
-            interpolationParameter = 0;
-            changeSign = 1;
-        }
-        else
-        {
-            interpolationParameter = 1;
-            changeSign = -1;
-        }
-
-        while (isOpening)
-        {
-            // Change our "lerp" parameter according to speed and time,
-            // and according to whether we are opening or closing.
-
-            interpolationParameter = interpolationParameter + changeSign * Time.deltaTime / openTime;
-
-            // At or past either end of the lerp parameter's range means
-            // we are on our last step.
-
-            if (interpolationParameter >= 1 || interpolationParameter <= 0)
-            {
-                // Clamp the lerp parameter.
-
-                interpolationParameter = Mathf.Clamp(interpolationParameter, 0, 1);
-
-                isOpening = false; // Signal the loop to stop after this.
-            }
-
-            // Set the X angle to however much rotation is done so far.
-
-            transform.localRotation = Quaternion.Lerp(rotClosed, rotOpened, interpolationParameter);
-
-            // Tell Unity to start us up again at some future time.
-
+            transform.localRotation = Quaternion.Slerp(startRotation, targetRotation, elapsed / openTime);
+            elapsed += Time.deltaTime;
             yield return null;
         }
 
-        // Toggle our open/closed state.
-
+        transform.localRotation = targetRotation;
         isClosed = !isClosed;
+        isOpening = false;
     }
 }
