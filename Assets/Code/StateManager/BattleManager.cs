@@ -114,7 +114,7 @@ public class BattleManager : MonoBehaviour
         battle = new Battle(playerEntity, enemyEntity, usedItem, popupGenerator);
 
         playerHealthBar.fillAmount = playerEntity.remainingHP / player.health;
-        playerManaBar.fillAmount = playerEntity.remainingMP / player.health;
+        playerManaBar.fillAmount = playerEntity.remainingMP / player.mana;
 
         escapeAttempts = 0;
 

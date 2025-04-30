@@ -69,24 +69,25 @@ public class Battle
 
                     popupGenerator.CreatePopUp(defender.transform.position, damage.ToString(),defender.transform.right, DMGCOLOR);
                 } else if (usedItem.actionType == ActionType.Consume) {
-                    float healing = 0;
-                    float manaRestore = 0;
+                    
                     if (usedItem.healing > 0) {
-                        healing = usedItem.healing;
+                        float amountHealed = Mathf.Min(usedItem.healing, attackerStats.health - attacker.remainingHP);
+                        attacker.remainingHP = Mathf.Min(attackerStats.health, attacker.remainingHP + amountHealed);
+
+                        if (amountHealed > 0)
+                        {
+                            popupGenerator.CreatePopUp(attacker.transform.position, amountHealed.ToString(), attacker.transform.right, HEALCOLOR);
+                        }
                     }
 
                     if (usedItem.manaRestore > 0) {
-                        manaRestore = usedItem.manaRestore;
-                    }
+                        float amountManaRestored = Mathf.Min(usedItem.manaRestore, attackerStats.mana - attacker.remainingMP);
+                        attacker.remainingMP = Mathf.Min(attackerStats.mana, attacker.remainingMP + amountManaRestored);
 
-                    attacker.remainingHP = Mathf.Min(attackerStats.health,attacker.remainingHP+usedItem.healing);
-                    attacker.remainingMP = Mathf.Min(attackerStats.mana,attacker.remainingMP+usedItem.manaRestore);
-
-                    if (healing > 0) {
-                        popupGenerator.CreatePopUp(attacker.transform.position, healing.ToString(),attacker.transform.right, HEALCOLOR);
-                    }
-                    if (manaRestore > 0) {
-                        popupGenerator.CreatePopUp(attacker.transform.position,manaRestore.ToString(),attacker.transform.right, MANACOLOR);
+                        if (amountManaRestored > 0)
+                        {
+                            popupGenerator.CreatePopUp(attacker.transform.position, amountManaRestored.ToString(), attacker.transform.right, MANACOLOR);
+                        }
                     }
                 }
 
