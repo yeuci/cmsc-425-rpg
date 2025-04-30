@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class DoorController : MonoBehaviour
 {
-    public float openAngle = -90f;
+    public float openAngle = 90f;
     public float openTime = 3f;
     public float interactionDistance = 3f;
 
@@ -39,7 +39,7 @@ public class DoorController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E) && !isOpening)
             {
                 Vector3 doorToPlayer = player.position - transform.position;
-                float dot = Vector3.Dot(transform.right, doorToPlayer);
+                float dot = Vector3.Dot(-transform.forward, doorToPlayer);
 
                 isFacingPositive = dot < 0;
 
