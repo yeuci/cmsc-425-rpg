@@ -49,7 +49,7 @@ public class InventoryManager : MonoBehaviour
 
         for (int i = 0; i < 7; i++) 
         { 
-            if (playerEntity.inventory[playerEntity.inventoryCount] != null && playerEntity.inventory[playerEntity.inventoryCount].itemData != null) {
+            if (playerEntity.inventory[playerEntity.inventoryCount] != null && playerEntity.inventory[playerEntity.inventoryCount].itemData != null && playerEntity.inventory[playerEntity.inventoryCount].count > 0) {
                 Transform child = hotbarContainer.transform.GetChild(i);
                 InventoryItem item = SpawnNewItemForSave(playerEntity.inventory[playerEntity.inventoryCount].count, playerEntity.inventory[playerEntity.inventoryCount].itemData, child.GetComponent<InventorySlot>());
             }
@@ -58,7 +58,7 @@ public class InventoryManager : MonoBehaviour
 
         for (int i = 0; i < 18; i++) 
         { 
-            if (playerEntity.inventory[playerEntity.inventoryCount] != null && playerEntity.inventory[playerEntity.inventoryCount].itemData != null) {
+            if (playerEntity.inventory[playerEntity.inventoryCount] != null && playerEntity.inventory[playerEntity.inventoryCount].itemData != null && playerEntity.inventory[playerEntity.inventoryCount].count > 0) {
                 Transform child = inventoryContainer.transform.GetChild(i);
                 InventoryItem item = SpawnNewItemForSave(playerEntity.inventory[playerEntity.inventoryCount].count, playerEntity.inventory[playerEntity.inventoryCount].itemData, child.GetComponent<InventorySlot>());
             }
@@ -383,7 +383,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     public void CreateSpell() {
-        int id = Random.Range(5,8);
+        int id = Random.Range(5,9);
         bool res = AddItem(itemsToPickup[id]);
         if (res) {
             Debug.Log($"Picked up {itemsToPickup[id].name}");

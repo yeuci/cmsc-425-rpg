@@ -50,7 +50,6 @@ public class BattleManager : MonoBehaviour
     // Player and enemy health and mana bars
     public Image playerHealthBar, playerManaBar;
     public Image enemyHealthBar;
-    public Canvas healthstuff;
     public TextMeshProUGUI playerHealthText;
     public TextMeshProUGUI playerManaText;
 
@@ -61,7 +60,7 @@ public class BattleManager : MonoBehaviour
     public GameObject inventoryButtonPrefab; // Drag the prefab here in the Inspector
     public Transform spellListContainer;
     public GameObject inventoryInfoPrefab;
-    private GameObject currentSpellInfo = null;
+    private GameObject currentItemInfo = null;
     public Transform inventoryPopupContainer;
 
     // Minigames
@@ -115,6 +114,7 @@ public class BattleManager : MonoBehaviour
         battle = new Battle(playerEntity, enemyEntity, usedItem, popupGenerator);
 
         playerHealthBar.fillAmount = playerEntity.remainingHP / player.health;
+        playerManaBar.fillAmount = playerEntity.remainingMP / player.health;
 
         escapeAttempts = 0;
 
@@ -152,6 +152,9 @@ public class BattleManager : MonoBehaviour
     IEnumerator StalledUpdate() {
         yield return new WaitUntil(isEnemyMove);
         yield return new WaitForSeconds(1);
+        if (currentItemInfo != null) {
+            Destroy(currentItemInfo.gameObject);
+        }
         enemyArtificialIntelligence();
         playerMove = true;
         StartCoroutine(StalledUpdate());
@@ -396,6 +399,10 @@ public class BattleManager : MonoBehaviour
 
             Button button = buttonObj.GetComponent<Button>();
             button.onClick.AddListener(() => {
+                if (playerMove) {
+                    if (currentItemInfo != null) {
+                        Destroy(currentItemInfo.gameObject);
+                    }
                     usedItem = item;
                     usedItem.actionType = ActionType.Consume;
                     battle.setUsedItem(usedItem);
@@ -418,6 +425,8 @@ public class BattleManager : MonoBehaviour
                         buttonText.text = $"{item.name}: x{consumable.count}";
                         playerMove = false;
                     }
+                }
+                    
              });
             
         }
@@ -444,7 +453,10 @@ public class BattleManager : MonoBehaviour
 
             Button button = buttonObj.GetComponent<Button>();
             button.onClick.AddListener(() => {
-                if (playerEntity.remainingMP >= item.manaCost) {
+                if (playerMove && playerEntity.remainingMP >= item.manaCost) {
+                    if (currentItemInfo != null) {
+                        Destroy(currentItemInfo.gameObject);
+                    }
                     usedItem = item;
                     battle.setUsedItem(usedItem);
 
@@ -468,19 +480,19 @@ public class BattleManager : MonoBehaviour
     }
 
     public void displayItemInformation(string itemName, string itemDescription, Vector2 buttonPos) {
-        if (currentSpellInfo != null) {
-            Destroy(currentSpellInfo.gameObject);
+        if (currentItemInfo != null) {
+            Destroy(currentItemInfo.gameObject);
         }
 
-        currentSpellInfo = Instantiate(inventoryInfoPrefab, inventoryPopupContainer);
-        currentSpellInfo.GetComponent<PopupInfo>().Setup(itemName, itemDescription);
+        currentItemInfo = Instantiate(inventoryInfoPrefab, inventoryPopupContainer);
+        currentItemInfo.GetComponent<PopupInfo>().Setup(itemName, itemDescription);
     }
 
     public void DestroyItemInfo()
     {
-        if(currentSpellInfo != null)
+        if(currentItemInfo != null)
         {
-            Destroy(currentSpellInfo.gameObject);
+            Destroy(currentItemInfo.gameObject);
         }
     }
 

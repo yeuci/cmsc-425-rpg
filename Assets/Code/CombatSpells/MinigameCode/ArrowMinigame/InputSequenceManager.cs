@@ -76,7 +76,6 @@ public class InputSequenceManager : MonoBehaviour
             {
                 if (currentStep == requiredSequence.Count)
                 {
-                    Debug.Log("Sequence Completed!");
                     isMinigameSuccessful = true;
                     yield return new WaitForSeconds(1f);
                     Destroy(arrowMinigamePanel);
@@ -160,7 +159,6 @@ public class InputSequenceManager : MonoBehaviour
         }
         else if (Keyboard.current.anyKey.wasPressedThisFrame)
         {
-            Debug.Log("Wrong Input! Stopping...");
             arrowSlots[currentStep].color = Color.red;
             return false;
         }
