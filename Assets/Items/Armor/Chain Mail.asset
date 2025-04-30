@@ -27,7 +27,7 @@ MonoBehaviour:
   magicPower: 0
   manaCost: 0
   stackable: 1
-  image: {fileID: 0}
+  image: {fileID: 21300000, guid: 40f2d97515d2434418f9dcdd11d438a2, type: 3}
   maxStack: 0
   consumable: 0
   range: {x: 0, y: 6}
