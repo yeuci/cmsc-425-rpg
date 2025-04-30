@@ -40,6 +40,8 @@ public class Entity : MonoBehaviour
         equippedGear = new ItemSave[25];
         remainingHP = stats.health;
         remainingMP = stats.mana;
+
+        AddEquipment();
     }
 
     // Basic Entity
@@ -76,13 +78,14 @@ public class Entity : MonoBehaviour
     public Stat getAdjustedStats() {
         //Attack, Defense, Health, Magic Speed
         float[] adjStats = this.stats.getStatArray();
-        // foreach (Item i in equippedGear){
-            // adjStats[0] += i.attack;
-            // adjStats[1] += i.defense;
-            // adjStats[2] += i.health;
-            // adjStats[3] += i.mana;
-            // adjStats[4] += i.speed;
-        // }
+         foreach (ItemSave iS in equippedGear){
+            Item i = iS.itemData;
+            adjStats[0] += i.attack;
+            adjStats[1] += i.defense;
+            adjStats[2] += i.health;
+            adjStats[3] += i.mana;
+            adjStats[4] += i.speed;
+        }
         Stat stats = new Stat(this.stats.level, adjStats[0],adjStats[1],adjStats[2],adjStats[3],adjStats[4], adjStats[5]);
         return stats;
     }
@@ -105,5 +108,20 @@ public class Entity : MonoBehaviour
 
         remainingHP = stats.health;
         remainingMP = stats.mana;
+    }
+
+    private void AddEquipment() {
+        //Always give two healing potions.
+        if(stats.mana > stats.attack) {
+            //I will want to give them a consumable spell.
+            
+            //No armor initially
+
+            //Give them a dagger
+        } else {
+            //Give them a weapon and armor. These should be basic.
+
+            //Do not give them a spell
+        }
     }
 }
