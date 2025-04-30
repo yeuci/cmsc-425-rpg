@@ -50,7 +50,6 @@ public class BattleManager : MonoBehaviour
     // Player and enemy health and mana bars
     public Image playerHealthBar, playerManaBar;
     public Image enemyHealthBar;
-    public Canvas healthstuff;
     public TextMeshProUGUI playerHealthText;
     public TextMeshProUGUI playerManaText;
 
