@@ -65,6 +65,7 @@ public class BattleManager : MonoBehaviour
 
     // Minigames
     public OpenMinigame minigame;
+    PlaySpellAnimation spellAnimationPlayer;
 
     // Game over screen
     public DeathMenuManager gameOverScreen;
@@ -110,6 +111,8 @@ public class BattleManager : MonoBehaviour
         playerEntity.transform.right = Vector3.left;
 
         getPlayerInventory();
+
+        spellAnimationPlayer = GetComponent<PlaySpellAnimation>();
         
         player = playerEntity.getAdjustedStats();
         enemy = enemyEntity.getAdjustedStats();
@@ -302,9 +305,15 @@ public class BattleManager : MonoBehaviour
                 usedItem.actionType = ActionType.Cast;
                 battle.perform(BattleOption.USE_ITEM);
 
+                
+
                 recalculateEnemyHealthBar();
         
                 checkEnemyDeath();
+
+                spellAnimationPlayer.StartAnimation();
+
+
         } else {
             battle.endTurn();
         }
