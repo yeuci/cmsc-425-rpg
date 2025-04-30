@@ -11,9 +11,9 @@ public class ParryMinigame : MonoBehaviour
     public RectTransform spawnPoint;        // Where arrows spawn
     public RectTransform parryZone;         // Zone where valid parry is
 
-    public int batchOne, batchTwo = 7;      // Arrows will appear in three total batches
+    public int batchOne = 1, batchTwo = 7;      // Arrows will appear in three total batches
     public int totalParries = 15;           // 15 arrows in total to hit
-    public float interval = 0.33f;          // Interval between spawning arrows inside batches
+    public float interval = 0.45f;          // Interval between spawning arrows inside batches
     public Key parryKey = Key.D;            // Key to parry
 
     // Hold all active arrows. Arrows are created in order and will be added in order
@@ -23,6 +23,11 @@ public class ParryMinigame : MonoBehaviour
     // Holds if minigame is successful
     public bool isMinigameSuccessful = false;
     bool running = true;                    // Tells if minigame isrunning
+
+    // void Start()
+    // {
+    //     StartCoroutine(ParrySequence());
+    // }
 
     void LateUpdate() {
         // If not arrows have been instantiated, return

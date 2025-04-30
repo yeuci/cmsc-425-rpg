@@ -21,27 +21,27 @@ public class BattleManager : MonoBehaviour
 {
     public static BattleManager instance;
     
-    Entity playerEntity, enemyEntity;       // Player and enemy entity
-    Stat player, enemy;                     // Player and enemy stats
-    Battle battle;                          // Manages battle actions
-    bool playerMove;                        // Track if player can move
-    System.Func<bool> isEnemyMove;          // Track if enemy can move
-    bool minigameSuccess;                   // Tracks if minigame is successfull
-    float escapeAttempts;                   // Tracks escape attempts for Run option
-    List<ItemSave> spells = new List<ItemSave>();   // Tracks which spells the player has access to
-    List<ItemSave> consumables = new List<ItemSave>();
+    Entity playerEntity, enemyEntity;                   // Player and enemy entity
+    Stat player, enemy;                                 // Player and enemy stats
+    Battle battle;                                      // Manages battle actions
+    bool playerMove;                                    // Track if player can move
+    System.Func<bool> isEnemyMove;                      // Track if enemy can move
+    bool minigameSuccess;                               // Tracks if minigame is successfull
+    float escapeAttempts;                               // Tracks escape attempts for Run option
+    List<ItemSave> spells = new List<ItemSave>();       // Tracks which spells the player has access to
+    List<ItemSave> consumables = new List<ItemSave>();  // Tracks potions player has
 
     
 
     // Managers
     public AnimationManager animationManager;
-    public DamagePopupGenerator popupGenerator;
+    public DamagePopupGenerator popupGenerator;         // Creates damage popups
 
     public GameObject enemyGameObject;
     public Item usedItem;
 
     public Canvas battleCanvas;
-    public GameObject UIBlocker;              // Blocks UI when minigame is starting
+    public GameObject UIBlocker;                        // Blocks UI when minigame is starting
     public GameObject inventoryPanel;
     
 
@@ -65,6 +65,9 @@ public class BattleManager : MonoBehaviour
 
     // Minigames
     public OpenMinigame minigame;
+
+    // Game over screen
+    public DeathMenuManager gameOverScreen;
 
     void getPlayerInventory() {
         ItemSave[] playerInventory = playerEntity.inventory;
@@ -142,10 +145,10 @@ public class BattleManager : MonoBehaviour
         isEnemyMove = () => !playerMove;
 
         // check if player is dead
-        checkEnemyDeath();
+        checkDeath();
 
         // check if enemy is dead
-        checkDeath();
+        checkEnemyDeath();
     }
 
 
@@ -173,7 +176,7 @@ public class BattleManager : MonoBehaviour
 
             recalculateEnemyHealthBar();
         
-            checkDeath();
+            checkEnemyDeath();
             
             updatePlayerHealthAndManaText();
     
@@ -190,7 +193,7 @@ public class BattleManager : MonoBehaviour
         playerManaText.text = $"Mana: {playerEntity.remainingMP} / {player.mana}";
     }
 
-    void checkDeath() {
+    void checkEnemyDeath() {
         if(enemyEntity.remainingHP <= 0) {
             float enemyXP = enemyEntity.calculateXPValue();
             Debug.Log("Enemy is defeated. Player gains " + enemyXP + " XP!");
@@ -203,12 +206,16 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    void checkEnemyDeath() {
+    void GameOver() {
+        gameOverScreen.Setup();
+    }
+
+    void checkDeath() {
         if(playerEntity.remainingHP <= 0) {
             Debug.Log("Player has lost the battle");
 
             // TODO: Add death screen NOT load screen
-            SceneManager.LoadScene("Scenes/DungeonMap");
+            GameOver();
         }
     }
 
@@ -297,7 +304,7 @@ public class BattleManager : MonoBehaviour
 
                 recalculateEnemyHealthBar();
         
-                checkDeath();
+                checkEnemyDeath();
         } else {
             battle.endTurn();
         }

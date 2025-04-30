@@ -1,4 +1,4 @@
-using UnityEngine;
+ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class DeathMenuManager : MonoBehaviour
@@ -11,6 +11,10 @@ public class DeathMenuManager : MonoBehaviour
     void Start()
     {
         deathMenu.SetActive(false);
+    }
+
+    public void Setup() {
+        deathMenu.SetActive(true);
     }
 
     public void OnLastSave() {

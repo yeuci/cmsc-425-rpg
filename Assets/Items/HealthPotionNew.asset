@@ -22,7 +22,7 @@ MonoBehaviour:
   mana: 0
   speed: 0
   attackPower: 0
-  healing: 25
+  healing: 20
   manaRestore: 0
   magicPower: 0
   manaCost: 0
