@@ -37,7 +37,7 @@ public class Entity : MonoBehaviour
     public int enemyId = 0;
 
     void Start() {
-        equippedGear = new ItemSave[25];
+        equippedGear = new ItemSave[3]; //Changed Size of equippedGear to match number of slots
         remainingHP = stats.health;
         remainingMP = stats.mana;
 

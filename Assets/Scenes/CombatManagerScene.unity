@@ -2984,12 +2984,12 @@ MonoBehaviour:
     itemData: {fileID: 0}
   equippedGearCount: 0
   inventory:
-  - count: 1
-    item: HealthPotion
-    itemData: {fileID: 11400000, guid: 0e76f221c2b210b4d97c8b0b917170e9, type: 2}
-  - count: 1
-    item: BasicSword
-    itemData: {fileID: 11400000, guid: 25c29a11422fd214c986a7afa9ea0f42, type: 2}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
   - count: 0
     item: 
     itemData: {fileID: 0}
@@ -3714,7 +3714,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d0944f85b48b8546a9f2c982d0122d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  availableItems: []
+  availableItems:
+  - {fileID: 11400000, guid: d8e36a19d0a657a4892ec5d67aaa9827, type: 2}
+  - {fileID: 11400000, guid: 720a519e68f816a4b8b97441de5c6309, type: 2}
+  - {fileID: 11400000, guid: 0938f8d4c8bc705409259e1cf718d4b3, type: 2}
+  - {fileID: 11400000, guid: 25c29a11422fd214c986a7afa9ea0f42, type: 2}
+  - {fileID: 11400000, guid: ac9350f2c4583e240bceedca0420fe94, type: 2}
+  - {fileID: 11400000, guid: 99432ffe851defc41a54ae092a9c47da, type: 2}
+  - {fileID: 11400000, guid: 7349d4abd5b2ef4439908fa6a34d6c1c, type: 2}
+  - {fileID: 11400000, guid: 1c57ab4f5cb88e14c8d128ba98a5bae3, type: 2}
+  - {fileID: 11400000, guid: 0db5681d11f173b4180d012027613651, type: 2}
 --- !u!1001 &3971949687083251093
 PrefabInstance:
   m_ObjectHideFlags: 0

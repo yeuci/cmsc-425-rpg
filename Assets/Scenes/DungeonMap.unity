@@ -41732,19 +41732,19 @@ MonoBehaviour:
     speed: 10
     magic: 5
   equippedGear:
-  - count: 1
-    item: Leather Armor
-    itemData: {fileID: 11400000, guid: ac9350f2c4583e240bceedca0420fe94, type: 2}
-  - count: 1
-    item: Basic Sword
-    itemData: {fileID: 11400000, guid: 25c29a11422fd214c986a7afa9ea0f42, type: 2}
-  - count: 1
-    item: Fireball
-    itemData: {fileID: 11400000, guid: 1c57ab4f5cb88e14c8d128ba98a5bae3, type: 2}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
   equippedGearCount: 0
   inventory:
   - count: 2
-    item: Health Potion
+    item: Healing Potion
     itemData: {fileID: 11400000, guid: 720a519e68f816a4b8b97441de5c6309, type: 2}
   - count: 0
     item: 

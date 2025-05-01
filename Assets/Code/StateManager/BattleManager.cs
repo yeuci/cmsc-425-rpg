@@ -334,31 +334,40 @@ public class BattleManager : MonoBehaviour
             Item itemPick = enemyEntity.inventory[rd.Next(0,enemyEntity.inventoryCount)].itemData;
             battle.setUsedItem(itemPick);
         } else {
-            battle.setUsedItem(enemyEntity.equippedGear[1].itemData);
+            Item defaultItem;
+            if(enemyEntity.equippedGear[1] == null) {
+                defaultItem = GetComponentInParent<AvailableItemsAccess>().availableItems[8];
+            } else {
+                defaultItem = enemyEntity.equippedGear[1].itemData;
+            }
+            battle.setUsedItem(defaultItem);
 
-            Item bestDamage = enemyEntity.equippedGear[1].itemData;
-            Item bestHealing = enemyEntity.equippedGear[1].itemData;
+            Item bestDamage = defaultItem;
+            Item bestHealing = defaultItem;
             float bestDamageOutput = battle.returnDamage(); //Starts with currently equipped weapon
-            float bestHealingAvailable = enemyEntity.equippedGear[1].itemData.healing; //Starts with healing of currently equipped weapon
+            float bestHealingAvailable = defaultItem.healing; //Starts with healing of currently equipped weapon
             
             foreach (ItemSave iS in enemyEntity.inventory) {
-                if(iS.itemData.healing > bestHealingAvailable) {
-                    bestHealing = iS.itemData;
-                    bestHealingAvailable = iS.itemData.healing;
-                }
-                if(iS.itemData.actionType == ActionType.Attack) { //This should never trigger for an enemy, as they will only have 1 weapon
-                    battle.setUsedItem(iS.itemData);
-                    if(battle.returnDamage() >= bestDamageOutput) { //Save spell if possible
-                        bestDamageOutput = battle.returnDamage();
-                        bestDamage = iS.itemData;
+                if(iS != null && iS.itemData != null) {
+                    if(iS.itemData.healing > bestHealingAvailable) {
+                        bestHealing = iS.itemData;
+                        bestHealingAvailable = iS.itemData.healing;
                     }
-                } else if(iS.itemData.actionType == ActionType.Cast && enemyEntity.remainingMP >= iS.itemData.manaCost) {
-                    battle.setUsedItem(iS.itemData);
-                    if(battle.returnDamage() > bestDamageOutput) {
-                        bestDamageOutput = battle.returnDamage();
-                        bestDamage = iS.itemData;
+                    if(iS.itemData.actionType == ActionType.Attack) { //This should never trigger for an enemy, as they will only have 1 weapon
+                        battle.setUsedItem(iS.itemData);
+                        if(battle.returnDamage() >= bestDamageOutput) { //Save spell if possible
+                            enemyEntity.equippedGear[1] = iS; //Set best damage output to currently equipped weapon
+                            bestDamageOutput = battle.returnDamage();
+                            bestDamage = iS.itemData;
+                        }
+                    } else if(iS.itemData.actionType == ActionType.Cast && enemyEntity.remainingMP >= iS.itemData.manaCost) {
+                        battle.setUsedItem(iS.itemData);
+                        if(battle.returnDamage() > bestDamageOutput) {
+                            bestDamageOutput = battle.returnDamage();
+                            bestDamage = iS.itemData;
+                        }
+                        
                     }
-                    
                 }
             }
 
