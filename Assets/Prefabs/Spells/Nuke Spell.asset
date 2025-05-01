@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Nuke Spell
   m_EditorClassIdentifier: 
   name: Nuke Spell
-  itemDescription: Nuke Spell \nBLOW EVERYTHING UP
+  itemDescription: 'Cost: 50 mana\nBLOW EVERYTHING UP'
   type: 1
   actionType: 1
   attack: 0

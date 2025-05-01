@@ -1,10 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class ParryMinigame : MonoBehaviour
 {
@@ -19,7 +17,7 @@ public class ParryMinigame : MonoBehaviour
     public Key parryKey = Key.D;            // Key to parry
 
     // Hold all active arrows. Arrows are created in order and will be added in order
-    private List<GameObject> activeArrows = new List<GameObject>();
+    private List<ArrowMover> activeArrows = new List<ArrowMover>();
     int currentArrow = 0;                   // Hold where current arrow is
 
     // Holds if minigame is successful
@@ -31,7 +29,7 @@ public class ParryMinigame : MonoBehaviour
         if (currentArrow >= activeArrows.Count) return;
 
         // Gets the arrow that needs to be parried
-        ArrowMover arrow = activeArrows[currentArrow].GetComponent<ArrowMover>();
+        ArrowMover arrow = activeArrows[currentArrow];
 
         // Missed window
         if (arrow != null && arrow.MissedWindow())
@@ -96,7 +94,7 @@ public class ParryMinigame : MonoBehaviour
                 mover.targetZone = parryZone;
 
                 // Add to array
-                activeArrows.Add(arrow);
+                activeArrows.Add(mover);
 
                 yield return new WaitForSeconds(interval);  
             } else {
@@ -116,7 +114,7 @@ public class ParryMinigame : MonoBehaviour
                 GameObject arrow = Instantiate(arrowPrefab, spawnPoint.position, Quaternion.identity, transform);
                 var mover = arrow.GetComponent<ArrowMover>();
                 mover.targetZone = parryZone;
-                activeArrows.Add(arrow);
+                activeArrows.Add(mover);
                 yield return new WaitForSeconds(interval);  
             } else {
                 break;
@@ -133,7 +131,7 @@ public class ParryMinigame : MonoBehaviour
             GameObject finalArrow = Instantiate(arrowPrefab, spawnPoint.position, Quaternion.identity, transform);
             var finalMover = finalArrow.GetComponent<ArrowMover>();
             finalMover.targetZone = parryZone;
-            activeArrows.Add(finalArrow); 
+            activeArrows.Add(finalMover); 
         }
 
         // Wait unitl minigame is finished
@@ -153,14 +151,10 @@ public class ParryMinigame : MonoBehaviour
 
     // Stops all arrows from moving
     void StopAllArrows() {
-        foreach (GameObject arrowObj in activeArrows) {
+        foreach (ArrowMover arrowObj in activeArrows) {
             if (arrowObj != null)
             {
-                ArrowMover mover = arrowObj.GetComponent<ArrowMover>();
-                if (mover != null)
-                {
-                    mover.running = false;
-                }
+                arrowObj.running = false;
             }
         }
     }
