@@ -205,10 +205,10 @@ public class BattleManager : MonoBehaviour
         if(enemyEntity.remainingHP <= 0) {
             float enemyXP = enemyEntity.calculateXPValue();
             Debug.Log("Enemy is defeated. Player gains " + enemyXP + " XP!");
-            player.experience += enemyXP;
+            playerEntity.stats.experience += enemyXP;
 
             playerEntity.recalculateLvl();
-            Debug.Log("Player is Lvl " + player.level + "! Progress: " + player.experience + "/"+player.expToNext);
+            Debug.Log("Player is Lvl " + playerEntity.stats.level + "! Progress: " + playerEntity.stats.experience + "/"+playerEntity.stats.expToNext);
 
             SceneManager.LoadScene("Scenes/DungeonMap");
         }

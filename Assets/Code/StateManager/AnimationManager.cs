@@ -8,7 +8,8 @@ public class AnimationManager : MonoBehaviour
 
     void Start()
     {
-        
+        if(player == null) player = GameObject.FindGameObjectWithTag("Player");
+        if(enemy == null) enemy = GameObject.FindGameObjectWithTag("Enemy");
     }
 
     public void Animate(BattleOption option) {
