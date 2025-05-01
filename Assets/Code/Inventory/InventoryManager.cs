@@ -15,6 +15,7 @@ public class InventoryManager : MonoBehaviour
 
     [SerializeField] GameObject swordPrefab;
     [SerializeField] GameObject runeSwordPrefab;
+    [SerializeField] GameObject shieldPrefab;
     [HideInInspector] Entity playerEntity;
     [HideInInspector] PlayerManager playerManager;
     [HideInInspector] public GameObject inventoryContainer;
@@ -293,7 +294,19 @@ public class InventoryManager : MonoBehaviour
                         equipped = true;
                         Debug.Log("Sword equipped.");
                     } 
-                    
+                }
+                //Step 3: Get the currently equipped Shield
+                child = equippedContainer.transform.GetChild(2);
+                if(child.childCount > 0) {
+                    Transform grandChild = child.GetChild(0);
+                    InventoryItem item = grandChild.GetComponent<InventoryItem>();
+                    if(item != null) {
+                        GameObject shield = Instantiate(shieldPrefab, torso.transform);
+                        shield.transform.localPosition = new Vector3(0.0126599995f,0,0.0137999998f);
+                        shield.transform.localEulerAngles = new Vector3(0,90f,270f);
+                        shield.transform.localScale = new Vector3(0.015f,0.015f,0.015f);
+                        Debug.Log("Shield attached");
+                    }
                 }
             } else {
                 Debug.LogWarning("No torso found in the scene..... for some reason...");
