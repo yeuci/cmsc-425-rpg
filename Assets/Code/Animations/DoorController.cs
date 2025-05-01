@@ -62,7 +62,7 @@ public class DoorController : MonoBehaviour
 
         while (elapsed < openTime)
         {
-            transform.localRotation = Quaternion.Slerp(startRotation, targetRotation, elapsed / openTime);
+            transform.localRotation = Quaternion.Slerp(startRotation, targetRotation, elapsed * 3 / openTime);
             elapsed += Time.deltaTime;
             yield return null;
         }
