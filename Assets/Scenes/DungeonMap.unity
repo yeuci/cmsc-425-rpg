@@ -41741,11 +41741,11 @@ MonoBehaviour:
   - count: 0
     item: 
     itemData: {fileID: 0}
-  equippedGearCount: 0
+  equippedGearCount: 3
   inventory:
-  - count: 2
-    item: Healing Potion
-    itemData: {fileID: 11400000, guid: 720a519e68f816a4b8b97441de5c6309, type: 2}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
   - count: 0
     item: 
     itemData: {fileID: 0}
@@ -48220,7 +48220,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1633185117}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb78b0c18dcb58489be2e72cddd758e, type: 3}
   m_Name: 
