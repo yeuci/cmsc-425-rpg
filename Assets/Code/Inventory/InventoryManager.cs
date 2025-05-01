@@ -23,6 +23,8 @@ public class InventoryManager : MonoBehaviour
     // random items for testing
     private ItemSave[] itemsInInventory = new ItemSave[25];
     public Item[] itemsArray;
+
+    Item[] itemsToPickup;
     
     public bool equipped = false;
 
@@ -33,6 +35,7 @@ public class InventoryManager : MonoBehaviour
         hotbarContainer = GameObject.FindGameObjectWithTag("gui_hotbar");
         equippedContainer = GameObject.FindGameObjectWithTag("gui_equipment");
 
+        itemsToPickup = GetComponentInParent<AvailableItemsAccess>().availableItems;
         // for (int i = 0; i < itemsInInventory.Length; i++)
         // {
         //     itemsInInventory[i] = new ItemSave();
@@ -185,7 +188,6 @@ public class InventoryManager : MonoBehaviour
 
 
     // TEST SUITE FOR ADDING ITEMS TO INVENTORY LOGIC
-    public Item[] itemsToPickup;
 
     private void Update()
     {
