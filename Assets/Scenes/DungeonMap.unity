@@ -4462,6 +4462,7 @@ MonoBehaviour:
   selectedSlot: -1
   swordPrefab: {fileID: 258498120851308776, guid: 117f14757284fba46bb6198dc63a99d2, type: 3}
   runeSwordPrefab: {fileID: 4055060861964054874, guid: 2e837b62b6c657c4890d9a7c11bcbcb1, type: 3}
+  shieldPrefab: {fileID: 7508169728127832004, guid: f76f454f5458c374c980ac2e237424b3, type: 3}
   inventoryContainer: {fileID: 0}
   hotbarContainer: {fileID: 0}
   equippedContainer: {fileID: 0}
@@ -4514,6 +4515,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1c57ab4f5cb88e14c8d128ba98a5bae3, type: 2}
   - {fileID: 11400000, guid: 0b909292ba60bee41b857152fbd8da71, type: 2}
   - {fileID: 11400000, guid: 0db5681d11f173b4180d012027613651, type: 2}
+  - {fileID: 11400000, guid: 543241223dbddf14fa5d051af3ff4fb5, type: 2}
 --- !u!1001 &159055918
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -45809,7 +45811,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1580318513}
-  itemType: 1
+  itemType: 4
   selectedColor: {r: 1, g: 0, b: 0.1254902, a: 1}
   notSelectedColor: {r: 1, g: 1, b: 1, a: 1}
   uuid: 0
