@@ -330,8 +330,14 @@ public class BattleManager : MonoBehaviour
         System.Random rd = new System.Random();
         int rand_num = rd.Next(1,10);
         if(rand_num <= player.level) {
+            Item itemPick;
             //Take a random action. This works if the player can hit level 10.
-            Item itemPick = enemyEntity.inventory[rd.Next(0,enemyEntity.inventoryCount)].itemData;
+            int randomItem = rd.Next(0,enemyEntity.inventoryCount+1);
+            if(randomItem == enemyEntity.inventoryCount){ //If I would hit the index out of bounds error
+                itemPick = enemyEntity.equippedGear[1].itemData;    //Use their equipped item
+            } else {
+                itemPick = enemyEntity.inventory[randomItem].itemData; //Use a random item in inventory.
+            }
             battle.setUsedItem(itemPick);
         } else {
             Item defaultItem;
