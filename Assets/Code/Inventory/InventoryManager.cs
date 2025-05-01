@@ -260,7 +260,7 @@ public class InventoryManager : MonoBehaviour
         // SHOW WEAPON ON CHARACTER IF ITS CURRENTLY SELECTED
             //Step 1: Get the torso
             GameObject torso = GameObject.FindGameObjectWithTag("Torso");
-            if(torso != null) {
+            if(torso != null && playerManager.playerCanCollide) {
                 //Step 2: Get the currently equipped weapon
                 Transform child = equippedContainer.transform.GetChild(1);
                 if(child.childCount > 0) {
