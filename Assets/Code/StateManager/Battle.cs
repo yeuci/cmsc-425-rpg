@@ -7,6 +7,7 @@ public class Battle
     Entity attacker;
     Entity defender;
     public Item usedItem;
+    public float dmgDealt;
     DamagePopupGenerator popupGenerator;
 
     Stat attackerStats, defenderStats;
@@ -67,7 +68,9 @@ public class Battle
                     float damage = attackerStats.magic + attackerStats.magic*usedItem.magicPower;
                     defender.remainingHP -= damage;
 
-                    popupGenerator.CreatePopUp(defender.transform.position, damage.ToString(),defender.transform.right, DMGCOLOR);
+                    dmgDealt = damage;
+
+                    // popupGenerator.CreatePopUp(defender.transform.position, damage.ToString(),defender.transform.right, DMGCOLOR);
                 } else if (usedItem.actionType == ActionType.Consume) {
                     
                     if (usedItem.healing > 0) {

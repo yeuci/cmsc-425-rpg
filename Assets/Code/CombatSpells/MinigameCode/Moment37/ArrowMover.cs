@@ -3,9 +3,9 @@ using UnityEngine.UI;
 
 public class ArrowMover : MonoBehaviour
 {
-    public float speed = 150f; // Adjust to match timing window
+    public float speed = 350f; // Adjust to match timing window
     public RectTransform targetZone; // Assign the hollow arrow's RectTransform
-    float parryWindow = 8f;
+    public float parryWindow = 14f;
     bool inParryWindow = false;
     private Image image;
     public bool running = true;
@@ -34,7 +34,7 @@ public class ArrowMover : MonoBehaviour
 
     // Returns if arrow has passed target area
     public bool MissedWindow() {
-        return transform.position.x <= targetZone.position.x - 15f;
+        return transform.position.x <= targetZone.position.x - 20f;
     }
 
     // Change color of arrow jey

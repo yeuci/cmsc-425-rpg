@@ -7,6 +7,7 @@ public class OpenArrowMinigame : OpenMinigame
 {
     public int sequenceLength;
     public int timeLimit;
+    public GameObject spellPrefab;
     // Allows us to modify the public fields of the minigame
     private InputSequenceManager inputSequenceManager = null;
 

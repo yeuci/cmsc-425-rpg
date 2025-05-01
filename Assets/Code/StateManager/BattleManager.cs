@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using Unity.VisualScripting.ReorderableList;
 using UnityEngine;
@@ -21,27 +22,27 @@ public class BattleManager : MonoBehaviour
 {
     public static BattleManager instance;
     
-    Entity playerEntity, enemyEntity;       // Player and enemy entity
-    Stat player, enemy;                     // Player and enemy stats
-    Battle battle;                          // Manages battle actions
-    bool playerMove;                        // Track if player can move
-    System.Func<bool> isEnemyMove;          // Track if enemy can move
-    bool minigameSuccess;                   // Tracks if minigame is successfull
-    float escapeAttempts;                   // Tracks escape attempts for Run option
-    List<ItemSave> spells = new List<ItemSave>();   // Tracks which spells the player has access to
-    List<ItemSave> consumables = new List<ItemSave>();
+    Entity playerEntity, enemyEntity;                   // Player and enemy entity
+    Stat player, enemy;                                 // Player and enemy stats
+    Battle battle;                                      // Manages battle actions
+    bool playerMove;                                    // Track if player can move
+    System.Func<bool> isEnemyMove;                      // Track if enemy can move
+    bool minigameSuccess;                               // Tracks if minigame is successfull
+    float escapeAttempts;                               // Tracks escape attempts for Run option
+    List<ItemSave> spells = new List<ItemSave>();       // Tracks which spells the player has access to
+    List<ItemSave> consumables = new List<ItemSave>();  // Tracks potions player has
 
     
 
     // Managers
     public AnimationManager animationManager;
-    public DamagePopupGenerator popupGenerator;
+    public DamagePopupGenerator popupGenerator;         // Creates damage popups
 
     public GameObject enemyGameObject;
     public Item usedItem;
 
     public Canvas battleCanvas;
-    public GameObject UIBlocker;              // Blocks UI when minigame is starting
+    public GameObject UIBlocker;                        // Blocks UI when minigame is starting
     public GameObject inventoryPanel;
     
 
@@ -65,6 +66,10 @@ public class BattleManager : MonoBehaviour
 
     // Minigames
     public OpenMinigame minigame;
+    PlaySpellAnimation spellAnimationPlayer;
+
+    // Game over screen
+    public DeathMenuManager gameOverScreen;
 
     void getPlayerInventory() {
         ItemSave[] playerInventory = playerEntity.inventory;
@@ -113,8 +118,7 @@ public class BattleManager : MonoBehaviour
         
         battle = new Battle(playerEntity, enemyEntity, usedItem, popupGenerator);
 
-        playerHealthBar.fillAmount = playerEntity.remainingHP / player.health;
-        playerManaBar.fillAmount = playerEntity.remainingMP / player.mana;
+        updatePlayerHealthAndManaBar();
 
         escapeAttempts = 0;
 
@@ -142,9 +146,6 @@ public class BattleManager : MonoBehaviour
         isEnemyMove = () => !playerMove;
 
         // check if player is dead
-        checkEnemyDeath();
-
-        // check if enemy is dead
         checkDeath();
     }
 
@@ -166,14 +167,14 @@ public class BattleManager : MonoBehaviour
         if(playerMove) {
             usedItem.actionType = ActionType.Attack;
 
-            animationManager.Animate(BattleOption.ATTACK);
+            // animationManager.Animate(BattleOption.ATTACK);
             battle.perform(BattleOption.USE_ITEM);
             AudioSource swordSwipe = GetComponent<AudioSource>();
             swordSwipe.Play();
 
             recalculateEnemyHealthBar();
         
-            checkDeath();
+            checkEnemyDeath();
             
             updatePlayerHealthAndManaText();
     
@@ -181,16 +182,21 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    void recalculateEnemyHealthBar() {
+    public void recalculateEnemyHealthBar() {
         enemyHealthBar.fillAmount = enemyEntity.remainingHP / enemy.health;
     }
 
-    void updatePlayerHealthAndManaText() {
+    public void updatePlayerHealthAndManaBar() {
+        playerHealthBar.fillAmount = playerEntity.remainingHP / player.health;
+        playerManaBar.fillAmount = playerEntity.remainingMP / player.mana;
+    }
+
+    public void updatePlayerHealthAndManaText() {
         playerHealthText.text = $"Health: {playerEntity.remainingHP} / {player.health}";
         playerManaText.text = $"Mana: {playerEntity.remainingMP} / {player.mana}";
     }
 
-    void checkDeath() {
+    void checkEnemyDeath() {
         if(enemyEntity.remainingHP <= 0) {
             float enemyXP = enemyEntity.calculateXPValue();
             Debug.Log("Enemy is defeated. Player gains " + enemyXP + " XP!");
@@ -203,12 +209,16 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    void checkEnemyDeath() {
+    void GameOver() {
+        gameOverScreen.Setup();
+    }
+
+    void checkDeath() {
         if(playerEntity.remainingHP <= 0) {
             Debug.Log("Player has lost the battle");
 
             // TODO: Add death screen NOT load screen
-            SceneManager.LoadScene("Scenes/DungeonMap");
+            GameOver();
         }
     }
 
@@ -273,10 +283,6 @@ public class BattleManager : MonoBehaviour
     }
 
     public void playerCast() {
-        // if (playerMove) {
-        //     StartCoroutine(HandlePlayerCast());
-        // }
-
         if (playerMove) {
             displaySpellButtons();
         }
@@ -286,31 +292,48 @@ public class BattleManager : MonoBehaviour
     private IEnumerator HandlePlayerCast() {
         // Wait for the minigame to finish
         UIBlocker.SetActive(true);
-        yield return StartCoroutine(minigame.StartMinigame());
+
+        if (minigame != null ) {
+            yield return StartCoroutine(minigame.StartMinigame());
+        }
+        
 
         // Check the result of the minigame
         minigameSuccess = minigame.isMinigameSuccessful;
 
         if (minigameSuccess) {
                 usedItem.actionType = ActionType.Cast;
-                battle.perform(BattleOption.USE_ITEM);
 
-                recalculateEnemyHealthBar();
-        
-                checkDeath();
+                battle.perform(BattleOption.USE_ITEM);   
+                playerEntity.remainingMP -= usedItem.manaCost;
+
+                if (spellAnimationPlayer != null) {
+                    spellAnimationPlayer.damage = battle.dmgDealt;
+                    yield return StartCoroutine(spellAnimationPlayer.StartAnimation());
+                } else {
+                    recalculateEnemyHealthBar();
+                    updatePlayerHealthAndManaBar();
+                    updatePlayerHealthAndManaText();
+                }
+                
+                checkEnemyDeath();
+
+                spellAnimationPlayer = null;
         } else {
             battle.endTurn();
+            playerEntity.remainingMP -= usedItem.manaCost;
+            updatePlayerHealthAndManaBar();
+            updatePlayerHealthAndManaText();
         }
-
-        playerEntity.remainingMP -= usedItem.manaCost;
-        playerManaBar.fillAmount = playerEntity.remainingMP / player.mana;
 
         playerMove = false;
         UIBlocker.SetActive(false);
-        updatePlayerHealthAndManaText();
 
         minigameSuccess = false;
-        Destroy(minigame.gameObject);
+        if (minigame != null) {
+            Destroy(minigame.gameObject);
+        }
+        
 
         yield break;
     }
@@ -375,7 +398,7 @@ public class BattleManager : MonoBehaviour
         battle.setUsedItem(usedItem);
         //End of temporary fix.
         battle.perform(BattleOption.USE_ITEM);
-        playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
+        updatePlayerHealthAndManaBar();
         recalculateEnemyHealthBar(); 
         updatePlayerHealthAndManaText();
     }
@@ -413,8 +436,7 @@ public class BattleManager : MonoBehaviour
 
                         updatePlayerHealthAndManaText();
 
-                        playerHealthBar.fillAmount = playerEntity.remainingHP / player.health;
-                        playerManaBar.fillAmount = playerEntity.remainingMP / player.mana;
+                        updatePlayerHealthAndManaBar();
 
                         consumable.count -= 1;
 
@@ -469,9 +491,17 @@ public class BattleManager : MonoBehaviour
                     minigame.minigamePrefab = item.minigame;
                     minigame.canvas = battleCanvas;
 
+                    if (item.spellAnimationPrefab != null) {
+                        spellAnimationPlayer = item.spellAnimationPrefab;
+                        spellAnimationPlayer.playerPosition = playerEntity.transform;
+                        spellAnimationPlayer.enemyPostion = enemyEntity.transform;
+                        spellAnimationPlayer.damagePopupGenerator = popupGenerator;
+                    }
+                    
                     minigame.gameObject.SetActive(true);
 
                     StartCoroutine(HandlePlayerCast());
+
                 }
                 
             });
