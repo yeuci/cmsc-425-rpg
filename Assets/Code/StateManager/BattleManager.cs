@@ -300,8 +300,10 @@ public class BattleManager : MonoBehaviour
                 playerEntity.remainingMP -= usedItem.manaCost;
                 playerManaBar.fillAmount = playerEntity.remainingMP / player.mana;
                 updatePlayerHealthAndManaText();
-
-                yield return StartCoroutine(spellAnimationPlayer.StartAnimation());
+                if (spellAnimationPlayer != null) {
+                    yield return StartCoroutine(spellAnimationPlayer.StartAnimation());
+                }
+                
 
                 checkEnemyDeath();
         } else {
@@ -474,9 +476,11 @@ public class BattleManager : MonoBehaviour
                     minigame.minigamePrefab = item.minigame;
                     minigame.canvas = battleCanvas;
 
-                    spellAnimationPlayer = item.spellAnimationPrefab;
-                    spellAnimationPlayer.enemyPostion = enemyEntity.transform;
-
+                    if (item.spellAnimationPrefab != null) {
+                        spellAnimationPlayer = item.spellAnimationPrefab;
+                        spellAnimationPlayer.enemyPostion = enemyEntity.transform;
+                    }
+                    
                     minigame.gameObject.SetActive(true);
 
                     StartCoroutine(HandlePlayerCast());
