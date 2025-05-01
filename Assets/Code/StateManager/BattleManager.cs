@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
 using Unity.VisualScripting.ReorderableList;
 using UnityEngine;
@@ -287,19 +288,25 @@ public class BattleManager : MonoBehaviour
     private IEnumerator HandlePlayerCast() {
         // Wait for the minigame to finish
         UIBlocker.SetActive(true);
-        yield return StartCoroutine(minigame.StartMinigame());
+
+        if (minigame != null ) {
+            yield return StartCoroutine(minigame.StartMinigame());
+        }
+        
 
         // Check the result of the minigame
         minigameSuccess = minigame.isMinigameSuccessful;
 
         if (minigameSuccess) {
                 usedItem.actionType = ActionType.Cast;
-                battle.perform(BattleOption.USE_ITEM);   
 
+                battle.perform(BattleOption.USE_ITEM);   
                 recalculateEnemyHealthBar();
                 playerEntity.remainingMP -= usedItem.manaCost;
                 playerManaBar.fillAmount = playerEntity.remainingMP / player.mana;
                 updatePlayerHealthAndManaText();
+                spellAnimationPlayer.damage = battle.dmgDealt;
+
                 if (spellAnimationPlayer != null) {
                     yield return StartCoroutine(spellAnimationPlayer.StartAnimation());
                 }
@@ -317,7 +324,10 @@ public class BattleManager : MonoBehaviour
         UIBlocker.SetActive(false);
 
         minigameSuccess = false;
-        Destroy(minigame.gameObject);
+        if (minigame != null) {
+            Destroy(minigame.gameObject);
+        }
+        
 
         yield break;
     }
@@ -478,7 +488,9 @@ public class BattleManager : MonoBehaviour
 
                     if (item.spellAnimationPrefab != null) {
                         spellAnimationPlayer = item.spellAnimationPrefab;
+                        spellAnimationPlayer.playerPosition = playerEntity.transform;
                         spellAnimationPlayer.enemyPostion = enemyEntity.transform;
+                        spellAnimationPlayer.damagePopupGenerator = popupGenerator;
                     }
                     
                     minigame.gameObject.SetActive(true);

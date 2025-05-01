@@ -33,3 +33,4 @@ MonoBehaviour:
   range: {x: 0, y: 6}
   minigameOpener: {fileID: 4582565367329616872, guid: 72b42a0af8ceac34585401d9183f630c, type: 3}
   minigame: {fileID: 1175197647613885606, guid: 8480f66b0742a1143a209e41c125b735, type: 3}
+  spellAnimationPrefab: {fileID: 9202272330787376852, guid: a8d61380918fbc84eb34b5d940b75f96, type: 3}

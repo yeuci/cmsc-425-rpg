@@ -1,18 +1,16 @@
 using System.Collections;
 using UnityEngine;
 
-public class PlaySpellAnimation : MonoBehaviour
+public class PlayIceAnimation : PlaySpellAnimation
 {
-    public GameObject spellPrefab;
-    public Transform enemyPostion;
+    public override IEnumerator StartAnimation() {
 
-    public IEnumerator StartAnimation() {
+        spellPrefab = gameObject;
         GameObject spell = Instantiate(spellPrefab, enemyPostion.position, Quaternion.identity);
 
         ParticleSystem particleSystem = spell.GetComponentInChildren<ParticleSystem>();
 
-        Debug.Log(particleSystem);
-
+        damagePopupGenerator.CreatePopUp(enemyPostion.position, damage.ToString(), enemyPostion.right, Color.red);
         if (particleSystem != null) {
             while (particleSystem.isPlaying) {
                 yield return null;
@@ -22,5 +20,4 @@ public class PlaySpellAnimation : MonoBehaviour
         Destroy(spell);
         yield break;
     }
-
 }
