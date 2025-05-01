@@ -6,7 +6,8 @@ public enum ItemType {
     Weapon,
     Spell,
     Armor,
-    Consumable
+    Consumable,
+    Shield
 }
 
 public enum ActionType {
