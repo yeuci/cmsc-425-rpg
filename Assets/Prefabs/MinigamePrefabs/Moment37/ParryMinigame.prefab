@@ -173,7 +173,7 @@ MonoBehaviour:
   batchOne: 7
   batchTwo: 7
   totalParries: 15
-  interval: 0.4
+  interval: 0.33
   parryKey: 18
   isMinigameSuccessful: 0
 --- !u!1 &5075137460612589129

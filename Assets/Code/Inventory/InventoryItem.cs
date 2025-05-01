@@ -24,8 +24,11 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
      public int uuid;
 
     public void InitializeItem(Item newItem) {
+        RectTransform rectTransform = GetComponent<RectTransform>();
+
         item = newItem;
         image.sprite = newItem.image;
+        rectTransform.sizeDelta = new Vector2(84, 84);
         RefreshCount();
     }
 
@@ -82,6 +85,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        Debug.Log("HOVERING AN ITEM");
         displayItemInformation(item.name, item.getItemDescription(), image.transform);
     }
 
@@ -95,10 +99,10 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         if (currentPopupPanel == null) {
             Destroy(currentPopupPanel);
         }
-                    Debug.Log(itemPos);
 
-        Debug.Log(itemPos);
         currentPopupPanel = Instantiate(inventoryPopupPanel, itemPos);
+        Debug.Log(currentPopupPanel.transform.position);
+        currentPopupPanel.transform.localPosition = new Vector3(0, 150, 0);
         currentPopupPanel.GetComponent<PopupInfo>().Setup(itemName, itemDescription);
     }
 }

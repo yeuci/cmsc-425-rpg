@@ -195,6 +195,8 @@ public class InventoryManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             inventoryGroup.SetActive(!inventoryGroup.activeSelf);
+            DestroyAllPopupPanels();
+            
         }
 
         // TEST SUITE
@@ -435,4 +437,19 @@ public class InventoryManager : MonoBehaviour
             return null;
         }
     }
+
+    private void DestroyAllPopupPanels()
+{
+    // Find all active popup panels in the scene
+    InventoryItem[] inventoryItems = FindObjectsByType<InventoryItem>(FindObjectsSortMode.None);
+
+    foreach (InventoryItem item in inventoryItems)
+    {
+        if (item.currentPopupPanel != null)
+        {
+            Destroy(item.currentPopupPanel);
+            item.currentPopupPanel = null; // Clear the reference
+        }
+    }
+}
 }
