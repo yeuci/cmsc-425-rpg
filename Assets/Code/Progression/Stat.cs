@@ -19,7 +19,7 @@ public class Stat {
         attack = 10;
         defense = 10;
         speed = 10;
-        magic = 5;
+        magic = 10;
         expToNext = (100 - level) * (float)Math.Pow(2, level); 
     }
 
