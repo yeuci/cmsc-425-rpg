@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: Leather Armor
   itemDescription: Light Armor
+  name: Leather Armor
+  itemDescription: Light Armor
   type: 2
   actionType: 2
   attack: 0
@@ -33,3 +35,4 @@ MonoBehaviour:
   range: {x: 0, y: 6}
   minigameOpener: {fileID: 0}
   minigame: {fileID: 0}
+  spellAnimationPrefab: {fileID: 0}
