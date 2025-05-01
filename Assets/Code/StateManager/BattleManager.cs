@@ -162,6 +162,10 @@ public class BattleManager : MonoBehaviour
     public void playerAttack() {
         if(playerMove) {
             usedItem = playerEntity.equippedGear[1].itemData;
+            //Set attack to unarmed strike if they don't have a weapon equipped.
+            if(usedItem == null) {
+                usedItem = GetComponentInParent<AvailableItemsAccess>().availableItems[8];
+            }
 
             animationManager.Animate(BattleOption.ATTACK);
             battle.setUsedItem(usedItem); //Set the used item to the weapon that the player currently has equipped

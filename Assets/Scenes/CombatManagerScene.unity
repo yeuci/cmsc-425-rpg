@@ -3536,6 +3536,7 @@ GameObject:
   - component: {fileID: 2069830879}
   - component: {fileID: 2069830881}
   - component: {fileID: 2069830882}
+  - component: {fileID: 2069830883}
   m_Layer: 0
   m_Name: BattleManager
   m_TagString: Untagged
@@ -3701,6 +3702,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2069830883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2069830876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d0944f85b48b8546a9f2c982d0122d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  availableItems: []
 --- !u!1001 &3971949687083251093
 PrefabInstance:
   m_ObjectHideFlags: 0
