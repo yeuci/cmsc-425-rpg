@@ -214,6 +214,10 @@ public class InventoryManager : MonoBehaviour
         {
             CreateHealthPotion();
         }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            CreateShield();
+        }
 
         if (Input.GetKeyDown(KeyCode.P))
         {
@@ -407,6 +411,16 @@ public class InventoryManager : MonoBehaviour
     }
     public void CreateManaPotion() {
         int id = 2;
+        bool res = AddItem(itemsToPickup[id]);
+        if (res) {
+            Debug.Log($"Picked up {itemsToPickup[id].name}");
+        } else {
+            Debug.Log("Inventory is full!");
+        }
+        SendCurrentInventoryToState();
+    }
+    public void CreateShield() {
+        int id = 10;
         bool res = AddItem(itemsToPickup[id]);
         if (res) {
             Debug.Log($"Picked up {itemsToPickup[id].name}");

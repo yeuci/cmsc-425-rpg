@@ -45730,7 +45730,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 1580318513}
-  itemType: 1
+  itemType: 4
   selectedColor: {r: 1, g: 0, b: 0.1254902, a: 1}
   notSelectedColor: {r: 1, g: 1, b: 1, a: 1}
   uuid: 0
