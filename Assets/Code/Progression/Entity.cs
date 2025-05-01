@@ -137,8 +137,6 @@ public class Entity : MonoBehaviour
 
     //This should only run in DungeonMap, so I can access InventoryManager
     private void AddPlayerEquipment() {
-        GameObject playerHotbar = GameObject.FindGameObjectWithTag("gui_hotbar");
-        GameObject playerEquip = GameObject.FindGameObjectWithTag("gui_equipment");
         InventoryManager inventoryManager = GameObject.FindGameObjectWithTag("InventoryManager").GetComponent<InventoryManager>();
         inventoryManager.AddItem(availableItems[1]);
         inventoryManager.AddItem(availableItems[1]);
@@ -148,7 +146,7 @@ public class Entity : MonoBehaviour
             inventoryManager.AddItem(availableItems[3]);
             inventoryManager.AddItem(availableItems[4]);
         }
-
+        inventoryManager.SendCurrentInventoryToState();
 
     }
 }
