@@ -456,6 +456,7 @@ public class BattleManager : MonoBehaviour
                         buttonText.text = $"{item.name}: x{consumable.count}";
                         playerMove = false;
                     }
+                }
              });
             
         }

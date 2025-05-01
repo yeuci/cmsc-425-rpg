@@ -24,6 +24,7 @@ public class ArrowMover : MonoBehaviour
             // Check if in parry window
             float distance = Mathf.Abs(transform.position.x - targetZone.position.x);
             inParryWindow = distance <= parryWindow; 
+            Debug.Log(inParryWindow);
         }
     }
 
