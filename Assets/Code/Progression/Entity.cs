@@ -2,6 +2,7 @@ using System.Collections;
 using System.Linq.Expressions;
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.Mathematics;
 
 public enum ScalingMethod {
         PLAYER_LEVEL,
@@ -31,15 +32,24 @@ public class Entity : MonoBehaviour
     [HideInInspector] public bool isAlive = true;
     [HideInInspector] public List<int> defeatedEnemies = new List<int>();
 
+    Item [] availableItems;
+
 
     // used to determine enemy gameobject for before and after combat scene. not needed for anything else
     // each anemy should be assigned a unique id in the editor
     public int enemyId = 0;
 
     void Start() {
-        equippedGear = new ItemSave[25];
+        equippedGear = new ItemSave[3]; //Changed Size of equippedGear to match number of slots
         remainingHP = stats.health;
         remainingMP = stats.mana;
+
+        availableItems = GameObject.FindGameObjectWithTag("InventoryManager").GetComponent<AvailableItemsAccess>().availableItems;
+        if(eClass != Class.ENEMY) {
+            AddPlayerEquipment();
+        } else {
+            AddEquipment();
+        }
     }
 
     // Basic Entity
@@ -76,20 +86,21 @@ public class Entity : MonoBehaviour
     public Stat getAdjustedStats() {
         //Attack, Defense, Health, Magic Speed
         float[] adjStats = this.stats.getStatArray();
-        // foreach (Item i in equippedGear){
-            // adjStats[0] += i.attack;
-            // adjStats[1] += i.defense;
-            // adjStats[2] += i.health;
-            // adjStats[3] += i.mana;
-            // adjStats[4] += i.speed;
-        // }
+        /*foreach (ItemSave iS in equippedGear){
+            Item i = iS.itemData;
+            adjStats[0] += i.attack;
+            adjStats[1] += i.defense;
+            adjStats[2] += i.health;
+            adjStats[3] += i.mana;
+            adjStats[4] += i.speed;
+        }*/
         Stat stats = new Stat(this.stats.level, adjStats[0],adjStats[1],adjStats[2],adjStats[3],adjStats[4], adjStats[5]);
         return stats;
     }
 
     public void scaleStats(ScalingMethod scaleMethod, float[] scalings = default) {
         float constantScale = 1.0f;
-        if (scalings == default) constantScale = Random.Range(0.8f, 1.2f);
+        if (scalings == default) constantScale = UnityEngine.Random.Range(0.8f, 1.2f);
 
         switch (scaleMethod) {
             case ScalingMethod.PLAYER_LEVEL: // scale stats based on player level
@@ -105,5 +116,37 @@ public class Entity : MonoBehaviour
 
         remainingHP = stats.health;
         remainingMP = stats.mana;
+    }
+
+    private void AddEquipment() {
+
+        inventory[0] = new ItemSave(2,"Healing Potion",availableItems[1]);
+        if(stats.magic > stats.attack) {
+            //I will want to give them a consumable spell.
+            equippedGear[2] = new ItemSave(1,"Spell",availableItems[UnityEngine.Random.Range(5,8)]);
+            //No armor initially, and Unarmed Strike
+        } else {
+            //Give them a weapon and armor. These should be basic.
+            equippedGear[0] = new ItemSave(1,"Leather Armor",availableItems[4]);
+            equippedGear[1] = new ItemSave(1,"Basic Sword",availableItems[3]);
+            //Do not give them a spell
+        }
+        //I do need to send this to state if this is the player.
+
+    }
+
+    //This should only run in DungeonMap, so I can access InventoryManager
+    private void AddPlayerEquipment() {
+        InventoryManager inventoryManager = GameObject.FindGameObjectWithTag("InventoryManager").GetComponent<InventoryManager>();
+        inventoryManager.AddItem(availableItems[1]);
+        inventoryManager.AddItem(availableItems[1]);
+        if(stats.magic > stats.attack) {
+            inventoryManager.AddItem(availableItems[UnityEngine.Random.Range(5,8)]);
+        } else {
+            inventoryManager.AddItem(availableItems[3]);
+            inventoryManager.AddItem(availableItems[4]);
+        }
+        inventoryManager.SendCurrentInventoryToState();
+
     }
 }
