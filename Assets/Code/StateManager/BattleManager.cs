@@ -111,8 +111,6 @@ public class BattleManager : MonoBehaviour
         playerEntity.transform.right = Vector3.left;
 
         getPlayerInventory();
-
-        spellAnimationPlayer = GetComponent<PlaySpellAnimation>();
         
         player = playerEntity.getAdjustedStats();
         enemy = enemyEntity.getAdjustedStats();
@@ -149,9 +147,6 @@ public class BattleManager : MonoBehaviour
 
         // check if player is dead
         checkDeath();
-
-        // check if enemy is dead
-        checkEnemyDeath();
     }
 
 
@@ -283,10 +278,6 @@ public class BattleManager : MonoBehaviour
     }
 
     public void playerCast() {
-        // if (playerMove) {
-        //     StartCoroutine(HandlePlayerCast());
-        // }
-
         if (playerMove) {
             displaySpellButtons();
         }
@@ -303,27 +294,25 @@ public class BattleManager : MonoBehaviour
 
         if (minigameSuccess) {
                 usedItem.actionType = ActionType.Cast;
-                battle.perform(BattleOption.USE_ITEM);
-
-                
+                battle.perform(BattleOption.USE_ITEM);   
 
                 recalculateEnemyHealthBar();
-        
+                playerEntity.remainingMP -= usedItem.manaCost;
+                playerManaBar.fillAmount = playerEntity.remainingMP / player.mana;
+                updatePlayerHealthAndManaText();
+
+                yield return StartCoroutine(spellAnimationPlayer.StartAnimation());
+
                 checkEnemyDeath();
-
-                spellAnimationPlayer.StartAnimation();
-
-
         } else {
             battle.endTurn();
+            playerEntity.remainingMP -= usedItem.manaCost;
+            playerManaBar.fillAmount = playerEntity.remainingMP / player.mana;
+            updatePlayerHealthAndManaText();
         }
-
-        playerEntity.remainingMP -= usedItem.manaCost;
-        playerManaBar.fillAmount = playerEntity.remainingMP / player.mana;
 
         playerMove = false;
         UIBlocker.SetActive(false);
-        updatePlayerHealthAndManaText();
 
         minigameSuccess = false;
         Destroy(minigame.gameObject);
@@ -484,6 +473,9 @@ public class BattleManager : MonoBehaviour
                     minigame = minigameOpenerInstance;
                     minigame.minigamePrefab = item.minigame;
                     minigame.canvas = battleCanvas;
+
+                    spellAnimationPlayer = item.spellAnimationPrefab;
+                    spellAnimationPlayer.enemyPostion = enemyEntity.transform;
 
                     minigame.gameObject.SetActive(true);
 

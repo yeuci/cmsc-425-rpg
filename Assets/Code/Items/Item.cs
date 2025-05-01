@@ -112,6 +112,7 @@ public class Item : ScriptableObject {
 
     public OpenMinigame minigameOpener;
     public GameObject minigame;
+    public PlaySpellAnimation spellAnimationPrefab;
 
 
     public virtual string getItemDescription() {
