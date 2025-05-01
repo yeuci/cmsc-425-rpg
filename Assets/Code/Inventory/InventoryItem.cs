@@ -4,19 +4,22 @@ using UnityEngine.EventSystems;
 using NUnit.Framework.Internal;
 using System.Text.RegularExpressions;
 using System.Collections;
+using Unity.VisualScripting;
 
-public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("UI")]
     public Image image;
     public Text countText;
     public Item item;
+    public GameObject inventoryPopupPanel;
     // public 
     [HideInInspector] public int count = 1;
     [HideInInspector] public Transform parentAfterDrag;
     [HideInInspector] public InventoryManager iMEntity;
     [HideInInspector] public Entity playerEntity;
     [HideInInspector] public InventorySlot originalSlot;
+    [HideInInspector] public GameObject currentPopupPanel;
 
      public int uuid;
 
@@ -75,5 +78,27 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             // iMEntity.UpdateInventoryUIWithItemSave();
             // iMEntity.ChangeSelectedSlot(iMEntity.selectedSlot);
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        displayItemInformation(item.name, item.getItemDescription(), image.transform);
+    }
+
+    public void OnPointerExit(PointerEventData eventData) {
+        if (currentPopupPanel != null) {
+            Destroy(currentPopupPanel);
+        }
+    }
+
+    void displayItemInformation(string itemName, string itemDescription, Transform itemPos) {
+        if (currentPopupPanel == null) {
+            Destroy(currentPopupPanel);
+        }
+                    Debug.Log(itemPos);
+
+        Debug.Log(itemPos);
+        currentPopupPanel = Instantiate(inventoryPopupPanel, itemPos);
+        currentPopupPanel.GetComponent<PopupInfo>().Setup(itemName, itemDescription);
     }
 }
