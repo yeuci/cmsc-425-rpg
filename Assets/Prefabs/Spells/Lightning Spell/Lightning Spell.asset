@@ -24,6 +24,7 @@ MonoBehaviour:
   speed: 0
   attackPower: 0
   healing: 0
+  manaRestore: 0
   magicPower: 15
   manaCost: 30
   stackable: 0
@@ -33,3 +34,4 @@ MonoBehaviour:
   range: {x: 0, y: 6}
   minigameOpener: {fileID: 2950563620474365172, guid: ee79bca4af2ea8c40b929f005a2edf2e, type: 3}
   minigame: {fileID: 4487506651966386501, guid: 23082cd6116be1949830e2c4697210a4, type: 3}
+  spellAnimationPrefab: {fileID: -7263544757475792926, guid: 75ed01218b4e2eb4aaa258f8de85c04e, type: 3}
