@@ -81,7 +81,7 @@ MonoBehaviour:
   enemyPostion: {fileID: 0}
   damage: 20
   damagePopupGenerator: {fileID: 0}
-  explosionPrefab: {fileID: 1845955007268882, guid: 67a684e320da6e7439421a07e3fa265c, type: 3}
+  explosionPrefab: {fileID: 4864631576890096427, guid: 13ce0c4bf1b8a444691b14862e9ba01b, type: 3}
 --- !u!1 &3420778498654754887
 GameObject:
   m_ObjectHideFlags: 0
@@ -5292,7 +5292,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8871564754278134069}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 1
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0

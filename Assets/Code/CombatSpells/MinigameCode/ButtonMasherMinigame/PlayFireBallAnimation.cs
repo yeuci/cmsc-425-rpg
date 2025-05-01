@@ -31,7 +31,7 @@ public class PlayFireBallAnimation : PlaySpellAnimation
                 soundEffect.Play();
             }
 
-            ParticleSystem particleSystem = explosion.GetComponent<ParticleSystem>();
+            ParticleSystem particleSystem = explosion.GetComponentInChildren<ParticleSystem>();
 
             BattleManager.instance.recalculateEnemyHealthBar();
 
