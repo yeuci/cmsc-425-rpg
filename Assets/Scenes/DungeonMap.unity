@@ -4394,6 +4394,7 @@ GameObject:
   m_Component:
   - component: {fileID: 158083232}
   - component: {fileID: 158083231}
+  - component: {fileID: 158083233}
   m_Layer: 5
   m_Name: InventoryManager
   m_TagString: InventoryManager
@@ -4455,16 +4456,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ac9350f2c4583e240bceedca0420fe94, type: 2}
   - {fileID: 11400000, guid: 1439296bc9fe07145818ae2dc7d42a57, type: 2}
   equipped: 0
-  itemsToPickup:
-  - {fileID: 11400000, guid: d8e36a19d0a657a4892ec5d67aaa9827, type: 2}
-  - {fileID: 11400000, guid: 720a519e68f816a4b8b97441de5c6309, type: 2}
-  - {fileID: 11400000, guid: 0938f8d4c8bc705409259e1cf718d4b3, type: 2}
-  - {fileID: 11400000, guid: 25c29a11422fd214c986a7afa9ea0f42, type: 2}
-  - {fileID: 11400000, guid: ac9350f2c4583e240bceedca0420fe94, type: 2}
-  - {fileID: 11400000, guid: 99432ffe851defc41a54ae092a9c47da, type: 2}
-  - {fileID: 11400000, guid: 7349d4abd5b2ef4439908fa6a34d6c1c, type: 2}
-  - {fileID: 11400000, guid: 1c57ab4f5cb88e14c8d128ba98a5bae3, type: 2}
-  - {fileID: 11400000, guid: 0b909292ba60bee41b857152fbd8da71, type: 2}
 --- !u!224 &158083232
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4484,6 +4475,29 @@ RectTransform:
   m_AnchoredPosition: {x: 960, y: 540}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &158083233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 158083230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d0944f85b48b8546a9f2c982d0122d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  availableItems:
+  - {fileID: 11400000, guid: d8e36a19d0a657a4892ec5d67aaa9827, type: 2}
+  - {fileID: 11400000, guid: 720a519e68f816a4b8b97441de5c6309, type: 2}
+  - {fileID: 11400000, guid: 0938f8d4c8bc705409259e1cf718d4b3, type: 2}
+  - {fileID: 11400000, guid: 25c29a11422fd214c986a7afa9ea0f42, type: 2}
+  - {fileID: 11400000, guid: ac9350f2c4583e240bceedca0420fe94, type: 2}
+  - {fileID: 11400000, guid: 99432ffe851defc41a54ae092a9c47da, type: 2}
+  - {fileID: 11400000, guid: 7349d4abd5b2ef4439908fa6a34d6c1c, type: 2}
+  - {fileID: 11400000, guid: 1c57ab4f5cb88e14c8d128ba98a5bae3, type: 2}
+  - {fileID: 11400000, guid: 0b909292ba60bee41b857152fbd8da71, type: 2}
+  - {fileID: 11400000, guid: 0db5681d11f173b4180d012027613651, type: 2}
 --- !u!1001 &159055918
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -41718,8 +41732,17 @@ MonoBehaviour:
     defense: 10
     speed: 10
     magic: 5
-  equippedGear: []
-  equippedGearCount: 0
+  equippedGear:
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  - count: 0
+    item: 
+    itemData: {fileID: 0}
+  equippedGearCount: 3
   inventory:
   - count: 0
     item: 
@@ -48198,7 +48221,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1633185117}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb78b0c18dcb58489be2e72cddd758e, type: 3}
   m_Name: 
@@ -52836,6 +52859,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1892593645}
   - component: {fileID: 1892593647}
+  - component: {fileID: 1892593648}
   m_Layer: 0
   m_Name: CameraObject
   m_TagString: MainCamera
@@ -52880,6 +52904,19 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   openedMenu: 0
+--- !u!114 &1892593648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1892593643}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e00d3ccee2d2294484076aed59cf529, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fpsCap: 60
 --- !u!4 &1893609365 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8395878610197010207, guid: c78656f2f53ae1249834e1e17ceb9c20, type: 3}
