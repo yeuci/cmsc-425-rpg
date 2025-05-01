@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Forstmark
+  m_Name: Frostmark
   m_Shader: {fileID: -6465566751694194690, guid: 3f344856145d07145aa17aa2218fd23b, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0

@@ -118,8 +118,7 @@ public class BattleManager : MonoBehaviour
         
         battle = new Battle(playerEntity, enemyEntity, usedItem, popupGenerator);
 
-        playerHealthBar.fillAmount = playerEntity.remainingHP / player.health;
-        playerManaBar.fillAmount = playerEntity.remainingMP / player.mana;
+        updatePlayerHealthAndManaBar();
 
         escapeAttempts = 0;
 
@@ -168,7 +167,7 @@ public class BattleManager : MonoBehaviour
         if(playerMove) {
             usedItem.actionType = ActionType.Attack;
 
-            animationManager.Animate(BattleOption.ATTACK);
+            // animationManager.Animate(BattleOption.ATTACK);
             battle.perform(BattleOption.USE_ITEM);
             AudioSource swordSwipe = GetComponent<AudioSource>();
             swordSwipe.Play();
@@ -183,11 +182,16 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    void recalculateEnemyHealthBar() {
+    public void recalculateEnemyHealthBar() {
         enemyHealthBar.fillAmount = enemyEntity.remainingHP / enemy.health;
     }
 
-    void updatePlayerHealthAndManaText() {
+    public void updatePlayerHealthAndManaBar() {
+        playerHealthBar.fillAmount = playerEntity.remainingHP / player.health;
+        playerManaBar.fillAmount = playerEntity.remainingMP / player.mana;
+    }
+
+    public void updatePlayerHealthAndManaText() {
         playerHealthText.text = $"Health: {playerEntity.remainingHP} / {player.health}";
         playerManaText.text = $"Mana: {playerEntity.remainingMP} / {player.mana}";
     }
@@ -301,22 +305,24 @@ public class BattleManager : MonoBehaviour
                 usedItem.actionType = ActionType.Cast;
 
                 battle.perform(BattleOption.USE_ITEM);   
-                recalculateEnemyHealthBar();
                 playerEntity.remainingMP -= usedItem.manaCost;
-                playerManaBar.fillAmount = playerEntity.remainingMP / player.mana;
-                updatePlayerHealthAndManaText();
-                spellAnimationPlayer.damage = battle.dmgDealt;
 
                 if (spellAnimationPlayer != null) {
+                    spellAnimationPlayer.damage = battle.dmgDealt;
                     yield return StartCoroutine(spellAnimationPlayer.StartAnimation());
+                } else {
+                    recalculateEnemyHealthBar();
+                    updatePlayerHealthAndManaBar();
+                    updatePlayerHealthAndManaText();
                 }
                 
-
                 checkEnemyDeath();
+
+                spellAnimationPlayer = null;
         } else {
             battle.endTurn();
             playerEntity.remainingMP -= usedItem.manaCost;
-            playerManaBar.fillAmount = playerEntity.remainingMP / player.mana;
+            updatePlayerHealthAndManaBar();
             updatePlayerHealthAndManaText();
         }
 
@@ -392,7 +398,7 @@ public class BattleManager : MonoBehaviour
         battle.setUsedItem(usedItem);
         //End of temporary fix.
         battle.perform(BattleOption.USE_ITEM);
-        playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
+        updatePlayerHealthAndManaBar();
         recalculateEnemyHealthBar(); 
         updatePlayerHealthAndManaText();
     }
@@ -430,8 +436,7 @@ public class BattleManager : MonoBehaviour
 
                         updatePlayerHealthAndManaText();
 
-                        playerHealthBar.fillAmount = playerEntity.remainingHP / player.health;
-                        playerManaBar.fillAmount = playerEntity.remainingMP / player.mana;
+                        updatePlayerHealthAndManaBar();
 
                         consumable.count -= 1;
 
@@ -496,6 +501,7 @@ public class BattleManager : MonoBehaviour
                     minigame.gameObject.SetActive(true);
 
                     StartCoroutine(HandlePlayerCast());
+
                 }
                 
             });

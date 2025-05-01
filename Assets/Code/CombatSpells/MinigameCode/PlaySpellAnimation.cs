@@ -8,6 +8,7 @@ public abstract class PlaySpellAnimation : MonoBehaviour
     public Transform enemyPostion;
     public float damage;
     public DamagePopupGenerator damagePopupGenerator;
+    protected AudioSource soundEffect;
 
     public abstract IEnumerator StartAnimation();
 
