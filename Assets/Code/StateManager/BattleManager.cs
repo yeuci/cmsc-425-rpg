@@ -165,9 +165,14 @@ public class BattleManager : MonoBehaviour
 
     public void playerAttack() {
         if(playerMove) {
-            usedItem.actionType = ActionType.Attack;
+            usedItem = playerEntity.equippedGear[1].itemData;
+            //Set attack to unarmed strike if they don't have a weapon equipped.
+            if(usedItem == null) {
+                usedItem = GetComponentInParent<AvailableItemsAccess>().availableItems[8];
+            }
 
-            // animationManager.Animate(BattleOption.ATTACK);
+            animationManager.Animate(BattleOption.ATTACK);
+            battle.setUsedItem(usedItem); //Set the used item to the weapon that the player currently has equipped
             battle.perform(BattleOption.USE_ITEM);
             AudioSource swordSwipe = GetComponent<AudioSource>();
             swordSwipe.Play();
@@ -355,53 +360,57 @@ public class BattleManager : MonoBehaviour
             Item itemPick = enemyEntity.inventory[rd.Next(0,enemyEntity.inventoryCount)].itemData;
             battle.setUsedItem(itemPick);
         } else {
-            Item bestDamage = null;
-            Item bestHealing = null;
-            float maxDamage = 0f;
-            float maxHealing = 0f;
-            //Use equipped gear to determine best healing and best damage
-            if(enemyEntity.equippedGearCount == 0) {
-                Debug.Log("No equipped items found. Running");
-                //battle.perform(BattleOption.RUN);
+            Item defaultItem;
+            if(enemyEntity.equippedGear[1] == null) {
+                defaultItem = GetComponentInParent<AvailableItemsAccess>().availableItems[8];
+            } else {
+                defaultItem = enemyEntity.equippedGear[1].itemData;
             }
-            foreach (ItemSave iS in enemyEntity.equippedGear){
-                if (iS != null && iS.itemData != null) {
-                    Item i = iS.itemData;
-                    if(i != null) {
-                        if(i.healing > maxHealing) {
-                            bestHealing = i;
-                            maxHealing = i.healing;
+            battle.setUsedItem(defaultItem);
+
+            Item bestDamage = defaultItem;
+            Item bestHealing = defaultItem;
+            float bestDamageOutput = battle.returnDamage(); //Starts with currently equipped weapon
+            float bestHealingAvailable = defaultItem.healing; //Starts with healing of currently equipped weapon
+            
+            foreach (ItemSave iS in enemyEntity.inventory) {
+                if(iS != null && iS.itemData != null) {
+                    if(iS.itemData.healing > bestHealingAvailable) {
+                        bestHealing = iS.itemData;
+                        bestHealingAvailable = iS.itemData.healing;
+                    }
+                    if(iS.itemData.actionType == ActionType.Attack) { //This should never trigger for an enemy, as they will only have 1 weapon
+                        battle.setUsedItem(iS.itemData);
+                        if(battle.returnDamage() >= bestDamageOutput) { //Save spell if possible
+                            enemyEntity.equippedGear[1] = iS; //Set best damage output to currently equipped weapon
+                            bestDamageOutput = battle.returnDamage();
+                            bestDamage = iS.itemData;
                         }
-                        battle.setUsedItem(i);
-                        if(battle.returnDamage() > maxDamage) {
-                            maxDamage = battle.returnDamage();
-                            bestDamage = i;
+                    } else if(iS.itemData.actionType == ActionType.Cast && enemyEntity.remainingMP >= iS.itemData.manaCost) {
+                        battle.setUsedItem(iS.itemData);
+                        if(battle.returnDamage() > bestDamageOutput) {
+                            bestDamageOutput = battle.returnDamage();
+                            bestDamage = iS.itemData;
                         }
+                        
                     }
                 }
             }
-            //Determine the course of action
-            if(playerEntity.remainingHP <= maxDamage) { //If I can kill the player this turn, do it
-                Debug.Log("Can Kill player. Max damage is "+maxDamage );
+
+            if(playerEntity.remainingHP - bestDamageOutput <= 0) {
                 battle.setUsedItem(bestDamage);
-            } else if (enemyEntity.remainingHP/enemy.health <= 0.1f && maxHealing > 0f) { //I am at at < 10% HP and can heal
-                Debug.Log("At risk of death. Healing now");
+            } else if (enemyEntity.remainingHP/enemy.health <= 0.25f && bestHealingAvailable > 0) {
                 battle.setUsedItem(bestHealing);
             } else {
-                Debug.Log("Not at risk of death. Attacking");
                 battle.setUsedItem(bestDamage);
             }
         }
-
-        //Temporary fix to prevent game from breaking
-        usedItem.actionType = ActionType.Attack;
-        battle.setUsedItem(usedItem);
-        //End of temporary fix.
         battle.perform(BattleOption.USE_ITEM);
         updatePlayerHealthAndManaBar();
         recalculateEnemyHealthBar(); 
         updatePlayerHealthAndManaText();
     }
+
 
     void displayConsumableButtons() {
         foreach (Transform child in spellListContainer)
@@ -448,7 +457,6 @@ public class BattleManager : MonoBehaviour
                         playerMove = false;
                     }
                 }
-                    
              });
             
         }

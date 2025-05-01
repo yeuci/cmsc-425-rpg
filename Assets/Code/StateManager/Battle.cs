@@ -60,12 +60,12 @@ public class Battle
             case BattleOption.USE_ITEM:
                 Debug.Log(usedItem);
                 if(usedItem.actionType == ActionType.Attack){
-                    float damage =  attackerStats.attack + attackerStats.attack*usedItem.attackPower/defenderStats.defense;
+                    float damage =  attackerStats.attack*usedItem.attackPower/defenderStats.defense;
                     defender.remainingHP -= damage;
 
                     popupGenerator.CreatePopUp(defender.transform.position, damage.ToString(), defender.transform.right, DMGCOLOR);
                 } else if (usedItem.actionType == ActionType.Cast) {
-                    float damage = attackerStats.magic + attackerStats.magic*usedItem.magicPower;
+                    float damage = attackerStats.magic*usedItem.magicPower;
                     defender.remainingHP -= damage;
 
                     dmgDealt = damage;
