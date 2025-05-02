@@ -484,6 +484,7 @@ public class BattleManager : MonoBehaviour
             Button button = buttonObj.GetComponent<Button>();
             button.onClick.AddListener(() => {
                 if (playerMove && playerEntity.remainingMP >= item.manaCost) {
+                    buttonObj.GetComponent<PlaySoundOnHoverAndClick>().PlayConfirmed();
                     if (currentItemInfo != null) {
                         Destroy(currentItemInfo.gameObject);
                     }
@@ -510,6 +511,8 @@ public class BattleManager : MonoBehaviour
 
                     StartCoroutine(HandlePlayerCast());
 
+                } else {
+                    buttonObj.GetComponent<PlaySoundOnHoverAndClick>().PlayDenied();
                 }
                 
             });

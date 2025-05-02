@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Lightning Spell
   m_EditorClassIdentifier: 
   name: Lightning Spell
-  itemDescription: 'Cost: 30 mana \nGenerate a lightning spell to strike down your
-    foes'
+  itemDescription: 'Cost: <b>30</b> mana \n<i>Generate a lightning spell to strike
+    down your foes</i>'
   type: 1
   actionType: 1
   attack: 0

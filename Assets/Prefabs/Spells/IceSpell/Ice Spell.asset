@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Ice Spell
   m_EditorClassIdentifier: 
   name: Ice Spell
-  itemDescription: 'Cost: 15 mana \nGenerates ice magic'
+  itemDescription: 'Cost: 15 mana \n<i>Generates ice explosion at the feet of your
+    enemy</i>'
   type: 1
   actionType: 1
   attack: 0

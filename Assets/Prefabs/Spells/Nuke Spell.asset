@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Nuke Spell
   m_EditorClassIdentifier: 
   name: Nuke Spell
-  itemDescription: 'Cost: 50 mana\nBLOW EVERYTHING UP'
+  itemDescription: 'Cost: 50 mana\n<i>BLOW EVERYTHING UP</i>'
   type: 1
   actionType: 1
   attack: 0
@@ -33,3 +33,4 @@ MonoBehaviour:
   range: {x: 0, y: 6}
   minigameOpener: {fileID: 2784396585945605119, guid: 408b74a7b84aaa944a2a8584e5dbd43c, type: 3}
   minigame: {fileID: 4333563330098486072, guid: e24b67bf2a4bfbd46ad9b09e87ee6316, type: 3}
+  spellAnimationPrefab: {fileID: 0}

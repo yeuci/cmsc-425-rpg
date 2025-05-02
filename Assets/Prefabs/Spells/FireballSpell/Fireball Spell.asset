@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Fireball Spell
   m_EditorClassIdentifier: 
   name: Fireball Spell
-  itemDescription: 'Cost: 10 mana \n\nConjure a fireball'
+  itemDescription: 'Cost: <b>10 mana</b> \n<i>Conjure a fireball</i>'
   type: 1
   actionType: 1
   attack: 0
