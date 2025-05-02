@@ -4,25 +4,31 @@ using UnityEngine.EventSystems;
 using NUnit.Framework.Internal;
 using System.Text.RegularExpressions;
 using System.Collections;
+using Unity.VisualScripting;
 
-public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     [Header("UI")]
     public Image image;
     public Text countText;
     public Item item;
+    public GameObject inventoryPopupPanel;
     // public 
     [HideInInspector] public int count = 1;
     [HideInInspector] public Transform parentAfterDrag;
     [HideInInspector] public InventoryManager iMEntity;
     [HideInInspector] public Entity playerEntity;
     [HideInInspector] public InventorySlot originalSlot;
+    [HideInInspector] public GameObject currentPopupPanel;
 
      public int uuid;
 
     public void InitializeItem(Item newItem) {
+        RectTransform rectTransform = GetComponent<RectTransform>();
+
         item = newItem;
         image.sprite = newItem.image;
+        rectTransform.sizeDelta = new Vector2(84, 84);
         RefreshCount();
     }
 
@@ -75,5 +81,28 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             // iMEntity.UpdateInventoryUIWithItemSave();
             // iMEntity.ChangeSelectedSlot(iMEntity.selectedSlot);
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Debug.Log("HOVERING AN ITEM");
+        displayItemInformation(item.name, item.getItemDescription(), image.transform);
+    }
+
+    public void OnPointerExit(PointerEventData eventData) {
+        if (currentPopupPanel != null) {
+            Destroy(currentPopupPanel);
+        }
+    }
+
+    void displayItemInformation(string itemName, string itemDescription, Transform itemPos) {
+        if (currentPopupPanel == null) {
+            Destroy(currentPopupPanel);
+        }
+
+        currentPopupPanel = Instantiate(inventoryPopupPanel, itemPos);
+        Debug.Log(currentPopupPanel.transform.position);
+        currentPopupPanel.transform.localPosition = new Vector3(0, 150, 0);
+        currentPopupPanel.GetComponent<PopupInfo>().Setup(itemName, itemDescription);
     }
 }

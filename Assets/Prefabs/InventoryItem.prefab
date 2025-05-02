@@ -92,8 +92,14 @@ MonoBehaviour:
   image: {fileID: 7037528582434759001}
   countText: {fileID: 8698432299101558147}
   item: {fileID: 0}
+  inventoryPopupPanel: {fileID: 6900198796579951017, guid: cb063c83c1b80024495b014063555df9, type: 3}
   count: 1
   parentAfterDrag: {fileID: 0}
+  iMEntity: {fileID: 0}
+  playerEntity: {fileID: 0}
+  originalSlot: {fileID: 0}
+  currentPopupPanel: {fileID: 0}
+  uuid: 0
 --- !u!1 &9121861985887198750
 GameObject:
   m_ObjectHideFlags: 0

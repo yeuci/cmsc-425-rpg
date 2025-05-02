@@ -399,7 +399,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5f14dc5c40a192942b77d6c89915ee7c, type: 2}
   - {fileID: 11400000, guid: 5c85c281a571cb0488ee81095d0e127f, type: 2}
   - {fileID: 11400000, guid: 4d6571d91e16c7e4581d8c1c44189ae2, type: 2}
-  player: {fileID: 0}
+  player: {fileID: 822514789}
   enemy: {fileID: 1883500874}
 --- !u!4 &196670857
 Transform:
@@ -1638,6 +1638,11 @@ PrefabInstance:
 --- !u!4 &822514788 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4962862009478031522, guid: ea8154cc12d76c944b6820b5a270b156, type: 3}
+  m_PrefabInstance: {fileID: 822514787}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &822514789 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5551276656269014274, guid: ea8154cc12d76c944b6820b5a270b156, type: 3}
   m_PrefabInstance: {fileID: 822514787}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &899131195
@@ -5499,6 +5504,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4049818249541464371, guid: f936bafedef36ff49a13a29868959f30, type: 3}
       propertyPath: m_Name
+      value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 4049818249541464371, guid: f936bafedef36ff49a13a29868959f30, type: 3}
+      propertyPath: m_TagString
       value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 8509555586122350195, guid: f936bafedef36ff49a13a29868959f30, type: 3}

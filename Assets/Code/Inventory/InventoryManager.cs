@@ -15,6 +15,7 @@ public class InventoryManager : MonoBehaviour
 
     [SerializeField] GameObject swordPrefab;
     [SerializeField] GameObject runeSwordPrefab;
+    [SerializeField] GameObject shieldPrefab;
     [HideInInspector] Entity playerEntity;
     [HideInInspector] PlayerManager playerManager;
     [HideInInspector] public GameObject inventoryContainer;
@@ -195,6 +196,8 @@ public class InventoryManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             inventoryGroup.SetActive(!inventoryGroup.activeSelf);
+            DestroyAllPopupPanels();
+            
         }
 
         // TEST SUITE
@@ -213,6 +216,10 @@ public class InventoryManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C))
         {
             CreateHealthPotion();
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            CreateShield();
         }
 
         if (Input.GetKeyDown(KeyCode.P))
@@ -289,7 +296,19 @@ public class InventoryManager : MonoBehaviour
                         equipped = true;
                         Debug.Log("Sword equipped.");
                     } 
-                    
+                }
+                //Step 3: Get the currently equipped Shield
+                child = equippedContainer.transform.GetChild(2);
+                if(child.childCount > 0) {
+                    Transform grandChild = child.GetChild(0);
+                    InventoryItem item = grandChild.GetComponent<InventoryItem>();
+                    if(item != null) {
+                        GameObject shield = Instantiate(shieldPrefab, torso.transform);
+                        shield.transform.localPosition = new Vector3(0.0126599995f,0,0.0137999998f);
+                        shield.transform.localEulerAngles = new Vector3(0,90f,270f);
+                        shield.transform.localScale = new Vector3(0.015f,0.015f,0.015f);
+                        Debug.Log("Shield attached");
+                    }
                 }
             } else {
                 Debug.LogWarning("No torso found in the scene..... for some reason...");
@@ -415,6 +434,16 @@ public class InventoryManager : MonoBehaviour
         }
         SendCurrentInventoryToState();
     }
+    public void CreateShield() {
+        int id = 10;
+        bool res = AddItem(itemsToPickup[id]);
+        if (res) {
+            Debug.Log($"Picked up {itemsToPickup[id].name}");
+        } else {
+            Debug.Log("Inventory is full!");
+        }
+        SendCurrentInventoryToState();
+    }
 
     public Item UseSelectedItem() {
         InventorySlot slot = inventorySlots[selectedSlot];
@@ -435,4 +464,19 @@ public class InventoryManager : MonoBehaviour
             return null;
         }
     }
+
+    private void DestroyAllPopupPanels()
+{
+    // Find all active popup panels in the scene
+    InventoryItem[] inventoryItems = FindObjectsByType<InventoryItem>(FindObjectsSortMode.None);
+
+    foreach (InventoryItem item in inventoryItems)
+    {
+        if (item.currentPopupPanel != null)
+        {
+            Destroy(item.currentPopupPanel);
+            item.currentPopupPanel = null; // Clear the reference
+        }
+    }
+}
 }
