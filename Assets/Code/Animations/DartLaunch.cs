@@ -36,5 +36,10 @@ public class DartLaunch : MonoBehaviour
     void OnTriggerEnter(Collider collision)
     {
         Destroy(gameObject);
+        if(collision.tag == "Player") {
+            Entity player = GameObject.FindGameObjectWithTag("PlayerState").GetComponent<Entity>();
+            player.remainingHP -= 15;
+        }
+        
     }
 }
