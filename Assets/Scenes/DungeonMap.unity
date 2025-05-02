@@ -4463,6 +4463,9 @@ MonoBehaviour:
   swordPrefab: {fileID: 258498120851308776, guid: 117f14757284fba46bb6198dc63a99d2, type: 3}
   runeSwordPrefab: {fileID: 4055060861964054874, guid: 2e837b62b6c657c4890d9a7c11bcbcb1, type: 3}
   shieldPrefab: {fileID: 7508169728127832004, guid: f76f454f5458c374c980ac2e237424b3, type: 3}
+  leatherMaterial: {fileID: 2100000, guid: 2cec46fe4dba2844fb494a3cf9e955b6, type: 2}
+  metalMaterial: {fileID: 2100000, guid: 135ce7b026f81a74788f946338e43f46, type: 2}
+  defaultMaterial: {fileID: -876546973899608171, guid: 044d64dcb7532aa4584cc17aab6e9eef, type: 3}
   inventoryContainer: {fileID: 0}
   hotbarContainer: {fileID: 0}
   equippedContainer: {fileID: 0}
