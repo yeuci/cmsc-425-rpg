@@ -5816,6 +5816,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 699120298}
     m_Modifications:
+    - target: {fileID: 8006772452559578805, guid: 077090230f6cff54dbdad989b687674d, type: 3}
+      propertyPath: leverArm
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8006772452559578805, guid: 077090230f6cff54dbdad989b687674d, type: 3}
+      propertyPath: portcullisGate
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8624154591205178501, guid: 077090230f6cff54dbdad989b687674d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -10
@@ -5860,7 +5868,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: portcullis (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8006772452559578805, guid: 077090230f6cff54dbdad989b687674d, type: 3}
     m_RemovedGameObjects:
     - {fileID: 3919785229400426147, guid: 077090230f6cff54dbdad989b687674d, type: 3}
     - {fileID: 7997104273709940313, guid: 077090230f6cff54dbdad989b687674d, type: 3}
@@ -10995,6 +11004,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 615023056}
     m_Modifications:
+    - target: {fileID: 8006772452559578805, guid: 077090230f6cff54dbdad989b687674d, type: 3}
+      propertyPath: leverArm
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8006772452559578805, guid: 077090230f6cff54dbdad989b687674d, type: 3}
+      propertyPath: portcullisGate
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8624154591205178501, guid: 077090230f6cff54dbdad989b687674d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 30
@@ -11039,7 +11056,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: portcullis
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8006772452559578805, guid: 077090230f6cff54dbdad989b687674d, type: 3}
     m_RemovedGameObjects:
     - {fileID: 3919785229400426147, guid: 077090230f6cff54dbdad989b687674d, type: 3}
     - {fileID: 7997104273709940313, guid: 077090230f6cff54dbdad989b687674d, type: 3}
@@ -12228,6 +12246,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1004180009}
     m_Modifications:
+    - target: {fileID: 8006772452559578805, guid: 077090230f6cff54dbdad989b687674d, type: 3}
+      propertyPath: leverArm
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8006772452559578805, guid: 077090230f6cff54dbdad989b687674d, type: 3}
+      propertyPath: portcullisGate
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8624154591205178501, guid: 077090230f6cff54dbdad989b687674d, type: 3}
       propertyPath: m_LocalPosition.x
       value: -45.5
@@ -12272,7 +12298,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: portcullis
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8006772452559578805, guid: 077090230f6cff54dbdad989b687674d, type: 3}
     m_RemovedGameObjects:
     - {fileID: 7997104273709940313, guid: 077090230f6cff54dbdad989b687674d, type: 3}
     - {fileID: 3919785229400426147, guid: 077090230f6cff54dbdad989b687674d, type: 3}
@@ -49618,6 +49645,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.x
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: 8006772452559578805, guid: 077090230f6cff54dbdad989b687674d, type: 3}
+      propertyPath: leverArm
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8006772452559578805, guid: 077090230f6cff54dbdad989b687674d, type: 3}
+      propertyPath: portcullisGate
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8624154591205178501, guid: 077090230f6cff54dbdad989b687674d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 20
@@ -49662,7 +49697,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: portcullis
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8006772452559578805, guid: 077090230f6cff54dbdad989b687674d, type: 3}
     m_RemovedGameObjects:
     - {fileID: 7997104273709940313, guid: 077090230f6cff54dbdad989b687674d, type: 3}
     - {fileID: 3919785229400426147, guid: 077090230f6cff54dbdad989b687674d, type: 3}

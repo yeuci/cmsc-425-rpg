@@ -4,7 +4,7 @@ using UnityEngine;
 public class DoorController : MonoBehaviour
 {
     public float openAngle = 90f;
-    public float openTime = 3f;
+    public float openTime = 1f;
     public float interactionDistance = 3f;
 
     private Transform player;
