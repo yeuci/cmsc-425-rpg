@@ -103,7 +103,6 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
 
         currentPopupPanel = Instantiate(inventoryPopupPanel, itemPos);
-        Debug.Log(currentPopupPanel.transform.position);
         currentPopupPanel.transform.localPosition = new Vector3(0, 150, 0);
         currentPopupPanel.GetComponent<PopupInfo>().Setup(itemName, itemDescription);
     }
