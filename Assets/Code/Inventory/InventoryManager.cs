@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework.Internal;
 using UnityEngine;
 
@@ -16,6 +17,9 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] GameObject swordPrefab;
     [SerializeField] GameObject runeSwordPrefab;
     [SerializeField] GameObject shieldPrefab;
+    [SerializeField] Material leatherMaterial;
+    [SerializeField] Material metalMaterial;
+    [SerializeField] Material defaultMaterial;
     [HideInInspector] Entity playerEntity;
     [HideInInspector] PlayerManager playerManager;
     [HideInInspector] public GameObject inventoryContainer;
@@ -310,6 +314,26 @@ public class InventoryManager : MonoBehaviour
                         Debug.Log("Shield attached");
                     }
                 }
+                //Step 4: Change shirt color
+                child = equippedContainer.transform.GetChild(0);
+                if(child.childCount > 0) {
+                    Transform grandChild = child.GetChild(0);
+                    InventoryItem item = grandChild.GetComponent<InventoryItem>();
+                    if(item != null) {
+                        if(item.item.name.Contains("LeatherArmor")) {
+                            Debug.Log("LeatherArmor Equipped");
+                            torso.GetComponent<MeshRenderer>().material = leatherMaterial;
+                        } else if (item.item.name.Contains("ChainMail")) {
+                            torso.GetComponent<MeshRenderer>().material = metalMaterial;
+                        } else {
+                            torso.GetComponent<MeshRenderer>().material = defaultMaterial;
+                        }
+                    } else {
+                        torso.GetComponent<MeshRenderer>().material = defaultMaterial;
+                    }
+                } else {
+                    torso.GetComponent<MeshRenderer>().material = defaultMaterial;
+                }
             } else {
                 Debug.LogWarning("No torso found in the scene..... for some reason...");
             }     
@@ -393,7 +417,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     public void PickupItem() {
-        int id = Random.Range(0, itemsToPickup.Length);
+        int id = UnityEngine.Random.Range(0, itemsToPickup.Length);
         bool res = AddItem(itemsToPickup[id]);
         if (res) {
             Debug.Log($"Picked up {itemsToPickup[id].name}");
@@ -404,7 +428,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     public void CreateSpell() {
-        int id = Random.Range(5,9);
+        int id = UnityEngine.Random.Range(5,9);
         bool res = AddItem(itemsToPickup[id]);
         if (res) {
             Debug.Log($"Picked up {itemsToPickup[id].name}");
@@ -450,6 +474,8 @@ public class InventoryManager : MonoBehaviour
         InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
         if (itemInSlot != null) {
             Item item = itemInSlot.item;
+            playerEntity.remainingHP = MathF.Min(playerEntity.stats.health, playerEntity.remainingHP+item.healing);
+            playerEntity.remainingMP = MathF.Min(playerEntity.stats.mana, playerEntity.remainingMP+item.manaRestore);
             if (item.consumable == true) {
                 itemInSlot.count--;
                 if (itemInSlot.count <= 0) {
