@@ -16,6 +16,9 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] GameObject swordPrefab;
     [SerializeField] GameObject runeSwordPrefab;
     [SerializeField] GameObject shieldPrefab;
+    [SerializeField] Material leatherMaterial;
+    [SerializeField] Material metalMaterial;
+    [SerializeField] Material defaultMaterial;
     [HideInInspector] Entity playerEntity;
     [HideInInspector] PlayerManager playerManager;
     [HideInInspector] public GameObject inventoryContainer;
@@ -307,6 +310,26 @@ public class InventoryManager : MonoBehaviour
                         shield.transform.localScale = new Vector3(0.015f,0.015f,0.015f);
                         Debug.Log("Shield attached");
                     }
+                }
+                //Step 4: Change shirt color
+                child = equippedContainer.transform.GetChild(0);
+                if(child.childCount > 0) {
+                    Transform grandChild = child.GetChild(0);
+                    InventoryItem item = grandChild.GetComponent<InventoryItem>();
+                    if(item != null) {
+                        if(item.item.name.Contains("LeatherArmor")) {
+                            Debug.Log("LeatherArmor Equipped");
+                            torso.GetComponent<MeshRenderer>().material = leatherMaterial;
+                        } else if (item.item.name.Contains("ChainMail")) {
+                            torso.GetComponent<MeshRenderer>().material = metalMaterial;
+                        } else {
+                            torso.GetComponent<MeshRenderer>().material = defaultMaterial;
+                        }
+                    } else {
+                        torso.GetComponent<MeshRenderer>().material = defaultMaterial;
+                    }
+                } else {
+                    torso.GetComponent<MeshRenderer>().material = defaultMaterial;
                 }
             } else {
                 Debug.LogWarning("No torso found in the scene..... for some reason...");
