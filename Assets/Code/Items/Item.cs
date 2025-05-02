@@ -101,6 +101,7 @@ public class Item : ScriptableObject {
     public float manaRestore;
     public int magicPower;
     public int manaCost;
+    public string onUseText;
 
     
     public bool stackable = true;

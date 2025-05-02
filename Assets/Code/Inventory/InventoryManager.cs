@@ -457,12 +457,24 @@ public class InventoryManager : MonoBehaviour
                 } else {
                     itemInSlot.RefreshCount();
                 }
+
+                float healing = item.healing;
+
+                playerEntity.remainingHP += item.healing;
+                playerEntity.remainingMP += item.manaRestore;
+                recalculatePlayerHealthAndMana();
+                
                 SendCurrentInventoryToState();
             }
             return item;
         } else {
             return null;
         }
+    }
+
+    private void recalculatePlayerHealthAndMana() {
+        playerEntity.remainingHP = Mathf.Clamp(playerEntity.remainingHP, 0, playerEntity.getAdjustedStats().health);
+        playerEntity.remainingMP = Mathf.Clamp(playerEntity.remainingMP, 0, playerEntity.getAdjustedStats().mana);
     }
 
     private void DestroyAllPopupPanels()

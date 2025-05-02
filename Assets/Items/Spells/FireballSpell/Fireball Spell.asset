@@ -10,11 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8bebc8a7a720ffd4cbcd1549792d2d21, type: 3}
-  m_Name: Ice Spell
+  m_Name: Fireball Spell
   m_EditorClassIdentifier: 
-  name: Ice Spell
-  itemDescription: 'Cost: 15 mana \n<i>Generates ice explosion at the feet of your
-    enemy</i>'
+  name: Fireball Spell
+  itemDescription: 'Cost: <b>10 mana</b> \n<i>Conjure a fireball</i>'
   type: 1
   actionType: 1
   attack: 0
@@ -25,13 +24,14 @@ MonoBehaviour:
   attackPower: 0
   healing: 0
   manaRestore: 0
-  magicPower: 10
-  manaCost: 15
+  magicPower: 3
+  manaCost: 10
+  onUseText: Casted Fireball Spell!
   stackable: 0
-  image: {fileID: 21300000, guid: 6f98b3e70c3ad8a48a0396785dad48e8, type: 3}
+  image: {fileID: 21300000, guid: 9f69b220176e6964fbd87f5f158d45e3, type: 3}
   maxStack: 1
   consumable: 0
   range: {x: 0, y: 6}
-  minigameOpener: {fileID: 1788146785986578035, guid: e45fe62f6052ec343ac2f9d968be059c, type: 3}
-  minigame: {fileID: 6487977543823871858, guid: 35ac53038e18a1b48b3d6d65e337d27a, type: 3}
-  spellAnimationPrefab: {fileID: 6620616875320287057, guid: f47b9eba3a6bafb419989abd0c4191cc, type: 3}
+  minigameOpener: {fileID: 4582565367329616872, guid: 72b42a0af8ceac34585401d9183f630c, type: 3}
+  minigame: {fileID: 1175197647613885606, guid: 8480f66b0742a1143a209e41c125b735, type: 3}
+  spellAnimationPrefab: {fileID: 9202272330787376852, guid: a8d61380918fbc84eb34b5d940b75f96, type: 3}

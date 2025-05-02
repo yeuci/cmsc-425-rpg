@@ -37,13 +37,18 @@ public class BattleManager : MonoBehaviour
     // Managers
     public AnimationManager animationManager;
     public DamagePopupGenerator popupGenerator;         // Creates damage popups
+    public PlaySoundOnHoverAndClick musicManager;
 
     public GameObject enemyGameObject;
     public Item usedItem;
 
     public Canvas battleCanvas;
     public GameObject UIBlocker;                        // Blocks UI when minigame is starting
-    public GameObject inventoryPanel;
+
+    DisplayBattleText displayBattleTextInstance;
+    public Transform battleTextContainer;
+    public GameObject battleTextPrefab;
+    public GameObject currentBattleText;
     
 
     [HideInInspector] public PlayerManager playerManager;
@@ -55,9 +60,7 @@ public class BattleManager : MonoBehaviour
     public TextMeshProUGUI playerManaText;
 
 
-    // Invetory and Spells
-    [HideInInspector] private InventoryManager inventoryManager;
-    
+    // Invetory and Spells    
     public GameObject inventoryButtonPrefab; // Drag the prefab here in the Inspector
     public Transform spellListContainer;
     public GameObject inventoryInfoPrefab;
@@ -91,6 +94,8 @@ public class BattleManager : MonoBehaviour
 
     void Awake()
     {
+
+        displayBattleTextInstance = gameObject.AddComponent<DisplayBattleText>();
         if(enemyEntity != null) {
             Destroy(enemyEntity);
         }   
@@ -105,6 +110,8 @@ public class BattleManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
+        musicManager = GameObject.FindGameObjectWithTag("MusicManager")?.GetComponent<PlaySoundOnHoverAndClick>();
         
         playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
         playerEntity = PlayerManager.player.entity();
@@ -152,10 +159,16 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator StalledUpdate() {
         yield return new WaitUntil(isEnemyMove);
+
+        if (currentBattleText != null) {
+            Destroy(currentBattleText);
+        }
+
         yield return new WaitForSeconds(1);
         if (currentItemInfo != null) {
             Destroy(currentItemInfo.gameObject);
         }
+
         enemyArtificialIntelligence();
         playerMove = true;
         StartCoroutine(StalledUpdate());
@@ -165,6 +178,7 @@ public class BattleManager : MonoBehaviour
 
     public void playerAttack() {
         if(playerMove) {
+            musicManager.PlayConfirmed();
             usedItem = playerEntity.equippedGear[1].itemData;
             //Set attack to unarmed strike if they don't have a weapon equipped.
             if(usedItem == null) {
@@ -184,6 +198,8 @@ public class BattleManager : MonoBehaviour
             updatePlayerHealthAndManaText();
     
             playerMove = false;
+        } else {
+            musicManager.PlayDenied();
         }
     }
 
@@ -266,10 +282,12 @@ public class BattleManager : MonoBehaviour
             animationManager.Animate(BattleOption.RUN);
             battle.perform(BattleOption.RUN);
             if(player.speed > enemy.speed) {
+                musicManager.PlayConfirmed();
                 Debug.Log("Player has fled the encounter");
                 SceneManager.LoadScene("Scenes/DungeonMap");
             }
             else {
+                musicManager.PlayDenied();
                 escapeAttempts += 1;
                 float escapeChance = Mathf.Floor((player.speed * 32) / (enemy.speed / 4)) + 30.0f * escapeAttempts;
                 float rand = UnityEngine.Random.Range(0.0f, 255.0f);
@@ -288,8 +306,11 @@ public class BattleManager : MonoBehaviour
     }
 
     public void playerCast() {
-        if (playerMove) {
+        if (playerMove && spells.Count > 0) {
+            musicManager.PlayConfirmed();
             displaySpellButtons();
+        } else {
+            musicManager.PlayDenied();
         }
     }
 
@@ -311,6 +332,8 @@ public class BattleManager : MonoBehaviour
 
                 battle.perform(BattleOption.USE_ITEM);   
                 playerEntity.remainingMP -= usedItem.manaCost;
+
+                currentBattleText = displayBattleTextInstance.DisplayPopup(battleTextContainer, battleTextPrefab, usedItem.onUseText);
 
                 if (spellAnimationPlayer != null) {
                     spellAnimationPlayer.damage = battle.dmgDealt;
@@ -344,8 +367,11 @@ public class BattleManager : MonoBehaviour
     }
 
     public void openInventory() {
-        if(playerMove) {
+        if(playerMove && consumables.Count > 0) {
+            musicManager.PlayConfirmed();
             displayConsumableButtons();
+        } else {
+            musicManager.PlayDenied();
         }
     }
     
@@ -435,12 +461,16 @@ public class BattleManager : MonoBehaviour
                     if (currentItemInfo != null) {
                         Destroy(currentItemInfo.gameObject);
                     }
+
                     usedItem = item;
                     usedItem.actionType = ActionType.Consume;
                     battle.setUsedItem(usedItem);
 
                     if (item.healing > 0 && playerEntity.remainingHP < player.health || 
                         item.manaRestore > 0 && playerEntity.remainingMP < player.mana) {
+
+                        musicManager.PlayUse();
+                        currentBattleText = displayBattleTextInstance.DisplayPopup(battleTextContainer, battleTextPrefab, item.onUseText);
                         battle.perform(BattleOption.USE_ITEM);
 
                         updatePlayerHealthAndManaText();
@@ -455,6 +485,8 @@ public class BattleManager : MonoBehaviour
                         }
                         buttonText.text = $"{item.name}: x{consumable.count}";
                         playerMove = false;
+                    }  else {
+                        musicManager.PlayDenied();
                     }
                 }
              });
