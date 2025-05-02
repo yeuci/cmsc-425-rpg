@@ -52084,6 +52084,7 @@ GameObject:
   - component: {fileID: 1851563332}
   - component: {fileID: 1851563336}
   - component: {fileID: 1851563337}
+  - component: {fileID: 1851563338}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -52202,6 +52203,19 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1851563338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1851563331}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e00d3ccee2d2294484076aed59cf529, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fpsCap: 60
 --- !u!1001 &1855432975
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52945,7 +52959,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1892593645}
   - component: {fileID: 1892593647}
-  - component: {fileID: 1892593648}
   m_Layer: 0
   m_Name: CameraObject
   m_TagString: MainCamera
@@ -52990,19 +53003,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   openedMenu: 0
---- !u!114 &1892593648
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1892593643}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e00d3ccee2d2294484076aed59cf529, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fpsCap: 60
 --- !u!4 &1893609365 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8395878610197010207, guid: c78656f2f53ae1249834e1e17ceb9c20, type: 3}
