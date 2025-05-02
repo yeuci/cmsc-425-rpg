@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework.Internal;
 using UnityEngine;
 
@@ -416,7 +417,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     public void PickupItem() {
-        int id = Random.Range(0, itemsToPickup.Length);
+        int id = UnityEngine.Random.Range(0, itemsToPickup.Length);
         bool res = AddItem(itemsToPickup[id]);
         if (res) {
             Debug.Log($"Picked up {itemsToPickup[id].name}");
@@ -427,7 +428,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     public void CreateSpell() {
-        int id = Random.Range(5,9);
+        int id = UnityEngine.Random.Range(5,9);
         bool res = AddItem(itemsToPickup[id]);
         if (res) {
             Debug.Log($"Picked up {itemsToPickup[id].name}");
@@ -473,6 +474,8 @@ public class InventoryManager : MonoBehaviour
         InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
         if (itemInSlot != null) {
             Item item = itemInSlot.item;
+            playerEntity.remainingHP = MathF.Min(playerEntity.stats.health, playerEntity.remainingHP+item.healing);
+            playerEntity.remainingMP = MathF.Min(playerEntity.stats.mana, playerEntity.remainingMP+item.manaRestore);
             if (item.consumable == true) {
                 itemInSlot.count--;
                 if (itemInSlot.count <= 0) {
