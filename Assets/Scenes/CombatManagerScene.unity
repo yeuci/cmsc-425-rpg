@@ -4324,7 +4324,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: 031bbb98a7e1a3c4684afe0c45789da8, type: 3}
   m_Resource: {fileID: 8300000, guid: 031bbb98a7e1a3c4684afe0c45789da8, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.8
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -6427,8 +6427,7 @@ MonoBehaviour:
   battleCanvas: {fileID: 1272351636}
   UIBlocker: {fileID: 1082125949}
   battleTextContainer: {fileID: 851599503}
-  battleTextPrefab: {fileID: 6856815901228312830, guid: 0937c2b2b30349841be37a5f3a2d76e7, type: 3}
-  currentBattleText: {fileID: 0}
+  battleTextPanel: {fileID: 3462096797668059235}
   playerManager: {fileID: 0}
   playerHealthBar: {fileID: 1012756577}
   playerManaBar: {fileID: 366006908}
@@ -6528,6 +6527,15 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.27875093
       value: 1
       inSlope: 0
       outSlope: 0
@@ -6966,13 +6974,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6856815901228312830, guid: 0937c2b2b30349841be37a5f3a2d76e7, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0937c2b2b30349841be37a5f3a2d76e7, type: 3}
+--- !u!1 &3462096797668059235 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6856815901228312830, guid: 0937c2b2b30349841be37a5f3a2d76e7, type: 3}
+  m_PrefabInstance: {fileID: 3462096797668059234}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3971949687083251093
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -45,10 +45,8 @@ public class BattleManager : MonoBehaviour
     public Canvas battleCanvas;
     public GameObject UIBlocker;                        // Blocks UI when minigame is starting
 
-    DisplayBattleText displayBattleTextInstance;
     public Transform battleTextContainer;
-    public GameObject battleTextPrefab;
-    public GameObject currentBattleText;
+    public GameObject battleTextPanel;
     
 
     [HideInInspector] public PlayerManager playerManager;
@@ -94,8 +92,6 @@ public class BattleManager : MonoBehaviour
 
     void Awake()
     {
-
-        displayBattleTextInstance = gameObject.AddComponent<DisplayBattleText>();
         if(enemyEntity != null) {
             Destroy(enemyEntity);
         }   
@@ -112,6 +108,7 @@ public class BattleManager : MonoBehaviour
         Cursor.visible = true;
 
         musicManager = GameObject.FindGameObjectWithTag("MusicManager")?.GetComponent<PlaySoundOnHoverAndClick>();
+        battleTextPanel.SetActive(false);
         
         playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
         playerEntity = PlayerManager.player.entity();
@@ -160,16 +157,19 @@ public class BattleManager : MonoBehaviour
     IEnumerator StalledUpdate() {
         yield return new WaitUntil(isEnemyMove);
 
-        if (currentBattleText != null) {
-            Destroy(currentBattleText);
-        }
+        battleTextPanel.SetActive(false);
 
         yield return new WaitForSeconds(1);
         if (currentItemInfo != null) {
             Destroy(currentItemInfo.gameObject);
         }
 
+        battleTextPanel.SetActive(true);
+
         enemyArtificialIntelligence();
+        yield return new WaitForSeconds(1f);
+        battleTextPanel.SetActive(false);
+
         playerMove = true;
         StartCoroutine(StalledUpdate());
     }
@@ -333,7 +333,8 @@ public class BattleManager : MonoBehaviour
                 battle.perform(BattleOption.USE_ITEM);   
                 playerEntity.remainingMP -= usedItem.manaCost;
 
-                currentBattleText = displayBattleTextInstance.DisplayPopup(battleTextContainer, battleTextPrefab, usedItem.onUseText);
+                battleTextPanel.SetActive(true);
+                battleTextPanel.GetComponentInChildren<TextMeshProUGUI>().text = usedItem.onUseText;
 
                 if (spellAnimationPlayer != null) {
                     spellAnimationPlayer.damage = battle.dmgDealt;
@@ -381,6 +382,8 @@ public class BattleManager : MonoBehaviour
     public void enemyArtificialIntelligence() {
         System.Random rd = new System.Random();
         int rand_num = rd.Next(1,10);
+        string text = "";
+
         if(rand_num <= player.level) {
             //Take a random action. This works if the player can hit level 10.
             Item itemPick = enemyEntity.inventory[rd.Next(0,enemyEntity.inventoryCount)].itemData;
@@ -425,12 +428,21 @@ public class BattleManager : MonoBehaviour
 
             if(playerEntity.remainingHP - bestDamageOutput <= 0) {
                 battle.setUsedItem(bestDamage);
+                text = "Enemy attacks!";
             } else if (enemyEntity.remainingHP/enemy.health <= 0.25f && bestHealingAvailable > 0) {
                 battle.setUsedItem(bestHealing);
+                text = "Enemy used a potion!";
             } else {
                 battle.setUsedItem(bestDamage);
+                text = "Enemy attacks!";
             }
+
         }
+
+        if (battle.usedItem.actionType == ActionType.Consume) {
+                text = "Enemy used a potion!";
+            }
+        battleTextPanel.GetComponentInChildren<TextMeshProUGUI>().text = text;
         battle.perform(BattleOption.USE_ITEM);
         updatePlayerHealthAndManaBar();
         recalculateEnemyHealthBar(); 
@@ -470,7 +482,8 @@ public class BattleManager : MonoBehaviour
                         item.manaRestore > 0 && playerEntity.remainingMP < player.mana) {
 
                         musicManager.PlayUse();
-                        currentBattleText = displayBattleTextInstance.DisplayPopup(battleTextContainer, battleTextPrefab, item.onUseText);
+                        battleTextPanel.SetActive(true);
+                        battleTextPanel.GetComponentInChildren<TextMeshProUGUI>().text = item.onUseText;
                         battle.perform(BattleOption.USE_ITEM);
 
                         updatePlayerHealthAndManaText();
