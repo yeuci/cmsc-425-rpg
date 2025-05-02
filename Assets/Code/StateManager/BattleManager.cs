@@ -71,6 +71,9 @@ public class BattleManager : MonoBehaviour
     // Game over screen
     public DeathMenuManager gameOverScreen;
 
+    // Results
+    public ResultsWindow results;
+
     void getPlayerInventory() {
         ItemSave[] playerInventory = playerEntity.inventory;
 
@@ -205,12 +208,19 @@ public class BattleManager : MonoBehaviour
         if(enemyEntity.remainingHP <= 0) {
             float enemyXP = enemyEntity.calculateXPValue();
             Debug.Log("Enemy is defeated. Player gains " + enemyXP + " XP!");
-            playerEntity.stats.experience += enemyXP;
 
+            float prevXP = playerEntity.stats.experience;
+            float prevCap = playerEntity.stats.expToNext;
+            int prevLvl = playerEntity.stats.level;
+            
+            playerEntity.stats.experience += enemyXP;
             playerEntity.recalculateLvl();
+            
             Debug.Log("Player is Lvl " + playerEntity.stats.level + "! Progress: " + playerEntity.stats.experience + "/"+playerEntity.stats.expToNext);
 
-            SceneManager.LoadScene("Scenes/DungeonMap");
+            StartCoroutine(results.showVictory(prevLvl, (int)prevXP, (int)prevCap, enemyXP));
+
+            // SceneManager.LoadScene("Scenes/DungeonMap");
         }
     }
 

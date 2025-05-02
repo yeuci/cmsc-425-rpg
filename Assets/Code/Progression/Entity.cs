@@ -64,12 +64,14 @@ public class Entity : MonoBehaviour
     }
 
     public void recalculateLvl() {
-        if (stats.experience > stats.expToNext) {
+        if (stats.experience >= stats.expToNext) {
             stats.level += 1;
             stats.experience -= stats.expToNext;
             stats.expToNext *= 2;
             recalculateLvl();
+            float prevXP = stats.experience;
             scaleStats(ScalingMethod.PLAYER_LEVEL);
+            stats.experience = prevXP;
         } else {
             return;
         }
