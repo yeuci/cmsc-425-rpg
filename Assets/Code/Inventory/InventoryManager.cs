@@ -474,8 +474,6 @@ public class InventoryManager : MonoBehaviour
         InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
         if (itemInSlot != null) {
             Item item = itemInSlot.item;
-            playerEntity.remainingHP = MathF.Min(playerEntity.stats.health, playerEntity.remainingHP+item.healing);
-            playerEntity.remainingMP = MathF.Min(playerEntity.stats.mana, playerEntity.remainingMP+item.manaRestore);
             if (item.consumable == true) {
                 itemInSlot.count--;
                 if (itemInSlot.count <= 0) {
@@ -483,8 +481,6 @@ public class InventoryManager : MonoBehaviour
                 } else {
                     itemInSlot.RefreshCount();
                 }
-
-                float healing = item.healing;
 
                 playerEntity.remainingHP += item.healing;
                 playerEntity.remainingMP += item.manaRestore;
