@@ -3,16 +3,19 @@ using UnityEngine.UI;
 
 public class ArrowMover : MonoBehaviour
 {
-    public float speed = 350f; // Adjust to match timing window
+    public float speed = 200f; // Adjust to match timing window
     public RectTransform targetZone; // Assign the hollow arrow's RectTransform
-    public float parryWindow = 14f;
+    public float parryWindow = 15f;
     bool inParryWindow = false;
     private Image image;
     public bool running = true;
+    float parryWindowTime;
+    float parryWindowDistance;
 
     void Awake()
     {
         image = GetComponent<Image>();
+        parryWindowTime = parryWindow / 60f;
     }
 
     void Update()
@@ -23,8 +26,9 @@ public class ArrowMover : MonoBehaviour
 
             // Check if in parry window
             float distance = Mathf.Abs(transform.position.x - targetZone.position.x);
-            inParryWindow = distance <= parryWindow; 
-            Debug.Log(inParryWindow);
+
+            parryWindowDistance = speed * parryWindowTime;
+            inParryWindow = distance <= parryWindowDistance;
         }
     }
 
@@ -35,7 +39,7 @@ public class ArrowMover : MonoBehaviour
 
     // Returns if arrow has passed target area
     public bool MissedWindow() {
-        return transform.position.x <= targetZone.position.x - 20f;
+        return transform.position.x <= targetZone.position.x - parryWindowDistance;
     }
 
     // Change color of arrow jey

@@ -66,7 +66,7 @@ public class ButtonMash : MonoBehaviour
             }
 
             // Decrements a finxed amount every frame
-            currentCount -= 0.25f;
+            currentCount -= 1.2f * 60f * Time.deltaTime;
             // Clamps current count
             currentCount = Mathf.Clamp(currentCount, 0, countNeeded);
 

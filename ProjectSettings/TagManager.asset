@@ -21,6 +21,7 @@ TagManager:
   - EscapeMenu
   - InventoryMenu
   - gui_equipment
+  - MusicManager
   layers:
   - Default
   - TransparentFX

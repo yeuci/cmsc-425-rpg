@@ -88,14 +88,17 @@ public class Entity : MonoBehaviour
     public Stat getAdjustedStats() {
         //Attack, Defense, Health, Magic Speed
         float[] adjStats = this.stats.getStatArray();
-        /*foreach (ItemSave iS in equippedGear){
-            Item i = iS.itemData;
-            adjStats[0] += i.attack;
-            adjStats[1] += i.defense;
-            adjStats[2] += i.health;
-            adjStats[3] += i.mana;
-            adjStats[4] += i.speed;
-        }*/
+        //I need to re-order this based upon the actual implementation of Stat Array
+        foreach (ItemSave iS in equippedGear){
+            if(iS != null && iS.itemData != null) {
+                Item i = iS.itemData;
+                adjStats[0] += i.attack;
+                adjStats[1] += i.defense;
+                adjStats[2] += i.health;
+                adjStats[3] += i.mana;
+                adjStats[4] += i.speed;
+            }
+        }
         Stat stats = new Stat(this.stats.level, adjStats[0],adjStats[1],adjStats[2],adjStats[3],adjStats[4], adjStats[5]);
         return stats;
     }

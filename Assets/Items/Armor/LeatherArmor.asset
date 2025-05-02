@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8df97bb9312cb045bee5855112ca6ad, type: 3}
   m_Name: LeatherArmor
   m_EditorClassIdentifier: 
-  name: Leather Armor
-  itemDescription: Light Armor
-  name: Leather Armor
+  name: LeatherArmor
   itemDescription: Light Armor
   type: 2
   actionType: 2

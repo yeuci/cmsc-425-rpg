@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework.Internal;
 using UnityEngine;
 
@@ -16,6 +17,9 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] GameObject swordPrefab;
     [SerializeField] GameObject runeSwordPrefab;
     [SerializeField] GameObject shieldPrefab;
+    [SerializeField] Material leatherMaterial;
+    [SerializeField] Material metalMaterial;
+    [SerializeField] Material defaultMaterial;
     [HideInInspector] Entity playerEntity;
     [HideInInspector] PlayerManager playerManager;
     [HideInInspector] public GameObject inventoryContainer;
@@ -196,6 +200,8 @@ public class InventoryManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             inventoryGroup.SetActive(!inventoryGroup.activeSelf);
+            DestroyAllPopupPanels();
+            
         }
 
         // TEST SUITE
@@ -265,52 +271,73 @@ public class InventoryManager : MonoBehaviour
         }
 
         // SHOW WEAPON ON CHARACTER IF ITS CURRENTLY SELECTED
-            //Step 1: Get the torso
-            GameObject torso = GameObject.FindGameObjectWithTag("Torso");
-            if(torso != null) {
-                //Step 2: Get the currently equipped weapon
-                Transform child = equippedContainer.transform.GetChild(1);
-                if(child.childCount > 0) {
-                    Transform grandChild = child.GetChild(0);
-                    InventoryItem item = grandChild.GetComponent<InventoryItem>();
-                    if(item != null) {
-                        GameObject newSword;
-                        if (item.item.name.Contains("RuneSword")) {
-                            newSword = Instantiate(runeSwordPrefab, torso.transform);
-                            newSword.transform.localPosition = new Vector3(0.01076f, -0.01143f, 0.03788f);
-                            newSword.transform.localEulerAngles = new Vector3(-60f, 0f, -90f);
-                            newSword.transform.localScale = new Vector3(0.01598134f, 0.01902541f, 0.01598134f);
-                            Debug.Log("Rune sword attached.");
-                        } else if (item.item.name.Contains("BasicSword")) {
-                            newSword = Instantiate(swordPrefab, torso.transform);
-                            newSword.transform.localPosition = new Vector3(0.0073f, 0f, 0.0143f);
-                            newSword.transform.localEulerAngles = new Vector3(-60f, 0f, -90f);
-                            newSword.transform.localScale = new Vector3(0.01598134f, 0.01902541f, 0.01598134f);
-                            Debug.Log("Basic sword attached.");
-                        } else {
-                            Debug.LogWarning("What kind of sword is this???");
-                            return;
-                        }
-                        equipped = true;
-                        Debug.Log("Sword equipped.");
-                    } 
-                }
-                //Step 3: Get the currently equipped Shield
-                child = equippedContainer.transform.GetChild(2);
-                if(child.childCount > 0) {
-                    Transform grandChild = child.GetChild(0);
-                    InventoryItem item = grandChild.GetComponent<InventoryItem>();
-                    if(item != null) {
-                        GameObject shield = Instantiate(shieldPrefab, torso.transform);
-                        shield.transform.localPosition = new Vector3(0.0126599995f,0,0.0137999998f);
-                        shield.transform.localEulerAngles = new Vector3(0,90f,270f);
-                        shield.transform.localScale = new Vector3(0.015f,0.015f,0.015f);
-                        Debug.Log("Shield attached");
+        //Step 1: Get the torso
+        GameObject torso = GameObject.FindGameObjectWithTag("Torso");
+        if(torso != null) {
+            //Step 2: Get the currently equipped weapon
+            Transform child = equippedContainer.transform.GetChild(1);
+            if(child.childCount > 0) {
+                Transform grandChild = child.GetChild(0);
+                InventoryItem item = grandChild.GetComponent<InventoryItem>();
+                if(item != null && !equipped) {
+                    GameObject newSword;
+                    if (item.item.name.Contains("RuneSword")) {
+                        newSword = Instantiate(runeSwordPrefab, torso.transform);
+                        newSword.transform.localPosition = new Vector3(0.01076f, -0.01143f, 0.03788f);
+                        newSword.transform.localEulerAngles = new Vector3(-60f, 0f, -90f);
+                        newSword.transform.localScale = new Vector3(0.01598134f, 0.01902541f, 0.01598134f);
+                        Debug.Log("Rune sword attached.");
+                    } else if (item.item.name.Contains("BasicSword")) {
+
+                        newSword = Instantiate(swordPrefab, torso.transform);
+                        newSword.transform.localPosition = new Vector3(0.0073f, 0f, 0.0143f);
+                        newSword.transform.localEulerAngles = new Vector3(-60f, 0f, -90f);
+                        newSword.transform.localScale = new Vector3(0.01598134f, 0.01902541f, 0.01598134f);
+                        Debug.Log("Basic sword attached.");
+                    } else {
+                        Debug.LogWarning("What kind of sword is this???");
+                        return;
                     }
+                    equipped = true;
+                    Debug.Log("Sword equipped.");
+                } 
+            }
+            //Step 3: Get the currently equipped Shield
+            child = equippedContainer.transform.GetChild(2);
+            if(child.childCount > 0) {
+                Transform grandChild = child.GetChild(0);
+                InventoryItem item = grandChild.GetComponent<InventoryItem>();
+                if(item != null) {
+                    GameObject shield = Instantiate(shieldPrefab, torso.transform);
+                    shield.transform.localPosition = new Vector3(0.0126599995f,0,0.0137999998f);
+                    shield.transform.localEulerAngles = new Vector3(0,90f,270f);
+                    shield.transform.localScale = new Vector3(0.015f,0.015f,0.015f);
+                    Debug.Log("Shield attached");
+                }
+            }
+            //Step 4: Change shirt color
+            child = equippedContainer.transform.GetChild(0);
+            if(child.childCount > 0) {
+                Transform grandChild = child.GetChild(0);
+                InventoryItem item = grandChild.GetComponent<InventoryItem>();
+                if(item != null) {
+                    if(item.item.name.Contains("LeatherArmor")) {
+                        Debug.Log("LeatherArmor Equipped");
+                        torso.GetComponent<MeshRenderer>().material = leatherMaterial;
+                    } else if (item.item.name.Contains("ChainMail")) {
+                        torso.GetComponent<MeshRenderer>().material = metalMaterial;
+                    } else {
+                        torso.GetComponent<MeshRenderer>().material = defaultMaterial;
+                    }
+                } else {
+                    torso.GetComponent<MeshRenderer>().material = defaultMaterial;
                 }
             } else {
-                Debug.LogWarning("No torso found in the scene..... for some reason...");
-            }     
+                torso.GetComponent<MeshRenderer>().material = defaultMaterial;
+            }
+        } else {
+            Debug.LogWarning("No torso found in the scene..... for some reason...");
+        }     
     }
 
     public void RemoveAllChildrenFromTorso() {
@@ -391,7 +418,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     public void PickupItem() {
-        int id = Random.Range(0, itemsToPickup.Length);
+        int id = UnityEngine.Random.Range(0, itemsToPickup.Length);
         bool res = AddItem(itemsToPickup[id]);
         if (res) {
             Debug.Log($"Picked up {itemsToPickup[id].name}");
@@ -402,7 +429,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     public void CreateSpell() {
-        int id = Random.Range(5,9);
+        int id = UnityEngine.Random.Range(5,9);
         bool res = AddItem(itemsToPickup[id]);
         if (res) {
             Debug.Log($"Picked up {itemsToPickup[id].name}");
@@ -455,6 +482,11 @@ public class InventoryManager : MonoBehaviour
                 } else {
                     itemInSlot.RefreshCount();
                 }
+
+                playerEntity.remainingHP += item.healing;
+                playerEntity.remainingMP += item.manaRestore;
+                recalculatePlayerHealthAndMana();
+                
                 SendCurrentInventoryToState();
             }
             return item;
@@ -462,4 +494,24 @@ public class InventoryManager : MonoBehaviour
             return null;
         }
     }
+
+    private void recalculatePlayerHealthAndMana() {
+        playerEntity.remainingHP = Mathf.Clamp(playerEntity.remainingHP, 0, playerEntity.getAdjustedStats().health);
+        playerEntity.remainingMP = Mathf.Clamp(playerEntity.remainingMP, 0, playerEntity.getAdjustedStats().mana);
+    }
+
+    private void DestroyAllPopupPanels()
+{
+    // Find all active popup panels in the scene
+    InventoryItem[] inventoryItems = FindObjectsByType<InventoryItem>(FindObjectsSortMode.None);
+
+    foreach (InventoryItem item in inventoryItems)
+    {
+        if (item.currentPopupPanel != null)
+        {
+            Destroy(item.currentPopupPanel);
+            item.currentPopupPanel = null; // Clear the reference
+        }
+    }
+}
 }
