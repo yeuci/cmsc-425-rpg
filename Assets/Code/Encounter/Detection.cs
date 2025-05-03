@@ -1,3 +1,4 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,6 +7,7 @@ public class Detection : MonoBehaviour
 {
     SphereCollider detector;
     public Entity enemyEntityPrefab;
+    public Animator fadeAnimator;
     [HideInInspector] public PlayerManager playerManager;
 
     void Start()
@@ -20,17 +22,25 @@ public class Detection : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player" && playerManager.playerCanCollide && !playerManager.isMenuActive) {
-            if (enemyEntityPrefab == null) {
-                Debug.Log("MADE ENEMY CONTACT RIGHT AFTER BATTLE SCENE... LIKELY DUE TO GAMEOBJECT NOT DESTROYING FAST ENOUGH");
-                return;
-            }
-
-            Debug.Log("Contact Made");
-
-            playerManager.enemyBeforeCombat = enemyEntityPrefab.enemyId;
-            playerManager.enemyPositionBeforeCombat = transform.position;
-
-            SceneManager.LoadScene("Scenes/CombatManagerScene");
+            StartCoroutine(EnterCombat());
         }
     }
+
+    IEnumerator EnterCombat() {
+        if (enemyEntityPrefab == null) {
+            Debug.Log("MADE ENEMY CONTACT RIGHT AFTER BATTLE SCENE... LIKELY DUE TO GAMEOBJECT NOT DESTROYING FAST ENOUGH");
+            yield break;
+        }
+
+        Debug.Log("Contact Made");
+
+        playerManager.enemyBeforeCombat = enemyEntityPrefab.enemyId;
+        playerManager.enemyPositionBeforeCombat = transform.position;
+
+        EncounterTransition transition = gameObject.AddComponent<EncounterTransition>();
+        transition.animator = fadeAnimator;
+        yield return StartCoroutine(transition.PlayTransition());
+
+        SceneManager.LoadScene("Scenes/CombatManagerScene");
+    }   
 }
