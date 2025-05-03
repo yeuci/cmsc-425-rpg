@@ -1,16 +1,21 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PlaySoundOnHoverAndClick : MonoBehaviour, IPointerEnterHandler
+public class AudioManager : MonoBehaviour, IPointerEnterHandler
 {
+    public AudioSource sceneMusic;
     public AudioSource hover;
     public AudioSource confirm;
     public AudioSource denied;
     public AudioSource use;
+    public AudioSource victoryMusic;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        hover.Play();
+        if (hover != null) {
+            hover.Play();
+        }
+        
     }
 
     public void PlayConfirmed() {
@@ -23,5 +28,9 @@ public class PlaySoundOnHoverAndClick : MonoBehaviour, IPointerEnterHandler
 
     public void PlayUse() {
         use.Play();
+    }
+
+    public void playVictory() {
+        victoryMusic.Play();
     }
 }

@@ -22,6 +22,7 @@ TagManager:
   - InventoryMenu
   - gui_equipment
   - MusicManager
+  - LevelChanger
   layers:
   - Default
   - TransparentFX

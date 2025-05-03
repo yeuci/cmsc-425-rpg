@@ -9,6 +9,7 @@ public class ResultsWindow : MonoBehaviour
     public GameObject window;
     public TMP_Text xpText, lvlText, spText;
     public Image progressBar;
+    GameObject levelChanger;
 
     bool next = false;
 
@@ -18,6 +19,8 @@ public class ResultsWindow : MonoBehaviour
         // window.transform.localScale = new Vector3(0, 1, 1);
         progressBar.fillAmount = 0;
         spText.text = "";
+        levelChanger = GameObject.FindGameObjectWithTag("LevelChanger");
+        Debug.Log(levelChanger.GetComponent<SceneTransition>());
     }
 
     void Update()
@@ -53,6 +56,9 @@ public class ResultsWindow : MonoBehaviour
         }
 
         yield return new WaitUntil(() => next);
+        SceneTransition transition = levelChanger.GetComponent<SceneTransition>();
+        transition.animator = levelChanger.GetComponent<Animator>();
+        yield return StartCoroutine(transition.PlayCombatFinishedTransition());
         SceneManager.LoadScene("DungeonMap");
     }
 }

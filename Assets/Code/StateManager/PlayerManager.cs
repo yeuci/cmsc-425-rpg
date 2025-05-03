@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviour
     public bool isMenuActive = false; 
     [HideInInspector] public GameObject inventoryGameObject;
     [HideInInspector] public GameObject escapeGameObject;
+    [HideInInspector]  GameObject levelChangerGameObject;
     public List<int> defeatedEnemies = new List<int>();
     public bool playerCanCollide = true;
 
@@ -37,6 +38,7 @@ public class PlayerManager : MonoBehaviour
     {
         inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
         escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
+        levelChangerGameObject = GameObject.FindGameObjectWithTag("LevelChanger");
 
         // playerEntity = this.AddComponent<Entity>();
         playerEntity = player.AddComponent<Entity>();
@@ -44,9 +46,9 @@ public class PlayerManager : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        if (inventoryGameObject != null && escapeGameObject != null) {
-            isMenuActive = inventoryGameObject.activeSelf || escapeGameObject.activeSelf;
+    {   
+        if (inventoryGameObject != null && escapeGameObject != null && levelChangerGameObject) {
+            isMenuActive = inventoryGameObject.activeSelf || escapeGameObject.activeSelf || levelChangerGameObject.GetComponent<SceneTransition>().isFadingOut;
         } else {
             isMenuActive = false;
         }
@@ -60,6 +62,7 @@ public class PlayerManager : MonoBehaviour
         {
             inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
             escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
+            levelChangerGameObject = GameObject.FindGameObjectWithTag("LevelChanger");
             this.playerCanCollide = true;
         }
     }
