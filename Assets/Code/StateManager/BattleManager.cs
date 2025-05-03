@@ -94,11 +94,17 @@ public class BattleManager : MonoBehaviour
 
     void Awake()
     {
+        Debug.Log("AN INSTANCE OF BATTLE MANAGER IS CREATED");
         if(enemyEntity != null) {
             Destroy(enemyEntity);
         }   
-        
+
+        if (instance != null && instance != this) {
+            Destroy(gameObject);
+            return;
+        }
         instance = this;
+
         enemyEntity = enemyGameObject.GetComponent<Entity>();
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -175,7 +181,7 @@ public class BattleManager : MonoBehaviour
                 battleTextPanel.SetActive(false);
 
                 playerMove = true;
-                StartCoroutine(StalledUpdate());
+                // StartCoroutine(StalledUpdate());
             }
             
         }
