@@ -159,6 +159,7 @@ public class BattleManager : MonoBehaviour
     IEnumerator StalledUpdate() {
         while (enemyEntity.remainingHP > 0) {
             yield return new WaitUntil(isEnemyMove);
+            UIBlocker.SetActive(true);
 
             battleTextPanel.SetActive(false);
 
@@ -176,6 +177,7 @@ public class BattleManager : MonoBehaviour
 
                 playerMove = true;
                 StartCoroutine(StalledUpdate());
+                UIBlocker.SetActive(false);
             }
             
         }

@@ -18,6 +18,10 @@ public class AudioManager : MonoBehaviour, IPointerEnterHandler
         
     }
 
+    public void PlayHover() {
+        hover.Play();
+    }
+
     public void PlayConfirmed() {
         confirm.Play();
     }

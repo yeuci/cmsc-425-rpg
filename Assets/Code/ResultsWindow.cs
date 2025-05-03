@@ -25,7 +25,7 @@ public class ResultsWindow : MonoBehaviour
 
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Backspace)) next = true;   
+        if (Input.GetMouseButtonDown(0)) next = true;   
     }
 
     public IEnumerator showVictory(int prevLvl, int prevXP, int prevCap, float xpToAdd) {
@@ -56,9 +56,11 @@ public class ResultsWindow : MonoBehaviour
         }
 
         yield return new WaitUntil(() => next);
+
         SceneTransition transition = levelChanger.GetComponent<SceneTransition>();
         transition.animator = levelChanger.GetComponent<Animator>();
         yield return StartCoroutine(transition.PlayCombatFinishedTransition());
+        
         SceneManager.LoadScene("DungeonMap");
     }
 }

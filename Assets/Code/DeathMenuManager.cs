@@ -6,6 +6,7 @@ public class DeathMenuManager : MonoBehaviour
 
     public GameObject deathMenu;
 
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     void Start()
@@ -14,6 +15,7 @@ public class DeathMenuManager : MonoBehaviour
     }
 
     public void Setup() {
+        Debug.Log("SETTING DEATH MENu");
         deathMenu.SetActive(true);
     }
 
