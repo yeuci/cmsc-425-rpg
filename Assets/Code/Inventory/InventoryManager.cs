@@ -33,9 +33,10 @@ public class InventoryManager : MonoBehaviour
     Item[] itemsToPickup;
     
     public bool equipped = false;
-
-    private void Start() {
+    void Awake()
+    {
         playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
+        Debug.Log(playerEntity);
         playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
         inventoryContainer = GameObject.FindGameObjectWithTag("gui_inventory");
         hotbarContainer = GameObject.FindGameObjectWithTag("gui_hotbar");
@@ -43,6 +44,18 @@ public class InventoryManager : MonoBehaviour
         musicManager = GameObject.FindGameObjectWithTag("MusicManager");
 
         itemsToPickup = GetComponentInParent<AvailableItemsAccess>().availableItems;
+    }
+
+    private void Start() {
+        // playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
+        // Debug.Log(playerEntity);
+        // playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
+        // inventoryContainer = GameObject.FindGameObjectWithTag("gui_inventory");
+        // hotbarContainer = GameObject.FindGameObjectWithTag("gui_hotbar");
+        // equippedContainer = GameObject.FindGameObjectWithTag("gui_equipment");
+        // musicManager = GameObject.FindGameObjectWithTag("MusicManager");
+
+        // itemsToPickup = GetComponentInParent<AvailableItemsAccess>().availableItems;
         // for (int i = 0; i < itemsInInventory.Length; i++)
         // {
         //     itemsInInventory[i] = new ItemSave();
