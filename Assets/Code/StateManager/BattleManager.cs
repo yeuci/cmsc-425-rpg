@@ -70,6 +70,7 @@ public class BattleManager : MonoBehaviour
     PlaySpellAnimation spellAnimationPlayer;
 
     // Game over screen
+    GameObject levelChanger;
     public DeathMenuManager gameOverScreen;
     bool isGameOver;
 
@@ -118,6 +119,7 @@ public class BattleManager : MonoBehaviour
         Cursor.visible = true;
 
         musicManager = GameObject.FindGameObjectWithTag("MusicManager")?.GetComponent<AudioManager>();
+        levelChanger = GameObject.FindGameObjectWithTag("LevelChanger");
         battleTextPanel.SetActive(false);
         
         playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
@@ -309,28 +311,43 @@ public class BattleManager : MonoBehaviour
     }
 
     public void playerRun() {
+        StartCoroutine(handlePlayerRun());
+    }
+
+    private IEnumerator handlePlayerRun() {
         if(playerMove){
             animationManager.Animate(BattleOption.RUN);
             battle.perform(BattleOption.RUN);
             if(player.speed > enemy.speed) {
                 musicManager.PlayConfirmed();
                 Debug.Log("Player has fled the encounter");
+                yield return StartCoroutine(displayAction("Player successfully fled!"));
+
+                SceneTransition transition = levelChanger.GetComponent<SceneTransition>();
+                transition.animator = levelChanger.GetComponent<Animator>();
+                yield return StartCoroutine(transition.PlayCombatFinishedTransition());
                 SceneManager.LoadScene("Scenes/DungeonMap");
             }
             else {
-                musicManager.PlayDenied();
                 escapeAttempts += 1;
                 float escapeChance = Mathf.Floor((player.speed * 32) / (enemy.speed / 4)) + 30.0f * escapeAttempts;
                 float rand = UnityEngine.Random.Range(0.0f, 255.0f);
                 if (rand < escapeChance) 
                 {
+                    musicManager.PlayConfirmed();
                     Debug.Log("Player has fled the encounter");
+                    yield return StartCoroutine(displayAction("Player successfully fled!"));
+
+                    SceneTransition transition = levelChanger.GetComponent<SceneTransition>();
+                    transition.animator = levelChanger.GetComponent<Animator>();
+                    yield return StartCoroutine(transition.PlayCombatFinishedTransition());
                     SceneManager.LoadScene("Scenes/DungeonMap");
                 }
                 else 
                 {
-                    // random comment
+                    musicManager.PlayDenied();
                     Debug.Log("Enemy was too fast, player failed to flee the encounter");
+                    yield return StartCoroutine(displayAction("Failed to run!"));
                     playerMove = false;
                 }
             }
@@ -343,7 +360,18 @@ public class BattleManager : MonoBehaviour
             displaySpellButtons();
         } else {
             musicManager.PlayDenied();
+            StartCoroutine(displayAction("No Spells Available!"));
         }
+    }
+
+    private IEnumerator displayAction(string text) {
+        battleTextPanel.SetActive(true);
+        
+        battleTextPanel.GetComponentInChildren<TextMeshProUGUI>().text = text;
+        yield return new WaitForSeconds(1.5f);
+        battleTextPanel.SetActive(false);
+
+        yield break;
     }
 
     // Coroutine so it waits for minigame to finish before moving on
@@ -405,6 +433,7 @@ public class BattleManager : MonoBehaviour
             displayConsumableButtons();
         } else {
             musicManager.PlayDenied();
+            StartCoroutine(displayAction("No Consumables in Inventory!"));
         }
     }
     
