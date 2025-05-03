@@ -37,13 +37,16 @@ public class BattleManager : MonoBehaviour
     // Managers
     public AnimationManager animationManager;
     public DamagePopupGenerator popupGenerator;         // Creates damage popups
+    public PlaySoundOnHoverAndClick musicManager;
 
     public GameObject enemyGameObject;
     public Item usedItem;
 
     public Canvas battleCanvas;
     public GameObject UIBlocker;                        // Blocks UI when minigame is starting
-    public GameObject inventoryPanel;
+
+    public Transform battleTextContainer;
+    public GameObject battleTextPanel;
     
 
     [HideInInspector] public PlayerManager playerManager;
@@ -55,9 +58,7 @@ public class BattleManager : MonoBehaviour
     public TextMeshProUGUI playerManaText;
 
 
-    // Invetory and Spells
-    [HideInInspector] private InventoryManager inventoryManager;
-    
+    // Invetory and Spells    
     public GameObject inventoryButtonPrefab; // Drag the prefab here in the Inspector
     public Transform spellListContainer;
     public GameObject inventoryInfoPrefab;
@@ -70,6 +71,9 @@ public class BattleManager : MonoBehaviour
 
     // Game over screen
     public DeathMenuManager gameOverScreen;
+
+    // Results
+    public ResultsWindow results;
 
     void getPlayerInventory() {
         ItemSave[] playerInventory = playerEntity.inventory;
@@ -105,6 +109,9 @@ public class BattleManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
+        musicManager = GameObject.FindGameObjectWithTag("MusicManager")?.GetComponent<PlaySoundOnHoverAndClick>();
+        battleTextPanel.SetActive(false);
         
         playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
         playerEntity = PlayerManager.player.entity();
@@ -152,11 +159,20 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator StalledUpdate() {
         yield return new WaitUntil(isEnemyMove);
+
+        battleTextPanel.SetActive(false);
+
         yield return new WaitForSeconds(1);
         if (currentItemInfo != null) {
             Destroy(currentItemInfo.gameObject);
         }
+
+        battleTextPanel.SetActive(true);
+
         enemyArtificialIntelligence();
+        yield return new WaitForSeconds(1f);
+        battleTextPanel.SetActive(false);
+
         playerMove = true;
         StartCoroutine(StalledUpdate());
     }
@@ -165,6 +181,7 @@ public class BattleManager : MonoBehaviour
 
     public void playerAttack() {
         if(playerMove) {
+            musicManager.PlayConfirmed();
             usedItem = playerEntity.equippedGear[1].itemData;
             //Set attack to unarmed strike if they don't have a weapon equipped.
             if(usedItem == null) {
@@ -184,6 +201,8 @@ public class BattleManager : MonoBehaviour
             updatePlayerHealthAndManaText();
     
             playerMove = false;
+        } else {
+            musicManager.PlayDenied();
         }
     }
 
@@ -205,12 +224,19 @@ public class BattleManager : MonoBehaviour
         if(enemyEntity.remainingHP <= 0) {
             float enemyXP = enemyEntity.calculateXPValue();
             Debug.Log("Enemy is defeated. Player gains " + enemyXP + " XP!");
-            playerEntity.stats.experience += enemyXP;
 
+            float prevXP = playerEntity.stats.experience;
+            float prevCap = playerEntity.stats.expToNext;
+            int prevLvl = playerEntity.stats.level;
+            
+            playerEntity.stats.experience += enemyXP;
             playerEntity.recalculateLvl();
+            
             Debug.Log("Player is Lvl " + playerEntity.stats.level + "! Progress: " + playerEntity.stats.experience + "/"+playerEntity.stats.expToNext);
 
-            SceneManager.LoadScene("Scenes/DungeonMap");
+            StartCoroutine(results.showVictory(prevLvl, (int)prevXP, (int)prevCap, enemyXP));
+
+            // SceneManager.LoadScene("Scenes/DungeonMap");
         }
     }
 
@@ -266,10 +292,12 @@ public class BattleManager : MonoBehaviour
             animationManager.Animate(BattleOption.RUN);
             battle.perform(BattleOption.RUN);
             if(player.speed > enemy.speed) {
+                musicManager.PlayConfirmed();
                 Debug.Log("Player has fled the encounter");
                 SceneManager.LoadScene("Scenes/DungeonMap");
             }
             else {
+                musicManager.PlayDenied();
                 escapeAttempts += 1;
                 float escapeChance = Mathf.Floor((player.speed * 32) / (enemy.speed / 4)) + 30.0f * escapeAttempts;
                 float rand = UnityEngine.Random.Range(0.0f, 255.0f);
@@ -288,8 +316,11 @@ public class BattleManager : MonoBehaviour
     }
 
     public void playerCast() {
-        if (playerMove) {
+        if (playerMove && spells.Count > 0) {
+            musicManager.PlayConfirmed();
             displaySpellButtons();
+        } else {
+            musicManager.PlayDenied();
         }
     }
 
@@ -311,6 +342,9 @@ public class BattleManager : MonoBehaviour
 
                 battle.perform(BattleOption.USE_ITEM);   
                 playerEntity.remainingMP -= usedItem.manaCost;
+
+                battleTextPanel.SetActive(true);
+                battleTextPanel.GetComponentInChildren<TextMeshProUGUI>().text = usedItem.onUseText;
 
                 if (spellAnimationPlayer != null) {
                     spellAnimationPlayer.damage = battle.dmgDealt;
@@ -344,8 +378,11 @@ public class BattleManager : MonoBehaviour
     }
 
     public void openInventory() {
-        if(playerMove) {
+        if(playerMove && consumables.Count > 0) {
+            musicManager.PlayConfirmed();
             displayConsumableButtons();
+        } else {
+            musicManager.PlayDenied();
         }
     }
     
@@ -355,6 +392,8 @@ public class BattleManager : MonoBehaviour
     public void enemyArtificialIntelligence() {
         System.Random rd = new System.Random();
         int rand_num = rd.Next(1,10);
+        string text = "";
+
         if(rand_num <= player.level) {
             //Take a random action. This works if the player can hit level 10.
             Item itemPick = enemyEntity.inventory[rd.Next(0,enemyEntity.inventoryCount)].itemData;
@@ -399,12 +438,21 @@ public class BattleManager : MonoBehaviour
 
             if(playerEntity.remainingHP - bestDamageOutput <= 0) {
                 battle.setUsedItem(bestDamage);
+                text = "Enemy attacks!";
             } else if (enemyEntity.remainingHP/enemy.health <= 0.25f && bestHealingAvailable > 0) {
                 battle.setUsedItem(bestHealing);
+                text = "Enemy used a potion!";
             } else {
                 battle.setUsedItem(bestDamage);
+                text = "Enemy attacks!";
             }
+
         }
+
+        if (battle.usedItem.actionType == ActionType.Consume) {
+                text = "Enemy used a potion!";
+            }
+        battleTextPanel.GetComponentInChildren<TextMeshProUGUI>().text = text;
         battle.perform(BattleOption.USE_ITEM);
         updatePlayerHealthAndManaBar();
         recalculateEnemyHealthBar(); 
@@ -435,12 +483,17 @@ public class BattleManager : MonoBehaviour
                     if (currentItemInfo != null) {
                         Destroy(currentItemInfo.gameObject);
                     }
+
                     usedItem = item;
                     usedItem.actionType = ActionType.Consume;
                     battle.setUsedItem(usedItem);
 
                     if (item.healing > 0 && playerEntity.remainingHP < player.health || 
                         item.manaRestore > 0 && playerEntity.remainingMP < player.mana) {
+
+                        musicManager.PlayUse();
+                        battleTextPanel.SetActive(true);
+                        battleTextPanel.GetComponentInChildren<TextMeshProUGUI>().text = item.onUseText;
                         battle.perform(BattleOption.USE_ITEM);
 
                         updatePlayerHealthAndManaText();
@@ -455,6 +508,8 @@ public class BattleManager : MonoBehaviour
                         }
                         buttonText.text = $"{item.name}: x{consumable.count}";
                         playerMove = false;
+                    }  else {
+                        musicManager.PlayDenied();
                     }
                 }
              });
@@ -484,6 +539,7 @@ public class BattleManager : MonoBehaviour
             Button button = buttonObj.GetComponent<Button>();
             button.onClick.AddListener(() => {
                 if (playerMove && playerEntity.remainingMP >= item.manaCost) {
+                    buttonObj.GetComponent<PlaySoundOnHoverAndClick>().PlayConfirmed();
                     if (currentItemInfo != null) {
                         Destroy(currentItemInfo.gameObject);
                     }
@@ -510,6 +566,8 @@ public class BattleManager : MonoBehaviour
 
                     StartCoroutine(HandlePlayerCast());
 
+                } else {
+                    buttonObj.GetComponent<PlaySoundOnHoverAndClick>().PlayDenied();
                 }
                 
             });

@@ -5,6 +5,8 @@ public class EscapeMenuManager : MonoBehaviour
 {
 
     public GameObject escapeMenu;
+    public AudioSource pause;
+    public AudioSource unpause;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -19,11 +21,27 @@ public class EscapeMenuManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             escapeMenu.SetActive(!escapeMenu.activeSelf);
+            AudioSource dungeonMusic = GameObject.FindGameObjectWithTag("MusicManager").GetComponent<AudioSource>();
+            Debug.Log(dungeonMusic);
+
+            if (escapeMenu.activeSelf)
+            {
+                pause.Play();
+                StartCoroutine(FadeAudio.FadeOut(dungeonMusic, 0.5f));
+
+            }
+            else
+            {
+                unpause.Play();
+                StartCoroutine(FadeAudio.FadeIn(dungeonMusic, 0.5f, 0.8f));
+            }
+
             Debug.Log("Escape menu toggled! " + escapeMenu.activeSelf);
         }
     }
 
     public void OnResume() {
+        unpause.Play();
         escapeMenu.SetActive(!escapeMenu.activeSelf);
         Debug.Log("Escape menu toggled! " + escapeMenu.activeSelf);
     }

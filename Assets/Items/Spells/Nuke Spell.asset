@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8bebc8a7a720ffd4cbcd1549792d2d21, type: 3}
-  m_Name: Fireball Spell
+  m_Name: Nuke Spell
   m_EditorClassIdentifier: 
-  name: Fireball Spell
-  itemDescription: 'Cost: 10 mana \n\nConjure a fireball'
+  name: Nuke Spell
+  itemDescription: 'Cost: 50 mana\n<i>BLOW EVERYTHING UP</i>'
   type: 1
   actionType: 1
   attack: 0
@@ -24,13 +24,14 @@ MonoBehaviour:
   attackPower: 0
   healing: 0
   manaRestore: 0
-  magicPower: 3
-  manaCost: 10
+  magicPower: 50
+  manaCost: 50
+  onUseText: Casted Nuke Spell!
   stackable: 0
-  image: {fileID: 21300000, guid: 9f69b220176e6964fbd87f5f158d45e3, type: 3}
+  image: {fileID: 21300000, guid: 0d852f5493cecf94a90183f3f83ce947, type: 3}
   maxStack: 1
   consumable: 0
   range: {x: 0, y: 6}
-  minigameOpener: {fileID: 4582565367329616872, guid: 72b42a0af8ceac34585401d9183f630c, type: 3}
-  minigame: {fileID: 1175197647613885606, guid: 8480f66b0742a1143a209e41c125b735, type: 3}
-  spellAnimationPrefab: {fileID: 9202272330787376852, guid: a8d61380918fbc84eb34b5d940b75f96, type: 3}
+  minigameOpener: {fileID: 2784396585945605119, guid: 408b74a7b84aaa944a2a8584e5dbd43c, type: 3}
+  minigame: {fileID: 4333563330098486072, guid: e24b67bf2a4bfbd46ad9b09e87ee6316, type: 3}
+  spellAnimationPrefab: {fileID: 0}

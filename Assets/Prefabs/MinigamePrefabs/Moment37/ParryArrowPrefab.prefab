@@ -88,7 +88,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96d6f93f15b70ee4982458b811d74ddd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 600
+  speed: 700
   targetZone: {fileID: 0}
-  parryWindow: 3
+  parryWindow: 2
   running: 1

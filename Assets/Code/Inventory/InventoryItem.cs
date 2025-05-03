@@ -11,6 +11,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [Header("UI")]
     public Image image;
     public Text countText;
+    public GameObject countTextContainer;
     public Item item;
     public GameObject inventoryPopupPanel;
     // public 
@@ -47,6 +48,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         countText.text = count.ToString();
         bool textVisible = count > 1;
         countText.gameObject.SetActive(textVisible);
+        countTextContainer.SetActive(textVisible);
     }
 
     public void OnBeginDrag(PointerEventData eventData) {
@@ -101,7 +103,6 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         }
 
         currentPopupPanel = Instantiate(inventoryPopupPanel, itemPos);
-        Debug.Log(currentPopupPanel.transform.position);
         currentPopupPanel.transform.localPosition = new Vector3(0, 150, 0);
         currentPopupPanel.GetComponent<PopupInfo>().Setup(itemName, itemDescription);
     }

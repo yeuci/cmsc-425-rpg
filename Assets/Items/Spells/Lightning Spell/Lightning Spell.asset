@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Lightning Spell
   m_EditorClassIdentifier: 
   name: Lightning Spell
-  itemDescription: 'Cost: 30 mana \nGenerate a lightning spell to strike down your
-    foes'
+  itemDescription: 'Cost: <b>30</b> mana \n<i>Generate a lightning spell to strike
+    down your foes</i>'
   type: 1
   actionType: 1
   attack: 0
@@ -27,6 +27,7 @@ MonoBehaviour:
   manaRestore: 0
   magicPower: 15
   manaCost: 30
+  onUseText: Casted Lightning Spell!
   stackable: 0
   image: {fileID: 21300000, guid: 4637953d65a24364aab3372a525b9ed2, type: 3}
   maxStack: 1
