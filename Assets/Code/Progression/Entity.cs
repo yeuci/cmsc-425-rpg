@@ -92,13 +92,15 @@ public class Entity : MonoBehaviour
         foreach (ItemSave iS in equippedGear){
             if(iS != null && iS.itemData != null) {
                 Item i = iS.itemData;
-                adjStats[0] += i.attack;
-                adjStats[1] += i.defense;
-                adjStats[2] += i.health;
-                adjStats[3] += i.mana;
+                adjStats[0] += i.health;
+                adjStats[1] += i.mana;
+                adjStats[2] += i.attack;
+                adjStats[3] += i.defense;
                 adjStats[4] += i.speed;
+                adjStats[5] += i.magic;
             }
         }
+        //STATS: lvl, health, mana, atk, def, spd, mgk
         Stat stats = new Stat(this.stats.level, adjStats[0],adjStats[1],adjStats[2],adjStats[3],adjStats[4], adjStats[5]);
         return stats;
     }

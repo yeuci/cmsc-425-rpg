@@ -94,6 +94,7 @@ public class Item : ScriptableObject {
     public int health;
     public int mana;
     public int speed;
+    public int magic;
 
     [Header("Use Statistics")]
     public int attackPower;
