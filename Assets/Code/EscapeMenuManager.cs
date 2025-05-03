@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 public class EscapeMenuManager : MonoBehaviour
@@ -7,12 +8,15 @@ public class EscapeMenuManager : MonoBehaviour
     public GameObject escapeMenu;
     public AudioSource pause;
     public AudioSource unpause;
+    AudioSource dungeonMusic;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     void Start()
     {
         escapeMenu.SetActive(false);
+        dungeonMusic = GameObject.FindGameObjectWithTag("MusicManager").GetComponent<AudioSource>();
+        
     }
 
     // Update is called once per frame
@@ -21,27 +25,25 @@ public class EscapeMenuManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             escapeMenu.SetActive(!escapeMenu.activeSelf);
-            AudioSource dungeonMusic = GameObject.FindGameObjectWithTag("MusicManager").GetComponent<AudioSource>();
-            Debug.Log(dungeonMusic);
 
             if (escapeMenu.activeSelf)
             {
                 pause.Play();
-                StartCoroutine(FadeAudio.FadeOut(dungeonMusic, 0.5f));
+                StartCoroutine(FadeAudio.FadeOut(dungeonMusic, 0.3f));
 
             }
             else
             {
                 unpause.Play();
-                StartCoroutine(FadeAudio.FadeIn(dungeonMusic, 0.5f, 0.8f));
+                StartCoroutine(FadeAudio.FadeIn(dungeonMusic, 0.3f, 0.8f));
             }
 
-            Debug.Log("Escape menu toggled! " + escapeMenu.activeSelf);
         }
     }
 
     public void OnResume() {
         unpause.Play();
+        StartCoroutine(FadeAudio.FadeIn(dungeonMusic, 0.5f, 0.8f));
         escapeMenu.SetActive(!escapeMenu.activeSelf);
         Debug.Log("Escape menu toggled! " + escapeMenu.activeSelf);
     }

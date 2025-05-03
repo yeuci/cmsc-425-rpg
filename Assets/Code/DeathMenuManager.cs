@@ -5,16 +5,21 @@ public class DeathMenuManager : MonoBehaviour
 {
 
     public GameObject deathMenu;
+    Animator animator;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     void Start()
     {
+        animator = GetComponent<Animator>();
         deathMenu.SetActive(false);
     }
 
     public void Setup() {
         deathMenu.SetActive(true);
+        animator = gameObject.GetComponent<Animator>();
+        animator.enabled = true;
     }
 
     public void OnLastSave() {

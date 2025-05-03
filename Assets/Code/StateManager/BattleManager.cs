@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework.Constraints;
 using TMPro;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
@@ -70,6 +71,7 @@ public class BattleManager : MonoBehaviour
 
     // Game over screen
     public DeathMenuManager gameOverScreen;
+    bool isGameOver;
 
     // Results
     public ResultsWindow results;
@@ -165,6 +167,7 @@ public class BattleManager : MonoBehaviour
     IEnumerator StalledUpdate() {
         while (enemyEntity.remainingHP > 0) {
             yield return new WaitUntil(isEnemyMove);
+            UIBlocker.SetActive(true);
 
             battleTextPanel.SetActive(false);
 
@@ -181,7 +184,7 @@ public class BattleManager : MonoBehaviour
                 battleTextPanel.SetActive(false);
 
                 playerMove = true;
-                // StartCoroutine(StalledUpdate());
+                UIBlocker.SetActive(false);
             }
             
         }
@@ -254,16 +257,20 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    void GameOver() {
+    IEnumerator GameOver() {
+        yield return new WaitUntil(() => playerMove);
+        musicManager.sceneMusic.Stop();
+        musicManager.playDefeat();
         gameOverScreen.Setup();
     }
 
     void checkDeath() {
-        if(playerEntity.remainingHP <= 0) {
+        if(playerEntity.remainingHP <= 0 && !isGameOver) {
+            isGameOver = true;
             Debug.Log("Player has lost the battle");
 
             // TODO: Add death screen NOT load screen
-            GameOver();
+            StartCoroutine(GameOver());
         }
     }
 
