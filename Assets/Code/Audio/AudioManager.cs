@@ -9,6 +9,7 @@ public class AudioManager : MonoBehaviour, IPointerEnterHandler
     public AudioSource denied;
     public AudioSource use;
     public AudioSource victoryMusic;
+    public AudioSource defeat;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -36,5 +37,9 @@ public class AudioManager : MonoBehaviour, IPointerEnterHandler
 
     public void playVictory() {
         victoryMusic.Play();
+    }
+
+    public void playDefeat() {
+        defeat.Play();
     }
 }
