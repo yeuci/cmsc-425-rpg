@@ -322,6 +322,7 @@ public class BattleManager : MonoBehaviour
                 }
                 else 
                 {
+                    // random comment
                     Debug.Log("Enemy was too fast, player failed to flee the encounter");
                     playerMove = false;
                 }
