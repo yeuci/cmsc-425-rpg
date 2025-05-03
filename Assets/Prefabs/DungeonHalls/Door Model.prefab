@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5282174787929094743}
   - component: {fileID: 3464122054618637995}
   - component: {fileID: 1529824199775472883}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Door Knob
   m_TagString: Dungeon
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7738862429097987620}
   - component: {fileID: 5289890370556561877}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Door
   m_TagString: Dungeon
   m_Icon: {fileID: 0}
@@ -143,7 +143,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4380333961697108479}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Door Model
   m_TagString: Dungeon
   m_Icon: {fileID: 0}
@@ -182,7 +182,7 @@ GameObject:
   - component: {fileID: 7381953146804635393}
   - component: {fileID: 9127505419960188145}
   - component: {fileID: 4487676463460794966}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Door Frame
   m_TagString: Dungeon
   m_Icon: {fileID: 0}

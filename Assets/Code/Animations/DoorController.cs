@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class DoorController : MonoBehaviour
 {
-    public float openAngle = -90f;
-    public float openTime = 3f;
+    public float openAngle = 90f;
+    public float openTime = 1f;
     public float interactionDistance = 3f;
 
     private Transform player;
@@ -39,7 +39,7 @@ public class DoorController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.E) && !isOpening)
             {
                 Vector3 doorToPlayer = player.position - transform.position;
-                float dot = Vector3.Dot(transform.right, doorToPlayer);
+                float dot = Vector3.Dot(-transform.forward, doorToPlayer);
 
                 isFacingPositive = dot < 0;
 
@@ -62,7 +62,7 @@ public class DoorController : MonoBehaviour
 
         while (elapsed < openTime)
         {
-            transform.localRotation = Quaternion.Slerp(startRotation, targetRotation, elapsed / openTime);
+            transform.localRotation = Quaternion.Slerp(startRotation, targetRotation, elapsed * 3 / openTime);
             elapsed += Time.deltaTime;
             yield return null;
         }
