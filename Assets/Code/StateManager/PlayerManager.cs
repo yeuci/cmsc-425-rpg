@@ -30,6 +30,9 @@ public class PlayerManager : MonoBehaviour
         player = this;
         playerEntity = player.AddComponent<Entity>();
         DontDestroyOnLoad(gameObject);
+        inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
+        escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
+        levelChangerGameObject = GameObject.FindGameObjectWithTag("LevelChanger");
 
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -37,9 +40,9 @@ public class PlayerManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
-        escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
-        levelChangerGameObject = GameObject.FindGameObjectWithTag("LevelChanger");
+        // inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
+        // escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
+        // levelChangerGameObject = GameObject.FindGameObjectWithTag("LevelChanger");
     }
 
     // Update is called once per frame
