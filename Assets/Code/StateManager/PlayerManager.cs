@@ -30,6 +30,9 @@ public class PlayerManager : MonoBehaviour
         player = this;
         playerEntity = player.AddComponent<Entity>();
         DontDestroyOnLoad(gameObject);
+        inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
+        escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
+        levelChangerGameObject = GameObject.FindGameObjectWithTag("LevelChanger");
 
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -37,15 +40,15 @@ public class PlayerManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
-        escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
-        levelChangerGameObject = GameObject.FindGameObjectWithTag("LevelChanger");
+        // inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
+        // escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
+        // levelChangerGameObject = GameObject.FindGameObjectWithTag("LevelChanger");
     }
 
     // Update is called once per frame
     void Update()
     {   
-        if (inventoryGameObject != null && escapeGameObject != null && levelChangerGameObject) {
+        if (inventoryGameObject != null && escapeGameObject != null && levelChangerGameObject != null) {
             isMenuActive = inventoryGameObject.activeSelf || escapeGameObject.activeSelf || levelChangerGameObject.GetComponent<SceneTransition>().isFadingOut;
         } else {
             isMenuActive = false;
