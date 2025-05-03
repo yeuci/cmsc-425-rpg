@@ -5,7 +5,6 @@ using System.Linq;
 using TMPro;
 using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
-using Unity.VisualScripting.ReorderableList;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -37,7 +36,7 @@ public class BattleManager : MonoBehaviour
     // Managers
     public AnimationManager animationManager;
     public DamagePopupGenerator popupGenerator;         // Creates damage popups
-    public PlaySoundOnHoverAndClick musicManager;
+    public AudioManager musicManager;
 
     public GameObject enemyGameObject;
     public Item usedItem;
@@ -110,7 +109,7 @@ public class BattleManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
 
-        musicManager = GameObject.FindGameObjectWithTag("MusicManager")?.GetComponent<PlaySoundOnHoverAndClick>();
+        musicManager = GameObject.FindGameObjectWithTag("MusicManager")?.GetComponent<AudioManager>();
         battleTextPanel.SetActive(false);
         
         playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
@@ -158,23 +157,28 @@ public class BattleManager : MonoBehaviour
 
 
     IEnumerator StalledUpdate() {
-        yield return new WaitUntil(isEnemyMove);
+        while (enemyEntity.remainingHP > 0) {
+            yield return new WaitUntil(isEnemyMove);
 
-        battleTextPanel.SetActive(false);
+            battleTextPanel.SetActive(false);
 
-        yield return new WaitForSeconds(1);
-        if (currentItemInfo != null) {
-            Destroy(currentItemInfo.gameObject);
+            if (enemyEntity.remainingHP > 0) {
+                yield return new WaitForSeconds(1);
+                if (currentItemInfo != null) {
+                    Destroy(currentItemInfo.gameObject);
+                }
+
+                battleTextPanel.SetActive(true);
+
+                enemyArtificialIntelligence();
+                yield return new WaitForSeconds(1f);
+                battleTextPanel.SetActive(false);
+
+                playerMove = true;
+                StartCoroutine(StalledUpdate());
+            }
+            
         }
-
-        battleTextPanel.SetActive(true);
-
-        enemyArtificialIntelligence();
-        yield return new WaitForSeconds(1f);
-        battleTextPanel.SetActive(false);
-
-        playerMove = true;
-        StartCoroutine(StalledUpdate());
     }
 
 
@@ -233,6 +237,10 @@ public class BattleManager : MonoBehaviour
             playerEntity.recalculateLvl();
             
             Debug.Log("Player is Lvl " + playerEntity.stats.level + "! Progress: " + playerEntity.stats.experience + "/"+playerEntity.stats.expToNext);
+
+            musicManager.sceneMusic.Stop();
+            musicManager.playVictory();
+            UIBlocker.SetActive(true);
 
             StartCoroutine(results.showVictory(prevLvl, (int)prevXP, (int)prevCap, enemyXP));
 
@@ -539,7 +547,7 @@ public class BattleManager : MonoBehaviour
             Button button = buttonObj.GetComponent<Button>();
             button.onClick.AddListener(() => {
                 if (playerMove && playerEntity.remainingMP >= item.manaCost) {
-                    buttonObj.GetComponent<PlaySoundOnHoverAndClick>().PlayConfirmed();
+                    buttonObj.GetComponent<AudioManager>().PlayConfirmed();
                     if (currentItemInfo != null) {
                         Destroy(currentItemInfo.gameObject);
                     }
@@ -567,7 +575,7 @@ public class BattleManager : MonoBehaviour
                     StartCoroutine(HandlePlayerCast());
 
                 } else {
-                    buttonObj.GetComponent<PlaySoundOnHoverAndClick>().PlayDenied();
+                    buttonObj.GetComponent<AudioManager>().PlayDenied();
                 }
                 
             });
