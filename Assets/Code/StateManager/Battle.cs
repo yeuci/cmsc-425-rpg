@@ -96,7 +96,7 @@ public class Battle
 
                 Debug.Log("Ending turn. Old Attacker: "+attacker.name);
                 endTurn();
-                Debug.Log("Attacker: "+attacker.name);
+                Debug.Log($"{battleOption} Attacker: "+attacker.name);
                 break;
             
             case BattleOption.RUN:

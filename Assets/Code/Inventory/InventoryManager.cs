@@ -268,9 +268,9 @@ public class InventoryManager : MonoBehaviour
 
         }
 
-        if (Input.GetKeyDown(KeyCode.E)) {
-            SendCurrentInventoryToState();
-        }
+        // if (Input.GetKeyDown(KeyCode.E)) {
+        //     SendCurrentInventoryToState();
+        // }
 
         // SHOW WEAPON ON CHARACTER IF ITS CURRENTLY SELECTED
         //Step 1: Get the torso
