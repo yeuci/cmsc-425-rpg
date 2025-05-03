@@ -42250,6 +42250,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyEntityPrefab: {fileID: 1447707662}
+  fadeAnimator: {fileID: 1754945013}
   playerManager: {fileID: 0}
 --- !u!1001 &1447978255
 PrefabInstance:
@@ -59981,6 +59982,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyEntityPrefab: {fileID: 2101353951}
+  fadeAnimator: {fileID: 0}
   playerManager: {fileID: 0}
 --- !u!4 &2102859420 stripped
 Transform:
