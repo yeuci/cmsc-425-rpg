@@ -45,7 +45,7 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
-        if (inventoryGameObject != null && escapeGameObject != null && levelChangerGameObject) {
+        if (inventoryGameObject != null && escapeGameObject != null && levelChangerGameObject != null) {
             isMenuActive = inventoryGameObject.activeSelf || escapeGameObject.activeSelf || levelChangerGameObject.GetComponent<SceneTransition>().isFadingOut;
         } else {
             isMenuActive = false;
