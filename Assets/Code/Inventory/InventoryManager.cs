@@ -35,8 +35,9 @@ public class InventoryManager : MonoBehaviour
     public bool equipped = false;
     void Awake()
     {
-        playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
-        Debug.Log(playerEntity);
+        if (playerEntity == null) {
+            playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
+        }
         playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
         inventoryContainer = GameObject.FindGameObjectWithTag("gui_inventory");
         hotbarContainer = GameObject.FindGameObjectWithTag("gui_hotbar");
@@ -47,22 +48,6 @@ public class InventoryManager : MonoBehaviour
     }
 
     private void Start() {
-        // playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
-        // Debug.Log(playerEntity);
-        // playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
-        // inventoryContainer = GameObject.FindGameObjectWithTag("gui_inventory");
-        // hotbarContainer = GameObject.FindGameObjectWithTag("gui_hotbar");
-        // equippedContainer = GameObject.FindGameObjectWithTag("gui_equipment");
-        // musicManager = GameObject.FindGameObjectWithTag("MusicManager");
-
-        // itemsToPickup = GetComponentInParent<AvailableItemsAccess>().availableItems;
-        // for (int i = 0; i < itemsInInventory.Length; i++)
-        // {
-        //     itemsInInventory[i] = new ItemSave();
-        //     itemsInInventory[i].count = Random.Range(1, 5);
-        //     itemsInInventory[i].item = itemsArray[Random.Range(0, itemsArray.Length)];
-        // }
-
         inventoryGroup.SetActive(false);
         ChangeSelectedSlot(0);
     }
@@ -109,6 +94,9 @@ public class InventoryManager : MonoBehaviour
 
     public void SendCurrentInventoryToState() {
         Debug.Log("------ HERE ARE THE SLOTS IN THE HOTBAR WHEN CALLED ------");
+        if (playerEntity == null) {
+            playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
+        }
         playerEntity.inventoryCount = 0;    
 
         for (int i = 0; i < 7; i++) 
@@ -498,8 +486,6 @@ public class InventoryManager : MonoBehaviour
                 } else {
                     itemInSlot.RefreshCount();
                 }
-
-
 
                 playerEntity.remainingHP += item.healing;
                 playerEntity.remainingMP += item.manaRestore;
