@@ -25,6 +25,7 @@ public class InventoryManager : MonoBehaviour
     [HideInInspector] public GameObject inventoryContainer;
     [HideInInspector] public GameObject hotbarContainer;
     [HideInInspector] public GameObject equippedContainer;
+    [HideInInspector] public GameObject musicManager;
     // random items for testing
     private ItemSave[] itemsInInventory = new ItemSave[25];
     public Item[] itemsArray;
@@ -39,6 +40,7 @@ public class InventoryManager : MonoBehaviour
         inventoryContainer = GameObject.FindGameObjectWithTag("gui_inventory");
         hotbarContainer = GameObject.FindGameObjectWithTag("gui_hotbar");
         equippedContainer = GameObject.FindGameObjectWithTag("gui_equipment");
+        musicManager = GameObject.FindGameObjectWithTag("MusicManager");
 
         itemsToPickup = GetComponentInParent<AvailableItemsAccess>().availableItems;
         // for (int i = 0; i < itemsInInventory.Length; i++)
@@ -477,11 +479,14 @@ public class InventoryManager : MonoBehaviour
             Item item = itemInSlot.item;
             if (item.consumable == true) {
                 itemInSlot.count--;
+                musicManager.GetComponent<AudioManager>().PlayUse();
                 if (itemInSlot.count <= 0) {
                     Destroy(itemInSlot.gameObject);
                 } else {
                     itemInSlot.RefreshCount();
                 }
+
+
 
                 playerEntity.remainingHP += item.healing;
                 playerEntity.remainingMP += item.manaRestore;

@@ -46965,6 +46965,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1642883402}
   - component: {fileID: 1642883401}
+  - component: {fileID: 1642883403}
   m_Layer: 0
   m_Name: MusicManager
   m_TagString: MusicManager
@@ -47084,6 +47085,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1642883403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1642883400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d847def33fa79b48b86e0d7de124cbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneMusic: {fileID: 1642883401}
+  hover: {fileID: 0}
+  confirm: {fileID: 0}
+  denied: {fileID: 0}
+  use: {fileID: 0}
+  victoryMusic: {fileID: 0}
 --- !u!1001 &1643441024
 PrefabInstance:
   m_ObjectHideFlags: 0
