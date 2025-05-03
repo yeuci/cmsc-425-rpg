@@ -240,6 +240,7 @@ public class BattleManager : MonoBehaviour
 
             musicManager.sceneMusic.Stop();
             musicManager.playVictory();
+            UIBlocker.SetActive(true);
 
             StartCoroutine(results.showVictory(prevLvl, (int)prevXP, (int)prevCap, enemyXP));
 

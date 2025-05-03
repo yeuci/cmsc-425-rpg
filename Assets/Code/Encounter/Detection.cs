@@ -7,12 +7,13 @@ public class Detection : MonoBehaviour
 {
     SphereCollider detector;
     public Entity enemyEntityPrefab;
-    public Animator fadeAnimator;
+    GameObject levelChanger;
     [HideInInspector] public PlayerManager playerManager;
 
     void Start()
     {   
         playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
+        levelChanger = GameObject.FindGameObjectWithTag("LevelChanger");
 
         detector = gameObject.AddComponent<SphereCollider>();
         detector.isTrigger = true;
@@ -37,9 +38,10 @@ public class Detection : MonoBehaviour
         playerManager.enemyBeforeCombat = enemyEntityPrefab.enemyId;
         playerManager.enemyPositionBeforeCombat = transform.position;
 
-        EncounterTransition transition = gameObject.AddComponent<EncounterTransition>();
-        transition.animator = fadeAnimator;
-        yield return StartCoroutine(transition.PlayTransition());
+        // Fades scene to black before changing to combat scene
+        SceneTransition transition = levelChanger.GetComponent<SceneTransition>();
+        transition.animator = levelChanger.GetComponent<Animator>();
+        yield return StartCoroutine(transition.PlayEncounterTransition());
 
         SceneManager.LoadScene("Scenes/CombatManagerScene");
     }   
