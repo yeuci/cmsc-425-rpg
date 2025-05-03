@@ -327,7 +327,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -6998888067459783369, guid: bddf9919b07890b44ba4d83bfee2c073, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -6998888067459783369, guid: bddf9919b07890b44ba4d83bfee2c073, type: 3}
+      propertyPath: m_TagString
+      value: Dungeon
       objectReference: {fileID: 0}
     - target: {fileID: -5533386481044384000, guid: bddf9919b07890b44ba4d83bfee2c073, type: 3}
       propertyPath: m_LocalRotation.w

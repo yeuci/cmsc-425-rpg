@@ -3,25 +3,19 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
   tags:
-  - Ally
-  - Enemy
-  - Torso
-  - InventoryManager
-  - InventoryManger
-  - TrapDynamicComponent
   - Dungeon
-  - PlayerState
-  - vfx_fireball
-  - vfx_trail
-  - vfx_claw
-  - vfx_heal
-  - gui_inventory
   - gui_hotbar
+  - PlayerState
+  - InventoryManager
+  - gui_inventory
+  - gui_equipment
   - EscapeMenu
   - InventoryMenu
-  - gui_equipment
+  - vfx_fireball
+  - Torso
+  - Enemy
+  - TrapDynamicComponent
   - MusicManager
   - LevelChanger
   layers:
@@ -31,7 +25,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Dungeon
   - 
   - 
   - 
