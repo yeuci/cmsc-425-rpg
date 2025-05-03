@@ -28,6 +28,7 @@ public class PlayerManager : MonoBehaviour
 
         Debug.Log("MADE");
         player = this;
+        playerEntity = player.AddComponent<Entity>();
         DontDestroyOnLoad(gameObject);
 
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -39,9 +40,6 @@ public class PlayerManager : MonoBehaviour
         inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
         escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
         levelChangerGameObject = GameObject.FindGameObjectWithTag("LevelChanger");
-
-        // playerEntity = this.AddComponent<Entity>();
-        playerEntity = player.AddComponent<Entity>();
     }
 
     // Update is called once per frame

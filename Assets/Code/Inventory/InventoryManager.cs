@@ -33,9 +33,11 @@ public class InventoryManager : MonoBehaviour
     Item[] itemsToPickup;
     
     public bool equipped = false;
-
-    private void Start() {
-        playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
+    void Awake()
+    {
+        if (playerEntity == null) {
+            playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
+        }
         playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
         inventoryContainer = GameObject.FindGameObjectWithTag("gui_inventory");
         hotbarContainer = GameObject.FindGameObjectWithTag("gui_hotbar");
@@ -43,13 +45,9 @@ public class InventoryManager : MonoBehaviour
         musicManager = GameObject.FindGameObjectWithTag("MusicManager");
 
         itemsToPickup = GetComponentInParent<AvailableItemsAccess>().availableItems;
-        // for (int i = 0; i < itemsInInventory.Length; i++)
-        // {
-        //     itemsInInventory[i] = new ItemSave();
-        //     itemsInInventory[i].count = Random.Range(1, 5);
-        //     itemsInInventory[i].item = itemsArray[Random.Range(0, itemsArray.Length)];
-        // }
+    }
 
+    private void Start() {
         inventoryGroup.SetActive(false);
         ChangeSelectedSlot(0);
     }
@@ -96,6 +94,9 @@ public class InventoryManager : MonoBehaviour
 
     public void SendCurrentInventoryToState() {
         Debug.Log("------ HERE ARE THE SLOTS IN THE HOTBAR WHEN CALLED ------");
+        if (playerEntity == null) {
+            playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
+        }
         playerEntity.inventoryCount = 0;    
 
         for (int i = 0; i < 7; i++) 
@@ -485,8 +486,6 @@ public class InventoryManager : MonoBehaviour
                 } else {
                     itemInSlot.RefreshCount();
                 }
-
-
 
                 playerEntity.remainingHP += item.healing;
                 playerEntity.remainingMP += item.manaRestore;

@@ -20,7 +20,6 @@ public class ResultsWindow : MonoBehaviour
         progressBar.fillAmount = 0;
         spText.text = "";
         levelChanger = GameObject.FindGameObjectWithTag("LevelChanger");
-        Debug.Log(levelChanger.GetComponent<SceneTransition>());
     }
 
     void Update()
