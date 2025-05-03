@@ -38,7 +38,7 @@ public class ResultsWindow : MonoBehaviour
         int currXP = prevXP, currCap = prevCap;
         while(addedXP < xpToAdd) {
             addedXP += xpToAdd * Time.deltaTime / 3;
-            currXP = (int)Mathf.Round(addedXP + prevXP);
+            currXP = (int)Mathf.Floor(addedXP + prevXP);
             xpText.text = "XP: " + currXP + "/" + currCap;
             progressBar.fillAmount = (float)currXP/currCap;
             if(currXP >= currCap) {
