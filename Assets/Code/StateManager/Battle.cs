@@ -60,17 +60,15 @@ public class Battle
             case BattleOption.USE_ITEM:
                 Debug.Log(usedItem);
                 if(usedItem.actionType == ActionType.Attack){
-                    float damage =  attackerStats.attack*usedItem.attackPower/defenderStats.defense;
+                    int damage =  Mathf.RoundToInt(attackerStats.attack*usedItem.attackPower/defenderStats.defense);
                     defender.remainingHP -= damage;
 
                     popupGenerator.CreatePopUp(defender.transform.position, damage.ToString(), defender.transform.right, DMGCOLOR);
                 } else if (usedItem.actionType == ActionType.Cast) {
-                    float damage = attackerStats.magic*usedItem.magicPower;
+                    int damage = Mathf.RoundToInt(attackerStats.magic*usedItem.magicPower);
                     defender.remainingHP -= damage;
 
                     dmgDealt = damage;
-
-                    // popupGenerator.CreatePopUp(defender.transform.position, damage.ToString(),defender.transform.right, DMGCOLOR);
                 } else if (usedItem.actionType == ActionType.Consume) {
                     
                     if (usedItem.healing > 0) {

@@ -518,10 +518,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d847def33fa79b48b86e0d7de124cbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneMusic: {fileID: 0}
   hover: {fileID: -6455658663954293352}
   confirm: {fileID: -5673607979297442492}
   denied: {fileID: -6179949439451831063}
   use: {fileID: -3889990037914497267}
+  victoryMusic: {fileID: 0}
+  defeat: {fileID: 0}
 --- !u!114 &-8143550762304873873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -699,8 +702,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Button
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: f9f24115501b54a47b937bc60f164a45, type: 2}
+  m_sharedMaterial: {fileID: 7646724313028497820, guid: f9f24115501b54a47b937bc60f164a45, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -724,7 +727,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 17.9
+  m_fontSize: 17.7
   m_fontSizeBase: 10
   m_fontWeight: 400
   m_enableAutoSizing: 1
