@@ -8,14 +8,12 @@ public class ActivateSpikes : MonoBehaviour
     GameObject player;
     AudioSource spikeAudio;
     CharacterController controller;
-    public Entity playerEntity;
     void Start()
     {
         BoxCollider hitbox = GetComponent<BoxCollider>();
         hitbox.isTrigger = true;
         spikes = transform.parent.gameObject;
         player = GameObject.FindGameObjectWithTag("Player");
-        Entity playerEntity = player.GetComponent<Entity>();
         spikeAudio = GetComponent<AudioSource>();
         controller = player.GetComponent<CharacterController>();
     }
@@ -24,8 +22,9 @@ public class ActivateSpikes : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player") {
-            if (playerEntity != null) {
-                playerEntity.remainingHP -= 15; // Deal 15 damage to player's health   
+            Entity playerE = GameObject.FindGameObjectWithTag("PlayerState").GetComponent<Entity>();
+            if(playerE != null) {
+                playerE.remainingHP -= 15;
             }
             
             Vector3 knockbackDirection = (other.transform.position - transform.position).normalized;
