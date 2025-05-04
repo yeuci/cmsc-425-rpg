@@ -176,7 +176,7 @@ public class BattleManager : MonoBehaviour
 
                 battleTextPanel.SetActive(true);
 
-                enemyArtificialIntelligence();
+                improvedEnemyAI();
                 yield return new WaitForSeconds(1f);
                 battleTextPanel.SetActive(false);
 
@@ -467,6 +467,86 @@ public class BattleManager : MonoBehaviour
         if (battle.usedItem.actionType == ActionType.Consume) {
                 text = "Enemy used a potion!";
             }
+        battleTextPanel.GetComponentInChildren<TextMeshProUGUI>().text = text;
+        battle.perform(BattleOption.USE_ITEM);
+        updatePlayerHealthAndManaBar();
+        recalculateEnemyHealthBar(); 
+        updatePlayerHealthAndManaText();
+    }
+
+
+    public void improvedEnemyAI() {
+        //Step 1: Get the best source of damage and best source of healing available
+        Item [] items = GetComponentInParent<AvailableItemsAccess>().availableItems;
+        Item bestDamage, bestHealing;
+        float maxDamageOutput, maxHealing;
+        int idx = 0;
+        string text = "Enemy attacks!";
+        //Initialize variables to value of equipped main hand or unarmed attack
+        if(enemyEntity.equippedGear[1] == null){
+            bestDamage = items[9];
+            bestHealing = items[9];
+            battle.setUsedItem(bestDamage);
+            maxDamageOutput = battle.returnDamage();
+            maxHealing = items[9].healing;
+        } else {
+            bestDamage = enemyEntity.equippedGear[1].itemData;
+            bestHealing = enemyEntity.equippedGear[1].itemData;
+            battle.setUsedItem(bestDamage);
+            maxDamageOutput = battle.returnDamage();
+            maxHealing = bestDamage.healing;
+        }
+        //I now need to loop through my inventory to see if I have a better option.
+        /*foreach (ItemSave iS in enemyEntity.inventory){
+            if(iS != null & iS.itemData!= null) { //If the item actually exists
+                Item inventoryItem = iS.itemData;
+                Debug.Log("Checking "+inventoryItem.name);
+                //If it is either not a spell or I have enough MP to cast it, I can check it out.
+                if(inventoryItem.actionType != ActionType.Cast || inventoryItem.manaCost <= enemyEntity.remainingMP){
+                    battle.setUsedItem(inventoryItem);
+                    if(battle.returnDamage() > maxDamageOutput){
+                        bestDamage = inventoryItem;
+                        maxDamageOutput = battle.returnDamage();
+                    }
+                    if(inventoryItem.healing > maxHealing){
+                        bestHealing = inventoryItem;
+                        maxHealing = inventoryItem.healing;
+                    }
+                }
+            }
+        }*/
+        for(int i =0; i < enemyEntity.inventory.Length; i++){
+            if(enemyEntity.inventory[i] != null && enemyEntity.inventory[i].itemData != null){
+                Item inventoryItem = enemyEntity.inventory[i].itemData;
+                Debug.Log("Checking "+inventoryItem.name);
+                //If it is either not a spell or I have enough MP to cast it, I can check it out.
+                if(inventoryItem.actionType != ActionType.Cast || inventoryItem.manaCost <= enemyEntity.remainingMP){
+                    battle.setUsedItem(inventoryItem);
+                    if(battle.returnDamage() > maxDamageOutput){
+                        bestDamage = inventoryItem;
+                        maxDamageOutput = battle.returnDamage();
+                    }
+                    if(inventoryItem.healing > maxHealing){
+                        idx = i;
+                        bestHealing = inventoryItem;
+                        maxHealing = inventoryItem.healing;
+                    }
+                }
+            }
+        }
+        //By this point, I have obtained the best items to be used, so I need to make the decision
+        if(maxDamageOutput >= playerEntity.remainingHP){
+            battle.setUsedItem(bestDamage);
+        } else if (enemyEntity.remainingHP/enemy.health <= 0.25f && maxHealing > 0){
+            enemyEntity.inventory[idx].count -= 1;
+            if(enemyEntity.inventory[idx].count == 0){
+                enemyEntity.inventory[idx] = null;
+            }
+            battle.setUsedItem(bestHealing);
+            text = "Enemy used a potion!";
+        } else {
+            battle.setUsedItem(bestDamage);
+        }
         battleTextPanel.GetComponentInChildren<TextMeshProUGUI>().text = text;
         battle.perform(BattleOption.USE_ITEM);
         updatePlayerHealthAndManaBar();
