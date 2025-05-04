@@ -21,12 +21,14 @@ MonoBehaviour:
   health: 0
   mana: 0
   speed: 0
+  magic: 0
   attackPower: 0
   healing: 0
   manaRestore: 0
   magicPower: 0
   manaCost: 0
-  stackable: 1
+  onUseText: 
+  stackable: 0
   image: {fileID: 21300000, guid: 40f2d97515d2434418f9dcdd11d438a2, type: 3}
   maxStack: 0
   consumable: 0
