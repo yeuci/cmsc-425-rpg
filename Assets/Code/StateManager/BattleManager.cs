@@ -181,7 +181,7 @@ public class BattleManager : MonoBehaviour
 
                 battleTextPanel.SetActive(true);
 
-                enemyArtificialIntelligence();
+                improvedEnemyAI();
                 yield return new WaitForSeconds(1f);
                 battleTextPanel.SetActive(false);
 
@@ -200,7 +200,7 @@ public class BattleManager : MonoBehaviour
             usedItem = playerEntity.equippedGear[1].itemData;
             //Set attack to unarmed strike if they don't have a weapon equipped.
             if(usedItem == null) {
-                usedItem = GetComponentInParent<AvailableItemsAccess>().availableItems[8];
+                usedItem = GetComponentInParent<AvailableItemsAccess>().availableItems[9];
             }
 
             animationManager.Animate(BattleOption.ATTACK);
@@ -439,70 +439,81 @@ public class BattleManager : MonoBehaviour
     
     
 //Enemy Action
-    //The goal is to have the AI make less mistakes as the player becomes more powerful.
-    public void enemyArtificialIntelligence() {
-        System.Random rd = new System.Random();
-        int rand_num = rd.Next(1,10);
-        string text = "";
-
-        if(rand_num <= player.level) {
-            //Take a random action. This works if the player can hit level 10.
-            Item itemPick = enemyEntity.inventory[rd.Next(0,enemyEntity.inventoryCount)].itemData;
-            battle.setUsedItem(itemPick);
+    public void improvedEnemyAI() {
+        //Step 1: Get the best source of damage and best source of healing available
+        Item [] items = GetComponentInParent<AvailableItemsAccess>().availableItems;
+        Item bestDamage, bestHealing;
+        float maxDamageOutput, maxHealing;
+        int idx = 0, numItems = 1;
+        string text = "Enemy attacks!";
+        //Initialize variables to value of equipped main hand or unarmed attack
+        if(enemyEntity.equippedGear[1] == null){
+            bestDamage = items[9];
+            bestHealing = items[9];
+            battle.setUsedItem(bestDamage);
+            maxDamageOutput = battle.returnDamage();
+            maxHealing = items[9].healing;
         } else {
-            Item defaultItem;
-            if(enemyEntity.equippedGear[1] == null) {
-                defaultItem = GetComponentInParent<AvailableItemsAccess>().availableItems[8];
-            } else {
-                defaultItem = enemyEntity.equippedGear[1].itemData;
-            }
-            battle.setUsedItem(defaultItem);
-
-            Item bestDamage = defaultItem;
-            Item bestHealing = defaultItem;
-            float bestDamageOutput = battle.returnDamage(); //Starts with currently equipped weapon
-            float bestHealingAvailable = defaultItem.healing; //Starts with healing of currently equipped weapon
-            
-            foreach (ItemSave iS in enemyEntity.inventory) {
-                if(iS != null && iS.itemData != null) {
-                    if(iS.itemData.healing > bestHealingAvailable) {
-                        bestHealing = iS.itemData;
-                        bestHealingAvailable = iS.itemData.healing;
+            bestDamage = enemyEntity.equippedGear[1].itemData;
+            bestHealing = enemyEntity.equippedGear[1].itemData;
+            battle.setUsedItem(bestDamage);
+            maxDamageOutput = battle.returnDamage();
+            maxHealing = bestDamage.healing;
+        }
+        //Get best items in my inventory
+        for(int i =0; i < enemyEntity.inventory.Length; i++){
+            if(enemyEntity.inventory[i] != null && enemyEntity.inventory[i].itemData != null){
+                numItems++;
+                Item inventoryItem = enemyEntity.inventory[i].itemData;
+                Debug.Log("Checking "+inventoryItem.name);
+                //If it is either not a spell or I have enough MP to cast it, I can check it out.
+                if(inventoryItem.actionType != ActionType.Cast || inventoryItem.manaCost <= enemyEntity.remainingMP){
+                    battle.setUsedItem(inventoryItem);
+                    if(battle.returnDamage() > maxDamageOutput){
+                        bestDamage = inventoryItem;
+                        maxDamageOutput = battle.returnDamage();
                     }
-                    if(iS.itemData.actionType == ActionType.Attack) { //This should never trigger for an enemy, as they will only have 1 weapon
-                        battle.setUsedItem(iS.itemData);
-                        if(battle.returnDamage() >= bestDamageOutput) { //Save spell if possible
-                            enemyEntity.equippedGear[1] = iS; //Set best damage output to currently equipped weapon
-                            bestDamageOutput = battle.returnDamage();
-                            bestDamage = iS.itemData;
-                        }
-                    } else if(iS.itemData.actionType == ActionType.Cast && enemyEntity.remainingMP >= iS.itemData.manaCost) {
-                        battle.setUsedItem(iS.itemData);
-                        if(battle.returnDamage() > bestDamageOutput) {
-                            bestDamageOutput = battle.returnDamage();
-                            bestDamage = iS.itemData;
-                        }
-                        
+                    if(inventoryItem.healing > maxHealing){
+                        idx = i;
+                        bestHealing = inventoryItem;
+                        maxHealing = inventoryItem.healing;
                     }
                 }
             }
-
-            if(playerEntity.remainingHP - bestDamageOutput <= 0) {
+        }
+        //By this point, I have obtained the best items to be used, so I need to make the decision
+        int rand_num = UnityEngine.Random.Range(1,11);
+        if(rand_num > player.level){ //As the player gets more powerful, the enemy is less likely to make mistakes
+            Debug.Log("Taking Random Action");
+            rand_num = UnityEngine.Random.Range(0,numItems);
+            
+            Debug.Log("Item Selected is "+rand_num);
+            if(rand_num == numItems-1){
+                battle.setUsedItem(enemyEntity.equippedGear[1].itemData);
+            } else {
+                battle.setUsedItem(enemyEntity.inventory[rand_num].itemData);
+                if(enemyEntity.inventory[rand_num].itemData.actionType == ActionType.Consume){
+                    text = "Enemy used a potion!";
+                    enemyEntity.inventory[rand_num].count -= 1;
+                    if(enemyEntity.inventory[rand_num].count == 0){
+                        enemyEntity.inventory[rand_num] = null;
+                    }
+                }
+            }
+        } else {
+            if(maxDamageOutput >= playerEntity.remainingHP){
                 battle.setUsedItem(bestDamage);
-                text = "Enemy attacks!";
-            } else if (enemyEntity.remainingHP/enemy.health <= 0.25f && bestHealingAvailable > 0) {
+            } else if (enemyEntity.remainingHP/enemy.health <= 0.25f && maxHealing > 0){
+                enemyEntity.inventory[idx].count -= 1;
+                if(enemyEntity.inventory[idx].count == 0){
+                    enemyEntity.inventory[idx] = null;
+                }
                 battle.setUsedItem(bestHealing);
                 text = "Enemy used a potion!";
             } else {
                 battle.setUsedItem(bestDamage);
-                text = "Enemy attacks!";
             }
-
         }
-
-        if (battle.usedItem.actionType == ActionType.Consume) {
-                text = "Enemy used a potion!";
-            }
         battleTextPanel.GetComponentInChildren<TextMeshProUGUI>().text = text;
         battle.perform(BattleOption.USE_ITEM);
         updatePlayerHealthAndManaBar();

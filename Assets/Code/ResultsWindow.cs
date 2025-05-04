@@ -24,7 +24,7 @@ public class ResultsWindow : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0)) next = true;   
+        
     }
 
     public IEnumerator showVictory(int prevLvl, int prevXP, int prevCap, float xpToAdd) {
@@ -37,7 +37,7 @@ public class ResultsWindow : MonoBehaviour
         int currXP = prevXP, currCap = prevCap;
         while(addedXP < xpToAdd) {
             addedXP += xpToAdd * Time.deltaTime / 3;
-            currXP = (int)Mathf.Round(addedXP + prevXP);
+            currXP = (int)Mathf.Floor(addedXP + prevXP);
             xpText.text = "XP: " + currXP + "/" + currCap;
             progressBar.fillAmount = (float)currXP/currCap;
             if(currXP >= currCap) {
@@ -61,5 +61,9 @@ public class ResultsWindow : MonoBehaviour
         yield return StartCoroutine(transition.PlayCombatFinishedTransition());
         
         SceneManager.LoadScene("DungeonMap");
+    }
+
+    public void Continue() {
+        next = true;
     }
 }
