@@ -117,6 +117,10 @@ public class Item : ScriptableObject {
     public GameObject minigame;
     public PlaySpellAnimation spellAnimationPrefab;
 
+    [Header("Prefabs and Materials")]
+    public Material material;
+    public GameObject itemPrefab;
+
 
     public virtual string getItemDescription() {
         return itemDescription;

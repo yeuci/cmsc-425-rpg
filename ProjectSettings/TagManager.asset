@@ -18,6 +18,8 @@ TagManager:
   - TrapDynamicComponent
   - MusicManager
   - LevelChanger
+  - MainHand
+  - OffHand
   layers:
   - Default
   - TransparentFX

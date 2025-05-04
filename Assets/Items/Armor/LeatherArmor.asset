@@ -21,11 +21,13 @@ MonoBehaviour:
   health: 0
   mana: 0
   speed: 0
+  magic: 0
   attackPower: 0
   healing: 0
   manaRestore: 0
   magicPower: 0
   manaCost: 0
+  onUseText: 
   stackable: 1
   image: {fileID: 21300000, guid: 3f7035d4263aa1a4b968754d4753d5b5, type: 3}
   maxStack: 0
@@ -34,3 +36,5 @@ MonoBehaviour:
   minigameOpener: {fileID: 0}
   minigame: {fileID: 0}
   spellAnimationPrefab: {fileID: 0}
+  material: {fileID: 2100000, guid: 2cec46fe4dba2844fb494a3cf9e955b6, type: 2}
+  itemPrefab: {fileID: 0}
