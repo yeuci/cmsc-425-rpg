@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LeatherArmor
   m_EditorClassIdentifier: 
   name: Leather Armor
-  itemDescription: Light Armor
+  itemDescription: +5 Defense
   type: 2
   actionType: 2
   attack: 0
