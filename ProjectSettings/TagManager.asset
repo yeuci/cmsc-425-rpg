@@ -21,6 +21,11 @@ TagManager:
   - MainHand
   - OffHand
   - Stairs
+  - SkyboxCamera
+  - vfx_trail
+  - vfx_heal
+  - vfx_claw
+  - item_modal_container
   layers:
   - Default
   - TransparentFX
