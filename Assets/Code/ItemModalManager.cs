@@ -10,7 +10,7 @@ public class ItemModalManager : MonoBehaviour
     public GameObject itemModalPrefab;
     public Transform modalContainer;
 
-    public Item[] items;
+    // public Item[] items;
 
     private void Awake()
     {
@@ -79,7 +79,7 @@ public class ItemModalManager : MonoBehaviour
 
             cg.alpha = Mathf.Lerp(1f, 0f, t / duration);
             t += Time.deltaTime;
-            
+
             yield return null;
         }
 

@@ -25,6 +25,7 @@ TagManager:
   - vfx_heal
   - vfx_claw
   - item_modal_container
+  - starting_chest
   layers:
   - Default
   - TransparentFX
