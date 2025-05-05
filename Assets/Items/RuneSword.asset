@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8df97bb9312cb045bee5855112ca6ad, type: 3}
   m_Name: RuneSword
   m_EditorClassIdentifier: 
-  name: RuneSword
-  itemDescription: Some description
+  name: Rune Sword
+  itemDescription: 10 Attack Power
   type: 0
   actionType: 0
   attack: 0
@@ -37,4 +37,4 @@ MonoBehaviour:
   minigame: {fileID: 0}
   spellAnimationPrefab: {fileID: 0}
   material: {fileID: 0}
-  itemPrefab: {fileID: 4055060861964054874, guid: 2e837b62b6c657c4890d9a7c11bcbcb1, type: 3}
+  itemPrefab: {fileID: 6038857964043234119, guid: 92fac4ebcd3a7da4ba18d12e37b85543, type: 3}

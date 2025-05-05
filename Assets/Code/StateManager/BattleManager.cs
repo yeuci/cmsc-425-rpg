@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using NUnit.Framework.Constraints;
 using TMPro;
 using Unity.Collections.LowLevel.Unsafe;
@@ -95,6 +96,25 @@ public class BattleManager : MonoBehaviour
         }        
     }
 
+    void attachEquipment() {
+        GameObject torso = GameObject.FindGameObjectWithTag("Torso");
+        GameObject rightHand = GameObject.FindGameObjectWithTag("MainHand");
+        GameObject leftHand = GameObject.FindGameObjectWithTag("OffHand");
+
+        Debug.Log(leftHand);
+        
+
+        if (playerEntity.equippedGear[0]?.itemData?.material != null) {
+            GetPlayerItems.setArmorMaterial(torso, playerEntity.equippedGear[0].itemData.material);
+        }
+        if (playerEntity.equippedGear[1]?.itemData?.itemPrefab != null) {
+            GetPlayerItems.attachSword(rightHand, playerEntity.equippedGear[1].itemData.itemPrefab);
+        }
+        if (playerEntity.equippedGear[2]?.itemData?.itemPrefab != null) {
+            GetPlayerItems.attachShield(leftHand, playerEntity.equippedGear[2].itemData.itemPrefab);
+        }
+    }
+
     void Awake()
     {
         Debug.Log("AN INSTANCE OF BATTLE MANAGER IS CREATED");
@@ -127,6 +147,7 @@ public class BattleManager : MonoBehaviour
         playerEntity.transform.position = new Vector3(-3.25f, 0.5f, 0);
         playerEntity.transform.right = Vector3.left;
 
+        attachEquipment();
         getPlayerInventory();
         
         player = playerEntity.getAdjustedStats();

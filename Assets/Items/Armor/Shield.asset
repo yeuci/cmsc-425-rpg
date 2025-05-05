@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Shield
   m_EditorClassIdentifier: 
   name: Shield
-  itemDescription: Wooden Shield
+  itemDescription: +5 Defense
   type: 4
   actionType: 2
   attack: 0
@@ -36,3 +36,5 @@ MonoBehaviour:
   minigameOpener: {fileID: 0}
   minigame: {fileID: 0}
   spellAnimationPrefab: {fileID: 0}
+  material: {fileID: 0}
+  itemPrefab: {fileID: 5524765180373908912, guid: 3de2d9a0ee5779946bcb5477294a0e50, type: 3}

@@ -87,7 +87,6 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("HOVERING AN ITEM");
         displayItemInformation(item.name, item.getItemDescription(), image.transform);
     }
 

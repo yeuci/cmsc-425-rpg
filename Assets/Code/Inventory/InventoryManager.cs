@@ -88,7 +88,9 @@ public class InventoryManager : MonoBehaviour
         inventoryItem.count = n;
         inventoryItem.countText.text = inventoryItem.count.ToString();
         inventoryItem.countText.gameObject.SetActive(inventoryItem.count > 1);
+        inventoryItem.RefreshCount();
         Debug.Log("SPAWNED THE N GIVEN WAS " + n + " AND THE ITEM N IS " + inventoryItem.count );
+        
         return inventoryItem;
     }
 
@@ -108,7 +110,7 @@ public class InventoryManager : MonoBehaviour
                 InventoryItem item = grandchild.GetComponent<InventoryItem>();
                 if (item != null)
                 {
-                    Debug.Log(item.name + " - " + item.item.name);
+                    Debug.Log(item.name + " - " + item.item.name+ " X" + item.count);
 
                     ItemSave itemSave = new ItemSave();
                     itemSave.count = item.count;
@@ -284,13 +286,13 @@ public class InventoryManager : MonoBehaviour
                 InventoryItem item = grandChild.GetComponent<InventoryItem>();
                 if(item != null && !equipped) {
                     GameObject newSword;
-                    if (item.item.name.Contains("RuneSword")) {
+                    if (item.item.name.Contains("Rune Sword")) {
                         newSword = Instantiate(runeSwordPrefab, torso.transform);
                         newSword.transform.localPosition = new Vector3(0.01076f, -0.01143f, 0.03788f);
                         newSword.transform.localEulerAngles = new Vector3(-60f, 0f, -90f);
                         newSword.transform.localScale = new Vector3(0.01598134f, 0.01902541f, 0.01598134f);
                         Debug.Log("Rune sword attached.");
-                    } else if (item.item.name.Contains("BasicSword")) {
+                    } else if (item.item.name.Contains("Basic Sword")) {
 
                         newSword = Instantiate(swordPrefab, torso.transform);
                         newSword.transform.localPosition = new Vector3(0.0073f, 0f, 0.0143f);
@@ -324,10 +326,10 @@ public class InventoryManager : MonoBehaviour
                 Transform grandChild = child.GetChild(0);
                 InventoryItem item = grandChild.GetComponent<InventoryItem>();
                 if(item != null) {
-                    if(item.item.name.Contains("LeatherArmor")) {
+                    if(item.item.name.Contains("Leather Armor")) {
                         Debug.Log("LeatherArmor Equipped");
                         torso.GetComponent<MeshRenderer>().material = leatherMaterial;
-                    } else if (item.item.name.Contains("ChainMail")) {
+                    } else if (item.item.name.Contains("Chain Mail")) {
                         torso.GetComponent<MeshRenderer>().material = metalMaterial;
                     } else {
                         torso.GetComponent<MeshRenderer>().material = defaultMaterial;
