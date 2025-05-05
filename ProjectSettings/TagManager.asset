@@ -27,6 +27,7 @@ TagManager:
   - vfx_claw
   - item_modal_container
   - starting_chest
+  - UpgradeMenu
   layers:
   - Default
   - TransparentFX
