@@ -20,6 +20,7 @@ TagManager:
   - LevelChanger
   - MainHand
   - OffHand
+  - Stairs
   layers:
   - Default
   - TransparentFX

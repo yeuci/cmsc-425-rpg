@@ -186,6 +186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loadingText: {fileID: 342280208}
   loadingImage: {fileID: 1798803424}
+  sceneToLoad: DungeonMap
   loadingSprites:
   - {fileID: 21300000, guid: 97cabc17f218d52439072082e6501fbd, type: 3}
   - {fileID: 21300000, guid: 1f4f352321700044cb95e0d2e9d00b1a, type: 3}

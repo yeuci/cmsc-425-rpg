@@ -24846,27 +24846,35 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1718291774}
     m_Modifications:
     - target: {fileID: 7322322416489525871, guid: 51803b0871b8b2441b48c26547158718, type: 3}
       propertyPath: m_Name
       value: spikeTrap (1)
       objectReference: {fileID: 0}
     - target: {fileID: 7986515867025058005, guid: 51803b0871b8b2441b48c26547158718, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7986515867025058005, guid: 51803b0871b8b2441b48c26547158718, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7986515867025058005, guid: 51803b0871b8b2441b48c26547158718, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.572043
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 7986515867025058005, guid: 51803b0871b8b2441b48c26547158718, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.45
+      value: 0.050000012
       objectReference: {fileID: 0}
     - target: {fileID: 7986515867025058005, guid: 51803b0871b8b2441b48c26547158718, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 70.72511
+      value: 19.3
       objectReference: {fileID: 0}
     - target: {fileID: 7986515867025058005, guid: 51803b0871b8b2441b48c26547158718, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7986515867025058005, guid: 51803b0871b8b2441b48c26547158718, type: 3}
       propertyPath: m_LocalRotation.x
@@ -24874,7 +24882,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7986515867025058005, guid: 51803b0871b8b2441b48c26547158718, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7986515867025058005, guid: 51803b0871b8b2441b48c26547158718, type: 3}
       propertyPath: m_LocalRotation.z
@@ -24886,7 +24894,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7986515867025058005, guid: 51803b0871b8b2441b48c26547158718, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 7986515867025058005, guid: 51803b0871b8b2441b48c26547158718, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -28999,6 +29007,37 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 646043667538802040, guid: 7a0b729793a3ab1469e64d4f4338582a, type: 3}
   m_PrefabInstance: {fileID: 976226160}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &934716013
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 934716014}
+  m_Layer: 0
+  m_Name: SceneManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &934716014
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 934716013}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 934.0793, y: 600.9043, z: -856.6736}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &937277462
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35517,6 +35556,10 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1292940335528255061, guid: ed6f1e7b6b09e1946b2f0556a6d19d60, type: 3}
       propertyPath: m_Name
+      value: Stairs
+      objectReference: {fileID: 0}
+    - target: {fileID: 1292940335528255061, guid: ed6f1e7b6b09e1946b2f0556a6d19d60, type: 3}
+      propertyPath: m_TagString
       value: Stairs
       objectReference: {fileID: 0}
     - target: {fileID: 3234997564723715055, guid: ed6f1e7b6b09e1946b2f0556a6d19d60, type: 3}
@@ -45652,6 +45695,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 646043667538802040, guid: 7a0b729793a3ab1469e64d4f4338582a, type: 3}
   m_PrefabInstance: {fileID: 1472266399}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1478244811 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7986515867025058005, guid: 51803b0871b8b2441b48c26547158718, type: 3}
+  m_PrefabInstance: {fileID: 792388497}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1479510168 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8395878610197010207, guid: c78656f2f53ae1249834e1e17ceb9c20, type: 3}
@@ -52266,6 +52314,7 @@ Transform:
   - {fileID: 1841201214}
   - {fileID: 1007835419}
   - {fileID: 1664065689}
+  - {fileID: 1478244811}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1718912053
@@ -64896,5 +64945,5 @@ SceneRoots:
   - {fileID: 1508258836}
   - {fileID: 994639374}
   - {fileID: 298936456}
-  - {fileID: 792388497}
   - {fileID: 713624319}
+  - {fileID: 934716014}
