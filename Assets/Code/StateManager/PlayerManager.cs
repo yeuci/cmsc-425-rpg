@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviour
     public bool isMenuActive = false; 
     [HideInInspector] public GameObject inventoryGameObject;
     [HideInInspector] public GameObject escapeGameObject;
+    [HideInInspector] public GameObject upgradeGameObject;
     [HideInInspector]  GameObject levelChangerGameObject;
     public List<int> defeatedEnemies = new List<int>();
     public bool playerCanCollide = true;
@@ -32,8 +33,8 @@ public class PlayerManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
         escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
+        upgradeGameObject = GameObject.FindGameObjectWithTag("UpgradeMenu");
         levelChangerGameObject = GameObject.FindGameObjectWithTag("LevelChanger");
-
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -48,8 +49,8 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
-        if (inventoryGameObject != null && escapeGameObject != null && levelChangerGameObject != null) {
-            isMenuActive = inventoryGameObject.activeSelf || escapeGameObject.activeSelf || levelChangerGameObject.GetComponent<SceneTransition>().isFadingOut;
+        if (inventoryGameObject != null && escapeGameObject != null && levelChangerGameObject != null && upgradeGameObject != null) {
+            isMenuActive = inventoryGameObject.activeSelf || escapeGameObject.activeSelf || levelChangerGameObject.GetComponent<SceneTransition>().isFadingOut || upgradeGameObject.activeSelf;
         } else {
             isMenuActive = false;
         }
@@ -64,6 +65,7 @@ public class PlayerManager : MonoBehaviour
             inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
             escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
             levelChangerGameObject = GameObject.FindGameObjectWithTag("LevelChanger");
+            upgradeGameObject = GameObject.FindGameObjectWithTag("UpgradeMenu");
             this.playerCanCollide = true;
         }
     }

@@ -264,6 +264,7 @@ public class BattleManager : MonoBehaviour
             float prevXP = playerEntity.stats.experience;
             float prevCap = playerEntity.stats.expToNext;
             int prevLvl = playerEntity.stats.level;
+            int prevSP = playerEntity.skillPoints;
             
             playerEntity.stats.experience += enemyXP;
             playerEntity.recalculateLvl();
@@ -274,7 +275,7 @@ public class BattleManager : MonoBehaviour
             musicManager.playVictory();
             UIBlocker.SetActive(true);
 
-            StartCoroutine(results.showVictory(prevLvl, (int)prevXP, (int)prevCap, enemyXP));
+            StartCoroutine(results.showVictory(prevSP, prevLvl, (int)prevXP, (int)prevCap, enemyXP));
 
             // SceneManager.LoadScene("Scenes/DungeonMap");
         }
