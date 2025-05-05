@@ -44,12 +44,15 @@ public class Entity : MonoBehaviour
         remainingHP = stats.health;
         remainingMP = stats.mana;
 
-        availableItems = GameObject.FindGameObjectWithTag("InventoryManager").GetComponent<AvailableItemsAccess>().availableItems;
-        if(eClass != Class.ENEMY) {
-            AddPlayerEquipment();
-        } else {
-            AddEquipment();
+        availableItems = GameObject.FindGameObjectWithTag("InventoryManager")?.GetComponent<AvailableItemsAccess>().availableItems;
+        if (availableItems != null) {
+            if(eClass != Class.ENEMY) {
+                AddPlayerEquipment();
+            } else {
+                AddEquipment();
+            }
         }
+
     }
 
     // Basic Entity

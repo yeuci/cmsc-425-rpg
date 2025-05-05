@@ -1,8 +1,20 @@
 using UnityEngine;
 
-public class NPCInteractable : MonoBehaviour
+public class NPCInteractable : MonoBehaviour, Interactable
 {
-    public void Interact() {
+    [SerializeField] private string interactText;
+    [SerializeField] private int interactionAmount = 0;
+
+    public void Interact(Transform transform) {
         Debug.Log("Interact");
+        interactionAmount++;
+    }
+
+    public string GetInteractText() {
+        return interactText;
+    }
+
+    public Transform GetTransform() {
+        return transform;
     }
 }
