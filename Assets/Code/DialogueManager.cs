@@ -7,7 +7,7 @@ public class DialogueManager : MonoBehaviour
     
     public GameObject dialogueBox;
     public TextMeshProUGUI dialogueText;
-    public int currentDisplayedDialogue = 0;
+    public int currentDisplayedDialogue = 1;
 
     void Start()
     {
@@ -22,7 +22,6 @@ public class DialogueManager : MonoBehaviour
     public void ShowDialogueBox()
     {
         dialogueBox.SetActive(true);
-        currentDisplayedDialogue++;
     }
 
     public void HideDialogueBox()
@@ -52,8 +51,7 @@ public class DialogueManager : MonoBehaviour
             // TODO: SHOW CHEST
         }
 
-        dialogueText.text = dialogueList[currentDisplayedDialogue];
-        currentDisplayedDialogue++;
+        dialogueText.text = dialogueList[currentDisplayedDialogue++];
     }
 
 }

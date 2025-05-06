@@ -52,17 +52,15 @@ public class PlayerManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {   
-        if (dialogueGameObject == null) {
+         if (dialogueGameObject == null) {
             dialogueGameObject = GameObject.FindGameObjectWithTag("dialogue_container_inner");
-        }
-
-        if (dialogueGameObject != null) {
-            isMenuActive = dialogueGameObject.activeSelf;
-        } else if (inventoryGameObject != null && escapeGameObject != null && levelChangerGameObject != null && upgradeGameObject != null) {
-            isMenuActive = inventoryGameObject.activeSelf || escapeGameObject.activeSelf || levelChangerGameObject.GetComponent<SceneTransition>().isFadingOut || upgradeGameObject.activeSelf;
-        } else {
+         }
+ 
+         if (inventoryGameObject != null && escapeGameObject != null && levelChangerGameObject != null) {
+            isMenuActive = (dialogueGameObject != null && dialogueGameObject.activeSelf) || inventoryGameObject.activeSelf || escapeGameObject.activeSelf || levelChangerGameObject.GetComponent<SceneTransition>().isFadingOut;
+         } else {
             isMenuActive = false;
-        }
+         }
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
