@@ -104,6 +104,7 @@ public class Entity : MonoBehaviour
             }
         }
         //STATS: lvl, health, mana, atk, def, spd, mgk
+        Debug.Log($"HERE IS ADJ STATS {adjStats[0]}");
         Stat stats = new Stat(this.stats.level, adjStats[0],adjStats[1],adjStats[2],adjStats[3],adjStats[4], adjStats[5]);
         return stats;
     }
@@ -163,13 +164,12 @@ public class Entity : MonoBehaviour
     public void applyUpgrade(int[] addedStats) {
         float[] newStats = stats.getStatArray();
         newStats[0] += addedStats[0]; // hp
-        newStats[2] += addedStats[1]; // atk
-        newStats[3] += addedStats[2]; // def
-        newStats[5] += addedStats[3]; // mgk
-        newStats[4] += addedStats[4]; // spd
+        newStats[1] += addedStats[1]; // atk
+        newStats[2] += addedStats[2]; // def
+        newStats[3] += addedStats[4]; // spd
+        newStats[4] += addedStats[3]; // mgk
 
-        newStats[1] += addedStats[3] * 5; // mana increment based on mgk
 
-        stats = new Stat(stats.level, newStats[0],newStats[1],newStats[2],newStats[3],newStats[4], newStats[5]);
+        stats = new Stat(stats.level, newStats[0],newStats[4] * 5,newStats[1],newStats[2],newStats[3], newStats[4]);
     }
 }

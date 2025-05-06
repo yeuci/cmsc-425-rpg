@@ -3478,8 +3478,18 @@ MonoBehaviour:
   enemyBeforeCombat: 0
   enemyPositionBeforeCombat: {x: 0, y: 0, z: 0}
   isMenuActive: 0
+  isNewPlayer: 1
+  inCombat: 0
+  currentLevel: 0
+  orcs:
+  - {fileID: 7101753339972542398, guid: 7753a7880d0e37b4dbf31b2f8161bc58, type: 3}
   inventoryGameObject: {fileID: 0}
   escapeGameObject: {fileID: 0}
+  upgradeGameObject: {fileID: 0}
+  dialogueGameObject: {fileID: 0}
+  upgradeMenu: {fileID: 0}
+  defeatedEnemies: 
+  playerCanCollide: 1
 --- !u!4 &2136625333
 Transform:
   m_ObjectHideFlags: 0
