@@ -21,6 +21,7 @@ MonoBehaviour:
   health: 0
   mana: 0
   speed: 0
+  magic: 0
   attackPower: 0
   healing: 0
   manaRestore: 0
@@ -34,4 +35,6 @@ MonoBehaviour:
   range: {x: 0, y: 6}
   minigameOpener: {fileID: 2784396585945605119, guid: 408b74a7b84aaa944a2a8584e5dbd43c, type: 3}
   minigame: {fileID: 4333563330098486072, guid: e24b67bf2a4bfbd46ad9b09e87ee6316, type: 3}
-  spellAnimationPrefab: {fileID: 0}
+  spellAnimationPrefab: {fileID: 858716097226407971, guid: 6ecf76dc4f268d340b2666896a954bcc, type: 3}
+  material: {fileID: 0}
+  itemPrefab: {fileID: 0}

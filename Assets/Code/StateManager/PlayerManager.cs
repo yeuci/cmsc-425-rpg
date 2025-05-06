@@ -127,9 +127,10 @@ public class PlayerManager : MonoBehaviour
     }
 
     public void getEnemyEntity() {
-        Vector3 spawnPosition = new Vector3(3.25f, 0.82f, 0f);
+        Vector3 spawnPosition = new Vector3(3f, 0.85f, -1f);
         GameObject spawned = Instantiate(orcs[0], spawnPosition, Quaternion.identity);
         spawned.transform.rotation = Quaternion.Euler(0f, -130f, 0f);
+        spawned.transform.localScale = new Vector3(1.1f, 1.3f, 1.1f);
 
 
         BattleManager bm = BattleManager.instance;
@@ -146,6 +147,9 @@ public class PlayerManager : MonoBehaviour
 
         Transform hpImageTransform = spawned.transform.Find("EnemyHealthCanvas");
         Transform hpImageContainerTransform = hpImageTransform.transform.Find("Enemy_HP");
+
+        // Rotate the health canvas to face the camera and add a 40-degree tilt
+        hpImageTransform.rotation = Quaternion.LookRotation(Camera.main.transform.forward);
         Image hpImage = hpImageContainerTransform.GetComponent<Image>();
 
         bm.enemyHealthBar = hpImage;
