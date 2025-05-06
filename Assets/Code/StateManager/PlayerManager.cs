@@ -12,7 +12,8 @@ public class PlayerManager : MonoBehaviour
     public Item[] itemsArray;
     public int enemyBeforeCombat;
     public Vector3 enemyPositionBeforeCombat;
-    public bool isMenuActive = false; 
+    public bool isMenuActive = false;
+    public bool isNewPlayer = true; 
     [HideInInspector] public GameObject inventoryGameObject;
     [HideInInspector] public GameObject escapeGameObject;
     [HideInInspector] public GameObject upgradeGameObject;
