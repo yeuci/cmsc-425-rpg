@@ -1519,7 +1519,6 @@ MonoBehaviour:
     experience: 0
     expToNext: 198
     health: 10
-    mana: 1
     attack: 5
     defense: 1
     speed: 6
@@ -1604,8 +1603,10 @@ MonoBehaviour:
     itemData: {fileID: 0}
   inventoryCount: 0
   eClass: 3
-  remainingHP: 100
-  remainingMP: 50
+  remainingHP: 0
+  maximumHP: 0
+  remainingMP: 0
+  maximumMP: 0
   isAlive: 1
   defeatedEnemies: 
   skillPoints: 0
