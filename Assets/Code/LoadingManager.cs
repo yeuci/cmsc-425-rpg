@@ -41,7 +41,9 @@ public class LoadingManager : MonoBehaviour
 
     private IEnumerator LoadSelectedScene()
     {
-        yield return new WaitForSeconds(10f); 
+        yield return new WaitForSeconds(10f);
+
+        string sceneToLoad = SceneTransitionManager.Instance.targetScene;
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneToLoad);
     }
 }

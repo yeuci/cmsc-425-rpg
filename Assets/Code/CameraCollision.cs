@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CameraCollision : MonoBehaviour
 {
-    public Transform player; // The player
+    private Transform player; // The player
     public Vector3 offset = new Vector3(0, 8, -10); // Default camera position
     public float rotationSpeed = 5f; // Rotation speed of camera/player
     public float minY = -45f; // Minimum Y degree of camera rotation
@@ -19,6 +19,7 @@ public class CameraCollision : MonoBehaviour
     void Start()
     {
         playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
+        player = GameObject.FindGameObjectWithTag("Player").transform;
         distance = offset.magnitude;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

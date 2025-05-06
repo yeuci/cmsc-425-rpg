@@ -8,8 +8,6 @@ public class LevelTransition : MonoBehaviour
     public Vector3 nextPosition;
     public Vector3 returnPosition;
 
-    private bool canTrigger = false;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -21,13 +19,18 @@ public class LevelTransition : MonoBehaviour
     {
         
     }
-
+    
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
+            Debug.Log("Player made contact");
             currentScene = SceneManager.GetActiveScene().name;
-            returnPosition = nextPosition;
+
+            SceneTransitionManager.Instance.targetScene = targetScene;
+            SceneTransitionManager.Instance.playerSpawnPosition = nextPosition;
+
+            Debug.Log("Going to loading screen");
             SceneManager.LoadScene("LoadingScene");
         }
     }
