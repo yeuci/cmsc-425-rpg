@@ -11818,9 +11818,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -347509936597217408, guid: 05b781bf366129c438d4e1bcde33b583, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 3394380310187634027, guid: cb56943cbcf473746897657770ecdcc6, type: 2}
+    - target: {fileID: 107212444160602558, guid: 05b781bf366129c438d4e1bcde33b583, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -4555065661058046556, guid: cb56943cbcf473746897657770ecdcc6, type: 2}
+    - target: {fileID: 392342545333979470, guid: 05b781bf366129c438d4e1bcde33b583, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -4555065661058046556, guid: cb56943cbcf473746897657770ecdcc6, type: 2}
     - target: {fileID: 608442158050064288, guid: 05b781bf366129c438d4e1bcde33b583, type: 3}
       propertyPath: m_Volume
-      value: 0.1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 608442158050064288, guid: 05b781bf366129c438d4e1bcde33b583, type: 3}
       propertyPath: m_Resource
@@ -11830,6 +11842,10 @@ PrefabInstance:
       propertyPath: m_audioClip
       value: 
       objectReference: {fileID: 8300000, guid: 6e00323df0ce1ee4e8279032835ba3e8, type: 3}
+    - target: {fileID: 608442158050064288, guid: 05b781bf366129c438d4e1bcde33b583, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 3394380310187634027, guid: cb56943cbcf473746897657770ecdcc6, type: 2}
     - target: {fileID: 1225091563054324357, guid: 05b781bf366129c438d4e1bcde33b583, type: 3}
       propertyPath: m_LocalPosition.x
       value: 147.2258
@@ -11870,10 +11886,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1722816940022220649, guid: 05b781bf366129c438d4e1bcde33b583, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -4555065661058046556, guid: cb56943cbcf473746897657770ecdcc6, type: 2}
     - target: {fileID: 2990706762800831278, guid: 05b781bf366129c438d4e1bcde33b583, type: 3}
       propertyPath: m_Name
       value: MusicManager
       objectReference: {fileID: 0}
+    - target: {fileID: 4036812358894868876, guid: 05b781bf366129c438d4e1bcde33b583, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 3394380310187634027, guid: cb56943cbcf473746897657770ecdcc6, type: 2}
+    - target: {fileID: 6544331523950354804, guid: 05b781bf366129c438d4e1bcde33b583, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -4555065661058046556, guid: cb56943cbcf473746897657770ecdcc6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12205,6 +12233,7 @@ GameObject:
   - component: {fileID: 304314596}
   - component: {fileID: 304314595}
   - component: {fileID: 304314594}
+  - component: {fileID: 304314597}
   m_Layer: 5
   m_Name: NewGameButton
   m_TagString: Untagged
@@ -12326,6 +12355,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 304314592}
   m_CullTransparentMesh: 1
+--- !u!114 &304314597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 304314592}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 205163285}
+          m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+          m_MethodName: PlayHover
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1001 &307539559
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23168,6 +23226,7 @@ GameObject:
   - component: {fileID: 620894076}
   - component: {fileID: 620894075}
   - component: {fileID: 620894074}
+  - component: {fileID: 620894077}
   m_Layer: 5
   m_Name: QuitButton
   m_TagString: Untagged
@@ -23289,6 +23348,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 620894072}
   m_CullTransparentMesh: 1
+--- !u!114 &620894077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 620894072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 205163285}
+          m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+          m_MethodName: PlayHover
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1001 &626862541
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44982,7 +45070,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1226409228}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 35cf7766e9e2aa542811e896fde57989, type: 3}
@@ -70329,6 +70417,7 @@ GameObject:
   - component: {fileID: 1960069751}
   - component: {fileID: 1960069750}
   - component: {fileID: 1960069749}
+  - component: {fileID: 1960069752}
   m_Layer: 5
   m_Name: RespawnButton
   m_TagString: Untagged
@@ -70450,6 +70539,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1960069747}
   m_CullTransparentMesh: 1
+--- !u!114 &1960069752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1960069747}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 205163285}
+          m_TargetAssemblyTypeName: AudioManager, Assembly-CSharp
+          m_MethodName: PlayHover
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!4 &1961614798 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 646043667538802040, guid: 232aed1daec5a41438dea5c7858cab44, type: 3}
@@ -76353,6 +76471,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1499141761213227839, guid: 0697e545c5e956b4e848c71271fa7ac7, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: -4555065661058046556, guid: cb56943cbcf473746897657770ecdcc6, type: 2}
     - target: {fileID: 3643053380125776168, guid: 0697e545c5e956b4e848c71271fa7ac7, type: 3}
       propertyPath: m_Pivot.x
       value: 0
