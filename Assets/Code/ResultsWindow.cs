@@ -27,7 +27,7 @@ public class ResultsWindow : MonoBehaviour
         
     }
 
-    public IEnumerator showVictory(int prevLvl, int prevXP, int prevCap, float xpToAdd) {
+    public IEnumerator showVictory(int prevSP, int prevLvl, int prevXP, int prevCap, float xpToAdd) {
         window.SetActive(true);
 
         lvlText.text = "Level: " + prevLvl;
@@ -48,7 +48,9 @@ public class ResultsWindow : MonoBehaviour
                 currCap *= 2;
 
                 lvlText.text = "Level UP! " + prevLvl +" -> " + (++prevLvl); 
-                spText.text = "Skill Points Acquired! " + 1 + " -> " + 2; // add actual skill point amt
+                int nextSP = prevSP + 5;
+                spText.text = "Skill Points Acquired! " + prevSP + " -> " + nextSP; // add actual skill point amt
+                prevSP = nextSP;
             }
 
             yield return null;

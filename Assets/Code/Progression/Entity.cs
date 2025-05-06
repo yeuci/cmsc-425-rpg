@@ -34,6 +34,7 @@ public class Entity : MonoBehaviour
 
     Item [] availableItems;
 
+    public int skillPoints;
 
     // used to determine enemy gameobject for before and after combat scene. not needed for anything else
     // each anemy should be assigned a unique id in the editor
@@ -43,6 +44,7 @@ public class Entity : MonoBehaviour
         equippedGear = new ItemSave[3]; //Changed Size of equippedGear to match number of slots
         remainingHP = stats.health;
         remainingMP = stats.mana;
+        skillPoints = 0;
 
         availableItems = GameObject.FindGameObjectWithTag("InventoryManager")?.GetComponent<AvailableItemsAccess>().availableItems;
         if (availableItems != null) {
@@ -71,10 +73,8 @@ public class Entity : MonoBehaviour
             stats.level += 1;
             stats.experience -= stats.expToNext;
             stats.expToNext *= 2;
+            skillPoints += 5;
             recalculateLvl();
-            float prevXP = stats.experience;
-            scaleStats(ScalingMethod.PLAYER_LEVEL);
-            stats.experience = prevXP;
         } else {
             return;
         }
@@ -158,5 +158,18 @@ public class Entity : MonoBehaviour
         }
         inventoryManager.SendCurrentInventoryToState();
 
+    }
+
+    public void applyUpgrade(int[] addedStats) {
+        float[] newStats = stats.getStatArray();
+        newStats[0] += addedStats[0]; // hp
+        newStats[2] += addedStats[1]; // atk
+        newStats[3] += addedStats[2]; // def
+        newStats[5] += addedStats[3]; // mgk
+        newStats[4] += addedStats[4]; // spd
+
+        newStats[1] += addedStats[3] * 5; // mana increment based on mgk
+
+        stats = new Stat(stats.level, newStats[0],newStats[1],newStats[2],newStats[3],newStats[4], newStats[5]);
     }
 }

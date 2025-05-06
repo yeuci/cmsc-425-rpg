@@ -65,6 +65,8 @@ public class Stat {
         expToNext = (100 - level) * (float)Math.Pow(2, level); 
     }
 
+    
+
     public float getStatTotal() {
         return health + attack + defense + speed + magic;
     }

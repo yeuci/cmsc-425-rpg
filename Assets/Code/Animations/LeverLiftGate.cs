@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class LeverLiftGate : MonoBehaviour
 {
-    public Transform leverArm;            // The moving part of the lever
-    public Transform portcullisGate;       // The portcullis gate
     public float leverRotateAngle = -45f;  // Degrees the lever moves when pulled
     public float gateLiftHeight = 10f;       // How far the gate rises
     public float interactionDistance = 3f; // How close player must be
@@ -12,10 +10,15 @@ public class LeverLiftGate : MonoBehaviour
 
     private bool isActivated = false;
     private Transform player;
+    private Transform leverArm;            // The moving part of the lever
+    private Transform portcullisGate;       // The portcullis gate
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        leverArm = transform.Find("LeverBlock/Lever");
+        portcullisGate = transform.Find("Gate");
+
         // Find player
         GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
         if (playerObj != null)
@@ -59,6 +62,6 @@ public class LeverLiftGate : MonoBehaviour
         }
 
         leverArm.localRotation = targetLeverRotation;
-        portcullisGate.position = targetGatePosition;
+        portcullisGate.localPosition = targetGatePosition;
     }
 }

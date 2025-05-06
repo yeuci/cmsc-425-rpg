@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3198784149070767059}
   - component: {fileID: 5929982917452030606}
   - component: {fileID: 6353920150416395728}
+  - component: {fileID: 3585210589424543300}
   m_Layer: 6
   m_Name: Stairs
   m_TagString: Dungeon
@@ -104,10 +105,25 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4104380202958562290, guid: 3719716673d99d643ab5855fbfba2f33, type: 3}
+--- !u!114 &3585210589424543300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1292940335528255061}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9d5ff945c6004eaab73ae4c3c754d10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetScene: 
+  nextPosition: {x: 0, y: 0, z: 0}
+  returnPosition: {x: 0, y: 0, z: 0}

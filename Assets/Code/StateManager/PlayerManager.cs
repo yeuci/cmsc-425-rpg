@@ -15,6 +15,7 @@ public class PlayerManager : MonoBehaviour
     public bool isMenuActive = false; 
     [HideInInspector] public GameObject inventoryGameObject;
     [HideInInspector] public GameObject escapeGameObject;
+    [HideInInspector] public GameObject upgradeGameObject;
     [HideInInspector]  GameObject levelChangerGameObject;
     [HideInInspector] public GameObject dialogueGameObject;
     public List<int> defeatedEnemies = new List<int>();
@@ -33,6 +34,7 @@ public class PlayerManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
         escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
+        upgradeGameObject = GameObject.FindGameObjectWithTag("UpgradeMenu");
         levelChangerGameObject = GameObject.FindGameObjectWithTag("LevelChanger");
         dialogueGameObject = GameObject.FindGameObjectWithTag("dialogue_container_inner");
 
@@ -54,8 +56,10 @@ public class PlayerManager : MonoBehaviour
             dialogueGameObject = GameObject.FindGameObjectWithTag("dialogue_container_inner");
         }
 
-        if (inventoryGameObject != null && escapeGameObject != null && levelChangerGameObject != null) {
-            isMenuActive = (dialogueGameObject != null && dialogueGameObject.activeSelf) || inventoryGameObject.activeSelf || escapeGameObject.activeSelf || levelChangerGameObject.GetComponent<SceneTransition>().isFadingOut;
+        if (dialogueGameObject != null) {
+            isMenuActive = dialogueGameObject.activeSelf;
+        } else if (inventoryGameObject != null && escapeGameObject != null && levelChangerGameObject != null && upgradeGameObject != null) {
+            isMenuActive = inventoryGameObject.activeSelf || escapeGameObject.activeSelf || levelChangerGameObject.GetComponent<SceneTransition>().isFadingOut || upgradeGameObject.activeSelf;
         } else {
             isMenuActive = false;
         }
@@ -70,6 +74,7 @@ public class PlayerManager : MonoBehaviour
             inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
             escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
             levelChangerGameObject = GameObject.FindGameObjectWithTag("LevelChanger");
+            upgradeGameObject = GameObject.FindGameObjectWithTag("UpgradeMenu");
             this.playerCanCollide = true;
         }
     }

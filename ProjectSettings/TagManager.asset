@@ -20,6 +20,7 @@ TagManager:
   - LevelChanger
   - MainHand
   - OffHand
+  - Stairs
   - SkyboxCamera
   - vfx_trail
   - vfx_heal
@@ -28,6 +29,7 @@ TagManager:
   - starting_chest
   - dialogue_container
   - dialogue_container_inner
+  - UpgradeMenu
   layers:
   - Default
   - TransparentFX
