@@ -258,6 +258,7 @@ public class SaveGameLoader : MonoBehaviour
                     if (loadedInventory[i] == null)
                     {
                         playerEntity.inventory[i] = null;
+                        Debug.Log($"------------LOADING MANAGER IT's NULL HERE: {i}------------");
                         continue;
                     }
                     playerEntity.inventory[i] = new ItemSave();
@@ -268,9 +269,26 @@ public class SaveGameLoader : MonoBehaviour
                     Debug.Log($"Item {i}: {playerEntity.inventory[i].item} with count {playerEntity.inventory[i].count} i = {i}");
                 }
 
+                // check player inventory and log
+
+                for (int i = 0; i < 25; i++)
+                {
+                    if (playerEntity.inventory[i] != null && playerEntity.inventory[i].itemData != null)
+                    {
+                        Debug.Log($"AFTER SAVE Item {i}: {playerEntity.inventory[i].itemData.name} with count {playerEntity.inventory[i].count}");
+                    }
+                    else
+                    {
+                        Debug.Log($"Item {i}: Empty or null item.");
+                    }
+                }
+
                 // refresh the ui
                 iMEntity = GameObject.FindGameObjectWithTag("InventoryManager")?.GetComponent<InventoryManager>();
-                iMEntity.UpdateInventoryUIWithItemSave();
+
+                if (iMEntity != null) {
+                    iMEntity.UpdateInventoryUIWithItemSave();
+                }
 
                 // destroy all defeated enemies
                 int destroyed = 0;
