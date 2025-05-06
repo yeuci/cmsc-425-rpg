@@ -56,7 +56,7 @@ public class PlayerManager : MonoBehaviour
     void Start()
     {
         upgradeMenu = GameObject.FindGameObjectWithTag("UpgradeMenu");
-        deathMenuManager = GameObject.FindGameObjectWithTag("DeathMenu").GetComponent<DeathMenuManager>();
+        deathMenuManager = GameObject.FindGameObjectWithTag("DeathMenu")?.GetComponent<DeathMenuManager>();
     }
 
     public void ResetPlayerManager()
