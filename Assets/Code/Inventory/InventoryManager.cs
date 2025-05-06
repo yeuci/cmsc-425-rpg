@@ -73,7 +73,8 @@ public class InventoryManager : MonoBehaviour
             playerEntity.inventoryCount++;
         }
 
-        for(int i = 0; i < 3; i++) {
+        for(int i = 0; i < 3; i++) 
+        {
             if(playerEntity.equippedGear[i] != null && playerEntity.equippedGear[i].itemData != null) {
                 Transform child = equippedContainer.transform.GetChild(i);
                 InventoryItem item = SpawnNewItemForSave(1,playerEntity.equippedGear[i].itemData,child.GetComponent<InventorySlot>());
@@ -433,6 +434,7 @@ public class InventoryManager : MonoBehaviour
         SendCurrentInventoryToState();
     }
 
+    //This creates an issue
     public void CreateSpell() {
         int id = UnityEngine.Random.Range(5,9);
         bool res = AddItem(itemsToPickup[id]);
