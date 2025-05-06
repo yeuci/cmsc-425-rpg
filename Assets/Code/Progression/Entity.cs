@@ -104,6 +104,7 @@ public class Entity : MonoBehaviour
             }
         }
         //STATS: lvl, health, mana, atk, def, spd, mgk
+        Debug.Log($"HERE IS ADJ STATS {adjStats[0]}");
         Stat stats = new Stat(this.stats.level, adjStats[0],adjStats[1],adjStats[2],adjStats[3],adjStats[4], adjStats[5]);
         return stats;
     }

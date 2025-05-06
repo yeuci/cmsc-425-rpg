@@ -3,6 +3,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class PlayerManager : MonoBehaviour
     public bool inCombat;
     bool hasCheckedDeath = false;
     public int currentLevel = 0;
+    public List<GameObject> orcs = new List<GameObject>();
     [HideInInspector] public GameObject inventoryGameObject;
     [HideInInspector] public GameObject escapeGameObject;
     [HideInInspector] public GameObject upgradeGameObject;
@@ -24,6 +26,7 @@ public class PlayerManager : MonoBehaviour
     [HideInInspector] public GameObject dialogueGameObject;
     [HideInInspector] public GameObject upgradeMenu;
     [HideInInspector] DeathMenuManager deathMenuManager;
+
 
     public List<int> defeatedEnemies = new List<int>();
     public bool playerCanCollide = true;
@@ -118,7 +121,42 @@ public class PlayerManager : MonoBehaviour
             upgradeGameObject = GameObject.FindGameObjectWithTag("UpgradeMenu");
             deathMenuManager = GameObject.FindGameObjectWithTag("DeathMenu").GetComponent<DeathMenuManager>();
             this.playerCanCollide = true;
+        } else if (scene.name == "CombatManagerScene") {
+            Debug.Log("------------------WE IN COMBAT MANAGER!----------------------");
         }
+    }
+
+    public void getEnemyEntity() {
+        Vector3 spawnPosition = new Vector3(3.25f, 0.82f, 0f);
+        GameObject spawned = Instantiate(orcs[0], spawnPosition, Quaternion.identity);
+        spawned.transform.rotation = Quaternion.Euler(0f, -130f, 0f);
+
+
+        BattleManager bm = BattleManager.instance;
+        bm.enemyGameObject = spawned;
+        bm.enemyEntity = spawned.GetComponent<Entity>();
+        Debug.Log($"SPAWED HP: {bm.enemyEntity.remainingHP}");
+        bm.enemy = bm.enemyEntity.getAdjustedStats();
+        Debug.Log($"AFTER SPAWNED: {bm.enemy.health}");
+        Debug.Log(bm.enemy.health);
+        
+        bm.battle = new Battle(bm.playerEntity, bm.enemyEntity, bm.usedItem, bm.popupGenerator);
+        // Debug.Log("BATTLE STARTED!\n"+"Enemy HP: " + bm.enemyEntity.remainingHP + "/" + bm.enemy.health+" - Player HP: "+ bm.playerEntity.remainingHP +"/"+ bm.player.health);
+        bm.playerMove = bm.player.speed >= bm.enemy.speed;
+
+        Transform hpImageTransform = spawned.transform.Find("EnemyHealthCanvas");
+        Transform hpImageContainerTransform = hpImageTransform.transform.Find("Enemy_HP");
+        Image hpImage = hpImageContainerTransform.GetComponent<Image>();
+
+        bm.enemyHealthBar = hpImage;
+        
+
+        GameObject placeholder = GameObject.FindGameObjectWithTag("enemy_to_destroy");
+        if (placeholder != null) {
+            Destroy(placeholder);
+        }
+
+        bm.isEnemyReady = true;
     }
 
     public IEnumerator DelayedDungeonRestore()

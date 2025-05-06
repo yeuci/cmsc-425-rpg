@@ -23,10 +23,10 @@ public class BattleManager : MonoBehaviour
 {
     public static BattleManager instance;
     
-    Entity playerEntity, enemyEntity;                   // Player and enemy entity
-    Stat player, enemy;                                 // Player and enemy stats
-    Battle battle;                                      // Manages battle actions
-    bool playerMove;                                    // Track if player can move
+    public Entity playerEntity, enemyEntity;                   // Player and enemy entity
+    public Stat player, enemy;                                 // Player and enemy stats
+    public Battle battle;                                      // Manages battle actions
+    public bool playerMove;                                    // Track if player can move
     System.Func<bool> isEnemyMove;                      // Track if enemy can move
     bool minigameSuccess;                               // Tracks if minigame is successfull
     float escapeAttempts;                               // Tracks escape attempts for Run option
@@ -77,6 +77,8 @@ public class BattleManager : MonoBehaviour
 
     // Results
     public ResultsWindow results;
+    public bool isEnemyReady = false;
+    public bool alreadyCalled = false;
 
     void getPlayerInventory() {
         ItemSave[] playerInventory = playerEntity.inventory;
@@ -128,7 +130,9 @@ public class BattleManager : MonoBehaviour
         }
         instance = this;
 
-        enemyEntity = enemyGameObject.GetComponent<Entity>();
+        // enemyEntity = enemyGameObject.GetComponent<Entity>();
+        playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
+        playerEntity = PlayerManager.player.entity();
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -142,8 +146,6 @@ public class BattleManager : MonoBehaviour
         levelChanger = GameObject.FindGameObjectWithTag("LevelChanger");
         battleTextPanel.SetActive(false);
         
-        playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
-        playerEntity = PlayerManager.player.entity();
         playerEntity.transform.position = new Vector3(-3.25f, 0.5f, 0);
         playerEntity.transform.right = Vector3.left;
 
@@ -151,9 +153,9 @@ public class BattleManager : MonoBehaviour
         getPlayerInventory();
         
         player = playerEntity.getAdjustedStats();
-        enemy = enemyEntity.getAdjustedStats();
+        // enemy = enemyEntity.getAdjustedStats();
         
-        battle = new Battle(playerEntity, enemyEntity, usedItem, popupGenerator);
+        // battle = new Battle(playerEntity, enemyEntity, usedItem, popupGenerator);
 
         updatePlayerHealthAndManaBar();
 
@@ -162,8 +164,8 @@ public class BattleManager : MonoBehaviour
         playerHealthText.text = $"Health: {playerEntity.remainingHP} / {player.health}";
         playerManaText.text = $"Mana: {playerEntity.remainingMP} / {player.mana}";
 
-        Debug.Log("BATTLE STARTED!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
-        playerMove = player.speed >= enemy.speed;
+        // Debug.Log("BATTLE STARTED!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
+        // playerMove = player.speed >= enemy.speed;
         String msg = " has higher speed stat, and is going first";
         if(playerMove) {
             Debug.Log("PLAYER"+msg);
@@ -175,11 +177,27 @@ public class BattleManager : MonoBehaviour
         // GetSpells();
 
         // Debug.Log(spells.Count);
-        StartCoroutine(StalledUpdate());
+        // if (isEnemyReady) {
+        //     StartCoroutine(StalledUpdate());
+        // }
+
+        playerManager.getEnemyEntity();
+
+        Debug.Log(enemyEntity.remainingHP);
     }
 
     void Update()
     {
+        // Debug.Log(enemyEntity.remainingHP);
+        if (!isEnemyReady) {
+            return;
+        } else if (isEnemyReady && !alreadyCalled) {
+            Debug.Log(enemyEntity.remainingHP);
+            StartCoroutine(StalledUpdate());
+            alreadyCalled = true;
+            // Debug.Log(enemyEntity.remainingHP);
+        }
+
         isEnemyMove = () => !playerMove;
 
         // check if player is dead
