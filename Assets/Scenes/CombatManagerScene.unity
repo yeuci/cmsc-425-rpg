@@ -5072,7 +5072,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1612072361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6059,7 +6059,6 @@ MonoBehaviour:
     experience: 0
     expToNext: 198
     health: 100
-    mana: 50
     attack: 10
     defense: 10
     speed: 10
@@ -6154,7 +6153,9 @@ MonoBehaviour:
   inventoryCount: 0
   eClass: 3
   remainingHP: 0
+  maximumHP: 100
   remainingMP: 0
+  maximumMP: 50
   isAlive: 1
   defeatedEnemies: 
   skillPoints: 0
@@ -6734,7 +6735,6 @@ MonoBehaviour:
     experience: 0
     expToNext: 198
     health: 100
-    mana: 50
     attack: 10
     defense: 10
     speed: 10
@@ -6744,7 +6744,6 @@ MonoBehaviour:
     experience: 0
     expToNext: 198
     health: 100
-    mana: 50
     attack: 10
     defense: 10
     speed: 10

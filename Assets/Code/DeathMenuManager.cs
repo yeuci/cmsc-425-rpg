@@ -21,7 +21,7 @@ public class DeathMenuManager : MonoBehaviour
 
     public IEnumerator Setup() {
         deathMenu.SetActive(true);
-        
+
         if (musicManager.sceneMusic != null) {
             musicManager.sceneMusic.Stop();
         }
