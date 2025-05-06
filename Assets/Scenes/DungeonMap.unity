@@ -2728,7 +2728,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: p1
+  m_text: p0
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f9f24115501b54a47b937bc60f164a45, type: 2}
   m_sharedMaterial: {fileID: 7646724313028497820, guid: f9f24115501b54a47b937bc60f164a45, type: 2}
@@ -61210,7 +61210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueBox: {fileID: 888225567}
   dialogueText: {fileID: 66320569}
-  currentDisplayedDialogue: 0
+  currentDisplayedDialogue: 1
 --- !u!1001 &1747774983
 PrefabInstance:
   m_ObjectHideFlags: 0

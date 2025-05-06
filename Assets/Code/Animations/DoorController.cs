@@ -34,26 +34,44 @@ public class DoorController : MonoBehaviour
     {
         if (player == null) return; // Safeguard
 
-        if (Vector3.Distance(player.position, transform.position) <= interactionDistance)
+        // if (Vector3.Distance(player.position, transform.position) <= interactionDistance)
+        // {
+        //     if (Input.GetKeyDown(KeyCode.E) && !isOpening)
+        //     {
+        //         Vector3 doorToPlayer = player.position - transform.position;
+        //         float dot = Vector3.Dot(-transform.forward, doorToPlayer);
+
+        //         isFacingPositive = dot < 0;
+
+        //         float angle = isFacingPositive ? openAngle : -openAngle;
+        //         rotOpened = Quaternion.Euler(0, angle, 0) * rotClosed;
+
+        //         StartCoroutine(OpenDoor());
+        //     }
+        // }
+    }
+
+    public void OpenDoorInteractable()
+    {
+        if (player == null) return; // Safeguard
+
+        if (!isOpening)
         {
-            if (Input.GetKeyDown(KeyCode.E) && !isOpening)
-            {
-                Vector3 doorToPlayer = player.position - transform.position;
-                float dot = Vector3.Dot(-transform.forward, doorToPlayer);
-
-                isFacingPositive = dot < 0;
-
-                float angle = isFacingPositive ? openAngle : -openAngle;
-                rotOpened = Quaternion.Euler(0, angle, 0) * rotClosed;
-
-                StartCoroutine(OpenDoor());
-            }
+            StartCoroutine(OpenDoor());
         }
     }
 
-    IEnumerator OpenDoor()
-    {
+    public IEnumerator OpenDoor()
+    {   
         isOpening = true;
+
+        Vector3 doorToPlayer = player.position - transform.position;
+        float dot = Vector3.Dot(-transform.forward, doorToPlayer);
+
+        isFacingPositive = dot < 0;
+
+        float angle = isFacingPositive ? openAngle : -openAngle;
+        rotOpened = Quaternion.Euler(0, angle, 0) * rotClosed;
 
         Quaternion startRotation = transform.localRotation;
         Quaternion targetRotation = isClosed ? rotOpened : rotClosed;
