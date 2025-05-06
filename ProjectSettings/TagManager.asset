@@ -26,6 +26,8 @@ TagManager:
   - vfx_claw
   - item_modal_container
   - starting_chest
+  - dialogue_container
+  - dialogue_container_inner
   layers:
   - Default
   - TransparentFX

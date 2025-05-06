@@ -15,8 +15,8 @@ public class BarManager : MonoBehaviour
     IEnumerator LateStart()
     {
         yield return new WaitForFixedUpdate(); // Wait for one frame
-        player = GameObject.FindGameObjectWithTag("PlayerState").GetComponent<Entity>();
-        playerState = GameObject.FindGameObjectWithTag("PlayerState").GetComponent<PlayerManager>();
+        player = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
+        playerState = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
     }
 
     void Start()
@@ -29,7 +29,7 @@ public class BarManager : MonoBehaviour
     void Update()
     {
         // Debug.Log(manaBar.fillAmount);
-        if (playerState.playerCanCollide) {
+        if (playerState != null && playerState.playerCanCollide) {
             healthBar.fillAmount = player.remainingHP/player.getAdjustedStats().health;
             manaBar.fillAmount = player.remainingMP/player.getAdjustedStats().mana;
         }
