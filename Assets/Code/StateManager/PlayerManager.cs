@@ -137,8 +137,8 @@ public class PlayerManager : MonoBehaviour
         bm.enemyEntity = spawned.GetComponent<Entity>();
         Debug.Log($"SPAWED HP: {bm.enemyEntity.remainingHP}");
         bm.enemy = bm.enemyEntity.getAdjustedStats();
-        Debug.Log($"AFTER SPAWNED: {bm.enemy.health}");
-        Debug.Log(bm.enemy.health);
+        //Debug.Log($"AFTER SPAWNED: {bm.enemy.health}");
+        //Debug.Log(bm.enemy.health);
         
         bm.battle = new Battle(bm.playerEntity, bm.enemyEntity, bm.usedItem, bm.popupGenerator);
         // Debug.Log("BATTLE STARTED!\n"+"Enemy HP: " + bm.enemyEntity.remainingHP + "/" + bm.enemy.health+" - Player HP: "+ bm.playerEntity.remainingHP +"/"+ bm.player.health);

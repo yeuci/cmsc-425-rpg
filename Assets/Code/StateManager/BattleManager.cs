@@ -161,8 +161,8 @@ public class BattleManager : MonoBehaviour
 
         escapeAttempts = 0;
 
-        playerHealthText.text = $"Health: {playerEntity.remainingHP} / {player.health}";
-        playerManaText.text = $"Mana: {playerEntity.remainingMP} / {player.mana}";
+        playerHealthText.text = $"Health: {playerEntity.remainingHP} / {playerEntity.maximumHP}";
+        playerManaText.text = $"Mana: {playerEntity.remainingMP} / {playerEntity.maximumMP}";
 
         // Debug.Log("BATTLE STARTED!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
         // playerMove = player.speed >= enemy.speed;
@@ -260,17 +260,17 @@ public class BattleManager : MonoBehaviour
     }
 
     public void recalculateEnemyHealthBar() {
-        enemyHealthBar.fillAmount = enemyEntity.remainingHP / enemy.health;
+        enemyHealthBar.fillAmount = enemyEntity.remainingHP / enemyEntity.maximumHP;
     }
 
     public void updatePlayerHealthAndManaBar() {
-        playerHealthBar.fillAmount = playerEntity.remainingHP / player.health;
-        playerManaBar.fillAmount = playerEntity.remainingMP / player.mana;
+        playerHealthBar.fillAmount = playerEntity.remainingHP / playerEntity.maximumHP;
+        playerManaBar.fillAmount = playerEntity.remainingMP / playerEntity.maximumMP;
     }
 
     public void updatePlayerHealthAndManaText() {
-        playerHealthText.text = $"Health: {playerEntity.remainingHP} / {player.health}";
-        playerManaText.text = $"Mana: {playerEntity.remainingMP} / {player.mana}";
+        playerHealthText.text = $"Health: {playerEntity.remainingHP} / {playerEntity.maximumHP}";
+        playerManaText.text = $"Mana: {playerEntity.remainingMP} / {playerEntity.maximumMP}";
     }
 
     void checkEnemyDeath() {
@@ -544,7 +544,7 @@ public class BattleManager : MonoBehaviour
         } else {
             if(maxDamageOutput >= playerEntity.remainingHP){
                 battle.setUsedItem(bestDamage);
-            } else if (enemyEntity.remainingHP/enemy.health <= 0.25f && maxHealing > 0){
+            } else if (enemyEntity.remainingHP/enemyEntity.remainingHP <= 0.25f && maxHealing > 0){
                 enemyEntity.inventory[idx].count -= 1;
                 if(enemyEntity.inventory[idx].count == 0){
                     enemyEntity.inventory[idx] = null;
@@ -599,8 +599,8 @@ public class BattleManager : MonoBehaviour
         usedItem.actionType = ActionType.Consume;
         battle.setUsedItem(usedItem);
 
-        if (item.healing > 0 && playerEntity.remainingHP < player.health || 
-            item.manaRestore > 0 && playerEntity.remainingMP < player.mana) {
+        if (item.healing > 0 && playerEntity.remainingHP < playerEntity.maximumHP || 
+            item.manaRestore > 0 && playerEntity.remainingMP < playerEntity.maximumMP) {
 
             musicManager.PlayUse();
             battle.perform(BattleOption.USE_ITEM);

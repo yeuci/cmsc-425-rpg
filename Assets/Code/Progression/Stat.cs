@@ -9,13 +9,12 @@ public class Stat {
     // Experience Counter
     public float experience, expToNext;
     // Base stats
-    public float health, mana, attack, defense, speed, magic;
+    public float health, attack, defense, speed, magic;
 
     public Stat() {
         level = 1;
         experience = 0;
         health = 100;
-        mana = 50;
         attack = 10;
         defense = 10;
         speed = 10;
@@ -31,7 +30,6 @@ public class Stat {
         this.level = level;
         experience = 0;
         health = 100 * scaling;
-        mana = 50 * scaling;
         attack = 10 * scaling;
         defense = 10 * scaling;
         speed = 10 * scaling;
@@ -44,7 +42,6 @@ public class Stat {
         this.level = level;
         experience = 0;
         health = 100 * scalings[0];
-        mana = 50 * scalings[1];
         attack = 10 * scalings[2];
         defense = 10 * scalings[3];
         speed = 10 * scalings[4];
@@ -53,11 +50,10 @@ public class Stat {
     }
 
     // Custom values for each stat, stats[] order: hp, atk, def, spd, mgk
-    public Stat(int level, float hp, float mana, float atk, float def, float spd, float mgk) {
+    public Stat(int level, float hp, float atk, float def, float spd, float mgk) {
         this.level = level;
         experience = 0;
         health = hp;
-        this.mana = mana;
         attack = atk;
         defense = def;
         speed = spd;
@@ -72,7 +68,7 @@ public class Stat {
     }
 
     public float[] getStatArray() {
-        float[] statArray = new float[] {health, mana, attack, defense, speed, magic};
+        float[] statArray = new float[] {health, attack, defense, speed, magic};
         return statArray;
     }
 };

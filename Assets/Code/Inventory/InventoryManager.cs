@@ -504,8 +504,9 @@ public class InventoryManager : MonoBehaviour
     }
 
     private void recalculatePlayerHealthAndMana() {
-        playerEntity.remainingHP = Mathf.Clamp(playerEntity.remainingHP, 0, playerEntity.getAdjustedStats().health);
-        playerEntity.remainingMP = Mathf.Clamp(playerEntity.remainingMP, 0, playerEntity.getAdjustedStats().mana);
+        playerEntity.getAdjustedStats();
+        playerEntity.remainingHP = Mathf.Clamp(playerEntity.remainingHP, 0, playerEntity.maximumHP);
+        playerEntity.remainingMP = Mathf.Clamp(playerEntity.remainingMP, 0, playerEntity.maximumMP);
     }
 
     private void DestroyAllPopupPanels()
