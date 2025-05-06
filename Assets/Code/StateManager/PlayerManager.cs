@@ -14,6 +14,8 @@ public class PlayerManager : MonoBehaviour
     public Vector3 enemyPositionBeforeCombat;
     public bool isMenuActive = false;
     public bool isNewPlayer = true; 
+    public bool inCombat;
+    bool hasCheckedDeath = false;
     [HideInInspector] public GameObject inventoryGameObject;
     [HideInInspector] public GameObject escapeGameObject;
     [HideInInspector] public GameObject upgradeGameObject;
@@ -93,7 +95,6 @@ public class PlayerManager : MonoBehaviour
         //  if (upgradeMenu == null) {
         //     upgradeMenu = GameObject.FindGameObjectWithTag("UpgradeMenu");
         //  }
-
         checkDeath();
  
          if (inventoryGameObject != null && escapeGameObject != null && levelChangerGameObject != null) {
@@ -114,6 +115,7 @@ public class PlayerManager : MonoBehaviour
             escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
             levelChangerGameObject = GameObject.FindGameObjectWithTag("LevelChanger");
             upgradeGameObject = GameObject.FindGameObjectWithTag("UpgradeMenu");
+            deathMenuManager = GameObject.FindGameObjectWithTag("DeathMenu").GetComponent<DeathMenuManager>();
             this.playerCanCollide = true;
         }
     }
@@ -136,7 +138,9 @@ public class PlayerManager : MonoBehaviour
     }
 
     void checkDeath() {
-        if (playerEntity.remainingHP <= 0) {
+
+        if (playerEntity.remainingHP <= 0 && !inCombat && !hasCheckedDeath) {
+            hasCheckedDeath = true;
             StartCoroutine(deathMenuManager.Setup());
         }
     }

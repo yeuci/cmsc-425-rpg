@@ -2856,6 +2856,7 @@ MonoBehaviour:
   enemyPositionBeforeCombat: {x: 0, y: 0, z: 0}
   isMenuActive: 0
   isNewPlayer: 1
+  inCombat: 0
   inventoryGameObject: {fileID: 1929463254}
   escapeGameObject: {fileID: 1731271319}
   upgradeGameObject: {fileID: 0}
@@ -32189,7 +32190,7 @@ PrefabInstance:
     - target: {fileID: 6401020900616275720, guid: dda9a9b9dd93a554d8e2390ac645e84b, type: 3}
       propertyPath: 'items.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: 0e76f221c2b210b4d97c8b0b917170e9, type: 2}
+      objectReference: {fileID: 11400000, guid: 720a519e68f816a4b8b97441de5c6309, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

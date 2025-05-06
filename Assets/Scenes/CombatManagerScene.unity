@@ -3087,8 +3087,12 @@ MonoBehaviour:
   enemyBeforeCombat: 0
   enemyPositionBeforeCombat: {x: 0, y: 0, z: 0}
   isMenuActive: 0
+  isNewPlayer: 1
   inventoryGameObject: {fileID: 0}
   escapeGameObject: {fileID: 0}
+  upgradeGameObject: {fileID: 0}
+  dialogueGameObject: {fileID: 0}
+  upgradeMenu: {fileID: 0}
   defeatedEnemies: 
   playerCanCollide: 1
 --- !u!4 &1019908033
@@ -5211,7 +5215,7 @@ GameObject:
   - component: {fileID: 1612072366}
   m_Layer: 5
   m_Name: DeathMenu
-  m_TagString: Untagged
+  m_TagString: DeathMenu
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6300,6 +6304,7 @@ MonoBehaviour:
   remainingMP: 0
   isAlive: 1
   defeatedEnemies: 
+  skillPoints: 0
   enemyId: 0
 --- !u!4 &1883500876 stripped
 Transform:
@@ -8127,6 +8132,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isFadingOut: 0
   animator: {fileID: 3449744097243352348}
+  sceneMusic: {fileID: 0}
 --- !u!222 &7397340465104360352
 CanvasRenderer:
   m_ObjectHideFlags: 0

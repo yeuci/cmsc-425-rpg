@@ -35,6 +35,7 @@ public class Detection : MonoBehaviour
 
         Debug.Log("Contact Made");
 
+        playerManager.inCombat = true;
         playerManager.enemyBeforeCombat = enemyEntityPrefab.enemyId;
         playerManager.enemyPositionBeforeCombat = transform.position;
 

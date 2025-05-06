@@ -275,6 +275,7 @@ public class BattleManager : MonoBehaviour
             UIBlocker.SetActive(true);
 
             StartCoroutine(results.showVictory(prevSP, prevLvl, (int)prevXP, (int)prevCap, enemyXP));
+            playerManager.inCombat = false;
 
             // SceneManager.LoadScene("Scenes/DungeonMap");
         }
@@ -282,8 +283,6 @@ public class BattleManager : MonoBehaviour
 
     IEnumerator GameOver() {
         yield return new WaitUntil(() => playerMove);
-        musicManager.sceneMusic.Stop();
-        musicManager.playDefeat();
         StartCoroutine(gameOverScreen.Setup());
     }
 
@@ -347,6 +346,7 @@ public class BattleManager : MonoBehaviour
                 FadeTransition transition = levelChanger.GetComponent<FadeTransition>();
                 transition.animator = levelChanger.GetComponent<Animator>();
                 yield return StartCoroutine(transition.PlayFadeOutFast());
+                playerManager.inCombat = false;
                 SceneManager.LoadScene("Scenes/DungeonMap");
             }
             else {
@@ -357,17 +357,19 @@ public class BattleManager : MonoBehaviour
                 {
                     UIBlocker.SetActive(true);
                     musicManager.PlayConfirmed();
-                    Debug.Log("Player has fled the encounter");
+                    Debug.Log("Player has fled the encounter with escape attempts");
                     yield return StartCoroutine(displayAction("Player successfully fled!"));
 
                     FadeTransition transition = levelChanger.GetComponent<FadeTransition>();
                     transition.animator = levelChanger.GetComponent<Animator>();
                     yield return StartCoroutine(transition.PlayFadeOutFast());
+                    playerManager.inCombat = false;
                     SceneManager.LoadScene("Scenes/DungeonMap");
                 }
                 else 
                 {
                     musicManager.PlayDenied();
+                    UIBlocker.SetActive(true);
                     Debug.Log("Enemy was too fast, player failed to flee the encounter");
                     yield return StartCoroutine(displayAction("Failed to run!"));
                     playerMove = false;
@@ -387,8 +389,8 @@ public class BattleManager : MonoBehaviour
     }
 
     private IEnumerator displayAction(string text) {
+        Debug.Log("BATTLE TEXT DISPLAYED");
         battleTextPanel.SetActive(true);
-        
         battleTextPanel.GetComponentInChildren<TextMeshProUGUI>().text = text;
         yield return new WaitForSeconds(1.5f);
         battleTextPanel.SetActive(false);
@@ -415,8 +417,7 @@ public class BattleManager : MonoBehaviour
                 battle.perform(BattleOption.USE_ITEM);   
                 playerEntity.remainingMP -= usedItem.manaCost;
 
-                battleTextPanel.SetActive(true);
-                battleTextPanel.GetComponentInChildren<TextMeshProUGUI>().text = usedItem.onUseText;
+                StartCoroutine(displayAction(usedItem.onUseText));
 
                 if (spellAnimationPlayer != null) {
                     spellAnimationPlayer.damage = battle.dmgDealt;
@@ -564,40 +565,46 @@ public class BattleManager : MonoBehaviour
             Button button = buttonObj.GetComponent<Button>();
             button.onClick.AddListener(() => {
                 if (playerMove) {
-                    if (currentItemInfo != null) {
-                        Destroy(currentItemInfo.gameObject);
-                    }
-
-                    usedItem = item;
-                    usedItem.actionType = ActionType.Consume;
-                    battle.setUsedItem(usedItem);
-
-                    if (item.healing > 0 && playerEntity.remainingHP < player.health || 
-                        item.manaRestore > 0 && playerEntity.remainingMP < player.mana) {
-
-                        musicManager.PlayUse();
-                        battleTextPanel.SetActive(true);
-                        battleTextPanel.GetComponentInChildren<TextMeshProUGUI>().text = item.onUseText;
-                        battle.perform(BattleOption.USE_ITEM);
-
-                        updatePlayerHealthAndManaText();
-
-                        updatePlayerHealthAndManaBar();
-
-                        consumable.count -= 1;
-
-                        if (consumable.count <= 0) {
-                            consumables.Remove(consumable);
-                            displayConsumableButtons();
-                        }
-                        buttonText.text = $"{item.name}: x{consumable.count}";
-                        playerMove = false;
-                    }  else {
-                        musicManager.PlayDenied();
-                    }
+                    StartCoroutine(handlePlayerConsume(consumable, item, buttonText));
                 }
              });
             
+        }
+    }
+
+    IEnumerator handlePlayerConsume(ItemSave consumable, Item item, TMP_Text buttonText) {
+        if (currentItemInfo != null) {
+            Destroy(currentItemInfo.gameObject);
+        }
+
+        usedItem = item;
+        usedItem.actionType = ActionType.Consume;
+        battle.setUsedItem(usedItem);
+
+        if (item.healing > 0 && playerEntity.remainingHP < player.health || 
+            item.manaRestore > 0 && playerEntity.remainingMP < player.mana) {
+
+            musicManager.PlayUse();
+            battle.perform(BattleOption.USE_ITEM);
+
+            Debug.Log(usedItem.onUseText);
+
+            updatePlayerHealthAndManaText();
+
+            updatePlayerHealthAndManaBar();
+
+            consumable.count -= 1;
+
+            yield return StartCoroutine(displayAction(usedItem.onUseText));
+
+            if (consumable.count <= 0) {
+                consumables.Remove(consumable);
+                displayConsumableButtons();
+            }
+            buttonText.text = $"{item.name}: x{consumable.count}";
+            playerMove = false;
+        }  else {
+            musicManager.PlayDenied();
         }
     }
 
