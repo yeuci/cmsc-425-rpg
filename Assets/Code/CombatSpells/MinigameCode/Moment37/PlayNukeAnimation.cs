@@ -21,7 +21,7 @@ public class PlayNukeAnimation : PlaySpellAnimation
         if (particleSystem != null) {
 
             BattleManager.instance.recalculateEnemyHealthBar();
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1.3f);
             damagePopupGenerator.CreatePopUp(enemyPostion.position, damage.ToString(), enemyPostion.right, Color.red);
 
             while (particleSystem  != null && particleSystem.isPlaying) {
