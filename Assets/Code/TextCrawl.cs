@@ -19,11 +19,21 @@ public class TextCrawl : MonoBehaviour
 
     private IEnumerator LoadSelectedScene()
     {
-        yield return new WaitForSeconds(55f);
-        
+        float elapsedTime = 0f;
+        while (elapsedTime < 55f)
+        {
+            if (Input.GetKeyDown(KeyCode.Space)) // Change KeyCode.Space to your desired key
+            {
+                break;
+            }
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
         PlayerManager playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
 
-        if (playerManager) {
+        if (playerManager)
+        {
             playerManager.isNewPlayer = false;
         }
 
