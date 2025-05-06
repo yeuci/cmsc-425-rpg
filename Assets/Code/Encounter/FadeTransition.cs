@@ -1,12 +1,13 @@
 using System.Collections;
 using UnityEngine;
 
-public class SceneTransition : MonoBehaviour
+public class FadeTransition : MonoBehaviour
 {
     AudioSource encounterSound;
     GameObject musicManager;
     [HideInInspector] public bool isFadingOut;
     public Animator animator;
+    public AudioSource sceneMusic;
 
 
     void Start()
@@ -33,7 +34,7 @@ public class SceneTransition : MonoBehaviour
         // Then trigger fade or scene load
     }
 
-    public IEnumerator PlayCombatFinishedTransition() {
+    public IEnumerator PlayFadeOutFast() {
         isFadingOut = true;
 
         Debug.Log("PLAYING THE TRANSITION");
@@ -42,6 +43,10 @@ public class SceneTransition : MonoBehaviour
 
         yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).IsName("FadeOutFast"));
 
+        if (sceneMusic != null) {
+            StartCoroutine(FadeAudio.FadeOut(sceneMusic, 1f));
+        }
+        
         yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f);
 
         isFadingOut = false;

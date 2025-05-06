@@ -19,6 +19,7 @@ public class PlayerManager : MonoBehaviour
     [HideInInspector]  GameObject levelChangerGameObject;
     [HideInInspector] public GameObject dialogueGameObject;
     [HideInInspector] public GameObject upgradeMenu;
+    [HideInInspector] DeathMenuManager deathMenuManager;
 
     public List<int> defeatedEnemies = new List<int>();
     public bool playerCanCollide = true;
@@ -47,9 +48,8 @@ public class PlayerManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        // inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
-        // escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
-        // levelChangerGameObject = GameObject.FindGameObjectWithTag("LevelChanger");
+        upgradeMenu = GameObject.FindGameObjectWithTag("UpgradeMenu");
+        deathMenuManager = GameObject.FindGameObjectWithTag("DeathMenu").GetComponent<DeathMenuManager>();
     }
 
     // Update is called once per frame
@@ -59,15 +59,18 @@ public class PlayerManager : MonoBehaviour
             dialogueGameObject = GameObject.FindGameObjectWithTag("dialogue_container_inner");
          }
 
-         if (upgradeMenu == null) {
-            upgradeMenu = GameObject.FindGameObjectWithTag("UpgradeMenu");
-         }
+        //  if (upgradeMenu == null) {
+        //     upgradeMenu = GameObject.FindGameObjectWithTag("UpgradeMenu");
+        //  }
+
+        checkDeath();
  
          if (inventoryGameObject != null && escapeGameObject != null && levelChangerGameObject != null) {
-            isMenuActive = (dialogueGameObject != null && dialogueGameObject.activeSelf) || (upgradeMenu != null && upgradeMenu.activeSelf) || inventoryGameObject.activeSelf || escapeGameObject.activeSelf || levelChangerGameObject.GetComponent<SceneTransition>().isFadingOut;
+            isMenuActive = (dialogueGameObject != null && dialogueGameObject.activeSelf) || (upgradeMenu != null && upgradeMenu.activeSelf) || inventoryGameObject.activeSelf || escapeGameObject.activeSelf || levelChangerGameObject.GetComponent<FadeTransition>().isFadingOut || playerEntity.remainingHP <= 0;
          } else {
             isMenuActive = false;
          }
+         
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -99,6 +102,12 @@ public class PlayerManager : MonoBehaviour
     void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void checkDeath() {
+        if (playerEntity.remainingHP <= 0) {
+            StartCoroutine(deathMenuManager.Setup());
+        }
     }
 
     public Entity entity() {

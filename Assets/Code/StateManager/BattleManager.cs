@@ -285,7 +285,7 @@ public class BattleManager : MonoBehaviour
         yield return new WaitUntil(() => playerMove);
         musicManager.sceneMusic.Stop();
         musicManager.playDefeat();
-        gameOverScreen.Setup();
+        StartCoroutine(gameOverScreen.Setup());
     }
 
     void checkDeath() {
@@ -345,9 +345,9 @@ public class BattleManager : MonoBehaviour
                 Debug.Log("Player has fled the encounter");
                 yield return StartCoroutine(displayAction("Player successfully fled!"));
 
-                SceneTransition transition = levelChanger.GetComponent<SceneTransition>();
+                FadeTransition transition = levelChanger.GetComponent<FadeTransition>();
                 transition.animator = levelChanger.GetComponent<Animator>();
-                yield return StartCoroutine(transition.PlayCombatFinishedTransition());
+                yield return StartCoroutine(transition.PlayFadeOutFast());
                 SceneManager.LoadScene("Scenes/DungeonMap");
             }
             else {
@@ -360,9 +360,9 @@ public class BattleManager : MonoBehaviour
                     Debug.Log("Player has fled the encounter");
                     yield return StartCoroutine(displayAction("Player successfully fled!"));
 
-                    SceneTransition transition = levelChanger.GetComponent<SceneTransition>();
+                    FadeTransition transition = levelChanger.GetComponent<FadeTransition>();
                     transition.animator = levelChanger.GetComponent<Animator>();
-                    yield return StartCoroutine(transition.PlayCombatFinishedTransition());
+                    yield return StartCoroutine(transition.PlayFadeOutFast());
                     SceneManager.LoadScene("Scenes/DungeonMap");
                 }
                 else 

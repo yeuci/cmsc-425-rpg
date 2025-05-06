@@ -58,9 +58,9 @@ public class ResultsWindow : MonoBehaviour
 
         yield return new WaitUntil(() => next);
 
-        SceneTransition transition = levelChanger.GetComponent<SceneTransition>();
+        FadeTransition transition = levelChanger.GetComponent<FadeTransition>();
         transition.animator = levelChanger.GetComponent<Animator>();
-        yield return StartCoroutine(transition.PlayCombatFinishedTransition());
+        yield return StartCoroutine(transition.PlayFadeOutFast());
         
         SceneManager.LoadScene("DungeonMap");
     }

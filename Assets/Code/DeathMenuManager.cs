@@ -1,5 +1,6 @@
- using UnityEngine;
+using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class DeathMenuManager : MonoBehaviour
 {
@@ -16,10 +17,11 @@ public class DeathMenuManager : MonoBehaviour
         deathMenu.SetActive(false);
     }
 
-    public void Setup() {
+    public IEnumerator Setup() {
         deathMenu.SetActive(true);
         animator = gameObject.GetComponent<Animator>();
         animator.enabled = true;
+        yield return new WaitUntil(() => animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f);
     }
 
     public void OnLastSave() {

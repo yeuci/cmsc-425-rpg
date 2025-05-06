@@ -44,6 +44,7 @@ public class LoadingManager : MonoBehaviour
         yield return new WaitForSeconds(10f);
 
         string sceneToLoad = SceneTransitionManager.Instance.targetScene;
+        Debug.Log(sceneToLoad);
         UnityEngine.SceneManagement.SceneManager.LoadScene(sceneToLoad);
     }
 }

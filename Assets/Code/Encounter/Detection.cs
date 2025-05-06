@@ -39,7 +39,7 @@ public class Detection : MonoBehaviour
         playerManager.enemyPositionBeforeCombat = transform.position;
 
         // Fades scene to black before changing to combat scene
-        SceneTransition transition = levelChanger.GetComponent<SceneTransition>();
+        FadeTransition transition = levelChanger.GetComponent<FadeTransition>();
         transition.animator = levelChanger.GetComponent<Animator>();
         yield return StartCoroutine(transition.PlayEncounterTransition());
 
