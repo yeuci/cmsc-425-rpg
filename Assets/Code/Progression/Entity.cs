@@ -25,8 +25,8 @@ public class Entity : MonoBehaviour
     [SerializeField] public Class eClass;
 
     // Remaining HP of entity
-    public float remainingHP;
-    public float remainingMP;
+    public float remainingHP, maximumHP = 0;
+    public float remainingMP, maximumMP = 0;
 
     // Alive check (Should destroy Entity gameobject if false)
     [HideInInspector] public bool isAlive = true;
@@ -42,8 +42,11 @@ public class Entity : MonoBehaviour
 
     void Start() {
         equippedGear = new ItemSave[3]; //Changed Size of equippedGear to match number of slots
-        remainingHP = stats.health;
-        remainingMP = stats.mana;
+        remainingHP = 10*stats.health;
+        remainingMP = 5*stats.magic;
+        maximumHP = 10*stats.health;
+        maximumMP = 5*stats.magic;
+
         skillPoints = 0;
 
         availableItems = GameObject.FindGameObjectWithTag("InventoryManager")?.GetComponent<AvailableItemsAccess>().availableItems;
@@ -60,8 +63,10 @@ public class Entity : MonoBehaviour
     // Basic Entity
     public Entity() {
         stats = new Stat();
-        remainingHP = stats.health;
-        remainingMP = stats.mana;
+        remainingHP = 10*stats.health;
+        remainingMP = 5*stats.magic;
+        maximumHP = 10*stats.health;
+        maximumMP = 5*stats.magic;
     }
 
     public float calculateXPValue() {
@@ -89,22 +94,25 @@ public class Entity : MonoBehaviour
     }
 
     public Stat getAdjustedStats() {
-        //Attack, Defense, Health, Magic Speed
+        //health, attack, defense, speed, magic
         float[] adjStats = this.stats.getStatArray();
         //I need to re-order this based upon the actual implementation of Stat Array
         foreach (ItemSave iS in equippedGear){
             if(iS != null && iS.itemData != null) {
                 Item i = iS.itemData;
                 adjStats[0] += i.health;
-                adjStats[1] += i.mana;
-                adjStats[2] += i.attack;
-                adjStats[3] += i.defense;
-                adjStats[4] += i.speed;
-                adjStats[5] += i.magic;
+                adjStats[1] += i.attack;
+                adjStats[2] += i.defense;
+                adjStats[3] += i.speed;
+                adjStats[4] += i.magic;
             }
         }
         //STATS: lvl, health, mana, atk, def, spd, mgk
-        Stat stats = new Stat(this.stats.level, adjStats[0],adjStats[1],adjStats[2],adjStats[3],adjStats[4], adjStats[5]);
+        Stat stats = new Stat(this.stats.level, adjStats[0],adjStats[1],adjStats[2],adjStats[3],adjStats[4]);
+        maximumHP = 10*stats.health;    
+        maximumMP = 5*stats.magic;
+        Debug.Log("Adjusted Stats for "+eClass+":\nHealth: "+stats.health+", Atk: "+stats.attack+", Def: "+stats.defense+
+                        "Speed: "+stats.speed+", Mgk: "+stats.magic+"\nHP: "+remainingHP+"/"+maximumHP+"\nMP: "+remainingMP+"/"+maximumMP);
         return stats;
     }
 
@@ -124,8 +132,10 @@ public class Entity : MonoBehaviour
                 break;
         }
 
-        remainingHP = stats.health;
-        remainingMP = stats.mana;
+        remainingHP = 10*stats.health;
+        remainingMP = 5*stats.magic;
+        maximumHP = 10*stats.health;
+        maximumMP = 5*stats.magic;
     }
 
     private void AddEquipment() {
@@ -161,15 +171,18 @@ public class Entity : MonoBehaviour
     }
 
     public void applyUpgrade(int[] addedStats) {
+        //health, attack, defense, speed, magic
         float[] newStats = stats.getStatArray();
         newStats[0] += addedStats[0]; // hp
-        newStats[2] += addedStats[1]; // atk
-        newStats[3] += addedStats[2]; // def
-        newStats[5] += addedStats[3]; // mgk
-        newStats[4] += addedStats[4]; // spd
+        newStats[1] += addedStats[1]; // atk
+        newStats[2] += addedStats[2]; // def
+        newStats[3] += addedStats[3]; // spd
+        newStats[4] += addedStats[4]; // mgk
 
-        newStats[1] += addedStats[3] * 5; // mana increment based on mgk
-
-        stats = new Stat(stats.level, newStats[0],newStats[1],newStats[2],newStats[3],newStats[4], newStats[5]);
+        remainingHP += 10*(newStats[0] - stats.health); //Add whatever HP they obtained in the lvl up
+        remainingMP += 5*(newStats[4] -stats.magic);    //Add whatever MP they obtained in the lvl up
+        maximumHP = 10*newStats[0];                     //Set the new maximum HP
+        maximumMP = 5*newStats[4];                      //Set the new maximum MP
+        stats = new Stat(stats.level, newStats[0],newStats[2],newStats[3],newStats[4], newStats[5]);
     }
 }

@@ -23,7 +23,7 @@ public struct ItemStatistics {
     public int attack;
     public int defense;
     public int health;
-    public int mana;
+    public int magic;
     public int speed;
 
     //Use Stats
@@ -31,12 +31,12 @@ public struct ItemStatistics {
     public int healing;
     public int magicPower;
 
-    public ItemStatistics(int attack, int attackPower, int defense, int health, int mana, int speed, int healing, int magicPower) {
+    public ItemStatistics(int attack, int attackPower, int defense, int health, int magic, int speed, int healing, int magicPower) {
         this.attack = attack;
         this.attackPower = attackPower;
         this.defense = defense;
         this.health = health;
-        this.mana = mana;
+        this.magic = magic;
         this.speed = speed;
         this.healing = healing;
         this.magicPower = magicPower;
@@ -59,8 +59,8 @@ public struct ItemStatistics {
         return health;
     }
 
-    public readonly  int Mana() {
-        return mana;
+    public readonly  int Magic() {
+        return magic;
     }
 
     public readonly  int Speed() {
@@ -75,7 +75,7 @@ public struct ItemStatistics {
     }
 
     public readonly override string ToString() {
-        return $"Attack: {attack}, Attack Power: {attackPower}, Defense: {defense}, Health: {health}, Mana: {mana}, Speed: {speed}";
+        return $"Attack: {attack}, Attack Power: {attackPower}, Defense: {defense}, Health: {health}, Magic: {magic}, Speed: {speed}, Magic Power: {magicPower}";
     }
 }
 
@@ -92,7 +92,6 @@ public class Item : ScriptableObject {
     public int attack;
     public int defense;
     public int health;
-    public int mana;
     public int speed;
     public int magic;
 

@@ -23,10 +23,10 @@ public class BattleManager : MonoBehaviour
 {
     public static BattleManager instance;
     
-    Entity playerEntity, enemyEntity;                   // Player and enemy entity
-    Stat player, enemy;                                 // Player and enemy stats
-    Battle battle;                                      // Manages battle actions
-    bool playerMove;                                    // Track if player can move
+    public Entity playerEntity, enemyEntity;                   // Player and enemy entity
+    public Stat player, enemy;                                 // Player and enemy stats
+    public Battle battle;                                      // Manages battle actions
+    public bool playerMove;                                    // Track if player can move
     System.Func<bool> isEnemyMove;                      // Track if enemy can move
     bool minigameSuccess;                               // Tracks if minigame is successfull
     float escapeAttempts;                               // Tracks escape attempts for Run option
@@ -77,6 +77,8 @@ public class BattleManager : MonoBehaviour
 
     // Results
     public ResultsWindow results;
+    public bool isEnemyReady = false;
+    public bool alreadyCalled = false;
 
     void getPlayerInventory() {
         ItemSave[] playerInventory = playerEntity.inventory;
@@ -128,7 +130,9 @@ public class BattleManager : MonoBehaviour
         }
         instance = this;
 
-        enemyEntity = enemyGameObject.GetComponent<Entity>();
+        // enemyEntity = enemyGameObject.GetComponent<Entity>();
+        playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
+        playerEntity = PlayerManager.player.entity();
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -142,8 +146,6 @@ public class BattleManager : MonoBehaviour
         levelChanger = GameObject.FindGameObjectWithTag("LevelChanger");
         battleTextPanel.SetActive(false);
         
-        playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
-        playerEntity = PlayerManager.player.entity();
         playerEntity.transform.position = new Vector3(-3.25f, 0.5f, 0);
         playerEntity.transform.right = Vector3.left;
 
@@ -151,19 +153,19 @@ public class BattleManager : MonoBehaviour
         getPlayerInventory();
         
         player = playerEntity.getAdjustedStats();
-        enemy = enemyEntity.getAdjustedStats();
+        // enemy = enemyEntity.getAdjustedStats();
         
-        battle = new Battle(playerEntity, enemyEntity, usedItem, popupGenerator);
+        // battle = new Battle(playerEntity, enemyEntity, usedItem, popupGenerator);
 
         updatePlayerHealthAndManaBar();
 
         escapeAttempts = 0;
 
-        playerHealthText.text = $"Health: {playerEntity.remainingHP} / {player.health}";
-        playerManaText.text = $"Mana: {playerEntity.remainingMP} / {player.mana}";
+        playerHealthText.text = $"Health: {playerEntity.remainingHP} / {playerEntity.maximumHP}";
+        playerManaText.text = $"Mana: {playerEntity.remainingMP} / {playerEntity.maximumMP}";
 
-        Debug.Log("BATTLE STARTED!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
-        playerMove = player.speed >= enemy.speed;
+        // Debug.Log("BATTLE STARTED!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+playerEntity.remainingHP+"/"+player.health);
+        // playerMove = player.speed >= enemy.speed;
         String msg = " has higher speed stat, and is going first";
         if(playerMove) {
             Debug.Log("PLAYER"+msg);
@@ -175,11 +177,27 @@ public class BattleManager : MonoBehaviour
         // GetSpells();
 
         // Debug.Log(spells.Count);
-        StartCoroutine(StalledUpdate());
+        // if (isEnemyReady) {
+        //     StartCoroutine(StalledUpdate());
+        // }
+
+        playerManager.getEnemyEntity();
+
+        Debug.Log(enemyEntity.remainingHP);
     }
 
     void Update()
     {
+        // Debug.Log(enemyEntity.remainingHP);
+        if (!isEnemyReady) {
+            return;
+        } else if (isEnemyReady && !alreadyCalled) {
+            Debug.Log(enemyEntity.remainingHP);
+            StartCoroutine(StalledUpdate());
+            alreadyCalled = true;
+            // Debug.Log(enemyEntity.remainingHP);
+        }
+
         isEnemyMove = () => !playerMove;
 
         // check if player is dead
@@ -242,17 +260,17 @@ public class BattleManager : MonoBehaviour
     }
 
     public void recalculateEnemyHealthBar() {
-        enemyHealthBar.fillAmount = enemyEntity.remainingHP / enemy.health;
+        enemyHealthBar.fillAmount = enemyEntity.remainingHP / enemyEntity.maximumHP;
     }
 
     public void updatePlayerHealthAndManaBar() {
-        playerHealthBar.fillAmount = playerEntity.remainingHP / player.health;
-        playerManaBar.fillAmount = playerEntity.remainingMP / player.mana;
+        playerHealthBar.fillAmount = playerEntity.remainingHP / playerEntity.maximumHP;
+        playerManaBar.fillAmount = playerEntity.remainingMP / playerEntity.maximumMP;
     }
 
     public void updatePlayerHealthAndManaText() {
-        playerHealthText.text = $"Health: {playerEntity.remainingHP} / {player.health}";
-        playerManaText.text = $"Mana: {playerEntity.remainingMP} / {player.mana}";
+        playerHealthText.text = $"Health: {playerEntity.remainingHP} / {playerEntity.maximumHP}";
+        playerManaText.text = $"Mana: {playerEntity.remainingMP} / {playerEntity.maximumMP}";
     }
 
     void checkEnemyDeath() {
@@ -526,7 +544,7 @@ public class BattleManager : MonoBehaviour
         } else {
             if(maxDamageOutput >= playerEntity.remainingHP){
                 battle.setUsedItem(bestDamage);
-            } else if (enemyEntity.remainingHP/enemy.health <= 0.25f && maxHealing > 0){
+            } else if (enemyEntity.remainingHP/enemyEntity.remainingHP <= 0.25f && maxHealing > 0){
                 enemyEntity.inventory[idx].count -= 1;
                 if(enemyEntity.inventory[idx].count == 0){
                     enemyEntity.inventory[idx] = null;
@@ -581,8 +599,8 @@ public class BattleManager : MonoBehaviour
         usedItem.actionType = ActionType.Consume;
         battle.setUsedItem(usedItem);
 
-        if (item.healing > 0 && playerEntity.remainingHP < player.health || 
-            item.manaRestore > 0 && playerEntity.remainingMP < player.mana) {
+        if (item.healing > 0 && playerEntity.remainingHP < playerEntity.maximumHP || 
+            item.manaRestore > 0 && playerEntity.remainingMP < playerEntity.maximumMP) {
 
             musicManager.PlayUse();
             battle.perform(BattleOption.USE_ITEM);

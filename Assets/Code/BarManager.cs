@@ -30,8 +30,8 @@ public class BarManager : MonoBehaviour
     {
         // Debug.Log(manaBar.fillAmount);
         if (playerState != null && playerState.playerCanCollide) {
-            healthBar.fillAmount = player.remainingHP/player.getAdjustedStats().health;
-            manaBar.fillAmount = player.remainingMP/player.getAdjustedStats().mana;
+            healthBar.fillAmount = player.remainingHP/player.maximumHP;
+            manaBar.fillAmount = player.remainingMP/player.maximumMP;
         }
     }
 }

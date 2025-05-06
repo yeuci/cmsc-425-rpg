@@ -31,6 +31,8 @@ TagManager:
   - dialogue_container_inner
   - UpgradeMenu
   - DeathMenu
+  - battle_manager
+  - enemy_to_destroy
   layers:
   - Default
   - TransparentFX

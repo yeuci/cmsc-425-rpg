@@ -72,8 +72,8 @@ public class Battle
                 } else if (usedItem.actionType == ActionType.Consume) {
                     
                     if (usedItem.healing > 0) {
-                        float amountHealed = Mathf.Min(usedItem.healing, attackerStats.health - attacker.remainingHP);
-                        attacker.remainingHP = Mathf.Min(attackerStats.health, attacker.remainingHP + amountHealed);
+                        float amountHealed = Mathf.Min(usedItem.healing, attacker.maximumHP - attacker.remainingHP);
+                        attacker.remainingHP = Mathf.Min(attacker.maximumHP, attacker.remainingHP + amountHealed);
 
                         if (amountHealed > 0)
                         {
@@ -82,8 +82,8 @@ public class Battle
                     }
 
                     if (usedItem.manaRestore > 0) {
-                        float amountManaRestored = Mathf.Min(usedItem.manaRestore, attackerStats.mana - attacker.remainingMP);
-                        attacker.remainingMP = Mathf.Min(attackerStats.mana, attacker.remainingMP + amountManaRestored);
+                        float amountManaRestored = Mathf.Min(usedItem.manaRestore, attacker.maximumMP - attacker.remainingMP);
+                        attacker.remainingMP = Mathf.Min(attacker.maximumMP, attacker.remainingMP + amountManaRestored);
 
                         if (amountManaRestored > 0)
                         {
@@ -103,8 +103,8 @@ public class Battle
             case BattleOption.POTION:
                 float healAmount = 10f;
                 attacker.remainingHP += healAmount;
-                if (attacker.remainingHP > attackerStats.health) {
-                    attacker.remainingHP = attackerStats.health;
+                if (attacker.remainingHP > attacker.maximumHP) {
+                    attacker.remainingHP = attacker.maximumMP;
                 }
                 popupGenerator.CreatePopUp(attacker.transform.position, healAmount.ToString(),attacker.transform.right, HEALCOLOR);
                 endTurn();
