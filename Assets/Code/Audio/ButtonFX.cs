@@ -27,6 +27,9 @@ public class ButtonFX : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
     public void NewGame() {
         if (!string.IsNullOrEmpty(gameScene))
         {
+            PlayerManager playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
+            playerManager.ResetPlayerManager();
+            
             Invoke(nameof(LoadGameScene), 0.2f);
         }
     }
