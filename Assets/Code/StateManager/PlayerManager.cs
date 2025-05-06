@@ -16,6 +16,7 @@ public class PlayerManager : MonoBehaviour
     public bool isNewPlayer = true; 
     public bool inCombat;
     bool hasCheckedDeath = false;
+    public int currentLevel = 0;
     [HideInInspector] public GameObject inventoryGameObject;
     [HideInInspector] public GameObject escapeGameObject;
     [HideInInspector] public GameObject upgradeGameObject;
