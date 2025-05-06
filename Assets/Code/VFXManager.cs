@@ -26,7 +26,7 @@ public class VFXManager : MonoBehaviour
         Rigidbody rb = fireball.GetComponent<Rigidbody>();
         if (rb != null)
         {
-            rb.AddForce(fireball.transform.forward * 10f, ForceMode.Impulse);
+            rb.AddForce(fireball.transform.forward * 8f, ForceMode.Impulse);
         }
         Destroy(fireball, 10f);
     }

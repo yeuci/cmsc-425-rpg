@@ -4,23 +4,33 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Ally
-  - Enemy
-  - Torso
-  - InventoryManager
-  - InventoryManger
-  - TrapDynamicComponent
   - Dungeon
-  - PlayerState
-  - vfx_fireball
-  - vfx_trail
-  - vfx_claw
-  - vfx_heal
-  - gui_inventory
   - gui_hotbar
+  - PlayerState
+  - InventoryManager
+  - gui_inventory
+  - gui_equipment
   - EscapeMenu
   - InventoryMenu
-  - gui_equipment
+  - vfx_fireball
+  - Torso
+  - Enemy
+  - TrapDynamicComponent
+  - MusicManager
+  - LevelChanger
+  - MainHand
+  - OffHand
+  - Stairs
+  - SkyboxCamera
+  - vfx_trail
+  - vfx_heal
+  - vfx_claw
+  - item_modal_container
+  - starting_chest
+  - dialogue_container
+  - dialogue_container_inner
+  - UpgradeMenu
+  - DeathMenu
   layers:
   - Default
   - TransparentFX

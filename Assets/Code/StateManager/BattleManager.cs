@@ -2,9 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using NUnit.Framework.Constraints;
 using TMPro;
+using Unity.Collections.LowLevel.Unsafe;
 using Unity.VisualScripting;
-using Unity.VisualScripting.ReorderableList;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -21,28 +23,31 @@ public class BattleManager : MonoBehaviour
 {
     public static BattleManager instance;
     
-    Entity playerEntity, enemyEntity;       // Player and enemy entity
-    Stat player, enemy;                     // Player and enemy stats
-    Battle battle;                          // Manages battle actions
-    bool playerMove;                        // Track if player can move
-    System.Func<bool> isEnemyMove;          // Track if enemy can move
-    bool minigameSuccess;                   // Tracks if minigame is successfull
-    float escapeAttempts;                   // Tracks escape attempts for Run option
-    List<ItemSave> spells = new List<ItemSave>();   // Tracks which spells the player has access to
-    List<ItemSave> consumables = new List<ItemSave>();
+    Entity playerEntity, enemyEntity;                   // Player and enemy entity
+    Stat player, enemy;                                 // Player and enemy stats
+    Battle battle;                                      // Manages battle actions
+    bool playerMove;                                    // Track if player can move
+    System.Func<bool> isEnemyMove;                      // Track if enemy can move
+    bool minigameSuccess;                               // Tracks if minigame is successfull
+    float escapeAttempts;                               // Tracks escape attempts for Run option
+    List<ItemSave> spells = new List<ItemSave>();       // Tracks which spells the player has access to
+    List<ItemSave> consumables = new List<ItemSave>();  // Tracks potions player has
 
     
 
     // Managers
     public AnimationManager animationManager;
-    public DamagePopupGenerator popupGenerator;
+    public DamagePopupGenerator popupGenerator;         // Creates damage popups
+    public AudioManager musicManager;
 
     public GameObject enemyGameObject;
     public Item usedItem;
 
     public Canvas battleCanvas;
-    public GameObject UIBlocker;              // Blocks UI when minigame is starting
-    public GameObject inventoryPanel;
+    public GameObject UIBlocker;                        // Blocks UI when minigame is starting
+
+    public Transform battleTextContainer;
+    public GameObject battleTextPanel;
     
 
     [HideInInspector] public PlayerManager playerManager;
@@ -50,22 +55,28 @@ public class BattleManager : MonoBehaviour
     // Player and enemy health and mana bars
     public Image playerHealthBar, playerManaBar;
     public Image enemyHealthBar;
-    public Canvas healthstuff;
     public TextMeshProUGUI playerHealthText;
     public TextMeshProUGUI playerManaText;
 
 
-    // Invetory and Spells
-    [HideInInspector] private InventoryManager inventoryManager;
-    
+    // Invetory and Spells    
     public GameObject inventoryButtonPrefab; // Drag the prefab here in the Inspector
     public Transform spellListContainer;
     public GameObject inventoryInfoPrefab;
-    private GameObject currentSpellInfo = null;
+    private GameObject currentItemInfo = null;
     public Transform inventoryPopupContainer;
 
     // Minigames
     public OpenMinigame minigame;
+    PlaySpellAnimation spellAnimationPlayer;
+
+    // Game over screen
+    GameObject levelChanger;
+    public DeathMenuManager gameOverScreen;
+    bool isGameOver;
+
+    // Results
+    public ResultsWindow results;
 
     void getPlayerInventory() {
         ItemSave[] playerInventory = playerEntity.inventory;
@@ -85,13 +96,38 @@ public class BattleManager : MonoBehaviour
         }        
     }
 
+    void attachEquipment() {
+        GameObject torso = GameObject.FindGameObjectWithTag("Torso");
+        GameObject rightHand = GameObject.FindGameObjectWithTag("MainHand");
+        GameObject leftHand = GameObject.FindGameObjectWithTag("OffHand");
+
+        Debug.Log(leftHand);
+        
+
+        if (playerEntity.equippedGear[0]?.itemData?.material != null) {
+            GetPlayerItems.setArmorMaterial(torso, playerEntity.equippedGear[0].itemData.material);
+        }
+        if (playerEntity.equippedGear[1]?.itemData?.itemPrefab != null) {
+            GetPlayerItems.attachSword(rightHand, playerEntity.equippedGear[1].itemData.itemPrefab);
+        }
+        if (playerEntity.equippedGear[2]?.itemData?.itemPrefab != null) {
+            GetPlayerItems.attachShield(leftHand, playerEntity.equippedGear[2].itemData.itemPrefab);
+        }
+    }
+
     void Awake()
     {
+        Debug.Log("AN INSTANCE OF BATTLE MANAGER IS CREATED");
         if(enemyEntity != null) {
             Destroy(enemyEntity);
         }   
-        
+
+        if (instance != null && instance != this) {
+            Destroy(gameObject);
+            return;
+        }
         instance = this;
+
         enemyEntity = enemyGameObject.GetComponent<Entity>();
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -101,12 +137,17 @@ public class BattleManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+
+        musicManager = GameObject.FindGameObjectWithTag("MusicManager")?.GetComponent<AudioManager>();
+        levelChanger = GameObject.FindGameObjectWithTag("LevelChanger");
+        battleTextPanel.SetActive(false);
         
         playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
         playerEntity = PlayerManager.player.entity();
         playerEntity.transform.position = new Vector3(-3.25f, 0.5f, 0);
         playerEntity.transform.right = Vector3.left;
 
+        attachEquipment();
         getPlayerInventory();
         
         player = playerEntity.getAdjustedStats();
@@ -114,7 +155,7 @@ public class BattleManager : MonoBehaviour
         
         battle = new Battle(playerEntity, enemyEntity, usedItem, popupGenerator);
 
-        playerHealthBar.fillAmount = playerEntity.remainingHP / player.health;
+        updatePlayerHealthAndManaBar();
 
         escapeAttempts = 0;
 
@@ -142,70 +183,116 @@ public class BattleManager : MonoBehaviour
         isEnemyMove = () => !playerMove;
 
         // check if player is dead
-        checkEnemyDeath();
-
-        // check if enemy is dead
         checkDeath();
     }
 
 
     IEnumerator StalledUpdate() {
-        yield return new WaitUntil(isEnemyMove);
-        yield return new WaitForSeconds(1);
-        enemyArtificialIntelligence();
-        playerMove = true;
-        StartCoroutine(StalledUpdate());
+        while (enemyEntity.remainingHP > 0) {
+            yield return new WaitUntil(isEnemyMove);
+            UIBlocker.SetActive(true);
+
+            battleTextPanel.SetActive(false);
+
+            if (enemyEntity.remainingHP > 0) {
+                yield return new WaitForSeconds(1);
+                if (currentItemInfo != null) {
+                    Destroy(currentItemInfo.gameObject);
+                }
+
+                battleTextPanel.SetActive(true);
+
+                improvedEnemyAI();
+                yield return new WaitForSeconds(1f);
+                battleTextPanel.SetActive(false);
+
+                playerMove = true;
+                UIBlocker.SetActive(false);
+            }
+            
+        }
     }
 
 
 
     public void playerAttack() {
         if(playerMove) {
-            usedItem.actionType = ActionType.Attack;
+            musicManager.PlayConfirmed();
+            usedItem = playerEntity.equippedGear[1].itemData;
+            //Set attack to unarmed strike if they don't have a weapon equipped.
+            if(usedItem == null) {
+                usedItem = GetComponentInParent<AvailableItemsAccess>().availableItems[9];
+            }
 
-            animationManager.Animate(BattleOption.ATTACK);
+            battle.setUsedItem(usedItem); //Set the used item to the weapon that the player currently has equipped
             battle.perform(BattleOption.USE_ITEM);
             AudioSource swordSwipe = GetComponent<AudioSource>();
             swordSwipe.Play();
 
             recalculateEnemyHealthBar();
         
-            checkDeath();
+            checkEnemyDeath();
             
             updatePlayerHealthAndManaText();
     
             playerMove = false;
+        } else {
+            musicManager.PlayDenied();
         }
     }
 
-    void recalculateEnemyHealthBar() {
+    public void recalculateEnemyHealthBar() {
         enemyHealthBar.fillAmount = enemyEntity.remainingHP / enemy.health;
     }
 
-    void updatePlayerHealthAndManaText() {
+    public void updatePlayerHealthAndManaBar() {
+        playerHealthBar.fillAmount = playerEntity.remainingHP / player.health;
+        playerManaBar.fillAmount = playerEntity.remainingMP / player.mana;
+    }
+
+    public void updatePlayerHealthAndManaText() {
         playerHealthText.text = $"Health: {playerEntity.remainingHP} / {player.health}";
         playerManaText.text = $"Mana: {playerEntity.remainingMP} / {player.mana}";
     }
 
-    void checkDeath() {
+    void checkEnemyDeath() {
         if(enemyEntity.remainingHP <= 0) {
             float enemyXP = enemyEntity.calculateXPValue();
             Debug.Log("Enemy is defeated. Player gains " + enemyXP + " XP!");
-            player.experience += enemyXP;
 
+            float prevXP = playerEntity.stats.experience;
+            float prevCap = playerEntity.stats.expToNext;
+            int prevLvl = playerEntity.stats.level;
+            int prevSP = playerEntity.skillPoints;
+            
+            playerEntity.stats.experience += enemyXP;
             playerEntity.recalculateLvl();
-            Debug.Log("Player is Lvl " + player.level + "! Progress: " + player.experience + "/"+player.expToNext);
+            
+            Debug.Log("Player is Lvl " + playerEntity.stats.level + "! Progress: " + playerEntity.stats.experience + "/"+playerEntity.stats.expToNext);
 
-            SceneManager.LoadScene("Scenes/DungeonMap");
+            musicManager.sceneMusic.Stop();
+            musicManager.playVictory();
+            UIBlocker.SetActive(true);
+
+            StartCoroutine(results.showVictory(prevSP, prevLvl, (int)prevXP, (int)prevCap, enemyXP));
+            playerManager.inCombat = false;
+
+            // SceneManager.LoadScene("Scenes/DungeonMap");
         }
     }
 
-    void checkEnemyDeath() {
-        if(playerEntity.remainingHP <= 0) {
+    IEnumerator GameOver() {
+        yield return new WaitUntil(() => playerMove);
+        StartCoroutine(gameOverScreen.Setup());
+    }
+
+    void checkDeath() {
+        if(playerEntity.remainingHP <= 0 && !isGameOver) {
+            isGameOver = true;
             Debug.Log("Player has lost the battle");
 
             // TODO: Add death screen NOT load screen
-            SceneManager.LoadScene("Scenes/DungeonMap");
+            StartCoroutine(GameOver());
         }
     }
 
@@ -234,10 +321,9 @@ public class BattleManager : MonoBehaviour
                     }
                 }
             }
-
-            playerManager.playerCanCollide = true;
-
+            
             playerManager.defeatedEnemies.Add(playerManager.enemyBeforeCombat);
+            playerManager.playerCanCollide = true;
             playerManager.StartCoroutine(playerManager.DelayedDungeonRestore());
 
             SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -245,11 +331,22 @@ public class BattleManager : MonoBehaviour
     }
 
     public void playerRun() {
+        StartCoroutine(handlePlayerRun());
+    }
+
+    private IEnumerator handlePlayerRun() {
         if(playerMove){
             animationManager.Animate(BattleOption.RUN);
             battle.perform(BattleOption.RUN);
             if(player.speed > enemy.speed) {
+                musicManager.PlayConfirmed();
                 Debug.Log("Player has fled the encounter");
+                yield return StartCoroutine(displayAction("Player successfully fled!"));
+
+                FadeTransition transition = levelChanger.GetComponent<FadeTransition>();
+                transition.animator = levelChanger.GetComponent<Animator>();
+                yield return StartCoroutine(transition.PlayFadeOutFast());
+                playerManager.inCombat = false;
                 SceneManager.LoadScene("Scenes/DungeonMap");
             }
             else {
@@ -258,12 +355,23 @@ public class BattleManager : MonoBehaviour
                 float rand = UnityEngine.Random.Range(0.0f, 255.0f);
                 if (rand < escapeChance) 
                 {
-                    Debug.Log("Player has fled the encounter");
+                    UIBlocker.SetActive(true);
+                    musicManager.PlayConfirmed();
+                    Debug.Log("Player has fled the encounter with escape attempts");
+                    yield return StartCoroutine(displayAction("Player successfully fled!"));
+
+                    FadeTransition transition = levelChanger.GetComponent<FadeTransition>();
+                    transition.animator = levelChanger.GetComponent<Animator>();
+                    yield return StartCoroutine(transition.PlayFadeOutFast());
+                    playerManager.inCombat = false;
                     SceneManager.LoadScene("Scenes/DungeonMap");
                 }
                 else 
                 {
+                    musicManager.PlayDenied();
+                    UIBlocker.SetActive(true);
                     Debug.Log("Enemy was too fast, player failed to flee the encounter");
+                    yield return StartCoroutine(displayAction("Failed to run!"));
                     playerMove = false;
                 }
             }
@@ -271,112 +379,171 @@ public class BattleManager : MonoBehaviour
     }
 
     public void playerCast() {
-        // if (playerMove) {
-        //     StartCoroutine(HandlePlayerCast());
-        // }
-
-        if (playerMove) {
+        if (playerMove && spells.Count > 0) {
+            musicManager.PlayConfirmed();
             displaySpellButtons();
+        } else {
+            musicManager.PlayDenied();
+            StartCoroutine(displayAction("No Spells Available!"));
         }
+    }
+
+    private IEnumerator displayAction(string text) {
+        Debug.Log("BATTLE TEXT DISPLAYED");
+        battleTextPanel.SetActive(true);
+        battleTextPanel.GetComponentInChildren<TextMeshProUGUI>().text = text;
+        yield return new WaitForSeconds(1.5f);
+        battleTextPanel.SetActive(false);
+
+        yield break;
     }
 
     // Coroutine so it waits for minigame to finish before moving on
     private IEnumerator HandlePlayerCast() {
         // Wait for the minigame to finish
         UIBlocker.SetActive(true);
-        yield return StartCoroutine(minigame.StartMinigame());
+
+        if (minigame != null ) {
+            yield return StartCoroutine(minigame.StartMinigame());
+        }
+        
 
         // Check the result of the minigame
         minigameSuccess = minigame.isMinigameSuccessful;
 
         if (minigameSuccess) {
                 usedItem.actionType = ActionType.Cast;
-                battle.perform(BattleOption.USE_ITEM);
 
-                recalculateEnemyHealthBar();
-        
-                checkDeath();
+                battle.perform(BattleOption.USE_ITEM);   
+                playerEntity.remainingMP -= usedItem.manaCost;
+
+                StartCoroutine(displayAction(usedItem.onUseText));
+
+                if (spellAnimationPlayer != null) {
+                    spellAnimationPlayer.damage = battle.dmgDealt;
+                    yield return StartCoroutine(spellAnimationPlayer.StartAnimation());
+                } else {
+                    recalculateEnemyHealthBar();
+                    updatePlayerHealthAndManaBar();
+                    updatePlayerHealthAndManaText();
+                }
+                
+                checkEnemyDeath();
+
+                spellAnimationPlayer = null;
         } else {
             battle.endTurn();
+            playerEntity.remainingMP -= usedItem.manaCost;
+            updatePlayerHealthAndManaBar();
+            updatePlayerHealthAndManaText();
         }
-
-        playerEntity.remainingMP -= usedItem.manaCost;
-        playerManaBar.fillAmount = playerEntity.remainingMP / player.mana;
 
         playerMove = false;
         UIBlocker.SetActive(false);
-        updatePlayerHealthAndManaText();
 
         minigameSuccess = false;
-        Destroy(minigame.gameObject);
+        if (minigame != null) {
+            Destroy(minigame.gameObject);
+        }
+        
 
         yield break;
     }
 
     public void openInventory() {
-        if(playerMove) {
+        if(playerMove && consumables.Count > 0) {
+            musicManager.PlayConfirmed();
             displayConsumableButtons();
+        } else {
+            musicManager.PlayDenied();
+            StartCoroutine(displayAction("No Consumables in Inventory!"));
         }
     }
     
     
 //Enemy Action
-    //The goal is to have the AI make less mistakes as the player becomes more powerful.
-    public void enemyArtificialIntelligence() {
-        System.Random rd = new System.Random();
-        int rand_num = rd.Next(1,10);
-        if(rand_num <= player.level) {
-            //Take a random action. This works if the player can hit level 10.
-            Item itemPick = enemyEntity.inventory[rd.Next(0,enemyEntity.inventoryCount)].itemData;
-            battle.setUsedItem(itemPick);
+    public void improvedEnemyAI() {
+        //Step 1: Get the best source of damage and best source of healing available
+        Item [] items = GetComponentInParent<AvailableItemsAccess>().availableItems;
+        Item bestDamage, bestHealing;
+        float maxDamageOutput, maxHealing;
+        int idx = 0, numItems = 1;
+        string text = "Enemy attacks!";
+        //Initialize variables to value of equipped main hand or unarmed attack
+        if(enemyEntity.equippedGear[1] == null){
+            bestDamage = items[9];
+            bestHealing = items[9];
+            battle.setUsedItem(bestDamage);
+            maxDamageOutput = battle.returnDamage();
+            maxHealing = items[9].healing;
         } else {
-            Item bestDamage = null;
-            Item bestHealing = null;
-            float maxDamage = 0f;
-            float maxHealing = 0f;
-            //Use equipped gear to determine best healing and best damage
-            if(enemyEntity.equippedGearCount == 0) {
-                Debug.Log("No equipped items found. Running");
-                //battle.perform(BattleOption.RUN);
-            }
-            foreach (ItemSave iS in enemyEntity.equippedGear){
-                if (iS != null && iS.itemData != null) {
-                    Item i = iS.itemData;
-                    if(i != null) {
-                        if(i.healing > maxHealing) {
-                            bestHealing = i;
-                            maxHealing = i.healing;
-                        }
-                        battle.setUsedItem(i);
-                        if(battle.returnDamage() > maxDamage) {
-                            maxDamage = battle.returnDamage();
-                            bestDamage = i;
-                        }
+            bestDamage = enemyEntity.equippedGear[1].itemData;
+            bestHealing = enemyEntity.equippedGear[1].itemData;
+            battle.setUsedItem(bestDamage);
+            maxDamageOutput = battle.returnDamage();
+            maxHealing = bestDamage.healing;
+        }
+        //Get best items in my inventory
+        for(int i =0; i < enemyEntity.inventory.Length; i++){
+            if(enemyEntity.inventory[i] != null && enemyEntity.inventory[i].itemData != null){
+                numItems++;
+                Item inventoryItem = enemyEntity.inventory[i].itemData;
+                Debug.Log("Checking "+inventoryItem.name);
+                //If it is either not a spell or I have enough MP to cast it, I can check it out.
+                if(inventoryItem.actionType != ActionType.Cast || inventoryItem.manaCost <= enemyEntity.remainingMP){
+                    battle.setUsedItem(inventoryItem);
+                    if(battle.returnDamage() > maxDamageOutput){
+                        bestDamage = inventoryItem;
+                        maxDamageOutput = battle.returnDamage();
+                    }
+                    if(inventoryItem.healing > maxHealing){
+                        idx = i;
+                        bestHealing = inventoryItem;
+                        maxHealing = inventoryItem.healing;
                     }
                 }
             }
-            //Determine the course of action
-            if(playerEntity.remainingHP <= maxDamage) { //If I can kill the player this turn, do it
-                Debug.Log("Can Kill player. Max damage is "+maxDamage );
-                battle.setUsedItem(bestDamage);
-            } else if (enemyEntity.remainingHP/enemy.health <= 0.1f && maxHealing > 0f) { //I am at at < 10% HP and can heal
-                Debug.Log("At risk of death. Healing now");
-                battle.setUsedItem(bestHealing);
+        }
+        //By this point, I have obtained the best items to be used, so I need to make the decision
+        int rand_num = UnityEngine.Random.Range(1,11);
+        if(rand_num > player.level){ //As the player gets more powerful, the enemy is less likely to make mistakes
+            Debug.Log("Taking Random Action");
+            rand_num = UnityEngine.Random.Range(0,numItems);
+            
+            Debug.Log("Item Selected is "+rand_num);
+            if(rand_num == numItems-1){
+                battle.setUsedItem(enemyEntity.equippedGear[1].itemData);
             } else {
-                Debug.Log("Not at risk of death. Attacking");
+                battle.setUsedItem(enemyEntity.inventory[rand_num].itemData);
+                if(enemyEntity.inventory[rand_num].itemData.actionType == ActionType.Consume){
+                    text = "Enemy used a potion!";
+                    enemyEntity.inventory[rand_num].count -= 1;
+                    if(enemyEntity.inventory[rand_num].count == 0){
+                        enemyEntity.inventory[rand_num] = null;
+                    }
+                }
+            }
+        } else {
+            if(maxDamageOutput >= playerEntity.remainingHP){
+                battle.setUsedItem(bestDamage);
+            } else if (enemyEntity.remainingHP/enemy.health <= 0.25f && maxHealing > 0){
+                enemyEntity.inventory[idx].count -= 1;
+                if(enemyEntity.inventory[idx].count == 0){
+                    enemyEntity.inventory[idx] = null;
+                }
+                battle.setUsedItem(bestHealing);
+                text = "Enemy used a potion!";
+            } else {
                 battle.setUsedItem(bestDamage);
             }
         }
-
-        //Temporary fix to prevent game from breaking
-        usedItem.actionType = ActionType.Attack;
-        battle.setUsedItem(usedItem);
-        //End of temporary fix.
+        battleTextPanel.GetComponentInChildren<TextMeshProUGUI>().text = text;
         battle.perform(BattleOption.USE_ITEM);
-        playerHealthBar.fillAmount  = playerEntity.remainingHP / player.health;
+        updatePlayerHealthAndManaBar();
         recalculateEnemyHealthBar(); 
         updatePlayerHealthAndManaText();
     }
+
 
     void displayConsumableButtons() {
         foreach (Transform child in spellListContainer)
@@ -397,30 +564,47 @@ public class BattleManager : MonoBehaviour
 
             Button button = buttonObj.GetComponent<Button>();
             button.onClick.AddListener(() => {
-                    usedItem = item;
-                    usedItem.actionType = ActionType.Consume;
-                    battle.setUsedItem(usedItem);
-
-                    if (item.healing > 0 && playerEntity.remainingHP < player.health || 
-                        item.manaRestore > 0 && playerEntity.remainingMP < player.mana) {
-                        battle.perform(BattleOption.USE_ITEM);
-
-                        updatePlayerHealthAndManaText();
-
-                        playerHealthBar.fillAmount = playerEntity.remainingHP / player.health;
-                        playerManaBar.fillAmount = playerEntity.remainingMP / player.mana;
-
-                        consumable.count -= 1;
-
-                        if (consumable.count <= 0) {
-                            consumables.Remove(consumable);
-                            displayConsumableButtons();
-                        }
-                        buttonText.text = $"{item.name}: x{consumable.count}";
-                        playerMove = false;
-                    }
+                if (playerMove) {
+                    StartCoroutine(handlePlayerConsume(consumable, item, buttonText));
+                }
              });
             
+        }
+    }
+
+    IEnumerator handlePlayerConsume(ItemSave consumable, Item item, TMP_Text buttonText) {
+        if (currentItemInfo != null) {
+            Destroy(currentItemInfo.gameObject);
+        }
+
+        usedItem = item;
+        usedItem.actionType = ActionType.Consume;
+        battle.setUsedItem(usedItem);
+
+        if (item.healing > 0 && playerEntity.remainingHP < player.health || 
+            item.manaRestore > 0 && playerEntity.remainingMP < player.mana) {
+
+            musicManager.PlayUse();
+            battle.perform(BattleOption.USE_ITEM);
+
+            Debug.Log(usedItem.onUseText);
+
+            updatePlayerHealthAndManaText();
+
+            updatePlayerHealthAndManaBar();
+
+            consumable.count -= 1;
+
+            yield return StartCoroutine(displayAction(usedItem.onUseText));
+
+            if (consumable.count <= 0) {
+                consumables.Remove(consumable);
+                displayConsumableButtons();
+            }
+            buttonText.text = $"{item.name}: x{consumable.count}";
+            playerMove = false;
+        }  else {
+            musicManager.PlayDenied();
         }
     }
 
@@ -445,7 +629,11 @@ public class BattleManager : MonoBehaviour
 
             Button button = buttonObj.GetComponent<Button>();
             button.onClick.AddListener(() => {
-                if (playerEntity.remainingMP >= item.manaCost) {
+                if (playerMove && playerEntity.remainingMP >= item.manaCost) {
+                    buttonObj.GetComponent<AudioManager>().PlayConfirmed();
+                    if (currentItemInfo != null) {
+                        Destroy(currentItemInfo.gameObject);
+                    }
                     usedItem = item;
                     battle.setUsedItem(usedItem);
 
@@ -458,9 +646,19 @@ public class BattleManager : MonoBehaviour
                     minigame.minigamePrefab = item.minigame;
                     minigame.canvas = battleCanvas;
 
+                    if (item.spellAnimationPrefab != null) {
+                        spellAnimationPlayer = item.spellAnimationPrefab;
+                        spellAnimationPlayer.playerPosition = playerEntity.transform;
+                        spellAnimationPlayer.enemyPostion = enemyEntity.transform;
+                        spellAnimationPlayer.damagePopupGenerator = popupGenerator;
+                    }
+                    
                     minigame.gameObject.SetActive(true);
 
                     StartCoroutine(HandlePlayerCast());
+
+                } else {
+                    buttonObj.GetComponent<AudioManager>().PlayDenied();
                 }
                 
             });
@@ -469,19 +667,19 @@ public class BattleManager : MonoBehaviour
     }
 
     public void displayItemInformation(string itemName, string itemDescription, Vector2 buttonPos) {
-        if (currentSpellInfo != null) {
-            Destroy(currentSpellInfo.gameObject);
+        if (currentItemInfo != null) {
+            Destroy(currentItemInfo.gameObject);
         }
 
-        currentSpellInfo = Instantiate(inventoryInfoPrefab, inventoryPopupContainer);
-        currentSpellInfo.GetComponent<PopupInfo>().Setup(itemName, itemDescription);
+        currentItemInfo = Instantiate(inventoryInfoPrefab, inventoryPopupContainer);
+        currentItemInfo.GetComponent<PopupInfo>().Setup(itemName, itemDescription);
     }
 
     public void DestroyItemInfo()
     {
-        if(currentSpellInfo != null)
+        if(currentItemInfo != null)
         {
-            Destroy(currentSpellInfo.gameObject);
+            Destroy(currentItemInfo.gameObject);
         }
     }
 

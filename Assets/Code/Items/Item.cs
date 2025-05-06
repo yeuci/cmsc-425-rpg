@@ -6,7 +6,8 @@ public enum ItemType {
     Weapon,
     Spell,
     Armor,
-    Consumable
+    Consumable,
+    Shield
 }
 
 public enum ActionType {
@@ -93,6 +94,7 @@ public class Item : ScriptableObject {
     public int health;
     public int mana;
     public int speed;
+    public int magic;
 
     [Header("Use Statistics")]
     public int attackPower;
@@ -100,6 +102,7 @@ public class Item : ScriptableObject {
     public float manaRestore;
     public int magicPower;
     public int manaCost;
+    public string onUseText;
 
     
     public bool stackable = true;
@@ -112,6 +115,11 @@ public class Item : ScriptableObject {
 
     public OpenMinigame minigameOpener;
     public GameObject minigame;
+    public PlaySpellAnimation spellAnimationPrefab;
+
+    [Header("Prefabs and Materials")]
+    public Material material;
+    public GameObject itemPrefab;
 
 
     public virtual string getItemDescription() {

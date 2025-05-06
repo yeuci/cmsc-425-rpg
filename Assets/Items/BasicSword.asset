@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8df97bb9312cb045bee5855112ca6ad, type: 3}
   m_Name: BasicSword
   m_EditorClassIdentifier: 
-  name: BasicSword
-  itemDescription: Some description
+  name: Basic Sword
+  itemDescription: 5 Attack Power
   type: 0
   actionType: 0
   attack: 0
@@ -21,10 +21,13 @@ MonoBehaviour:
   health: 0
   mana: 0
   speed: 0
+  magic: 0
   attackPower: 5
   healing: 0
+  manaRestore: 0
   magicPower: 0
   manaCost: 0
+  onUseText: 
   stackable: 0
   image: {fileID: 21300000, guid: 4ad16adfdf2d1a441879a598de742eb6, type: 3}
   maxStack: 0
@@ -32,3 +35,6 @@ MonoBehaviour:
   range: {x: 5, y: 4}
   minigameOpener: {fileID: 0}
   minigame: {fileID: 0}
+  spellAnimationPrefab: {fileID: 0}
+  material: {fileID: 0}
+  itemPrefab: {fileID: 258498120851308776, guid: a55d998c8047a774cb152e093e2f0c9d, type: 3}

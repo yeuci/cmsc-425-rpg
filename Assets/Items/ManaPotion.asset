@@ -21,11 +21,13 @@ MonoBehaviour:
   health: 0
   mana: 0
   speed: 0
+  magic: 0
   attackPower: 0
   healing: 0
   manaRestore: 15
   magicPower: 0
   manaCost: 0
+  onUseText: Used Mana Potion!
   stackable: 1
   image: {fileID: 21300000, guid: 59a80e411730cdf419e6e1336ba49acd, type: 3}
   maxStack: 3
@@ -33,3 +35,6 @@ MonoBehaviour:
   range: {x: 0, y: 6}
   minigameOpener: {fileID: 0}
   minigame: {fileID: 0}
+  spellAnimationPrefab: {fileID: 0}
+  material: {fileID: 0}
+  itemPrefab: {fileID: 0}

@@ -7,6 +7,7 @@ public class LoadingManager : MonoBehaviour
 {
     public TextMeshProUGUI loadingText;
     public Image loadingImage;
+    public string sceneToLoad;
     public Sprite[] loadingSprites; 
     private void Start()
     {
@@ -40,7 +41,15 @@ public class LoadingManager : MonoBehaviour
 
     private IEnumerator LoadSelectedScene()
     {
-        yield return new WaitForSeconds(10f); 
-        UnityEngine.SceneManagement.SceneManager.LoadScene("DungeonMap");
+        yield return new WaitForSeconds(10f);
+        
+        PlayerManager playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
+
+        if (playerManager && playerManager.isNewPlayer == true) {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("ScrollingText");
+        } else {
+            string sceneToLoad = SceneTransitionManager.Instance.targetScene;
+            UnityEngine.SceneManagement.SceneManager.LoadScene(sceneToLoad);
+        }
     }
 }

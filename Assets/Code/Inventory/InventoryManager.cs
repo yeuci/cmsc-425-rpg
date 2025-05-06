@@ -1,3 +1,4 @@
+using System;
 using NUnit.Framework.Internal;
 using UnityEngine;
 
@@ -15,31 +16,38 @@ public class InventoryManager : MonoBehaviour
 
     [SerializeField] GameObject swordPrefab;
     [SerializeField] GameObject runeSwordPrefab;
+    [SerializeField] GameObject shieldPrefab;
+    [SerializeField] Material leatherMaterial;
+    [SerializeField] Material metalMaterial;
+    [SerializeField] Material defaultMaterial;
     [HideInInspector] Entity playerEntity;
     [HideInInspector] PlayerManager playerManager;
     [HideInInspector] public GameObject inventoryContainer;
     [HideInInspector] public GameObject hotbarContainer;
     [HideInInspector] public GameObject equippedContainer;
+    [HideInInspector] public GameObject musicManager;
     // random items for testing
     private ItemSave[] itemsInInventory = new ItemSave[25];
     public Item[] itemsArray;
+
+    Item[] itemsToPickup;
     
     public bool equipped = false;
-
-    private void Start() {
-        playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
+    void Awake()
+    {
+        if (playerEntity == null) {
+            playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
+        }
         playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
         inventoryContainer = GameObject.FindGameObjectWithTag("gui_inventory");
         hotbarContainer = GameObject.FindGameObjectWithTag("gui_hotbar");
         equippedContainer = GameObject.FindGameObjectWithTag("gui_equipment");
+        musicManager = GameObject.FindGameObjectWithTag("MusicManager");
 
-        // for (int i = 0; i < itemsInInventory.Length; i++)
-        // {
-        //     itemsInInventory[i] = new ItemSave();
-        //     itemsInInventory[i].count = Random.Range(1, 5);
-        //     itemsInInventory[i].item = itemsArray[Random.Range(0, itemsArray.Length)];
-        // }
+        itemsToPickup = GetComponentInParent<AvailableItemsAccess>().availableItems;
+    }
 
+    private void Start() {
         inventoryGroup.SetActive(false);
         ChangeSelectedSlot(0);
     }
@@ -49,7 +57,7 @@ public class InventoryManager : MonoBehaviour
 
         for (int i = 0; i < 7; i++) 
         { 
-            if (playerEntity.inventory[playerEntity.inventoryCount] != null && playerEntity.inventory[playerEntity.inventoryCount].itemData != null) {
+            if (playerEntity.inventory[playerEntity.inventoryCount] != null && playerEntity.inventory[playerEntity.inventoryCount].itemData != null && playerEntity.inventory[playerEntity.inventoryCount].count > 0) {
                 Transform child = hotbarContainer.transform.GetChild(i);
                 InventoryItem item = SpawnNewItemForSave(playerEntity.inventory[playerEntity.inventoryCount].count, playerEntity.inventory[playerEntity.inventoryCount].itemData, child.GetComponent<InventorySlot>());
             }
@@ -58,7 +66,7 @@ public class InventoryManager : MonoBehaviour
 
         for (int i = 0; i < 18; i++) 
         { 
-            if (playerEntity.inventory[playerEntity.inventoryCount] != null && playerEntity.inventory[playerEntity.inventoryCount].itemData != null) {
+            if (playerEntity.inventory[playerEntity.inventoryCount] != null && playerEntity.inventory[playerEntity.inventoryCount].itemData != null && playerEntity.inventory[playerEntity.inventoryCount].count > 0) {
                 Transform child = inventoryContainer.transform.GetChild(i);
                 InventoryItem item = SpawnNewItemForSave(playerEntity.inventory[playerEntity.inventoryCount].count, playerEntity.inventory[playerEntity.inventoryCount].itemData, child.GetComponent<InventorySlot>());
             }
@@ -81,12 +89,17 @@ public class InventoryManager : MonoBehaviour
         inventoryItem.count = n;
         inventoryItem.countText.text = inventoryItem.count.ToString();
         inventoryItem.countText.gameObject.SetActive(inventoryItem.count > 1);
+        inventoryItem.RefreshCount();
         Debug.Log("SPAWNED THE N GIVEN WAS " + n + " AND THE ITEM N IS " + inventoryItem.count );
+        
         return inventoryItem;
     }
 
     public void SendCurrentInventoryToState() {
         Debug.Log("------ HERE ARE THE SLOTS IN THE HOTBAR WHEN CALLED ------");
+        if (playerEntity == null) {
+            playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
+        }
         playerEntity.inventoryCount = 0;    
 
         for (int i = 0; i < 7; i++) 
@@ -98,7 +111,7 @@ public class InventoryManager : MonoBehaviour
                 InventoryItem item = grandchild.GetComponent<InventoryItem>();
                 if (item != null)
                 {
-                    Debug.Log(item.name + " - " + item.item.name);
+                    Debug.Log(item.name + " - " + item.item.name+ " X" + item.count);
 
                     ItemSave itemSave = new ItemSave();
                     itemSave.count = item.count;
@@ -186,7 +199,6 @@ public class InventoryManager : MonoBehaviour
 
 
     // TEST SUITE FOR ADDING ITEMS TO INVENTORY LOGIC
-    public Item[] itemsToPickup;
 
     private void Update()
     {
@@ -194,6 +206,8 @@ public class InventoryManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Tab))
         {
             inventoryGroup.SetActive(!inventoryGroup.activeSelf);
+            DestroyAllPopupPanels();
+            
         }
 
         // TEST SUITE
@@ -212,6 +226,10 @@ public class InventoryManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.C))
         {
             CreateHealthPotion();
+        }
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            CreateShield();
         }
 
         if (Input.GetKeyDown(KeyCode.P))
@@ -254,45 +272,78 @@ public class InventoryManager : MonoBehaviour
 
         }
 
-        if (Input.GetKeyDown(KeyCode.E)) {
-            SendCurrentInventoryToState();
-        }
+        // if (Input.GetKeyDown(KeyCode.E)) {
+        //     SendCurrentInventoryToState();
+        // }
 
         // SHOW WEAPON ON CHARACTER IF ITS CURRENTLY SELECTED
-            //Step 1: Get the torso
-            GameObject torso = GameObject.FindGameObjectWithTag("Torso");
-            if(torso != null) {
-                //Step 2: Get the currently equipped weapon
-                Transform child = equippedContainer.transform.GetChild(1);
-                if(child.childCount > 0) {
-                    Transform grandChild = child.GetChild(0);
-                    InventoryItem item = grandChild.GetComponent<InventoryItem>();
-                    if(item != null) {
-                        GameObject newSword;
-                        if (item.item.name.Contains("RuneSword")) {
-                            newSword = Instantiate(runeSwordPrefab, torso.transform);
-                            newSword.transform.localPosition = new Vector3(0.01076f, -0.01143f, 0.03788f);
-                            newSword.transform.localEulerAngles = new Vector3(-60f, 0f, -90f);
-                            newSword.transform.localScale = new Vector3(0.01598134f, 0.01902541f, 0.01598134f);
-                            Debug.Log("Rune sword attached.");
-                        } else if (item.item.name.Contains("BasicSword")) {
-                            newSword = Instantiate(swordPrefab, torso.transform);
-                            newSword.transform.localPosition = new Vector3(0.0073f, 0f, 0.0143f);
-                            newSword.transform.localEulerAngles = new Vector3(-60f, 0f, -90f);
-                            newSword.transform.localScale = new Vector3(0.01598134f, 0.01902541f, 0.01598134f);
-                            Debug.Log("Basic sword attached.");
-                        } else {
-                            Debug.LogWarning("What kind of sword is this???");
-                            return;
-                        }
-                        equipped = true;
-                        Debug.Log("Sword equipped.");
-                    } 
-                    
+        //Step 1: Get the torso
+        GameObject torso = GameObject.FindGameObjectWithTag("Torso");
+        if(torso != null) {
+            //Step 2: Get the currently equipped weapon
+            Transform child = equippedContainer.transform.GetChild(1);
+            if(child.childCount > 0) {
+                Transform grandChild = child.GetChild(0);
+                InventoryItem item = grandChild.GetComponent<InventoryItem>();
+                if(item != null && !equipped) {
+                    GameObject newSword;
+                    if (item.item.name.Contains("Rune Sword")) {
+                        newSword = Instantiate(runeSwordPrefab, torso.transform);
+                        newSword.transform.localPosition = new Vector3(0.01076f, -0.01143f, 0.03788f);
+                        newSword.transform.localEulerAngles = new Vector3(-60f, 0f, -90f);
+                        newSword.transform.localScale = new Vector3(0.01598134f, 0.01902541f, 0.01598134f);
+                        Debug.Log("Rune sword attached.");
+                    } else if (item.item.name.Contains("Basic Sword")) {
+
+                        newSword = Instantiate(swordPrefab, torso.transform);
+                        newSword.transform.localPosition = new Vector3(0.0073f, 0f, 0.0143f);
+                        newSword.transform.localEulerAngles = new Vector3(-60f, 0f, -90f);
+                        newSword.transform.localScale = new Vector3(0.01598134f, 0.01902541f, 0.01598134f);
+                        Debug.Log("Basic sword attached.");
+                    } else {
+                        Debug.LogWarning("What kind of sword is this???");
+                        return;
+                    }
+                    equipped = true;
+                    Debug.Log("Sword equipped.");
+                } 
+            }
+            //Step 3: Get the currently equipped Shield
+            child = equippedContainer.transform.GetChild(2);
+            if(child.childCount > 0) {
+                Transform grandChild = child.GetChild(0);
+                InventoryItem item = grandChild.GetComponent<InventoryItem>();
+                if(item != null) {
+                    GameObject shield = Instantiate(shieldPrefab, torso.transform);
+                    shield.transform.localPosition = new Vector3(0.0126599995f,0,0.0137999998f);
+                    shield.transform.localEulerAngles = new Vector3(0,90f,270f);
+                    shield.transform.localScale = new Vector3(0.015f,0.015f,0.015f);
+                    Debug.Log("Shield attached");
+                }
+            }
+            //Step 4: Change shirt color
+            child = equippedContainer.transform.GetChild(0);
+            if(child.childCount > 0) {
+                Transform grandChild = child.GetChild(0);
+                InventoryItem item = grandChild.GetComponent<InventoryItem>();
+                if(item != null) {
+                    if(item.item.name.Contains("Leather Armor")) {
+                        Debug.Log("LeatherArmor Equipped");
+                        torso.GetComponent<MeshRenderer>().material = leatherMaterial;
+                    } else if (item.item.name.Contains("Chain Mail")) {
+                        torso.GetComponent<MeshRenderer>().material = metalMaterial;
+                    } else {
+                        torso.GetComponent<MeshRenderer>().material = defaultMaterial;
+                    }
+                } else {
+                    torso.GetComponent<MeshRenderer>().material = defaultMaterial;
                 }
             } else {
-                Debug.LogWarning("No torso found in the scene..... for some reason...");
-            }     
+                torso.GetComponent<MeshRenderer>().material = defaultMaterial;
+            }
+        } else {
+            Debug.LogWarning("No torso found in the scene..... for some reason...");
+        }     
     }
 
     public void RemoveAllChildrenFromTorso() {
@@ -373,7 +424,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     public void PickupItem() {
-        int id = Random.Range(0, itemsToPickup.Length);
+        int id = UnityEngine.Random.Range(0, itemsToPickup.Length);
         bool res = AddItem(itemsToPickup[id]);
         if (res) {
             Debug.Log($"Picked up {itemsToPickup[id].name}");
@@ -385,7 +436,7 @@ public class InventoryManager : MonoBehaviour
 
     //This creates an issue
     public void CreateSpell() {
-        int id = Random.Range(5,8);
+        int id = UnityEngine.Random.Range(5,9);
         bool res = AddItem(itemsToPickup[id]);
         if (res) {
             Debug.Log($"Picked up {itemsToPickup[id].name}");
@@ -415,6 +466,16 @@ public class InventoryManager : MonoBehaviour
         }
         SendCurrentInventoryToState();
     }
+    public void CreateShield() {
+        int id = 10;
+        bool res = AddItem(itemsToPickup[id]);
+        if (res) {
+            Debug.Log($"Picked up {itemsToPickup[id].name}");
+        } else {
+            Debug.Log("Inventory is full!");
+        }
+        SendCurrentInventoryToState();
+    }
 
     public Item UseSelectedItem() {
         InventorySlot slot = inventorySlots[selectedSlot];
@@ -423,11 +484,17 @@ public class InventoryManager : MonoBehaviour
             Item item = itemInSlot.item;
             if (item.consumable == true) {
                 itemInSlot.count--;
+                musicManager.GetComponent<AudioManager>().PlayUse();
                 if (itemInSlot.count <= 0) {
                     Destroy(itemInSlot.gameObject);
                 } else {
                     itemInSlot.RefreshCount();
                 }
+
+                playerEntity.remainingHP += item.healing;
+                playerEntity.remainingMP += item.manaRestore;
+                recalculatePlayerHealthAndMana();
+                
                 SendCurrentInventoryToState();
             }
             return item;
@@ -435,4 +502,24 @@ public class InventoryManager : MonoBehaviour
             return null;
         }
     }
+
+    private void recalculatePlayerHealthAndMana() {
+        playerEntity.remainingHP = Mathf.Clamp(playerEntity.remainingHP, 0, playerEntity.getAdjustedStats().health);
+        playerEntity.remainingMP = Mathf.Clamp(playerEntity.remainingMP, 0, playerEntity.getAdjustedStats().mana);
+    }
+
+    private void DestroyAllPopupPanels()
+{
+    // Find all active popup panels in the scene
+    InventoryItem[] inventoryItems = FindObjectsByType<InventoryItem>(FindObjectsSortMode.None);
+
+    foreach (InventoryItem item in inventoryItems)
+    {
+        if (item.currentPopupPanel != null)
+        {
+            Destroy(item.currentPopupPanel);
+            item.currentPopupPanel = null; // Clear the reference
+        }
+    }
+}
 }

@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8df97bb9312cb045bee5855112ca6ad, type: 3}
   m_Name: LeatherArmor
   m_EditorClassIdentifier: 
+  name: Leather Armor
+  itemDescription: +5 Defense
   type: 2
   actionType: 2
   attack: 0
@@ -19,10 +21,20 @@ MonoBehaviour:
   health: 0
   mana: 0
   speed: 0
+  magic: 0
   attackPower: 0
   healing: 0
+  manaRestore: 0
   magicPower: 0
+  manaCost: 0
+  onUseText: 
+  stackable: 0
   image: {fileID: 21300000, guid: 3f7035d4263aa1a4b968754d4753d5b5, type: 3}
-  stackable: 1
   maxStack: 0
+  consumable: 0
   range: {x: 0, y: 6}
+  minigameOpener: {fileID: 0}
+  minigame: {fileID: 0}
+  spellAnimationPrefab: {fileID: 0}
+  material: {fileID: 2100000, guid: 2cec46fe4dba2844fb494a3cf9e955b6, type: 2}
+  itemPrefab: {fileID: 0}

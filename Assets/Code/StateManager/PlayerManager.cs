@@ -12,9 +12,19 @@ public class PlayerManager : MonoBehaviour
     public Item[] itemsArray;
     public int enemyBeforeCombat;
     public Vector3 enemyPositionBeforeCombat;
-    public bool isMenuActive = false; 
+    public bool isMenuActive = false;
+    public bool isNewPlayer = true; 
+    public bool inCombat;
+    bool hasCheckedDeath = false;
+    public int currentLevel = 0;
     [HideInInspector] public GameObject inventoryGameObject;
     [HideInInspector] public GameObject escapeGameObject;
+    [HideInInspector] public GameObject upgradeGameObject;
+    [HideInInspector]  GameObject levelChangerGameObject;
+    [HideInInspector] public GameObject dialogueGameObject;
+    [HideInInspector] public GameObject upgradeMenu;
+    [HideInInspector] DeathMenuManager deathMenuManager;
+
     public List<int> defeatedEnemies = new List<int>();
     public bool playerCanCollide = true;
 
@@ -27,7 +37,14 @@ public class PlayerManager : MonoBehaviour
 
         Debug.Log("MADE");
         player = this;
+        playerEntity = player.AddComponent<Entity>();
         DontDestroyOnLoad(gameObject);
+        inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
+        escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
+        upgradeGameObject = GameObject.FindGameObjectWithTag("UpgradeMenu");
+        levelChangerGameObject = GameObject.FindGameObjectWithTag("LevelChanger");
+        dialogueGameObject = GameObject.FindGameObjectWithTag("dialogue_container_inner");
+        upgradeMenu = GameObject.FindGameObjectWithTag("UpgradeMenu");
 
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -35,21 +52,58 @@ public class PlayerManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
-        escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
-
-        // playerEntity = this.AddComponent<Entity>();
-        playerEntity = player.AddComponent<Entity>();
+        upgradeMenu = GameObject.FindGameObjectWithTag("UpgradeMenu");
+        deathMenuManager = GameObject.FindGameObjectWithTag("DeathMenu")?.GetComponent<DeathMenuManager>();
     }
+
+    public void ResetPlayerManager()
+    {
+        if (playerEntity != null)
+        {
+            Destroy(playerEntity);
+        }
+        playerEntity = player.AddComponent<Entity>();
+
+        // itemsArray = new Item[0];
+
+        enemyBeforeCombat = 0;
+        enemyPositionBeforeCombat = Vector3.zero;
+
+        inventoryGameObject = null;
+        escapeGameObject = null;
+        upgradeGameObject = null;
+        levelChangerGameObject = null;
+        dialogueGameObject = null;
+        upgradeMenu = null;
+
+        defeatedEnemies.Clear();
+        playerCanCollide = true;
+        isMenuActive = false;
+        isNewPlayer = true;
+
+        Debug.Log("PlayerManager has been reset.");
+    }
+
+
 
     // Update is called once per frame
     void Update()
-    {
-        if (inventoryGameObject != null && escapeGameObject != null) {
-            isMenuActive = inventoryGameObject.activeSelf || escapeGameObject.activeSelf;
-        } else {
+    {   
+         if (dialogueGameObject == null) {
+            dialogueGameObject = GameObject.FindGameObjectWithTag("dialogue_container_inner");
+         }
+
+        //  if (upgradeMenu == null) {
+        //     upgradeMenu = GameObject.FindGameObjectWithTag("UpgradeMenu");
+        //  }
+        checkDeath();
+ 
+         if (inventoryGameObject != null && escapeGameObject != null && levelChangerGameObject != null) {
+            isMenuActive = (dialogueGameObject != null && dialogueGameObject.activeSelf) || (upgradeMenu != null && upgradeMenu.activeSelf) || inventoryGameObject.activeSelf || escapeGameObject.activeSelf || levelChangerGameObject.GetComponent<FadeTransition>().isFadingOut || playerEntity.remainingHP <= 0;
+         } else {
             isMenuActive = false;
-        }
+         }
+         
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -60,6 +114,10 @@ public class PlayerManager : MonoBehaviour
         {
             inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
             escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
+            levelChangerGameObject = GameObject.FindGameObjectWithTag("LevelChanger");
+            upgradeGameObject = GameObject.FindGameObjectWithTag("UpgradeMenu");
+            deathMenuManager = GameObject.FindGameObjectWithTag("DeathMenu").GetComponent<DeathMenuManager>();
+            this.playerCanCollide = true;
         }
     }
 
@@ -72,11 +130,20 @@ public class PlayerManager : MonoBehaviour
 
         InventoryManager inventoryManager = GameObject.FindGameObjectWithTag("InventoryManager")?.GetComponent<InventoryManager>();
         inventoryManager.UpdateInventoryUIWithItemSave();
+        this.playerCanCollide = true;
     }
 
     void OnDestroy()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void checkDeath() {
+
+        if (playerEntity.remainingHP <= 0 && !inCombat && !hasCheckedDeath) {
+            hasCheckedDeath = true;
+            StartCoroutine(deathMenuManager.Setup());
+        }
     }
 
     public Entity entity() {

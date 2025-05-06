@@ -48,5 +48,5 @@ MonoBehaviour:
   canvas: {fileID: 0}
   isMinigameSuccessful: 0
   countNeeded: 300
-  stepSize: 20
+  stepSize: 30
   timeLimit: 5

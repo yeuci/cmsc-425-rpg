@@ -159,6 +159,19 @@ public class SaveGameLoader : MonoBehaviour
                         loadedInventory[i] = itemSave;
                     }
                 }
+            } else if (line.StartsWith("DefeatedEnemies:")) {
+                string raw = line.Replace("DefeatedEnemies:", "").Trim();
+                raw = raw.TrimStart('[').TrimEnd(']');
+
+                string[] entries = raw.Split(new char[] { ',' }, System.StringSplitOptions.RemoveEmptyEntries);
+
+                foreach (var entry in entries)
+                {
+                    if (int.TryParse(entry.Trim(), out int enemyId))
+                    {
+                        playerManager.defeatedEnemies.Add(enemyId);
+                    }
+                }
             }
         }
 
@@ -192,7 +205,7 @@ public class SaveGameLoader : MonoBehaviour
         }
         
         Debug.Log("DungeonMap scene loaded.");
-        
+
         Debug.Log("Attempting to find player...");
         GameObject player = GameObject.FindWithTag("Player");
         
@@ -245,6 +258,7 @@ public class SaveGameLoader : MonoBehaviour
                     if (loadedInventory[i] == null)
                     {
                         playerEntity.inventory[i] = null;
+                        Debug.Log($"------------LOADING MANAGER IT's NULL HERE: {i}------------");
                         continue;
                     }
                     playerEntity.inventory[i] = new ItemSave();
@@ -255,11 +269,29 @@ public class SaveGameLoader : MonoBehaviour
                     Debug.Log($"Item {i}: {playerEntity.inventory[i].item} with count {playerEntity.inventory[i].count} i = {i}");
                 }
 
+                // check player inventory and log
+
+                for (int i = 0; i < 25; i++)
+                {
+                    if (playerEntity.inventory[i] != null && playerEntity.inventory[i].itemData != null)
+                    {
+                        Debug.Log($"AFTER SAVE Item {i}: {playerEntity.inventory[i].itemData.name} with count {playerEntity.inventory[i].count}");
+                    }
+                    else
+                    {
+                        Debug.Log($"Item {i}: Empty or null item.");
+                    }
+                }
+
                 // refresh the ui
                 iMEntity = GameObject.FindGameObjectWithTag("InventoryManager")?.GetComponent<InventoryManager>();
-                iMEntity.UpdateInventoryUIWithItemSave();
+
+                if (iMEntity != null) {
+                    iMEntity.UpdateInventoryUIWithItemSave();
+                }
 
                 // destroy all defeated enemies
+                int destroyed = 0;
                 GameObject[] allObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
                 foreach (GameObject obj in allObjects)
                 {
@@ -268,15 +300,23 @@ public class SaveGameLoader : MonoBehaviour
                         Entity entity = obj.GetComponent<Entity>();
                         if (entity != null)
                         {
+                            Debug.Log($"Checking enemy: {entity.enemyId} against defeated list.");
+                            Debug.Log(playerManager.defeatedEnemies.Count);
+                            Debug.Log(playerManager.defeatedEnemies);
                             if (playerManager.defeatedEnemies.Contains(entity.enemyId)) {
                                 obj.gameObject.SetActive(false);
                                 Destroy(obj);
+                                destroyed += 1;
                             }
+                        } else {
+                            Debug.LogWarning("Entity component not found on enemy object!");
                         }
                     }
                 }
 
+                Debug.Log($"---------------- Destroyed {destroyed} enemies from defeated list. -----------");
                 playerManager.playerCanCollide = true;
+                playerManager.isNewPlayer = false;
 
                 Debug.Log("Player stats restored from save");
             }
