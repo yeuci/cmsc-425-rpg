@@ -12,7 +12,8 @@ public class PlayerManager : MonoBehaviour
     public Item[] itemsArray;
     public int enemyBeforeCombat;
     public Vector3 enemyPositionBeforeCombat;
-    public bool isMenuActive = false; 
+    public bool isMenuActive = false;
+    public bool isNewPlayer = true; 
     [HideInInspector] public GameObject inventoryGameObject;
     [HideInInspector] public GameObject escapeGameObject;
     [HideInInspector] public GameObject upgradeGameObject;
@@ -51,6 +52,36 @@ public class PlayerManager : MonoBehaviour
         upgradeMenu = GameObject.FindGameObjectWithTag("UpgradeMenu");
         deathMenuManager = GameObject.FindGameObjectWithTag("DeathMenu").GetComponent<DeathMenuManager>();
     }
+
+    public void ResetPlayerManager()
+    {
+        if (playerEntity != null)
+        {
+            Destroy(playerEntity);
+        }
+        playerEntity = player.AddComponent<Entity>();
+
+        // itemsArray = new Item[0];
+
+        enemyBeforeCombat = 0;
+        enemyPositionBeforeCombat = Vector3.zero;
+
+        inventoryGameObject = null;
+        escapeGameObject = null;
+        upgradeGameObject = null;
+        levelChangerGameObject = null;
+        dialogueGameObject = null;
+        upgradeMenu = null;
+
+        defeatedEnemies.Clear();
+        playerCanCollide = true;
+        isMenuActive = false;
+        isNewPlayer = true;
+
+        Debug.Log("PlayerManager has been reset.");
+    }
+
+
 
     // Update is called once per frame
     void Update()

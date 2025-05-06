@@ -316,6 +316,7 @@ public class SaveGameLoader : MonoBehaviour
 
                 Debug.Log($"---------------- Destroyed {destroyed} enemies from defeated list. -----------");
                 playerManager.playerCanCollide = true;
+                playerManager.isNewPlayer = false;
 
                 Debug.Log("Player stats restored from save");
             }

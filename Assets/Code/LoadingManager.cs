@@ -42,9 +42,14 @@ public class LoadingManager : MonoBehaviour
     private IEnumerator LoadSelectedScene()
     {
         yield return new WaitForSeconds(10f);
+        
+        PlayerManager playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
 
-        string sceneToLoad = SceneTransitionManager.Instance.targetScene;
-        Debug.Log(sceneToLoad);
-        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneToLoad);
+        if (playerManager && playerManager.isNewPlayer == true) {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("ScrollingText");
+        } else {
+            string sceneToLoad = SceneTransitionManager.Instance.targetScene;
+            UnityEngine.SceneManagement.SceneManager.LoadScene(sceneToLoad);
+        }
     }
 }

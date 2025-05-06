@@ -17,7 +17,7 @@ public class Detection : MonoBehaviour
 
         detector = gameObject.AddComponent<SphereCollider>();
         detector.isTrigger = true;
-        detector.radius = 3;
+        detector.radius = 1;
     }
 
     void OnTriggerEnter(Collider other)
