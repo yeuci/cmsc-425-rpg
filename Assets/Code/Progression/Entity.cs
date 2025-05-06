@@ -148,15 +148,15 @@ public class Entity : MonoBehaviour
     //This should only run in DungeonMap, so I can access InventoryManager
     private void AddPlayerEquipment() {
         InventoryManager inventoryManager = GameObject.FindGameObjectWithTag("InventoryManager").GetComponent<InventoryManager>();
-        inventoryManager.AddItem(availableItems[1]);
-        inventoryManager.AddItem(availableItems[1]);
-        if(stats.magic > stats.attack) {
-            inventoryManager.AddItem(availableItems[UnityEngine.Random.Range(5,8)]);
-        } else {
-            inventoryManager.AddItem(availableItems[3]);
-            inventoryManager.AddItem(availableItems[4]);
-        }
-        inventoryManager.SendCurrentInventoryToState();
+        // inventoryManager.AddItem(availableItems[1]);
+        // inventoryManager.AddItem(availableItems[1]);
+        // if(stats.magic > stats.attack) {
+        //     inventoryManager.AddItem(availableItems[UnityEngine.Random.Range(5,8)]);
+        // } else {
+        //     inventoryManager.AddItem(availableItems[3]);
+        //     inventoryManager.AddItem(availableItems[4]);
+        // }
+        // inventoryManager.SendCurrentInventoryToState();
 
     }
 
