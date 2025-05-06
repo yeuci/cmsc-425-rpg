@@ -137,8 +137,6 @@ public class PlayerManager : MonoBehaviour
         BattleManager bm = BattleManager.instance;
         bm.enemyGameObject = spawned;
         bm.enemyEntity = spawned.GetComponent<Entity>();
-        bm.enemyEntity.stats = new Stat(playerEntity.stats.level);
-        bm.enemyEntity.AddEquipment();
         Debug.Log($"SPAWED HP: {bm.enemyEntity.remainingHP}");
         bm.enemy = bm.enemyEntity.getAdjustedStats();
         //Debug.Log($"AFTER SPAWNED: {bm.enemy.health}");
