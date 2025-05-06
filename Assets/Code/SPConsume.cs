@@ -56,5 +56,6 @@ public class SPConsume : MonoBehaviour
         playerEntity.skillPoints = currentSP;
         applyButton.interactable = false;
         applied = true;
+        allocated = new int[5];
     }
 }
