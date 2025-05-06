@@ -72,7 +72,7 @@ public class Stat {
     }
 
     public float[] getStatArray() {
-        float[] statArray = new float[] {health, attack, defense, speed, magic};
+        float[] statArray = new float[] {health, mana, attack, defense, speed, magic};
         return statArray;
     }
 };
