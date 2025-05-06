@@ -20,7 +20,7 @@ public class Stat {
         defense = 10;
         speed = 10;
         magic = 10;
-        expToNext = (100 - level) * (float)Math.Pow(2, level); 
+        expToNext = (50 - level) * (float)Math.Pow(2, level); 
     }
 
 
@@ -36,7 +36,7 @@ public class Stat {
         defense = 10 * scaling;
         speed = 10 * scaling;
         magic = 5 * scaling;
-        expToNext = (100 - level) * (float)Math.Pow(2, level); 
+        expToNext = (50 - level) * (float)Math.Pow(2, level); 
     }
 
     // Base stats with custom scaling for each stat, scalings[] order: hp, mana, atk, def, spd, mgk
@@ -49,7 +49,7 @@ public class Stat {
         defense = 10 * scalings[3];
         speed = 10 * scalings[4];
         magic = 5 * scalings[5];
-        expToNext = (100 - level) * (float)Math.Pow(2, level); 
+        expToNext = (50 - level) * (float)Math.Pow(2, level); 
     }
 
     // Custom values for each stat, stats[] order: hp, atk, def, spd, mgk
@@ -62,7 +62,7 @@ public class Stat {
         defense = def;
         speed = spd;
         magic = mgk;
-        expToNext = (100 - level) * (float)Math.Pow(2, level); 
+        expToNext = (50 - level) * (float)Math.Pow(2, level); 
     }
 
     
