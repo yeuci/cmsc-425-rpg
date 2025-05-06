@@ -50,13 +50,6 @@ public class Entity : MonoBehaviour
         skillPoints = 0;
 
         availableItems = GameObject.FindGameObjectWithTag("InventoryManager")?.GetComponent<AvailableItemsAccess>().availableItems;
-        if (availableItems != null) {
-            if(eClass != Class.ENEMY) {
-                AddPlayerEquipment();
-            } else {
-                AddEquipment();
-            }
-        }
 
     }
 
@@ -138,7 +131,7 @@ public class Entity : MonoBehaviour
         maximumMP = 5*stats.magic;
     }
 
-    private void AddEquipment() {
+    public void AddEquipment() {
 
         inventory[0] = new ItemSave(2,"Healing Potion",availableItems[1]);
         if(stats.magic > stats.attack) {
@@ -155,20 +148,6 @@ public class Entity : MonoBehaviour
 
     }
 
-    //This should only run in DungeonMap, so I can access InventoryManager
-    private void AddPlayerEquipment() {
-        InventoryManager inventoryManager = GameObject.FindGameObjectWithTag("InventoryManager").GetComponent<InventoryManager>();
-        // inventoryManager.AddItem(availableItems[1]);
-        // inventoryManager.AddItem(availableItems[1]);
-        // if(stats.magic > stats.attack) {
-        //     inventoryManager.AddItem(availableItems[UnityEngine.Random.Range(5,8)]);
-        // } else {
-        //     inventoryManager.AddItem(availableItems[3]);
-        //     inventoryManager.AddItem(availableItems[4]);
-        // }
-        // inventoryManager.SendCurrentInventoryToState();
-
-    }
 
     public void applyUpgrade(int[] addedStats) {
         //health, attack, defense, speed, magic
