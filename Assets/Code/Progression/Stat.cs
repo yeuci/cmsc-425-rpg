@@ -14,7 +14,7 @@ public class Stat {
     public Stat() {
         level = 1;
         experience = 0;
-        health = 100;
+        health = 10;
         attack = 10;
         defense = 10;
         speed = 10;
@@ -29,11 +29,11 @@ public class Stat {
 
         this.level = level;
         experience = 0;
-        health = 100 * scaling;
+        health = 10 * scaling;
         attack = 10 * scaling;
         defense = 10 * scaling;
         speed = 10 * scaling;
-        magic = 5 * scaling;
+        magic = 10 * scaling;
         expToNext = (50 - level) * (float)Math.Pow(2, level); 
     }
 
@@ -41,11 +41,11 @@ public class Stat {
     public Stat(int level, float[] scalings) {
         this.level = level;
         experience = 0;
-        health = 100 * scalings[0];
+        health = 10 * scalings[0];
         attack = 10 * scalings[2];
         defense = 10 * scalings[3];
         speed = 10 * scalings[4];
-        magic = 5 * scalings[5];
+        magic = 10 * scalings[5];
         expToNext = (50 - level) * (float)Math.Pow(2, level); 
     }
 

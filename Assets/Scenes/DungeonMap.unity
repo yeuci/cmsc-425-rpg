@@ -2180,7 +2180,6 @@ MonoBehaviour:
     experience: 0
     expToNext: 198
     health: 100
-    mana: 50
     attack: 10
     defense: 10
     speed: 10
@@ -2266,7 +2265,9 @@ MonoBehaviour:
   inventoryCount: 0
   eClass: 3
   remainingHP: 100
+  maximumHP: 1000
   remainingMP: 100
+  maximumMP: 50
   isAlive: 1
   defeatedEnemies: 
   skillPoints: 0
@@ -53368,7 +53369,6 @@ MonoBehaviour:
     experience: 0
     expToNext: 198
     health: 100
-    mana: 50
     attack: 10
     defense: 10
     speed: 10
@@ -53463,7 +53463,9 @@ MonoBehaviour:
   inventoryCount: 0
   eClass: 3
   remainingHP: 100
+  maximumHP: 1000
   remainingMP: 0
+  maximumMP: 50
   isAlive: 1
   defeatedEnemies: 
   skillPoints: 0
@@ -61114,12 +61116,11 @@ MonoBehaviour:
     level: 1
     experience: 0
     expToNext: 198
-    health: 100
-    mana: 50
+    health: 10
     attack: 10
     defense: 10
     speed: 11
-    magic: 5
+    magic: 10
   equippedGear:
   - count: 0
     item: 
@@ -61210,7 +61211,9 @@ MonoBehaviour:
   inventoryCount: 0
   eClass: 0
   remainingHP: 100
+  maximumHP: 1000
   remainingMP: 0
+  maximumMP: 50
   isAlive: 1
   defeatedEnemies: 
   skillPoints: 0
@@ -73967,7 +73970,6 @@ MonoBehaviour:
     experience: 0
     expToNext: 198
     health: 100
-    mana: 50
     attack: 10
     defense: 10
     speed: 10
@@ -74053,7 +74055,9 @@ MonoBehaviour:
   inventoryCount: 0
   eClass: 3
   remainingHP: 100
+  maximumHP: 1000
   remainingMP: 0
+  maximumMP: 50
   isAlive: 1
   defeatedEnemies: 
   skillPoints: 0
