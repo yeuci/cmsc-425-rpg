@@ -224,7 +224,6 @@ public class BattleManager : MonoBehaviour
                 usedItem = GetComponentInParent<AvailableItemsAccess>().availableItems[9];
             }
 
-            animationManager.Animate(BattleOption.ATTACK);
             battle.setUsedItem(usedItem); //Set the used item to the weapon that the player currently has equipped
             battle.perform(BattleOption.USE_ITEM);
             AudioSource swordSwipe = GetComponent<AudioSource>();
@@ -356,6 +355,7 @@ public class BattleManager : MonoBehaviour
                 float rand = UnityEngine.Random.Range(0.0f, 255.0f);
                 if (rand < escapeChance) 
                 {
+                    UIBlocker.SetActive(true);
                     musicManager.PlayConfirmed();
                     Debug.Log("Player has fled the encounter");
                     yield return StartCoroutine(displayAction("Player successfully fled!"));

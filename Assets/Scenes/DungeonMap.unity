@@ -2855,6 +2855,7 @@ MonoBehaviour:
   enemyBeforeCombat: 0
   enemyPositionBeforeCombat: {x: 0, y: 0, z: 0}
   isMenuActive: 0
+  isNewPlayer: 1
   inventoryGameObject: {fileID: 1929463254}
   escapeGameObject: {fileID: 1731271319}
   upgradeGameObject: {fileID: 0}
@@ -72241,7 +72242,7 @@ GameObject:
   - component: {fileID: 2052540903}
   m_Layer: 5
   m_Name: DeathMenu
-  m_TagString: Untagged
+  m_TagString: DeathMenu
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

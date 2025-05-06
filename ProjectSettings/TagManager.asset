@@ -30,6 +30,7 @@ TagManager:
   - dialogue_container
   - dialogue_container_inner
   - UpgradeMenu
+  - DeathMenu
   layers:
   - Default
   - TransparentFX
