@@ -25,8 +25,8 @@ public class Entity : MonoBehaviour
     [SerializeField] public Class eClass;
 
     // Remaining HP of entity
-    public float remainingHP;
-    public float remainingMP;
+    public float remainingHP, maximumHP;
+    public float remainingMP, maximumMP;
 
     // Alive check (Should destroy Entity gameobject if false)
     [HideInInspector] public bool isAlive = true;
