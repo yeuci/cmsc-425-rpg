@@ -17,7 +17,7 @@ public class PlayerManager : MonoBehaviour
     public bool isMenuActive = false;
     public bool isNewPlayer = true; 
     public bool inCombat;
-    bool hasCheckedDeath = false;
+    public bool hasCheckedDeath = false;
     public int currentLevel = 0;
     public List<GameObject> orcs = new List<GameObject>();
     [HideInInspector] public GameObject inventoryGameObject;
@@ -99,6 +99,8 @@ public class PlayerManager : MonoBehaviour
         //     upgradeMenu = GameObject.FindGameObjectWithTag("UpgradeMenu");
         //  }
         checkDeath();
+
+        Debug.Log(hasCheckedDeath);
  
          if (inventoryGameObject != null && escapeGameObject != null && levelChangerGameObject != null && upgradeMenu != null) {
             isMenuActive = (dialogueGameObject != null && dialogueGameObject.activeSelf) || (upgradeMenu != null && upgradeMenu.activeSelf) || inventoryGameObject.activeSelf || escapeGameObject.activeSelf || levelChangerGameObject.GetComponent<FadeTransition>().isFadingOut ||
@@ -120,7 +122,7 @@ public class PlayerManager : MonoBehaviour
             levelChangerGameObject = GameObject.FindGameObjectWithTag("LevelChanger");
             upgradeMenu = GameObject.FindGameObjectWithTag("UpgradeMenu");
             deathMenuManager = GameObject.FindGameObjectWithTag("DeathMenu").GetComponent<DeathMenuManager>();
-            hasCheckedDeath = false;
+            deathMenuManager.deathMenu.SetActive(false);
             this.playerCanCollide = true;
 
             int destroyed = 0;
