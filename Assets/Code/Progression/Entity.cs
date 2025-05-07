@@ -52,7 +52,7 @@ public class Entity : MonoBehaviour
         availableItems = GameObject.FindGameObjectWithTag("InventoryManager")?.GetComponent<AvailableItemsAccess>().availableItems;
         if(eClass == Class.ENEMY){
             Debug.Log("Player's Level: "+PlayerManager.player.entity().stats.level);
-            //stats = new Stat(PlayerManager.player.entity().stats.level); //This will scale off of player level
+            scaleStats(ScalingMethod.PLAYER_LEVEL);
             AddEquipment();
         }
     }
@@ -65,18 +65,9 @@ public class Entity : MonoBehaviour
         maximumHP = 10*stats.health;
         maximumMP = 5*stats.magic;
     }
-
-    //Variant constructor to implement stat randomization
-    public Entity(int playerLevel){
-        stats = new Stat(playerLevel);
-        remainingHP = 10*stats.health;
-        remainingMP = 5*stats.magic;
-        maximumHP = 10*stats.health;
-        maximumMP = 5*stats.magic;
-    }
-
+    
     public float calculateXPValue() {
-        return stats.getStatTotal();
+        return Mathf.Sqrt(150 * stats.getStatTotal());
     }
 
     public void recalculateLvl() {
@@ -124,12 +115,19 @@ public class Entity : MonoBehaviour
     }
 
     public void scaleStats(ScalingMethod scaleMethod, float[] scalings = default) {
-        float constantScale = 1.0f;
-        if (scalings == default) constantScale = UnityEngine.Random.Range(0.8f, 1.2f);
+        float[] constantScales = new float[5];
+        if (scalings == default) {
+            for(int i = 0; i < 5; i++) constantScales[i] = UnityEngine.Random.Range(0.8f, 1.2f);
+        }
 
         switch (scaleMethod) {
             case ScalingMethod.PLAYER_LEVEL: // scale stats based on player level
-                stats = new Stat(PlayerManager.player.entity().stats.level, constantScale);
+                float[] newStats = stats.getStatArray();
+                int level = PlayerManager.player.entity().stats.level;
+                for(int i = 0; i < 5; i++) {    
+                    newStats[i] = level * constantScales[i];
+                }
+                stats = new Stat(level, newStats[0], newStats[1], newStats[2], newStats[3], newStats[4]);
                 break;
             case ScalingMethod.CLASS: // scale stats based on class
                 // add later
