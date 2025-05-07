@@ -127,6 +127,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    //Note: Creation of Enemy is Working, but I cannot modify stats
     public void getEnemyEntity() {
         Vector3 spawnPosition = new Vector3(3f, 0.85f, -1f);
         GameObject spawned = Instantiate(orcs[0], spawnPosition, Quaternion.identity);
