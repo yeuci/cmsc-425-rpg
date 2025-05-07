@@ -127,6 +127,7 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    //Note: Creation of Enemy is Working, but I cannot modify stats
     public void getEnemyEntity() {
         Vector3 spawnPosition = new Vector3(3f, 0.85f, -1f);
         GameObject spawned = Instantiate(orcs[0], spawnPosition, Quaternion.identity);
@@ -137,8 +138,6 @@ public class PlayerManager : MonoBehaviour
         BattleManager bm = BattleManager.instance;
         bm.enemyGameObject = spawned;
         bm.enemyEntity = spawned.GetComponent<Entity>();
-        bm.enemyEntity.stats = new Stat(playerEntity.stats.level);
-        bm.enemyEntity.AddEquipment();
         Debug.Log($"SPAWED HP: {bm.enemyEntity.remainingHP}");
         bm.enemy = bm.enemyEntity.getAdjustedStats();
         //Debug.Log($"AFTER SPAWNED: {bm.enemy.health}");

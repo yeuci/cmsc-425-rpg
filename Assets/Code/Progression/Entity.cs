@@ -50,7 +50,11 @@ public class Entity : MonoBehaviour
         skillPoints = 0;
 
         availableItems = GameObject.FindGameObjectWithTag("InventoryManager")?.GetComponent<AvailableItemsAccess>().availableItems;
-
+        if(eClass == Class.ENEMY){
+            Debug.Log("Player's Level: "+PlayerManager.player.entity().stats.level);
+            //stats = new Stat(PlayerManager.player.entity().stats.level); //This will scale off of player level
+            AddEquipment();
+        }
     }
 
     // Basic Entity
@@ -105,7 +109,8 @@ public class Entity : MonoBehaviour
         maximumHP = 10*stats.health;    
         maximumMP = 5*stats.magic;
         Debug.Log("Adjusted Stats for "+eClass+":\nHealth: "+stats.health+", Atk: "+stats.attack+", Def: "+stats.defense+
-                        "Speed: "+stats.speed+", Mgk: "+stats.magic+"\nHP: "+remainingHP+"/"+maximumHP+"\nMP: "+remainingMP+"/"+maximumMP);
+                        "Speed: "+stats.speed+", Mgk: "+stats.magic+"\nHP: "+remainingHP+"/"+maximumHP+
+                        "\nStat Total = "+stats.getStatTotal()+"\nMP: "+remainingMP+"/"+maximumMP);
         return stats;
     }
 

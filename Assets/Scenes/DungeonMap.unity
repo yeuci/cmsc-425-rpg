@@ -76221,6 +76221,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1718291774}
     m_Modifications:
+    - target: {fileID: 120348698656142785, guid: e345ecbe3f36b3443b243b2a20cb5d29, type: 3}
+      propertyPath: equippedGear.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6051460974834776245, guid: e345ecbe3f36b3443b243b2a20cb5d29, type: 3}
       propertyPath: m_Name
       value: Orc
