@@ -75,6 +75,7 @@ public class BattleManager : MonoBehaviour
     public ResultsWindow results;
     public bool isEnemyReady = false;
     public bool alreadyCalled = false;
+    public OrcModelAnimator orcModelAnimator;
 
     void getPlayerInventory() {
         ItemSave[] playerInventory = playerEntity.inventory;
@@ -270,6 +271,8 @@ public class BattleManager : MonoBehaviour
         if(enemyEntity.remainingHP <= 0) {
             float enemyXP = enemyEntity.calculateXPValue();
             Debug.Log("Enemy is defeated. Player gains " + enemyXP + " XP!");
+
+            orcModelAnimator.playDeath();
 
             float prevXP = playerEntity.stats.experience;
             float prevCap = playerEntity.stats.expToNext;
@@ -552,10 +555,14 @@ public class BattleManager : MonoBehaviour
             //Has a successful cast chance equal to 10*player level %
             if(UnityEngine.Random.Range(1,11) <= player.level){
                 battle.perform(BattleOption.USE_ITEM);
+                orcModelAnimator.playMagic();
             } else {
                 battle.endTurn();
             }
         } else {
+            if (battle.usedItem.actionType == ActionType.Attack) {
+                orcModelAnimator.playClaw();
+            }
             battle.perform(BattleOption.USE_ITEM);
         }
         updatePlayerHealthAndManaBar();
