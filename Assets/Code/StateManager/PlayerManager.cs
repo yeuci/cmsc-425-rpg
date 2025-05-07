@@ -99,8 +99,6 @@ public class PlayerManager : MonoBehaviour
         //     upgradeMenu = GameObject.FindGameObjectWithTag("UpgradeMenu");
         //  }
         checkDeath();
-
-        Debug.Log(hasCheckedDeath);
  
          if (inventoryGameObject != null && escapeGameObject != null && levelChangerGameObject != null && upgradeMenu != null) {
             isMenuActive = (dialogueGameObject != null && dialogueGameObject.activeSelf) || (upgradeMenu != null && upgradeMenu.activeSelf) || inventoryGameObject.activeSelf || escapeGameObject.activeSelf || levelChangerGameObject.GetComponent<FadeTransition>().isFadingOut ||
