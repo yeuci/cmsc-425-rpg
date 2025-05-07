@@ -22,7 +22,6 @@ public class PlayerManager : MonoBehaviour
     public List<GameObject> orcs = new List<GameObject>();
     [HideInInspector] public GameObject inventoryGameObject;
     [HideInInspector] public GameObject escapeGameObject;
-    [HideInInspector] public GameObject upgradeGameObject;
     [HideInInspector]  GameObject levelChangerGameObject;
     [HideInInspector] public GameObject dialogueGameObject;
     [HideInInspector] public GameObject upgradeMenu;
@@ -45,7 +44,7 @@ public class PlayerManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
         escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
-        upgradeGameObject = GameObject.FindGameObjectWithTag("UpgradeMenu");
+        upgradeMenu = GameObject.FindGameObjectWithTag("UpgradeMenu");
         levelChangerGameObject = GameObject.FindGameObjectWithTag("LevelChanger");
         dialogueGameObject = GameObject.FindGameObjectWithTag("dialogue_container_inner");
         upgradeMenu = GameObject.FindGameObjectWithTag("UpgradeMenu");
@@ -75,7 +74,6 @@ public class PlayerManager : MonoBehaviour
 
         inventoryGameObject = null;
         escapeGameObject = null;
-        upgradeGameObject = null;
         levelChangerGameObject = null;
         dialogueGameObject = null;
         upgradeMenu = null;
@@ -102,7 +100,7 @@ public class PlayerManager : MonoBehaviour
         //  }
         checkDeath();
  
-         if (inventoryGameObject != null && escapeGameObject != null && levelChangerGameObject != null) {
+         if (inventoryGameObject != null && escapeGameObject != null && levelChangerGameObject != null && upgradeMenu != null) {
             isMenuActive = (dialogueGameObject != null && dialogueGameObject.activeSelf) || (upgradeMenu != null && upgradeMenu.activeSelf) || inventoryGameObject.activeSelf || escapeGameObject.activeSelf || levelChangerGameObject.GetComponent<FadeTransition>().isFadingOut || playerEntity.remainingHP <= 0;
          } else {
             isMenuActive = false;
@@ -119,7 +117,7 @@ public class PlayerManager : MonoBehaviour
             inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
             escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
             levelChangerGameObject = GameObject.FindGameObjectWithTag("LevelChanger");
-            upgradeGameObject = GameObject.FindGameObjectWithTag("UpgradeMenu");
+            upgradeMenu = GameObject.FindGameObjectWithTag("UpgradeMenu");
             deathMenuManager = GameObject.FindGameObjectWithTag("DeathMenu").GetComponent<DeathMenuManager>();
             this.playerCanCollide = true;
         } else if (scene.name == "CombatManagerScene") {
