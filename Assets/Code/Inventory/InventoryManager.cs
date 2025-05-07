@@ -56,6 +56,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     public void UpdateInventoryUIWithItemSave() {
+
         playerEntity.inventoryCount = 0;
 
         for (int i = 0; i < 7; i++) 
@@ -99,7 +100,6 @@ public class InventoryManager : MonoBehaviour
     }
 
     public void SendCurrentInventoryToState() {
-        ClearInventoryUI();
 
         Debug.Log("------ HERE ARE THE SLOTS IN THE HOTBAR WHEN CALLED ------");
         if (playerEntity == null) {
@@ -529,34 +529,6 @@ public class InventoryManager : MonoBehaviour
             {
                 Destroy(item.currentPopupPanel);
                 item.currentPopupPanel = null; // Clear the reference
-            }
-        }
-    }
-
-    // Clears the inventory UI so new items can be instantiated
-    private void ClearInventoryUI()
-    {
-        foreach (Transform child in hotbarContainer.transform)
-        {
-            foreach (Transform grandchild in child)
-            {
-                Destroy(grandchild.gameObject);
-            }
-        }
-
-        foreach (Transform child in inventoryContainer.transform)
-        {
-            foreach (Transform grandchild in child)
-            {
-                Destroy(grandchild.gameObject);
-            }
-        }
-
-        foreach (Transform child in equippedContainer.transform)
-        {
-            foreach (Transform grandchild in child)
-            {
-                Destroy(grandchild.gameObject);
             }
         }
     }
