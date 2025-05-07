@@ -155,13 +155,13 @@ public class Entity : MonoBehaviour
         newStats[0] += addedStats[0]; // hp
         newStats[1] += addedStats[1]; // atk
         newStats[2] += addedStats[2]; // def
-        newStats[3] += addedStats[3]; // spd
-        newStats[4] += addedStats[4]; // mgk
+        newStats[3] += addedStats[4]; // spd
+        newStats[4] += addedStats[3]; // mgk
 
         remainingHP += 10*(newStats[0] - stats.health); //Add whatever HP they obtained in the lvl up
         remainingMP += 5*(newStats[4] -stats.magic);    //Add whatever MP they obtained in the lvl up
         maximumHP = 10*newStats[0];                     //Set the new maximum HP
         maximumMP = 5*newStats[4];                      //Set the new maximum MP
-        stats = new Stat(stats.level, newStats[0],newStats[2],newStats[3],newStats[4], newStats[5]);
+        stats = new Stat(stats.level, newStats[0],newStats[1],newStats[2],newStats[3], newStats[4]);
     }
 }

@@ -39,6 +39,7 @@ public class UpgradeMenu : MonoBehaviour
             upgradeAvail.SetActive(true);
             spAmt.text = PlayerManager.player.entity().skillPoints.ToString();
         }
+        
         if(Input.GetKeyDown(KeyCode.U)) {
             upgradeWindow.SetActive(!upgradeWindow.activeSelf);
         }
