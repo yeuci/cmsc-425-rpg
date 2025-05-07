@@ -178,7 +178,7 @@ public class PlayerManager : MonoBehaviour
         Image hpImage = hpImageContainerTransform.GetComponent<Image>();
 
         bm.enemyHealthBar = hpImage;
-        
+        bm.orcModelAnimator = spawned.GetComponent<OrcModelAnimator>();
 
         GameObject placeholder = GameObject.FindGameObjectWithTag("enemy_to_destroy");
         if (placeholder != null) {
