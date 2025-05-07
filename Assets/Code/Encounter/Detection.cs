@@ -8,6 +8,7 @@ public class Detection : MonoBehaviour
     SphereCollider detector;
     public Entity enemyEntityPrefab;
     GameObject levelChanger;
+    public int bossLevel = -1;
     [HideInInspector] public PlayerManager playerManager;
 
     void Start()
@@ -18,6 +19,10 @@ public class Detection : MonoBehaviour
         detector = gameObject.AddComponent<SphereCollider>();
         detector.isTrigger = true;
         detector.radius = 1;
+
+        if (bossLevel != -1) {
+            playerManager.currentLevel = bossLevel;
+        }
     }
 
     void OnTriggerEnter(Collider other)

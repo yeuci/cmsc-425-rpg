@@ -155,7 +155,7 @@ public class PlayerManager : MonoBehaviour
     //Note: Creation of Enemy is Working, but I cannot modify stats
     public void getEnemyEntity() {
         Vector3 spawnPosition = new Vector3(3f, 0.85f, -1f);
-        GameObject spawned = Instantiate(orcs[0], spawnPosition, Quaternion.identity);
+        GameObject spawned = Instantiate(orcs[currentLevel], spawnPosition, Quaternion.identity);
         spawned.transform.rotation = Quaternion.Euler(0f, -130f, 0f);
         spawned.transform.localScale = new Vector3(1.1f, 1.3f, 1.1f);
 
