@@ -120,6 +120,7 @@ public class PlayerManager : MonoBehaviour
             levelChangerGameObject = GameObject.FindGameObjectWithTag("LevelChanger");
             upgradeMenu = GameObject.FindGameObjectWithTag("UpgradeMenu");
             deathMenuManager = GameObject.FindGameObjectWithTag("DeathMenu").GetComponent<DeathMenuManager>();
+            hasCheckedDeath = false;
             this.playerCanCollide = true;
 
             int destroyed = 0;
