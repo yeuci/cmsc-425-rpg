@@ -63,7 +63,9 @@ public class InventoryManager : MonoBehaviour
         { 
             if (playerEntity.inventory[playerEntity.inventoryCount] != null && playerEntity.inventory[playerEntity.inventoryCount].itemData != null && playerEntity.inventory[playerEntity.inventoryCount].count > 0) {
                 Transform child = hotbarContainer.transform.GetChild(i);
-                InventoryItem item = SpawnNewItemForSave(playerEntity.inventory[playerEntity.inventoryCount].count, playerEntity.inventory[playerEntity.inventoryCount].itemData, child.GetComponent<InventorySlot>());
+                if (child.childCount == 0) {
+                    InventoryItem item = SpawnNewItemForSave(playerEntity.inventory[playerEntity.inventoryCount].count, playerEntity.inventory[playerEntity.inventoryCount].itemData, child.GetComponent<InventorySlot>());
+                }
             }
             playerEntity.inventoryCount++;
         }
@@ -72,7 +74,9 @@ public class InventoryManager : MonoBehaviour
         { 
             if (playerEntity.inventory[playerEntity.inventoryCount] != null && playerEntity.inventory[playerEntity.inventoryCount].itemData != null && playerEntity.inventory[playerEntity.inventoryCount].count > 0) {
                 Transform child = inventoryContainer.transform.GetChild(i);
-                InventoryItem item = SpawnNewItemForSave(playerEntity.inventory[playerEntity.inventoryCount].count, playerEntity.inventory[playerEntity.inventoryCount].itemData, child.GetComponent<InventorySlot>());
+                if (child.childCount == 0) {
+                    InventoryItem item = SpawnNewItemForSave(playerEntity.inventory[playerEntity.inventoryCount].count, playerEntity.inventory[playerEntity.inventoryCount].itemData, child.GetComponent<InventorySlot>());
+                }
             }
             playerEntity.inventoryCount++;
         }
@@ -81,7 +85,9 @@ public class InventoryManager : MonoBehaviour
         {
             if(playerEntity.equippedGear[i] != null && playerEntity.equippedGear[i].itemData != null) {
                 Transform child = equippedContainer.transform.GetChild(i);
-                InventoryItem item = SpawnNewItemForSave(1,playerEntity.equippedGear[i].itemData,child.GetComponent<InventorySlot>());
+                if (child.childCount == 0) {
+                    InventoryItem item = SpawnNewItemForSave(1,playerEntity.equippedGear[i].itemData,child.GetComponent<InventorySlot>());
+                }
             }
         }
     }
