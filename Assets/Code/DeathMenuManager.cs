@@ -41,7 +41,8 @@ public class DeathMenuManager : MonoBehaviour
     }
 
     public void OnNewGame() {
-        SceneManager.LoadScene("DungeonMap");
+        SaveGameLoader loader = GameObject.FindGameObjectWithTag("SaveSystem").GetComponent<SaveGameLoader>();
+        loader.NewGame();
         // TODO: reset playermanager
     }
 
