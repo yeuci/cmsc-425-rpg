@@ -42,10 +42,10 @@ public class Stat {
         this.level = level;
         experience = 0;
         health = 10 * scalings[0];
-        attack = 10 * scalings[2];
-        defense = 10 * scalings[3];
-        speed = 10 * scalings[4];
-        magic = 10 * scalings[5];
+        attack = 10 * scalings[1];
+        defense = 10 * scalings[2];
+        speed = 10 * scalings[3];
+        magic = 10 * scalings[4];
         expToNext = (50 - level) * (float)Math.Pow(2, level); 
     }
 
@@ -60,31 +60,6 @@ public class Stat {
         magic = mgk;
         expToNext = (50 - level) * (float)Math.Pow(2, level); 
     }
-
-    //This will only be used to create enemies
-    public Stat(int level){
-        int skillPoints = (int) PlayerManager.player.entity().stats.getStatTotal(); //This gets the total number of skill points that the player has
-        skillPoints *= (int) UnityEngine.Random.Range(0.8f, 1.2f);
-        skillPoints -= 25;
-        //Clamp all stats at a minimum of 5
-        float [] statArr = {5f,5f,5f,5f,5f};
-        //Randomly assign the remaining stats
-        for(int i = 0; i < skillPoints; i++){
-            statArr[UnityEngine.Random.Range(0, 5)] += 1;
-            Debug.Log($"{statArr[0]},{statArr[1]},{statArr[2]},{statArr[3]},{statArr[4]}");
-        }
-        level = 0;
-        experience = 0;
-        health = statArr[0];
-        attack = statArr[1];
-        defense = statArr[2];
-        speed = statArr[3];
-        magic = statArr[4];
-        Debug.Log($"Health: {health}, Atk: {attack}, Def: {defense}, Speed: {speed}, Mgk: {magic}");
-        expToNext = (50 - level) * (float)Math.Pow(2, level); 
-    }
-
-    
 
     public float getStatTotal() {
         return health + attack + defense + speed + magic;

@@ -20,6 +20,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] Material leatherMaterial;
     [SerializeField] Material metalMaterial;
     [SerializeField] Material defaultMaterial;
+    [SerializeField] GameObject helpPanel;
     [HideInInspector] Entity playerEntity;
     [HideInInspector] PlayerManager playerManager;
     [HideInInspector] public GameObject inventoryContainer;
@@ -43,16 +44,19 @@ public class InventoryManager : MonoBehaviour
         hotbarContainer = GameObject.FindGameObjectWithTag("gui_hotbar");
         equippedContainer = GameObject.FindGameObjectWithTag("gui_equipment");
         musicManager = GameObject.FindGameObjectWithTag("MusicManager");
+        helpPanel = GameObject.FindGameObjectWithTag("HelpMenu");
 
         itemsToPickup = GetComponentInParent<AvailableItemsAccess>().availableItems;
     }
 
     private void Start() {
         inventoryGroup.SetActive(false);
+        helpPanel.SetActive(false);
         ChangeSelectedSlot(0);
     }
 
     public void UpdateInventoryUIWithItemSave() {
+
         playerEntity.inventoryCount = 0;
 
         for (int i = 0; i < 7; i++) 
@@ -96,6 +100,7 @@ public class InventoryManager : MonoBehaviour
     }
 
     public void SendCurrentInventoryToState() {
+
         Debug.Log("------ HERE ARE THE SLOTS IN THE HOTBAR WHEN CALLED ------");
         if (playerEntity == null) {
             playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
@@ -207,7 +212,6 @@ public class InventoryManager : MonoBehaviour
         {
             inventoryGroup.SetActive(!inventoryGroup.activeSelf);
             DestroyAllPopupPanels();
-            
         }
 
         // TEST SUITE
@@ -240,6 +244,11 @@ public class InventoryManager : MonoBehaviour
             } else {
                 Debug.Log("No item selected!");
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.H)) {
+            helpPanel.SetActive(!helpPanel.activeSelf);
+            DestroyAllPopupPanels();
         }
 
         // HOTBAR SWITCHING
@@ -510,17 +519,17 @@ public class InventoryManager : MonoBehaviour
     }
 
     private void DestroyAllPopupPanels()
-{
-    // Find all active popup panels in the scene
-    InventoryItem[] inventoryItems = FindObjectsByType<InventoryItem>(FindObjectsSortMode.None);
-
-    foreach (InventoryItem item in inventoryItems)
     {
-        if (item.currentPopupPanel != null)
+        // Find all active popup panels in the scene
+        InventoryItem[] inventoryItems = FindObjectsByType<InventoryItem>(FindObjectsSortMode.None);
+
+        foreach (InventoryItem item in inventoryItems)
         {
-            Destroy(item.currentPopupPanel);
-            item.currentPopupPanel = null; // Clear the reference
+            if (item.currentPopupPanel != null)
+            {
+                Destroy(item.currentPopupPanel);
+                item.currentPopupPanel = null; // Clear the reference
+            }
         }
     }
-}
 }

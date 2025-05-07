@@ -67,10 +67,12 @@ public class SaveGame : MonoBehaviour
                     $"Level: {playerStats.level}\n" +
                     $"Experience: {playerStats.experience}\n" +
                     $"Health: {playerStats.health}\n" +
+                    $"Remaining HP: {playerEntity.remainingHP}\n" +
                     $"Attack: {playerStats.attack}\n" +
                     $"Defense: {playerStats.defense}\n" +
                     $"Speed: {playerStats.speed}\n" +
                     $"Magic: {playerStats.magic}\n" +
+                    $"Remaining MP: {playerEntity.remainingMP}\n" +
                     $"ExpToNext: {playerStats.expToNext}";
 
         // Inventory
