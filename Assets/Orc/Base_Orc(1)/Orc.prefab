@@ -1518,7 +1518,7 @@ MonoBehaviour:
     level: 1
     experience: 0
     expToNext: 198
-    health: 10
+    health: 7
     attack: 5
     defense: 1
     speed: 6
