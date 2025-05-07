@@ -50,7 +50,10 @@ public class Entity : MonoBehaviour
         skillPoints = 0;
 
         availableItems = GameObject.FindGameObjectWithTag("InventoryManager")?.GetComponent<AvailableItemsAccess>().availableItems;
-
+        if(eClass == Class.ENEMY){
+            Debug.Log("Adding Equipment");
+            AddEquipment();
+        }
     }
 
     // Basic Entity
