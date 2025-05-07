@@ -121,6 +121,29 @@ public class PlayerManager : MonoBehaviour
             upgradeMenu = GameObject.FindGameObjectWithTag("UpgradeMenu");
             deathMenuManager = GameObject.FindGameObjectWithTag("DeathMenu").GetComponent<DeathMenuManager>();
             this.playerCanCollide = true;
+
+            int destroyed = 0;
+            GameObject[] allObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
+            foreach (GameObject obj in allObjects)
+            {
+                if (obj.CompareTag("Enemy"))
+                {
+                    Entity entity = obj.GetComponent<Entity>();
+                    if (entity != null)
+                    {
+                        Debug.Log($"Checking enemy: {entity.enemyId} against defeated list.");
+                        Debug.Log(this.defeatedEnemies.Count);
+                        Debug.Log(this.defeatedEnemies);
+                        if (this.defeatedEnemies.Contains(entity.enemyId)) {
+                            obj.gameObject.SetActive(false);
+                            Destroy(obj);
+                            destroyed += 1;
+                        }
+                    } else {
+                        Debug.LogWarning("Entity component not found on enemy object!");
+                    }
+                }
+            }
         } else if (scene.name == "CombatManagerScene") {
             Debug.Log("------------------WE IN COMBAT MANAGER!----------------------");
         }

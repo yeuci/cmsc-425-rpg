@@ -4,10 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class LevelTransition : MonoBehaviour
 {
-    public string targetScene;
-    private string currentScene;
+    public int nextLevel;
     public Vector3 nextPosition;
-    public Vector3 returnPosition;
     GameObject levelChanger;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -32,9 +30,6 @@ public class LevelTransition : MonoBehaviour
 
     private IEnumerator FadeToScene() {
             Debug.Log("Player made contact");
-            currentScene = SceneManager.GetActiveScene().name;
-
-            SceneTransitionManager.Instance.targetScene = targetScene;
             SceneTransitionManager.Instance.playerSpawnPosition = nextPosition;
 
             FadeTransition transition = levelChanger.GetComponent<FadeTransition>();

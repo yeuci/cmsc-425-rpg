@@ -48,8 +48,7 @@ public class LoadingManager : MonoBehaviour
         if (playerManager && playerManager.isNewPlayer == true) {
             UnityEngine.SceneManagement.SceneManager.LoadScene("ScrollingText");
         } else {
-            string sceneToLoad = SceneTransitionManager.Instance.targetScene;
-            UnityEngine.SceneManagement.SceneManager.LoadScene(sceneToLoad);
+            UnityEngine.SceneManagement.SceneManager.LoadScene("DungeonMap");
         }
     }
 }
