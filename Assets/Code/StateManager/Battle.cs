@@ -56,10 +56,14 @@ public class Battle
     }
 
     public void perform(BattleOption battleOption) {
+        attackerStats = attacker.getAdjustedStats();
+        defenderStats = defender.getAdjustedStats();
         switch (battleOption) {
             case BattleOption.USE_ITEM:
                 Debug.Log(usedItem);
                 if(usedItem.actionType == ActionType.Attack){
+                    Debug.Log("Attack Action Taken by "+attacker.name);
+                    Debug.LogWarning("Defender's Defense Stat: "+defenderStats.defense);
                     int damage =  Mathf.RoundToInt(attackerStats.attack*usedItem.attackPower/defenderStats.defense);
                     defender.remainingHP -= damage;
 
@@ -114,5 +118,7 @@ public class Battle
 
     public void endTurn() {
         (attacker, defender) = (defender, attacker);
+        attackerStats = attacker.getAdjustedStats();
+        defenderStats = defender.getAdjustedStats();
     }
 }
