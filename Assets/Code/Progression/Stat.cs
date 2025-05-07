@@ -63,25 +63,22 @@ public class Stat {
 
     //This will only be used to create enemies
     public Stat(int level){
-        int skillPoints = (int) PlayerManager.player.entity().stats.getStatTotal(); //This gets the total number of skill points that the player has
-        skillPoints *= (int) UnityEngine.Random.Range(0.8f, 1.2f);
-        skillPoints -= 25;
-        //Clamp all stats at a minimum of 5
-        float [] statArr = {5f,5f,5f,5f,5f};
-        //Randomly assign the remaining stats
-        for(int i = 0; i < skillPoints; i++){
-            statArr[UnityEngine.Random.Range(0, 5)] += 1;
-            Debug.Log($"{statArr[0]},{statArr[1]},{statArr[2]},{statArr[3]},{statArr[4]}");
+        //Step 1: Get the player's current number of skill points, and cast to an int
+        int playerSkillPoints = (int) PlayerManager.player.entity().stats.getStatTotal();
+        //Step 2: Multiply by anywhere between 0.8 and 1.2
+        int enemySkillPoints = (int) (playerSkillPoints*UnityEngine.Random.Range(0.8f,1.2f))-5;
+        //Step 3: Give every stat a minimum of 1 to avoid divide by 0 error
+        float [] statArray = {1f,1f,1f,1f,1f};
+        //Step 4: Assign remaining skillpoints randomly
+        for(int i = 0; i < enemySkillPoints; i++){
+            statArray[UnityEngine.Random.Range(0,4)] += 1;
         }
-        level = 0;
-        experience = 0;
-        health = statArr[0];
-        attack = statArr[1];
-        defense = statArr[2];
-        speed = statArr[3];
-        magic = statArr[4];
+        health = statArray[0];
+        attack = statArray[1];
+        defense = statArray[2];
+        speed = statArray[3];
+        magic = statArray[4];
         Debug.Log($"Health: {health}, Atk: {attack}, Def: {defense}, Speed: {speed}, Mgk: {magic}");
-        expToNext = (50 - level) * (float)Math.Pow(2, level); 
     }
 
     
