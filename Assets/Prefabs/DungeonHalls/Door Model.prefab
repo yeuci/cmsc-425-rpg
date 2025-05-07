@@ -327,6 +327,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WallTile
       objectReference: {fileID: 0}
+    - target: {fileID: 7084084630244841083, guid: c78656f2f53ae1249834e1e17ceb9c20, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8395878610197010207, guid: c78656f2f53ae1249834e1e17ceb9c20, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.35
@@ -400,6 +404,10 @@ PrefabInstance:
     - target: {fileID: 205710580322229758, guid: 3a382c6849e265f42a6a661fc576794e, type: 3}
       propertyPath: m_Name
       value: FloorTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 205710580322229758, guid: 3a382c6849e265f42a6a661fc576794e, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 646043667538802040, guid: 3a382c6849e265f42a6a661fc576794e, type: 3}
       propertyPath: m_LocalScale.x
@@ -475,6 +483,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WallTile (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7084084630244841083, guid: c78656f2f53ae1249834e1e17ceb9c20, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8395878610197010207, guid: c78656f2f53ae1249834e1e17ceb9c20, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.1
@@ -548,6 +560,10 @@ PrefabInstance:
     - target: {fileID: 7084084630244841083, guid: c78656f2f53ae1249834e1e17ceb9c20, type: 3}
       propertyPath: m_Name
       value: WallTile (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7084084630244841083, guid: c78656f2f53ae1249834e1e17ceb9c20, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8395878610197010207, guid: c78656f2f53ae1249834e1e17ceb9c20, type: 3}
       propertyPath: m_LocalScale.x
