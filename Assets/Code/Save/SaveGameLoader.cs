@@ -218,6 +218,8 @@ public class SaveGameLoader : MonoBehaviour
 
         Debug.Log("Attempting to find player...");
         GameObject player = GameObject.FindWithTag("Player");
+
+        
         
         if (player != null)
         {
@@ -361,7 +363,7 @@ public class SaveGameLoader : MonoBehaviour
             Debug.LogWarning("Player not found in Dungeon scene!");
         }
 
-        Debug.Log($"THE CAMERA: {Camera.main.transform.position}");
+        playerManager.hasCheckedDeath = false;
         
         Debug.Log("LoadSceneAndApplyState completed");
     }
