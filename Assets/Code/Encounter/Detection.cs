@@ -20,13 +20,14 @@ public class Detection : MonoBehaviour
         detector.isTrigger = true;
         detector.radius = 1;
 
-        if (bossLevel != -1) {
-            playerManager.currentLevel = bossLevel;
-        }
+
     }
 
     void OnTriggerEnter(Collider other)
-    {
+    {        
+        if (bossLevel != -1) {
+            playerManager.currentLevel = bossLevel;
+        }
         if (other.tag == "Player" && playerManager.playerCanCollide && !playerManager.isMenuActive) {
             StartCoroutine(EnterCombat());
         }

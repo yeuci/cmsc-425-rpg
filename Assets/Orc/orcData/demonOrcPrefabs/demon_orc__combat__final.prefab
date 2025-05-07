@@ -9362,12 +9362,12 @@ MonoBehaviour:
   stats:
     level: 1
     experience: 0
-    expToNext: 98
+    expToNext: 198
     health: 10
-    attack: 15
-    defense: 10
-    speed: 10
-    magic: 5
+    attack: 9
+    defense: 5
+    speed: 8
+    magic: 6
   equippedGear: []
   equippedGearCount: 0
   inventory:

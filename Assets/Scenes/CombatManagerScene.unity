@@ -3003,12 +3003,12 @@ MonoBehaviour:
   isMenuActive: 0
   isNewPlayer: 1
   inCombat: 0
+  hasCheckedDeath: 0
   currentLevel: 0
   orcs:
   - {fileID: 7101753339972542398, guid: 7753a7880d0e37b4dbf31b2f8161bc58, type: 3}
   inventoryGameObject: {fileID: 0}
   escapeGameObject: {fileID: 0}
-  upgradeGameObject: {fileID: 0}
   dialogueGameObject: {fileID: 0}
   upgradeMenu: {fileID: 0}
   defeatedEnemies: 
@@ -6764,6 +6764,7 @@ MonoBehaviour:
   enemyHealthBar: {fileID: 1196532734}
   playerHealthText: {fileID: 303336520}
   playerManaText: {fileID: 1359554057}
+  availableItems: []
   inventoryButtonPrefab: {fileID: 3378739920198862752, guid: 39d6e95f6ec68714ba1284d71be7e7c0, type: 3}
   spellListContainer: {fileID: 587906997}
   inventoryInfoPrefab: {fileID: 1411338594673910739, guid: 489ecf6c4671b384eb041aec1af7ad0a, type: 3}
@@ -6773,6 +6774,7 @@ MonoBehaviour:
   results: {fileID: 1473096637}
   isEnemyReady: 0
   alreadyCalled: 0
+  orcModelAnimator: {fileID: 0}
 --- !u!82 &2069830882
 AudioSource:
   m_ObjectHideFlags: 0

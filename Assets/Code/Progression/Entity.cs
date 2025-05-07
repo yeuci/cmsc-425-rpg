@@ -14,7 +14,7 @@ public enum ScalingMethod {
 public class Entity : MonoBehaviour
 {
     [SerializeField] public Stat stats;
-    [SerializeField] public ItemSave[] equippedGear;
+    [SerializeField] public ItemSave[] equippedGear = new ItemSave[3];
     [SerializeField] public int equippedGearCount = 0;
 
     // proxy for inventory
@@ -50,7 +50,7 @@ public class Entity : MonoBehaviour
     // Basic Entity
     public Entity() {
         stats = new Stat();
-        equippedGear = new ItemSave[3]; //Changed Size of equippedGear to match number of slots
+        equippedGear = new ItemSave[3];
         remainingHP = 10*stats.health;
         remainingMP = 5*stats.magic;
         maximumHP = 10*stats.health;
@@ -139,6 +139,8 @@ public class Entity : MonoBehaviour
     public void AddEquipment(Item[] availableItems) {
 
         inventory[0] = new ItemSave(2,"Healing Potion",availableItems[1]);
+        if(equippedGear.Length == 0) equippedGear = new ItemSave[3];
+
         if(stats.magic > stats.attack) {
             //I will want to give them a consumable spell.
             inventory[1] = new ItemSave(1,"Spell",availableItems[UnityEngine.Random.Range(5,8)]);
@@ -147,6 +149,7 @@ public class Entity : MonoBehaviour
             //No armor initially, and Unarmed Strike
         } else {
             //Give them a weapon and armor. These should be basic.
+            Debug.Log(equippedGear.Length + " , " + (availableItems != null));
             equippedGear[0] = new ItemSave(1,"Leather Armor",availableItems[4]);
             equippedGear[1] = new ItemSave(1,"Basic Sword",availableItems[3]);
             //Do not give them a spell

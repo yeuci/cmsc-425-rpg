@@ -115,6 +115,7 @@ public class PlayerManager : MonoBehaviour
 
         if (scene.name == "DungeonMap")
         {
+            InventoryManager inventoryManager = GameObject.FindGameObjectWithTag("InventoryManager").GetComponent<InventoryManager>();
             inventoryGameObject = GameObject.FindGameObjectWithTag("InventoryMenu");
             escapeGameObject = GameObject.FindGameObjectWithTag("EscapeMenu");
             levelChangerGameObject = GameObject.FindGameObjectWithTag("LevelChanger");
@@ -145,6 +146,7 @@ public class PlayerManager : MonoBehaviour
                     }
                 }
             }
+            inventoryManager.UpdateInventoryUIWithItemSave();
         } else if (scene.name == "CombatManagerScene") {
             Debug.Log("------------------WE IN COMBAT MANAGER!----------------------");
         }

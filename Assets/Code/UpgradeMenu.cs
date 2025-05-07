@@ -28,7 +28,7 @@ public class UpgradeMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {    
-        if(skillPoints < 0) skillPoints = PlayerManager.player.entity().skillPoints;
+        skillPoints = PlayerManager.player.entity().skillPoints;
         
         if(skillPoints == 0) {
             upgradeAvail.SetActive(false);
@@ -39,7 +39,7 @@ public class UpgradeMenu : MonoBehaviour
             upgradeAvail.SetActive(true);
             spAmt.text = PlayerManager.player.entity().skillPoints.ToString();
         }
-        
+
         if(Input.GetKeyDown(KeyCode.U)) {
             upgradeWindow.SetActive(!upgradeWindow.activeSelf);
         }

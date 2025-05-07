@@ -171,7 +171,6 @@ public class BattleManager : MonoBehaviour
         } else {
             Debug.Log("ENEMY"+msg);
         }
-        isEnemyMove = () => !playerMove;
 
         // GetSpells();
 
@@ -192,6 +191,8 @@ public class BattleManager : MonoBehaviour
         battle = new Battle(playerEntity, enemyEntity, usedItem, popupGenerator);
         // Debug.Log("BATTLE STARTED!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+ playerEntity.remainingHP +"/"+ player.health);
         playerMove = player.speed >= enemy.speed;
+        isEnemyMove = () => !playerMove;
+        if(!playerMove) battle.endTurn();
 
         Transform hpImageTransform = enemyEntity.gameObject.transform.Find("EnemyHealthCanvas");
         Transform hpImageContainerTransform = hpImageTransform.transform.Find("Enemy_HP");
@@ -209,10 +210,12 @@ public class BattleManager : MonoBehaviour
         }
 
         isEnemyReady = true;
+
     }
 
     void Update()
-    {
+    {   
+
         // Debug.Log(enemyEntity.remainingHP);
         if (!isEnemyReady) {
             return;

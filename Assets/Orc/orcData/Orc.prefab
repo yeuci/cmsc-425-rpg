@@ -1501,6 +1501,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyEntityPrefab: {fileID: 120348698656142785}
+  bossLevel: -1
   playerManager: {fileID: 0}
 --- !u!114 &120348698656142785
 MonoBehaviour:
