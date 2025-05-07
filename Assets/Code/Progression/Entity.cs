@@ -32,8 +32,6 @@ public class Entity : MonoBehaviour
     [HideInInspector] public bool isAlive = true;
     [HideInInspector] public List<int> defeatedEnemies = new List<int>();
 
-    Item [] availableItems;
-
     public int skillPoints;
 
     // used to determine enemy gameobject for before and after combat scene. not needed for anything else
@@ -41,25 +39,18 @@ public class Entity : MonoBehaviour
     public int enemyId = 0;
 
     void Start() {
-        equippedGear = new ItemSave[3]; //Changed Size of equippedGear to match number of slots
         remainingHP = 10*stats.health;
         remainingMP = 5*stats.magic;
         maximumHP = 10*stats.health;
         maximumMP = 5*stats.magic;
 
         skillPoints = 0;
-
-        availableItems = GameObject.FindGameObjectWithTag("InventoryManager")?.GetComponent<AvailableItemsAccess>().availableItems;
-        if(eClass == Class.ENEMY){
-            Debug.Log("Player's Level: "+PlayerManager.player.entity().stats.level);
-            scaleStats(ScalingMethod.PLAYER_LEVEL);
-            AddEquipment();
-        }
     }
 
     // Basic Entity
     public Entity() {
         stats = new Stat();
+        equippedGear = new ItemSave[3]; //Changed Size of equippedGear to match number of slots
         remainingHP = 10*stats.health;
         remainingMP = 5*stats.magic;
         maximumHP = 10*stats.health;
@@ -67,7 +58,7 @@ public class Entity : MonoBehaviour
     }
     
     public float calculateXPValue() {
-        return Mathf.Sqrt(150 * stats.getStatTotal());
+        return (int)Mathf.Sqrt(150 * stats.getStatTotal());
     }
 
     public void recalculateLvl() {
@@ -102,6 +93,8 @@ public class Entity : MonoBehaviour
                 adjStats[2] += i.defense;
                 adjStats[3] += i.speed;
                 adjStats[4] += i.magic;
+                
+                Debug.Log(this.name + ", " + iS.itemData.defense);
             }
         }
         //STATS: lvl, health, mana, atk, def, spd, mgk
@@ -125,7 +118,7 @@ public class Entity : MonoBehaviour
                 float[] newStats = stats.getStatArray();
                 int level = PlayerManager.player.entity().stats.level;
                 for(int i = 0; i < 5; i++) {    
-                    newStats[i] = level * constantScales[i];
+                    newStats[i] += level * constantScales[i];
                 }
                 stats = new Stat(level, newStats[0], newStats[1], newStats[2], newStats[3], newStats[4]);
                 break;
@@ -143,12 +136,14 @@ public class Entity : MonoBehaviour
         maximumMP = 5*stats.magic;
     }
 
-    public void AddEquipment() {
+    public void AddEquipment(Item[] availableItems) {
 
         inventory[0] = new ItemSave(2,"Healing Potion",availableItems[1]);
         if(stats.magic > stats.attack) {
             //I will want to give them a consumable spell.
             inventory[1] = new ItemSave(1,"Spell",availableItems[UnityEngine.Random.Range(5,8)]);
+            equippedGear[0] = new ItemSave(1, "Leather Armor", availableItems[4]);
+            equippedGear[1] = new ItemSave(1, "Unarmed Attack", availableItems[9]);
             //No armor initially, and Unarmed Strike
         } else {
             //Give them a weapon and armor. These should be basic.
@@ -164,16 +159,18 @@ public class Entity : MonoBehaviour
     public void applyUpgrade(int[] addedStats) {
         //health, attack, defense, speed, magic
         float[] newStats = stats.getStatArray();
+        float prevXP = stats.experience;
         newStats[0] += addedStats[0]; // hp
         newStats[1] += addedStats[1]; // atk
         newStats[2] += addedStats[2]; // def
-        newStats[3] += addedStats[4]; // spd
-        newStats[4] += addedStats[3]; // mgk
+        newStats[3] += addedStats[3]; // spd
+        newStats[4] += addedStats[4]; // mgk
 
         remainingHP += 10*(newStats[0] - stats.health); //Add whatever HP they obtained in the lvl up
         remainingMP += 5*(newStats[4] -stats.magic);    //Add whatever MP they obtained in the lvl up
         maximumHP = 10*newStats[0];                     //Set the new maximum HP
         maximumMP = 5*newStats[4];                      //Set the new maximum MP
         stats = new Stat(stats.level, newStats[0],newStats[1],newStats[2],newStats[3], newStats[4]);
+        stats.experience = prevXP;
     }
 }

@@ -56,6 +56,7 @@ public class BattleManager : MonoBehaviour
     public TextMeshProUGUI playerManaText;
 
     // Invetory and Spells    
+    public Item[] availableItems;
     public GameObject inventoryButtonPrefab; // Drag the prefab here in the Inspector
     public Transform spellListContainer;
     public GameObject inventoryInfoPrefab;
@@ -75,6 +76,7 @@ public class BattleManager : MonoBehaviour
     public ResultsWindow results;
     public bool isEnemyReady = false;
     public bool alreadyCalled = false;
+    public OrcModelAnimator orcModelAnimator;
 
     void getPlayerInventory() {
         ItemSave[] playerInventory = playerEntity.inventory;
@@ -129,6 +131,7 @@ public class BattleManager : MonoBehaviour
         // enemyEntity = enemyGameObject.GetComponent<Entity>();
         playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
         playerEntity = PlayerManager.player.entity();
+        availableItems = GetComponent<AvailableItemsAccess>().availableItems;
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
@@ -178,8 +181,34 @@ public class BattleManager : MonoBehaviour
         // }
 
         playerManager.getEnemyEntity();
+        enemyEntity.scaleStats(ScalingMethod.PLAYER_LEVEL);
+        enemyEntity.AddEquipment(availableItems);
 
-        Debug.Log(enemyEntity.remainingHP);
+        Debug.Log(enemyEntity.remainingHP); 
+        enemy = enemyEntity.getAdjustedStats();
+        //Debug.Log($"AFTER SPAWNED: {enemy.health}");
+        //Debug.Log(enemy.health);
+        
+        battle = new Battle(playerEntity, enemyEntity, usedItem, popupGenerator);
+        // Debug.Log("BATTLE STARTED!\n"+"Enemy HP: " + enemyEntity.remainingHP + "/" + enemy.health+" - Player HP: "+ playerEntity.remainingHP +"/"+ player.health);
+        playerMove = player.speed >= enemy.speed;
+
+        Transform hpImageTransform = enemyEntity.gameObject.transform.Find("EnemyHealthCanvas");
+        Transform hpImageContainerTransform = hpImageTransform.transform.Find("Enemy_HP");
+
+        // Rotate the health canvas to face the camera and add a 40-degree tilt
+        hpImageTransform.rotation = Quaternion.LookRotation(Camera.main.transform.forward);
+        Image hpImage = hpImageContainerTransform.GetComponent<Image>();
+
+        enemyHealthBar = hpImage;
+        
+
+        GameObject placeholder = GameObject.FindGameObjectWithTag("enemy_to_destroy");
+        if (placeholder != null) {
+            Destroy(placeholder);
+        }
+
+        isEnemyReady = true;
     }
 
     void Update()
@@ -270,6 +299,8 @@ public class BattleManager : MonoBehaviour
         if(enemyEntity.remainingHP <= 0) {
             float enemyXP = enemyEntity.calculateXPValue();
             Debug.Log("Enemy is defeated. Player gains " + enemyXP + " XP!");
+
+            orcModelAnimator.playDeath();
 
             float prevXP = playerEntity.stats.experience;
             float prevCap = playerEntity.stats.expToNext;
@@ -552,10 +583,14 @@ public class BattleManager : MonoBehaviour
             //Has a successful cast chance equal to 10*player level %
             if(UnityEngine.Random.Range(1,11) <= player.level){
                 battle.perform(BattleOption.USE_ITEM);
+                orcModelAnimator.playMagic();
             } else {
                 battle.endTurn();
             }
         } else {
+            if (battle.usedItem.actionType == ActionType.Attack) {
+                orcModelAnimator.playClaw();
+            }
             battle.perform(BattleOption.USE_ITEM);
         }
         updatePlayerHealthAndManaBar();
