@@ -11,14 +11,14 @@ public class Stat {
     // Base stats
     public float health, attack, defense, speed, magic;
 
-    public Stat() {
+    public Stat() { //This works for the Warrior Class
         level = 1;
         experience = 0;
         health = 10;
-        attack = 10;
+        attack = 15;
         defense = 10;
         speed = 10;
-        magic = 10;
+        magic = 5;
         expToNext = (50 - level) * (float)Math.Pow(2, level); 
     }
 
