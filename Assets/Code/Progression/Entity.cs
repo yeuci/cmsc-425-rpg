@@ -66,6 +66,15 @@ public class Entity : MonoBehaviour
         maximumMP = 5*stats.magic;
     }
 
+    //Variant constructor to implement stat randomization
+    public Entity(int playerLevel){
+        stats = new Stat(playerLevel);
+        remainingHP = 10*stats.health;
+        remainingMP = 5*stats.magic;
+        maximumHP = 10*stats.health;
+        maximumMP = 5*stats.magic;
+    }
+
     public float calculateXPValue() {
         return stats.getStatTotal();
     }
