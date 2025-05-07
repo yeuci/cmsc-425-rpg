@@ -6,6 +6,7 @@ public class SceneTransitionManager : MonoBehaviour
 
     public string targetScene;
     public Vector3 playerSpawnPosition;
+    public bool shouldTeleportOnSceneLoad = false;
 
     void Awake()
     {

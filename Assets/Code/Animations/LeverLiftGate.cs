@@ -32,16 +32,26 @@ public class LeverLiftGate : MonoBehaviour
     {
         if (player == null) return; // Safeguard
 
-        if (Vector3.Distance(leverArm.position, player.position) <= interactionDistance)
+        // if (Vector3.Distance(leverArm.position, player.position) <= interactionDistance)
+        // {
+        //     if (Input.GetKeyDown(KeyCode.E) && !isActivated)
+        //     {
+        //         StartCoroutine(ActivateLeverAndGate());
+        //     }   
+        // }
+    }
+
+    public void ActivateLeverAndGateInteractable()
+    {
+        if (player == null) return; // Safeguard
+
+        if (!isActivated)
         {
-            if (Input.GetKeyDown(KeyCode.E) && !isActivated)
-            {
-                StartCoroutine(ActivateLeverAndGate());
-            }   
+            StartCoroutine(ActivateLeverAndGate());
         }
     }
 
-    IEnumerator ActivateLeverAndGate() 
+    public IEnumerator ActivateLeverAndGate() 
     {
         isActivated = true;
 

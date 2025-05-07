@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class DoorInteractable : MonoBehaviour, Interactable
 {
-
     public DoorController doorController;
 
     public void Interact(Transform transform)

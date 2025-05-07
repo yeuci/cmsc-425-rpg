@@ -60,16 +60,16 @@ public class Battle
         defenderStats = defender.getAdjustedStats();
         switch (battleOption) {
             case BattleOption.USE_ITEM:
-                Debug.Log(usedItem);
+                Debug.Log(usedItem.actionType);
                 if(usedItem.actionType == ActionType.Attack){
                     Debug.Log("Attack Action Taken by "+attacker.name);
                     Debug.LogWarning("Defender's Defense Stat: "+defenderStats.defense);
-                    int damage =  Mathf.RoundToInt(attackerStats.attack*usedItem.attackPower/defenderStats.defense);
+                    int damage =  Mathf.CeilToInt(attackerStats.attack*usedItem.attackPower/defenderStats.defense);
                     defender.remainingHP -= damage;
 
                     popupGenerator.CreatePopUp(defender.transform.position, damage.ToString(), defender.transform.right, DMGCOLOR);
                 } else if (usedItem.actionType == ActionType.Cast) {
-                    int damage = Mathf.RoundToInt(attackerStats.magic*usedItem.magicPower);
+                    int damage = Mathf.CeilToInt(attackerStats.magic*usedItem.magicPower);
                     defender.remainingHP -= damage;
 
                     dmgDealt = damage;

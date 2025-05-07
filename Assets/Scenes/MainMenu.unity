@@ -3492,6 +3492,9 @@ MonoBehaviour:
   currentLevel: 0
   orcs:
   - {fileID: 7101753339972542398, guid: 7753a7880d0e37b4dbf31b2f8161bc58, type: 3}
+  - {fileID: 3577592837386781336, guid: 872db9fe217f3304da6a45ca05119a61, type: 3}
+  - {fileID: 1899528072497447641, guid: 9ea9d10d3e832d7488e1ef60daa73929, type: 3}
+  - {fileID: 5128266643394831715, guid: 4f9747315864d724998509b21336131d, type: 3}
   inventoryGameObject: {fileID: 0}
   escapeGameObject: {fileID: 0}
   dialogueGameObject: {fileID: 0}

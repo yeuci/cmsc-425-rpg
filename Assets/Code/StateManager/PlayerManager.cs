@@ -161,31 +161,34 @@ public class PlayerManager : MonoBehaviour
         BattleManager bm = BattleManager.instance;
         bm.enemyGameObject = spawned;
         bm.enemyEntity = spawned.GetComponent<Entity>();
+        bm.orcModelAnimator = spawned.GetComponent<OrcModelAnimator>();
+
         Debug.Log($"SPAWED HP: {bm.enemyEntity.remainingHP}");
-        bm.enemy = bm.enemyEntity.getAdjustedStats();
-        //Debug.Log($"AFTER SPAWNED: {bm.enemy.health}");
-        //Debug.Log(bm.enemy.health);
+        // bm.enemyEntity.scaleStats(ScalingMethod.PLAYER_LEVEL);
+        // bm.enemy = bm.enemyEntity.getAdjustedStats();
+        // //Debug.Log($"AFTER SPAWNED: {bm.enemy.health}");
+        // //Debug.Log(bm.enemy.health);
         
-        bm.battle = new Battle(bm.playerEntity, bm.enemyEntity, bm.usedItem, bm.popupGenerator);
-        // Debug.Log("BATTLE STARTED!\n"+"Enemy HP: " + bm.enemyEntity.remainingHP + "/" + bm.enemy.health+" - Player HP: "+ bm.playerEntity.remainingHP +"/"+ bm.player.health);
-        bm.playerMove = bm.player.speed >= bm.enemy.speed;
+        // bm.battle = new Battle(bm.playerEntity, bm.enemyEntity, bm.usedItem, bm.popupGenerator);
+        // // Debug.Log("BATTLE STARTED!\n"+"Enemy HP: " + bm.enemyEntity.remainingHP + "/" + bm.enemy.health+" - Player HP: "+ bm.playerEntity.remainingHP +"/"+ bm.player.health);
+        // bm.playerMove = bm.player.speed >= bm.enemy.speed;
 
-        Transform hpImageTransform = spawned.transform.Find("EnemyHealthCanvas");
-        Transform hpImageContainerTransform = hpImageTransform.transform.Find("Enemy_HP");
+        // Transform hpImageTransform = spawned.transform.Find("EnemyHealthCanvas");
+        // Transform hpImageContainerTransform = hpImageTransform.transform.Find("Enemy_HP");
 
-        // Rotate the health canvas to face the camera and add a 40-degree tilt
-        hpImageTransform.rotation = Quaternion.LookRotation(Camera.main.transform.forward);
-        Image hpImage = hpImageContainerTransform.GetComponent<Image>();
+        // // Rotate the health canvas to face the camera and add a 40-degree tilt
+        // hpImageTransform.rotation = Quaternion.LookRotation(Camera.main.transform.forward);
+        // Image hpImage = hpImageContainerTransform.GetComponent<Image>();
 
-        bm.enemyHealthBar = hpImage;
+        // bm.enemyHealthBar = hpImage;
         
 
-        GameObject placeholder = GameObject.FindGameObjectWithTag("enemy_to_destroy");
-        if (placeholder != null) {
-            Destroy(placeholder);
-        }
+        // GameObject placeholder = GameObject.FindGameObjectWithTag("enemy_to_destroy");
+        // if (placeholder != null) {
+        //     Destroy(placeholder);
+        // }
 
-        bm.isEnemyReady = true;
+        // bm.isEnemyReady = true;
     }
 
     public IEnumerator DelayedDungeonRestore()
