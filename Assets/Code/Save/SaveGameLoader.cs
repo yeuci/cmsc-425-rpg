@@ -9,6 +9,7 @@ public class SaveGameLoader : MonoBehaviour
     private string folderName = "CMSC425_SaveGames";
     private string savePath;
     private ItemSave[] loadedInventory = new ItemSave[25];
+    [SerializeField] private string gameScene;
     
     [HideInInspector] Entity playerEntity;
     [HideInInspector] PlayerManager playerManager;
@@ -20,6 +21,21 @@ public class SaveGameLoader : MonoBehaviour
 
         DontDestroyOnLoad(this.gameObject);
         savePath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.MyDocuments), folderName);
+    }
+
+    public void NewGame() {
+        if (!string.IsNullOrEmpty(gameScene))
+        {
+            PlayerManager playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
+            playerManager.ResetPlayerManager();
+            
+            Invoke(nameof(LoadGameScene), 0.2f);
+        }
+    }
+
+    private void LoadGameScene()
+    {
+        SceneManager.LoadScene(gameScene);
     }
 
     private Item GetItem(string name) {

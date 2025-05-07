@@ -6,7 +6,6 @@ public class ButtonFX : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
 {
     public AudioSource hoverAudioSource;
     public AudioSource clickAudioSource;
-    [SerializeField] private string gameScene;
 
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -24,16 +23,6 @@ public class ButtonFX : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
         }
     }
 
-    public void NewGame() {
-        if (!string.IsNullOrEmpty(gameScene))
-        {
-            PlayerManager playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
-            playerManager.ResetPlayerManager();
-            
-            Invoke(nameof(LoadGameScene), 0.2f);
-        }
-    }
-
     public void Settings() {
         Debug.Log("Settings button clicked.");
     }
@@ -46,8 +35,4 @@ public class ButtonFX : MonoBehaviour, IPointerEnterHandler, IPointerClickHandle
         #endif
     }
 
-    private void LoadGameScene()
-    {
-        SceneManager.LoadScene(gameScene);
-    }
 }

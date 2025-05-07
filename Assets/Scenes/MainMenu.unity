@@ -1392,8 +1392,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 283539225}
-        m_TargetAssemblyTypeName: ButtonFX, Assembly-CSharp
+      - m_Target: {fileID: 1646813655}
+        m_TargetAssemblyTypeName: SaveGameLoader, Assembly-CSharp
         m_MethodName: NewGame
         m_Mode: 1
         m_Arguments:
@@ -2711,6 +2711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69c07c3b5a37d724bba4147f61c50cf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameScene: LoadingScene
 --- !u!4 &1646813656
 Transform:
   m_ObjectHideFlags: 0
