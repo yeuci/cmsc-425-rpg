@@ -33,7 +33,10 @@ public class DeathMenuManager : MonoBehaviour
     }
 
     public void OnLastSave() {
-        SceneManager.LoadScene("DungeonMap");
+        SaveGameLoader loader = GameObject.FindGameObjectWithTag("SaveSystem").GetComponent<SaveGameLoader>();
+        deathMenu.SetActive(false);
+        loader.LoadLastSave();
+        // SceneManager.LoadScene("DungeonMap");
         // TODO: check if there is a last save, if not just load the dungeonmap
     }
 

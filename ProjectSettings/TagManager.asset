@@ -34,6 +34,7 @@ TagManager:
   - battle_manager
   - enemy_to_destroy
   - HelpMenu
+  - SaveSystem
   layers:
   - Default
   - TransparentFX

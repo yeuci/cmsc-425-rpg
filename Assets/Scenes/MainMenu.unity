@@ -2694,7 +2694,7 @@ GameObject:
   - component: {fileID: 1646813655}
   m_Layer: 0
   m_Name: SaveSystem
-  m_TagString: Untagged
+  m_TagString: SaveSystem
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3472,9 +3472,16 @@ MonoBehaviour:
   itemsArray:
   - {fileID: 11400000, guid: ac9350f2c4583e240bceedca0420fe94, type: 2}
   - {fileID: 11400000, guid: 25c29a11422fd214c986a7afa9ea0f42, type: 2}
-  - {fileID: 11400000, guid: 0e76f221c2b210b4d97c8b0b917170e9, type: 2}
+  - {fileID: 11400000, guid: e3aedde71f29bbc40896439a6b511ae7, type: 2}
   - {fileID: 11400000, guid: d8e36a19d0a657a4892ec5d67aaa9827, type: 2}
-  - {fileID: 11400000, guid: 1439296bc9fe07145818ae2dc7d42a57, type: 2}
+  - {fileID: 11400000, guid: 720a519e68f816a4b8b97441de5c6309, type: 2}
+  - {fileID: 11400000, guid: 0938f8d4c8bc705409259e1cf718d4b3, type: 2}
+  - {fileID: 11400000, guid: 1c57ab4f5cb88e14c8d128ba98a5bae3, type: 2}
+  - {fileID: 11400000, guid: 7349d4abd5b2ef4439908fa6a34d6c1c, type: 2}
+  - {fileID: 11400000, guid: 99432ffe851defc41a54ae092a9c47da, type: 2}
+  - {fileID: 11400000, guid: 0b909292ba60bee41b857152fbd8da71, type: 2}
+  - {fileID: 11400000, guid: 0db5681d11f173b4180d012027613651, type: 2}
+  - {fileID: 11400000, guid: 543241223dbddf14fa5d051af3ff4fb5, type: 2}
   enemyBeforeCombat: 0
   enemyPositionBeforeCombat: {x: 0, y: 0, z: 0}
   isMenuActive: 0
@@ -3485,7 +3492,6 @@ MonoBehaviour:
   - {fileID: 7101753339972542398, guid: 7753a7880d0e37b4dbf31b2f8161bc58, type: 3}
   inventoryGameObject: {fileID: 0}
   escapeGameObject: {fileID: 0}
-  upgradeGameObject: {fileID: 0}
   dialogueGameObject: {fileID: 0}
   upgradeMenu: {fileID: 0}
   defeatedEnemies: 
