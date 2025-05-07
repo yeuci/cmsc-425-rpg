@@ -60,7 +60,7 @@ public class InventoryManager : MonoBehaviour
 
         for (int i = 0; i < 7; i++) 
         { 
-            if (playerEntity.inventory[playerEntity.inventoryCount] != null && playerEntity.inventory[playerEntity.inventoryCount].itemData != null && playerEntity.inventory[playerEntity.inventoryCount].count > 0 && inventorySlots[i].GetComponentInChildren<InventoryItem>() == null) {
+            if (playerEntity.inventory[playerEntity.inventoryCount] != null && playerEntity.inventory[playerEntity.inventoryCount].itemData != null && playerEntity.inventory[playerEntity.inventoryCount].count > 0) {
                 Transform child = hotbarContainer.transform.GetChild(i);
                 InventoryItem item = SpawnNewItemForSave(playerEntity.inventory[playerEntity.inventoryCount].count, playerEntity.inventory[playerEntity.inventoryCount].itemData, child.GetComponent<InventorySlot>());
             }
@@ -69,7 +69,7 @@ public class InventoryManager : MonoBehaviour
 
         for (int i = 0; i < 18; i++) 
         { 
-            if (playerEntity.inventory[playerEntity.inventoryCount] != null && playerEntity.inventory[playerEntity.inventoryCount].itemData != null && playerEntity.inventory[playerEntity.inventoryCount].count > 0 && inventorySlots[i].GetComponentInChildren<InventoryItem>() == null) {
+            if (playerEntity.inventory[playerEntity.inventoryCount] != null && playerEntity.inventory[playerEntity.inventoryCount].itemData != null && playerEntity.inventory[playerEntity.inventoryCount].count > 0) {
                 Transform child = inventoryContainer.transform.GetChild(i);
                 InventoryItem item = SpawnNewItemForSave(playerEntity.inventory[playerEntity.inventoryCount].count, playerEntity.inventory[playerEntity.inventoryCount].itemData, child.GetComponent<InventorySlot>());
             }
@@ -78,7 +78,7 @@ public class InventoryManager : MonoBehaviour
 
         for(int i = 0; i < 3; i++) 
         {
-            if(playerEntity.equippedGear[i] != null && playerEntity.equippedGear[i].itemData != null && inventorySlots[i].GetComponentInChildren<InventoryItem>() == null) {
+            if(playerEntity.equippedGear[i] != null && playerEntity.equippedGear[i].itemData != null) {
                 Transform child = equippedContainer.transform.GetChild(i);
                 InventoryItem item = SpawnNewItemForSave(1,playerEntity.equippedGear[i].itemData,child.GetComponent<InventorySlot>());
             }
@@ -99,6 +99,8 @@ public class InventoryManager : MonoBehaviour
     }
 
     public void SendCurrentInventoryToState() {
+        ClearInventoryUI();
+
         Debug.Log("------ HERE ARE THE SLOTS IN THE HOTBAR WHEN CALLED ------");
         if (playerEntity == null) {
             playerEntity = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<Entity>();
@@ -517,17 +519,45 @@ public class InventoryManager : MonoBehaviour
     }
 
     private void DestroyAllPopupPanels()
-{
-    // Find all active popup panels in the scene
-    InventoryItem[] inventoryItems = FindObjectsByType<InventoryItem>(FindObjectsSortMode.None);
-
-    foreach (InventoryItem item in inventoryItems)
     {
-        if (item.currentPopupPanel != null)
+        // Find all active popup panels in the scene
+        InventoryItem[] inventoryItems = FindObjectsByType<InventoryItem>(FindObjectsSortMode.None);
+
+        foreach (InventoryItem item in inventoryItems)
         {
-            Destroy(item.currentPopupPanel);
-            item.currentPopupPanel = null; // Clear the reference
+            if (item.currentPopupPanel != null)
+            {
+                Destroy(item.currentPopupPanel);
+                item.currentPopupPanel = null; // Clear the reference
+            }
         }
     }
-}
+
+    // Clears the inventory UI so new items can be instantiated
+    private void ClearInventoryUI()
+    {
+        foreach (Transform child in hotbarContainer.transform)
+        {
+            foreach (Transform grandchild in child)
+            {
+                Destroy(grandchild.gameObject);
+            }
+        }
+
+        foreach (Transform child in inventoryContainer.transform)
+        {
+            foreach (Transform grandchild in child)
+            {
+                Destroy(grandchild.gameObject);
+            }
+        }
+
+        foreach (Transform child in equippedContainer.transform)
+        {
+            foreach (Transform grandchild in child)
+            {
+                Destroy(grandchild.gameObject);
+            }
+        }
+    }
 }

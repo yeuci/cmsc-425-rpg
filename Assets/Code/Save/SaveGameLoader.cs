@@ -300,7 +300,8 @@ public class SaveGameLoader : MonoBehaviour
                 // refresh the ui
                 iMEntity = GameObject.FindGameObjectWithTag("InventoryManager")?.GetComponent<InventoryManager>();
 
-                if (iMEntity != null) {
+                if (iMEntity != null)
+                {
                     iMEntity.UpdateInventoryUIWithItemSave();
                 }
 
