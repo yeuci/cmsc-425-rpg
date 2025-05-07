@@ -20,6 +20,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] Material leatherMaterial;
     [SerializeField] Material metalMaterial;
     [SerializeField] Material defaultMaterial;
+    [SerializeField] GameObject helpPanel;
     [HideInInspector] Entity playerEntity;
     [HideInInspector] PlayerManager playerManager;
     [HideInInspector] public GameObject inventoryContainer;
@@ -43,12 +44,14 @@ public class InventoryManager : MonoBehaviour
         hotbarContainer = GameObject.FindGameObjectWithTag("gui_hotbar");
         equippedContainer = GameObject.FindGameObjectWithTag("gui_equipment");
         musicManager = GameObject.FindGameObjectWithTag("MusicManager");
+        helpPanel = GameObject.FindGameObjectWithTag("HelpMenu");
 
         itemsToPickup = GetComponentInParent<AvailableItemsAccess>().availableItems;
     }
 
     private void Start() {
         inventoryGroup.SetActive(false);
+        helpPanel.SetActive(false);
         ChangeSelectedSlot(0);
     }
 
@@ -207,7 +210,6 @@ public class InventoryManager : MonoBehaviour
         {
             inventoryGroup.SetActive(!inventoryGroup.activeSelf);
             DestroyAllPopupPanels();
-            
         }
 
         // TEST SUITE
@@ -240,6 +242,11 @@ public class InventoryManager : MonoBehaviour
             } else {
                 Debug.Log("No item selected!");
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.H)) {
+            helpPanel.SetActive(!helpPanel.activeSelf);
+            DestroyAllPopupPanels();
         }
 
         // HOTBAR SWITCHING

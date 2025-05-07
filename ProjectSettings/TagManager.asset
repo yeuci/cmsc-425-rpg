@@ -33,6 +33,7 @@ TagManager:
   - DeathMenu
   - battle_manager
   - enemy_to_destroy
+  - HelpMenu
   layers:
   - Default
   - TransparentFX
