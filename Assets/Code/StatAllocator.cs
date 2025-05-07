@@ -5,8 +5,8 @@ public enum StatToUpgrade {
         HP = 0,
         ATK = 1,
         DEF = 2,
-        MGK = 3,
-        SPD = 4
+        MGK = 4,
+        SPD = 3
     }
 public class StatAllocator : MonoBehaviour
 {
