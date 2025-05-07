@@ -31,6 +31,7 @@ public class LevelTransition : MonoBehaviour
     private IEnumerator FadeToScene() {
             Debug.Log("Player made contact");
             SceneTransitionManager.Instance.playerSpawnPosition = nextPosition;
+            SceneTransitionManager.Instance.shouldTeleportOnSceneLoad = true;
 
             FadeTransition transition = levelChanger.GetComponent<FadeTransition>();
             transition.animator = levelChanger.GetComponent<Animator>();
