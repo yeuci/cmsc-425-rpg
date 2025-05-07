@@ -141,7 +141,7 @@ public class Entity : MonoBehaviour
         inventory[0] = new ItemSave(2,"Healing Potion",availableItems[1]);
         if(stats.magic > stats.attack) {
             //I will want to give them a consumable spell.
-            equippedGear[2] = new ItemSave(1,"Spell",availableItems[UnityEngine.Random.Range(5,8)]);
+            inventory[1] = new ItemSave(1,"Spell",availableItems[UnityEngine.Random.Range(5,8)]);
             //No armor initially, and Unarmed Strike
         } else {
             //Give them a weapon and armor. These should be basic.
