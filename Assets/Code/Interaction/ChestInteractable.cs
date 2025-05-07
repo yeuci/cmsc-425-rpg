@@ -32,7 +32,7 @@ public class ChestInteractable : MonoBehaviour, Interactable
             itemsAdded.Add(item);
         }
 
-        inventoryManager.UpdateInventoryUIWithItemSave();
+        // inventoryManager.UpdateInventoryUIWithItemSave();
         inventoryManager.SendCurrentInventoryToState();
 
         // TODO: DISPLAY ITEMS ADDED TO INVENTORY
