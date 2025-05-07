@@ -33,8 +33,6 @@ public class BattleManager : MonoBehaviour
     List<ItemSave> spells = new List<ItemSave>();       // Tracks which spells the player has access to
     List<ItemSave> consumables = new List<ItemSave>();  // Tracks potions player has
 
-    
-
     // Managers
     public AnimationManager animationManager;
     public DamagePopupGenerator popupGenerator;         // Creates damage popups
@@ -204,7 +202,6 @@ public class BattleManager : MonoBehaviour
         checkDeath();
     }
 
-
     IEnumerator StalledUpdate() {
         while (enemyEntity.remainingHP > 0) {
             yield return new WaitUntil(isEnemyMove);
@@ -230,8 +227,6 @@ public class BattleManager : MonoBehaviour
             
         }
     }
-
-
 
     public void playerAttack() {
         if(playerMove) {
@@ -556,7 +551,16 @@ public class BattleManager : MonoBehaviour
             }
         }
         battleTextPanel.GetComponentInChildren<TextMeshProUGUI>().text = text;
-        battle.perform(BattleOption.USE_ITEM);
+        if(battle.usedItem.actionType == ActionType.Cast){
+            //Has a successful cast chance equal to 10*player level %
+            if(UnityEngine.Random.Range(1,11) <= player.level){
+                battle.perform(BattleOption.USE_ITEM);
+            } else {
+                battle.endTurn();
+            }
+        } else {
+            battle.perform(BattleOption.USE_ITEM);
+        }
         updatePlayerHealthAndManaBar();
         recalculateEnemyHealthBar(); 
         updatePlayerHealthAndManaText();
