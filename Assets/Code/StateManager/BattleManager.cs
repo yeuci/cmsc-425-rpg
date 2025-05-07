@@ -47,7 +47,6 @@ public class BattleManager : MonoBehaviour
     public Transform battleTextContainer;
     public GameObject battleTextPanel;
     
-
     [HideInInspector] public PlayerManager playerManager;
 
     // Player and enemy health and mana bars
@@ -55,7 +54,6 @@ public class BattleManager : MonoBehaviour
     public Image enemyHealthBar;
     public TextMeshProUGUI playerHealthText;
     public TextMeshProUGUI playerManaText;
-
 
     // Invetory and Spells    
     public GameObject inventoryButtonPrefab; // Drag the prefab here in the Inspector
@@ -473,7 +471,6 @@ public class BattleManager : MonoBehaviour
         }
     }
     
-    
 //Enemy Action
     public void improvedEnemyAI() {
         //Step 1: Get the best source of damage and best source of healing available
@@ -565,7 +562,6 @@ public class BattleManager : MonoBehaviour
         recalculateEnemyHealthBar(); 
         updatePlayerHealthAndManaText();
     }
-
 
     void displayConsumableButtons() {
         foreach (Transform child in spellListContainer)
