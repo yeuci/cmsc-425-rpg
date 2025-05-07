@@ -22,14 +22,11 @@ public class OptionsManager : MonoBehaviour
         isOpen = false;
         
         if (!PlayerPrefs.HasKey("musicVolume")) {
-            Debug.Log("No volume key found, setting default volume.");
             PlayerPrefs.SetFloat("musicVolume", 1f);
             Load();
         } else {
-            Debug.Log("Volume key found, loading volume.");
             Load();
         }
-        Debug.Log("Volume is... : " + volumeSlider.value);
     }
 
 
@@ -40,7 +37,6 @@ public class OptionsManager : MonoBehaviour
             optionsMenu.SetActive(true);
             isOpen = true;
         }
-        Debug.Log("OptionsManager START.");
     }
 
 void Update() {
@@ -51,7 +47,6 @@ void Update() {
     public void ChangeVolume() {
         AudioListener.volume = volumeSlider.value;
         Save();
-        Debug.Log("Volume changed to: " + volumeSlider.value);
     }
 
     private void Load() {
@@ -65,12 +60,10 @@ void Update() {
 
     public void CloseOptions() {
         optionsMenu.SetActive(false);
-        Debug.Log("Options closed.");
     }
 
     public void OpenOptions() {
         optionsMenu.SetActive(true);
-        Debug.Log("Options opened.");
     }
 
     public void OnFullScreenToggle() {
@@ -78,11 +71,9 @@ void Update() {
         if (fullscreen == 0) {
             Screen.fullScreen = true;
             PlayerPrefs.SetInt("fullscreen", 1);
-            Debug.Log("Fullscreen enabled.");
         } else {
             Screen.fullScreen = false;
             PlayerPrefs.SetInt("fullscreen", 0);
-            Debug.Log("Fullscreen disabled.");
         }
     }
 }

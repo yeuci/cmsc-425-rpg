@@ -65,10 +65,12 @@ public class SaveGameLoader : MonoBehaviour
         int level = 1;
         float experience = 0;
         float health = 100;
+        float remainingHP = health;
         float attack = 10;
         float defense = 10;
         float speed = 10;
         float magic = 5;
+        float remainingMP = 50;
         float expToNext = 100;
 
         // need to compress later, test for now
@@ -94,6 +96,10 @@ public class SaveGameLoader : MonoBehaviour
             {
                 health = float.Parse(line.Replace("Health:", "").Trim());
             }
+            else if (line.StartsWith("Remaining HP:"))
+            {
+                remainingHP = float.Parse(line.Replace("Remaining HP:", "").Trim());
+            }
             else if (line.StartsWith("Attack:"))
             {
                 attack = float.Parse(line.Replace("Attack:", "").Trim());
@@ -109,6 +115,10 @@ public class SaveGameLoader : MonoBehaviour
             else if (line.StartsWith("Magic:"))
             {
                 magic = float.Parse(line.Replace("Magic:", "").Trim());
+            }
+            else if (line.StartsWith("Remaining MP:"))
+            {
+                remainingMP = float.Parse(line.Replace("Remaining MP:", "").Trim());
             }
             else if (line.StartsWith("ExpToNext:"))
             {
@@ -175,7 +185,7 @@ public class SaveGameLoader : MonoBehaviour
             }
         }
 
-        StartCoroutine(LoadSceneAndApplyState(position, rotation, level, experience, health, attack, defense, speed, magic, expToNext));
+        StartCoroutine(LoadSceneAndApplyState(position, rotation, level, experience, health, remainingHP, attack, defense, speed, magic, remainingMP, expToNext));
     }
 
     private Vector3 ParseVector3(string line)
@@ -190,8 +200,8 @@ public class SaveGameLoader : MonoBehaviour
 
     private IEnumerator LoadSceneAndApplyState(Vector3 position, Vector3 rotation, 
                                             int level, float experience, float health, 
-                                            float attack, float defense, float speed, 
-                                            float magic, float expToNext)
+                                            float remainingHP, float attack, float defense, 
+                                            float speed, float magic, float remainingMP, float expToNext)
     {
         Debug.Log("LoadSceneAndApplyState started");
         Debug.Log("Loading DungeonMap scene...");
@@ -248,10 +258,12 @@ public class SaveGameLoader : MonoBehaviour
                 playerEntity.stats.level = level;
                 playerEntity.stats.experience = experience;
                 playerEntity.stats.health = health;
+                playerEntity.remainingHP = remainingHP;
                 playerEntity.stats.attack = attack;
                 playerEntity.stats.defense = defense;
                 playerEntity.stats.speed = speed;
                 playerEntity.stats.magic = magic;
+                playerEntity.remainingMP = remainingMP;
                 playerEntity.stats.expToNext = expToNext;
 
                 for (int i = 0; i < 25; i++) {
@@ -265,6 +277,8 @@ public class SaveGameLoader : MonoBehaviour
                     playerEntity.inventory[i].count = loadedInventory[i].count;
                     playerEntity.inventory[i].item = loadedInventory[i].item;
                     playerEntity.inventory[i].itemData = GetItem(loadedInventory[i].item);
+
+                    Debug.Log(playerEntity.inventory[i].itemData);
 
                     Debug.Log($"Item {i}: {playerEntity.inventory[i].item} with count {playerEntity.inventory[i].count} i = {i}");
                 }
@@ -346,6 +360,8 @@ public class SaveGameLoader : MonoBehaviour
         {
             Debug.LogWarning("Player not found in Dungeon scene!");
         }
+
+        Debug.Log($"THE CAMERA: {Camera.main.transform.position}");
         
         Debug.Log("LoadSceneAndApplyState completed");
     }

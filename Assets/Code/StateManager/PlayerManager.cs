@@ -101,7 +101,8 @@ public class PlayerManager : MonoBehaviour
         checkDeath();
  
          if (inventoryGameObject != null && escapeGameObject != null && levelChangerGameObject != null && upgradeMenu != null) {
-            isMenuActive = (dialogueGameObject != null && dialogueGameObject.activeSelf) || (upgradeMenu != null && upgradeMenu.activeSelf) || inventoryGameObject.activeSelf || escapeGameObject.activeSelf || levelChangerGameObject.GetComponent<FadeTransition>().isFadingOut || playerEntity.remainingHP <= 0;
+            isMenuActive = (dialogueGameObject != null && dialogueGameObject.activeSelf) || (upgradeMenu != null && upgradeMenu.activeSelf) || inventoryGameObject.activeSelf || escapeGameObject.activeSelf || levelChangerGameObject.GetComponent<FadeTransition>().isFadingOut ||
+            playerEntity.remainingHP <= 0;
          } else {
             isMenuActive = false;
          }

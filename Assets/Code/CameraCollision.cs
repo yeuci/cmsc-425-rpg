@@ -45,6 +45,12 @@ public class CameraCollision : MonoBehaviour
         HandleCameraCollision();
     }
 
+    public void UpdateCameraPosition()
+    {
+        Debug.Log("UPDATING THE CAMERA");
+        HandleCameraCollision();
+    }
+
     void HandleRotation()
     {
         float mouseX = Input.GetAxis("Mouse X") * rotationSpeed;
