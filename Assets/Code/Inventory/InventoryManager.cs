@@ -34,6 +34,7 @@ public class InventoryManager : MonoBehaviour
     Item[] itemsToPickup;
     
     public bool equipped = false;
+    public bool shieldEquipped = false;
     void Awake()
     {
         if (playerEntity == null) {
@@ -322,13 +323,15 @@ public class InventoryManager : MonoBehaviour
             if(child.childCount > 0) {
                 Transform grandChild = child.GetChild(0);
                 InventoryItem item = grandChild.GetComponent<InventoryItem>();
-                if(item != null) {
+                if(item != null && !shieldEquipped) {
                     GameObject shield = Instantiate(shieldPrefab, torso.transform);
                     shield.transform.localPosition = new Vector3(0.0126599995f,0,0.0137999998f);
                     shield.transform.localEulerAngles = new Vector3(0,90f,270f);
                     shield.transform.localScale = new Vector3(0.015f,0.015f,0.015f);
                     Debug.Log("Shield attached");
                 }
+
+                shieldEquipped = true;
             }
             //Step 4: Change shirt color
             child = equippedContainer.transform.GetChild(0);
@@ -336,7 +339,7 @@ public class InventoryManager : MonoBehaviour
                 Transform grandChild = child.GetChild(0);
                 InventoryItem item = grandChild.GetComponent<InventoryItem>();
                 if(item != null) {
-                    if(item.item.name.Contains("Leather Armor")) {
+                    if(item.item.name.Contains("Leather Armor") && torso.GetComponent<MeshRenderer>().material != leatherMaterial)  {
                         Debug.Log("LeatherArmor Equipped");
                         torso.GetComponent<MeshRenderer>().material = leatherMaterial;
                     } else if (item.item.name.Contains("Chain Mail")) {
@@ -358,6 +361,7 @@ public class InventoryManager : MonoBehaviour
     public void RemoveAllChildrenFromTorso() {
         GameObject torso = GameObject.FindGameObjectWithTag("Torso");
         equipped = false;
+        shieldEquipped = false;
 
         if (torso != null) {
             foreach (Transform child in torso.transform) {
