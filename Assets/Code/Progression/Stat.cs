@@ -69,7 +69,16 @@ public class Stat {
         int enemySkillPoints = (int) (playerSkillPoints*UnityEngine.Random.Range(0.8f,1.2f))-5;
         //Step 3: Give every stat a minimum of 1 to avoid divide by 0 error
         float [] statArray = {1f,1f,1f,1f,1f};
-        //Step 4: Assign remaining skillpoints
+        //Step 4: Assign remaining skillpoints randomly
+        for(int i = 0; i < enemySkillPoints; i++){
+            statArray[UnityEngine.Random.Range(0,4)] += 1;
+        }
+        health = statArray[0];
+        attack = statArray[1];
+        defense = statArray[2];
+        speed = statArray[3];
+        magic = statArray[4];
+        Debug.Log($"Health: {health}, Atk: {attack}, Def: {defense}, Speed: {speed}, Mgk: {magic}");
     }
 
     
