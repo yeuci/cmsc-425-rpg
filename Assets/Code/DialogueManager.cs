@@ -11,6 +11,7 @@ public class DialogueManager : MonoBehaviour
     public int heroCounter = 0;
 
     public AudioSource audioSource;
+    public AudioClip pingClip;
     public AudioClip[] orcDialogueClips;
     public AudioClip[] heroDialogueClips;
 
@@ -79,9 +80,11 @@ public class DialogueManager : MonoBehaviour
 
         dialogueText.text = dialogueList[currentDisplayedDialogue++];
 
-        if (currentDisplayedDialogue == 4)
+        if (currentDisplayedDialogue == 5)
         {
             // TODO: SHOW CHEST
+            yield return new WaitForSeconds(7.5f);
+            audioSource.PlayOneShot(pingClip);
         }
     }
 

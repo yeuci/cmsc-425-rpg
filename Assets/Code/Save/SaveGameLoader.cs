@@ -28,6 +28,8 @@ public class SaveGameLoader : MonoBehaviour
         {
             PlayerManager playerManager = GameObject.FindGameObjectWithTag("PlayerState")?.GetComponent<PlayerManager>();
             playerManager.ResetPlayerManager();
+            SceneTransitionManager.Instance.playerSpawnPosition = Vector3.zero;
+            SceneTransitionManager.Instance.shouldTeleportOnSceneLoad = false;
             
             Invoke(nameof(LoadGameScene), 0.2f);
         }

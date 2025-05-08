@@ -303,7 +303,11 @@ public class BattleManager : MonoBehaviour
             float enemyXP = enemyEntity.calculateXPValue();
             Debug.Log("Enemy is defeated. Player gains " + enemyXP + " XP!");
 
-            orcModelAnimator.playDeath();
+
+            orcModelAnimator = enemyEntity.GetComponent<OrcModelAnimator>();
+            // if (orcModelAnimator) {
+                orcModelAnimator.playDeath();
+            // }
 
             float prevXP = playerEntity.stats.experience;
             float prevCap = playerEntity.stats.expToNext;
@@ -346,10 +350,37 @@ public class BattleManager : MonoBehaviour
         if (scene.name == "DungeonMap")
         {
             playerManager.playerCanCollide = false;
+            
+            GameObject player = GameObject.FindWithTag("Player");
+            MonoBehaviour[] playerScripts = player.GetComponents<MonoBehaviour>();
+            foreach (MonoBehaviour script in playerScripts)
+            {
+                if (script != null && (script.GetType().Name.Contains("Movement") || 
+                                    script.GetType().Name.Contains("Controller") || 
+                                    script.GetType().Name.Contains("Input") ||
+                                    script.GetType().Name.Contains("Move"))
+                                    ) 
+                {
+                    script.enabled = false;
+                    Debug.Log($"Temporarily disabled: {script.GetType().Name}");
+                }
+            }
+            
+            CharacterController controller = player.GetComponent<CharacterController>();
+            if (controller != null)
+            {
+                controller.enabled = false;
+                Debug.Log("Temporarily disabled Character Controller");
+            }
 
             GameObject playerTransform = GameObject.FindGameObjectWithTag("Player");
-            playerTransform.transform.position = new Vector3(playerManager.enemyPositionBeforeCombat.x, playerManager.enemyPositionBeforeCombat.y, playerManager.enemyPositionBeforeCombat.z);
-            
+            if (playerTransform != null) {
+                playerTransform.transform.position = new Vector3(playerManager.enemyPositionBeforeCombat.x, playerManager.enemyPositionBeforeCombat.y, playerManager.enemyPositionBeforeCombat.z);
+            }
+
+            Debug.Log("Player position set to: " + playerManager.enemyPositionBeforeCombat);
+            Debug.Log("Player position is actually: " + playerTransform.transform.position);
+
             // find and remove defeated enemy
             GameObject[] allObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
             foreach (GameObject obj in allObjects)
@@ -586,13 +617,19 @@ public class BattleManager : MonoBehaviour
             //Has a successful cast chance equal to 10*player level %
             if(UnityEngine.Random.Range(1,11) <= player.level){
                 battle.perform(BattleOption.USE_ITEM);
-                orcModelAnimator.playMagic();
+                orcModelAnimator = enemyEntity.GetComponent<OrcModelAnimator>();
+                // if (orcModelAnimator) {
+                    orcModelAnimator.playMagic();
+                // }
             } else {
                 battle.endTurn();
             }
         } else {
             if (battle.usedItem.actionType == ActionType.Attack) {
-                orcModelAnimator.playClaw();
+                orcModelAnimator = enemyEntity.GetComponent<OrcModelAnimator>();
+                // if (orcModelAnimator) {
+                    orcModelAnimator.playClaw();
+                // }
             }
             battle.perform(BattleOption.USE_ITEM);
         }

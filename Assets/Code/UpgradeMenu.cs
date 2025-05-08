@@ -28,6 +28,7 @@ public class UpgradeMenu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {    
+        if (PlayerManager.player == null) return;
         skillPoints = PlayerManager.player.entity().skillPoints;
         
         if(skillPoints == 0) {

@@ -6,6 +6,7 @@ public class LevelTransition : MonoBehaviour
 {
     public int nextLevel;
     public Vector3 nextPosition;
+    public int nextDungeonLevel;
     GameObject levelChanger;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -25,6 +26,9 @@ public class LevelTransition : MonoBehaviour
         if (other.tag == "Player")
         {
             StartCoroutine(FadeToScene());
+
+            PlayerManager playerManager = GameObject.FindGameObjectWithTag("PlayerState").GetComponent<PlayerManager>();
+            playerManager.currentDungeonLevel = nextDungeonLevel;
         }
     }
 

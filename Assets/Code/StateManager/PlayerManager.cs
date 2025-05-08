@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Unity.VisualScripting.Antlr3.Runtime.Misc;
+using UnityEngine.UIElements;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class PlayerManager : MonoBehaviour
     public bool inCombat;
     public bool hasCheckedDeath = false;
     public int currentLevel = 0;
+    public int currentDungeonLevel = 0;
     public List<GameObject> orcs = new List<GameObject>();
     [HideInInspector] public GameObject inventoryGameObject;
     [HideInInspector] public GameObject escapeGameObject;
@@ -61,6 +63,28 @@ public class PlayerManager : MonoBehaviour
 
     public void ResetPlayerManager()
     {
+        // if (playerEntity != null)
+        // {
+        //     Destroy(playerEntity);
+        // }
+        // playerEntity = player.AddComponent<Entity>();
+
+        // // itemsArray = new Item[0];
+
+        // enemyBeforeCombat = 0;
+        // enemyPositionBeforeCombat = Vector3.zero;
+
+        // inventoryGameObject = null;
+        // escapeGameObject = null;
+        // levelChangerGameObject = null;
+        // dialogueGameObject = null;
+        // upgradeMenu = null;
+
+        // defeatedEnemies.Clear();
+        // playerCanCollide = true;
+        // isMenuActive = false;
+        // isNewPlayer = true;
+
         if (playerEntity != null)
         {
             Destroy(playerEntity);
@@ -68,7 +92,6 @@ public class PlayerManager : MonoBehaviour
         playerEntity = player.AddComponent<Entity>();
 
         // itemsArray = new Item[0];
-
         enemyBeforeCombat = 0;
         enemyPositionBeforeCombat = Vector3.zero;
 
@@ -78,10 +101,19 @@ public class PlayerManager : MonoBehaviour
         dialogueGameObject = null;
         upgradeMenu = null;
 
-        defeatedEnemies.Clear();
-        playerCanCollide = true;
+        currentLevel = 0;
+        currentDungeonLevel = 0;
+        inCombat = false;
+        hasCheckedDeath = false;
         isMenuActive = false;
         isNewPlayer = true;
+        playerCanCollide = true;
+
+        defeatedEnemies.Clear();
+        deathMenuManager = null;
+
+        upgradeMenu = GameObject.FindGameObjectWithTag("UpgradeMenu");
+        deathMenuManager = GameObject.FindGameObjectWithTag("DeathMenu")?.GetComponent<DeathMenuManager>();
 
         Debug.Log("PlayerManager has been reset.");
     }
@@ -106,6 +138,11 @@ public class PlayerManager : MonoBehaviour
          } else {
             isMenuActive = false;
          }
+
+         if (Input.GetKeyDown(KeyCode.N)) {
+            GameObject playerTransform = GameObject.FindGameObjectWithTag("Player");
+            Debug.Log("Current position: " + playerTransform.transform.position);
+         }
          
     }
 
@@ -123,6 +160,8 @@ public class PlayerManager : MonoBehaviour
             deathMenuManager = GameObject.FindGameObjectWithTag("DeathMenu").GetComponent<DeathMenuManager>();
             deathMenuManager.deathMenu.SetActive(false);
             this.playerCanCollide = true;
+
+            dungeonSwitcher();
 
             int destroyed = 0;
             GameObject[] allObjects = FindObjectsByType<GameObject>(FindObjectsSortMode.None);
@@ -146,10 +185,37 @@ public class PlayerManager : MonoBehaviour
                     }
                 }
             }
+
             inventoryManager.UpdateInventoryUIWithItemSave();
         } else if (scene.name == "CombatManagerScene") {
             Debug.Log("------------------WE IN COMBAT MANAGER!----------------------");
         }
+    }
+
+    void dungeonSwitcher() {
+            GameObject dungeonOne = GameObject.FindGameObjectWithTag("Dungeon1");
+            GameObject dungeonTwo = GameObject.FindGameObjectWithTag("Dungeon2");
+            GameObject dungeonThree = GameObject.FindGameObjectWithTag("Dungeon3");
+
+            if (currentDungeonLevel == 0) {
+                Debug.Log("-----------------DUNGEON ONE ACTIVE-----------------");
+
+                dungeonOne.SetActive(true);
+                dungeonTwo.SetActive(false);
+                dungeonThree.SetActive(false);
+            } else if (currentDungeonLevel == 1) {
+                Debug.Log("-----------------DUNGEON TWO ACTIVE-----------------");
+                
+                dungeonOne.SetActive(false);
+                dungeonTwo.SetActive(true);
+                dungeonThree.SetActive(false);
+            } else if (currentDungeonLevel == 2) {
+                Debug.Log("-----------------DUNGEON THREE ACTIVE-----------------");
+
+                dungeonOne.SetActive(false);
+                dungeonTwo.SetActive(false);
+                dungeonThree.SetActive(true);
+            }
     }
 
     //Note: Creation of Enemy is Working, but I cannot modify stats
@@ -200,10 +266,54 @@ public class PlayerManager : MonoBehaviour
 
         Debug.Log("WE ARE BACK IN DUNGEON FROM THE BATTLE SCENE");
 
+        GameObject player = GameObject.FindWithTag("Player");
+        MonoBehaviour[] playerScripts = player.GetComponents<MonoBehaviour>();
+        foreach (MonoBehaviour script in playerScripts)
+        {
+            if (script != null && (script.GetType().Name.Contains("Movement") || 
+                                script.GetType().Name.Contains("Controller") || 
+                                script.GetType().Name.Contains("Input") ||
+                                script.GetType().Name.Contains("Move"))
+                                ) 
+            {
+                script.enabled = false;
+                Debug.Log($"Temporarily disabled: {script.GetType().Name}");
+            }
+        }
+        
+        CharacterController controller = player.GetComponent<CharacterController>();
+        if (controller != null)
+        {
+            controller.enabled = false;
+            Debug.Log("Temporarily disabled Character Controller");
+        }
+
         InventoryManager inventoryManager = GameObject.FindGameObjectWithTag("InventoryManager")?.GetComponent<InventoryManager>();
         inventoryManager.UpdateInventoryUIWithItemSave();
-        this.playerCanCollide = true;
+
+        player.transform.position = new Vector3(enemyPositionBeforeCombat.x, enemyPositionBeforeCombat.y, enemyPositionBeforeCombat.z);
+
+        Debug.Log("Player position set to 2: " + enemyPositionBeforeCombat);
+        Debug.Log("Player position is actually 2 : " + player.transform.position);
+
+        if (controller != null)
+        {
+            controller.enabled = true;
+            Debug.Log("Re-enabled Character Controller");
+        }
+        
+        foreach (MonoBehaviour script in playerScripts)
+        {
+            if (script != null && !script.enabled)
+            {
+                script.enabled = true;
+                Debug.Log($"Re-enabled: {script.GetType().Name}");
+            }
+        }
+
+        playerCanCollide = true;
     }
+    
 
     void OnDestroy()
     {

@@ -343,7 +343,7 @@ public class InventoryManager : MonoBehaviour
                 InventoryItem item = grandChild.GetComponent<InventoryItem>();
                 if(item != null) {
                     if(item.item.name.Contains("Leather Armor")) {
-                        Debug.Log("LeatherArmor Equipped");
+                        // Debug.Log("LeatherArmor Equipped");
                         torso.GetComponent<MeshRenderer>().material = leatherMaterial;
                     } else if (item.item.name.Contains("Chain Mail")) {
                         torso.GetComponent<MeshRenderer>().material = metalMaterial;

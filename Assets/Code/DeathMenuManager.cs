@@ -36,14 +36,11 @@ public class DeathMenuManager : MonoBehaviour
         SaveGameLoader loader = GameObject.FindGameObjectWithTag("SaveSystem").GetComponent<SaveGameLoader>();
         deathMenu.SetActive(false);
         loader.LoadLastSave();
-        // SceneManager.LoadScene("DungeonMap");
-        // TODO: check if there is a last save, if not just load the dungeonmap
     }
 
     public void OnNewGame() {
         SaveGameLoader loader = GameObject.FindGameObjectWithTag("SaveSystem").GetComponent<SaveGameLoader>();
         loader.NewGame();
-        // TODO: reset playermanager
     }
 
     public void OnQuit() {

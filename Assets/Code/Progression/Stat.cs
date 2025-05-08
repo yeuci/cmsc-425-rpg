@@ -1,6 +1,4 @@
 using System;
-using UnityEditor.Scripting;
-using UnityEngine;
 
 [System.Serializable]
 public class Stat {

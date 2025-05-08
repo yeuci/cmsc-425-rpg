@@ -1,5 +1,3 @@
-using Unity.VisualScripting;
-using UnityEditor.UI;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Spell", menuName = "Scriptable Item/Spell")]

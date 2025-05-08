@@ -43,7 +43,9 @@ public class Detection : MonoBehaviour
 
         playerManager.inCombat = true;
         playerManager.enemyBeforeCombat = enemyEntityPrefab.enemyId;
-        playerManager.enemyPositionBeforeCombat = transform.position;
+        playerManager.enemyPositionBeforeCombat = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+        Debug.Log("Enemy Position: " + playerManager.enemyPositionBeforeCombat);
+
 
         // Fades scene to black before changing to combat scene
         FadeTransition transition = levelChanger.GetComponent<FadeTransition>();
