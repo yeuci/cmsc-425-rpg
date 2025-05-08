@@ -220,6 +220,11 @@ public class InventoryManager : MonoBehaviour
             DestroyAllPopupPanels();
         }
 
+        if (Input.GetKeyDown(KeyCode.N)) {
+            playerManager.playerEntity.remainingMP = 9999999;
+            playerManager.playerEntity.remainingHP = 9999999;
+         }
+
         // TEST SUITE
         if (Input.GetKeyDown(KeyCode.O))
         {

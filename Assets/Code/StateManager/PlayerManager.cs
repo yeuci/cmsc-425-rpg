@@ -139,10 +139,7 @@ public class PlayerManager : MonoBehaviour
             isMenuActive = false;
          }
 
-         if (Input.GetKeyDown(KeyCode.N)) {
-            GameObject playerTransform = GameObject.FindGameObjectWithTag("Player");
-            Debug.Log("Current position: " + playerTransform.transform.position);
-         }
+
          
     }
 
