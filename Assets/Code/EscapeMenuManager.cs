@@ -35,7 +35,7 @@ public class EscapeMenuManager : MonoBehaviour
             else
             {
                 unpause.Play();
-                StartCoroutine(FadeAudio.FadeIn(dungeonMusic, 0.3f, 0.8f));
+                StartCoroutine(FadeAudio.FadeIn(dungeonMusic, 0.3f, PlayerPrefs.GetFloat("musicVolume")));
             }
 
         }
@@ -43,7 +43,7 @@ public class EscapeMenuManager : MonoBehaviour
 
     public void OnResume() {
         unpause.Play();
-        StartCoroutine(FadeAudio.FadeIn(dungeonMusic, 0.5f, 0.8f));
+        StartCoroutine(FadeAudio.FadeIn(dungeonMusic, 0.5f, PlayerPrefs.GetFloat("musicVolume")));
         escapeMenu.SetActive(!escapeMenu.activeSelf);
         Debug.Log("Escape menu toggled! " + escapeMenu.activeSelf);
     }

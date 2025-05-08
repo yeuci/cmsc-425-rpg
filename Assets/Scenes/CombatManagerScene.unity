@@ -3005,6 +3005,7 @@ MonoBehaviour:
   inCombat: 0
   hasCheckedDeath: 0
   currentLevel: 0
+  currentDungeonLevel: 0
   orcs:
   - {fileID: 7101753339972542398, guid: 7753a7880d0e37b4dbf31b2f8161bc58, type: 3}
   inventoryGameObject: {fileID: 0}
@@ -4029,7 +4030,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0.5
+  m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
